@@ -1,0 +1,47 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+# Use Camel Case for Dirs, this is matter of preference only 
+tagaDir=$TAGA_DIR
+tagaScriptsDir=$tagaDir/tagaScripts
+tagaConfigDir=$tagaDir/tagaConfig
+iboaUtilsDir=$tagaDir/iboaUtils
+
+touch $tagaConfigDir/hostList.txt
+touch $tagaConfigDir/hostList.sh
+
+# dlm temp, this may be needed, but currently causes endless loop
+#hostList=`$tagaConfigDir/hostList.sh`
+
+tagaScriptsMgenDir=$tagaScriptsDir/tagaScriptsMgen
+tagaScriptsRunDir=$tagaScriptsDir/tagaScriptsRun
+tagaScriptsSimDir=$tagaScriptsDir/tagaScriptsSim
+tagaScriptsStatsDir=$tagaScriptsDir/tagaScriptsStats
+tagaScriptsStopDir=$tagaScriptsDir/tagaScriptsStop
+tagaScriptsTcpdumpDir=$tagaScriptsDir/tagaScriptsTcpdump
+tagaScriptsTestDir=$tagaScriptsDir/tagaScriptsTest
+tagaScriptsTimerDir=$tagaScriptsDir/tagaScriptsTimer
+tagaScriptsUtilsDir=$tagaScriptsDir/tagaScriptsUtils
+
+#echo $tagaScriptsMgenDir
+#echo $tagaScriptsRunDir
+#echo $tagaScriptsSimDir
+#echo $tagaScriptsStatsDir
+#echo $tagaScriptsStopDir
+#echo $tagaScriptsTcpdumpDir
+#echo $tagaScriptsTestDir
+#echo $tagaScriptsTimerDir
+#echo $tagaScriptsUtilsDir
+
+#ls $tagaScriptsMgenDir
+#ls $tagaScriptsRunDir
+#ls $tagaScriptsSimDir
+#ls $tagaScriptsStatsDir
+#ls $tagaScriptsStopDir
+#ls $tagaScriptsTcpdumpDir
+#ls $tagaScriptsTestDir
+#ls $tagaScriptsTimerDir
+#ls $tagaScriptsUtilsDir
+

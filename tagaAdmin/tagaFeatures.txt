@@ -1,0 +1,78 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+=============================
+TAGA Features:
+=============================
+
+  Deployment:
+  -----------
+  1. Auto Self Replication
+  2. Auto Key Generation and Distribution
+
+  Run-time:
+  -----------
+  1. Auto Configuration of Interface Names (via targetList)
+  2. Auto Configuration of Host Names (via targetList)
+  3. Auto Network Node Time Synchronization Verification
+  4. Auto Distribution of (updates to) Configuration
+  5. Auto File Collection and Process Cleanup
+  6. Auto Generation of Analytical Artifacts
+  7. Auto resource utilization monitor and display
+  8. Distributed Processing provides for robust data generation and collection
+  9. Policy-Based Management (e.g. Log Mgt and Network Overhead Control) (Note1)
+
+  Extendability:
+  -----------
+  1. Start of Test (Traffic), Middle of Test (Traffic), and End of Run Test (Traffic) Test Shells Provided
+  2. TAGA Provided Samples include Pub/Sub implementation and File Input/output in Python and C languages 
+
+  Scalability:
+  -----------
+  1. TAGA 'Run and Mon' Utility scales automatically based on target list update 
+  2. Tunable Display based on scalability requirements
+  3. Round-robin and staggered starts help avoid traffic overload during large network tests
+  4. TAGA Utility scales nicely with configuration changes limited to two primary configuration 
+     files (config, targetList.sh) and a few key params (timer delays, traffic rates/counts, etc)
+
+  Ease of Use:
+  -----------
+  1. Basic Network Health Check at a single commmand (run or mon)
+  2. Tailorability of Displays
+  3. Standardized INFO, WARN, and ALARM tags simplify filtering (Note1)
+  4. "Go Remote" "Probe" "Prep" "TimeTimer" and other time saving utilities
+  5. Human Readable and Tailorable Timestamps
+  6. Multiple Interfaces per Host supported (Note1)
+
+  Recent Additions:
+  -----------
+  1. ta - trace alias utility
+  2. rebootAll alias enhancement 
+
+  Other:
+  -----------
+  1. IBOA Auto Alias Utility is bundled with the TAGA Framework Release
+      - enables fast and automatic creation of individual and group (team) specialized aliases
+          - smart aliases increase workflow and productivity by reducing keystrokes and input errors
+          - smart aliases allow for more work at the end of the day and reduce cycle times 
+      - enables fast filter creation for enhanced data analysis
+      - fosters teamwork, collaboration, and communication
+  2. Sample Filters and other extensions available upon request to info@iboa.us
+
+=============================
+TAGA System Requirements:
+=============================
+
+1. Linux-like operating environment
+2. Bash or equivalent shell (for full capabilities)
+3. libssh (ssh)
+4. libpcap (tcpdump)
+5. mgen, iperf, or similar traffic generation engines
+
+---------
+NOTES:
+---------
+Note1: Initial/Partial Support Only
+

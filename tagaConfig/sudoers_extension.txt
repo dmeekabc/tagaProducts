@@ -1,0 +1,16 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+darrin localhost = (root) NOPASSWD: /usr/sbin/tcpdump 
+darrin localhost = (root) NOPASSWD: /usr/sbin/ifconfig 
+darrin localhost = (root) NOPASSWD: /usr/bin/vi 
+darrin localhost = (root) NOPASSWD: /usr/bin/ssh 
+darrin localhost = (root) NOPASSWD: /usr/bin/scp 
+darrin localhost = (root) NOPASSWD: /bin/kill 
+darrin localhost = (root) NOPASSWD: /usr/bin/wireshark 
+darrin localhost = (root) NOPASSWD: /sbin/reboot
+darrin localhost = (root) NOPASSWD: /bin/cat
+darrin localhost = (root) NOPASSWD: /bin/mkdir
+darrin localhost = (root) NOPASSWD: /bin/chmod

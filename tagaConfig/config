@@ -1,0 +1,405 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+####################################################
+# The root of the config
+####################################################
+TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
+TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
+
+####################################################
+# Enable or Disable all testing per iteration loop
+# and other Main Test Iteration Configs
+####################################################
+ALL_TESTS_DISABLED=1 # disable all tests (Testing)
+ALL_TESTS_DISABLED=0 # enable all tests (Normal)
+MAX_ITERATIONS=1       # max iterations (Testing)
+MAX_ITERATIONS=2       # max iterations (Testing)
+MAX_ITERATIONS=4       # max iterations (Testing)
+MAX_ITERATIONS=8       # max iterations (Testing)
+MAX_ITERATIONS=20       # max iterations (Testing)
+MAX_ITERATIONS=1000000 # max iterations (Normal)
+STEPWISE_ITERATIONS=1  # Testing
+STEPWISE_ITERATIONS=0  # Normal
+
+####################################################
+# Test type - Multicast or Unicast, UDP or TCP
+####################################################
+TESTTYPE="UCAST_TCP" # TCP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
+
+####################################################
+# Dynamic Testing
+####################################################
+VARIABLE_TEST="var_test.sh"
+
+##############################
+# Fixed List Configuration
+##############################
+
+FIXED_ONE_LIST=192.168.43.124   # wireshark, other
+FIXED_ONE_LIST=192.168.43.188   # wireshark, other
+FIXED_ONE_LIST=192.168.43.208   # wireshark, other
+FIXED_ONE_LIST=192.168.43.157   # wireshark, other
+FIXED_ONE_LIST=192.168.43.69   # wireshark, other
+
+FIXED_ONE_LIST=10.0.0.18
+FIXED_ONE_LIST=10.0.0.20
+FIXED_ONE_LIST=10.0.0.21
+FIXED_ONE_LIST=10.0.0.22
+FIXED_ONE_LIST=10.0.0.27
+
+FIXED_ONE_LIST_ITFC=wlp3s0    # 43.124 , 10.27 wireshark, oher
+FIXED_ONE_LIST_ITFC=wlan0     # 43.188, 10.18 wireshark, oher
+FIXED_ONE_LIST_ITFC=wlp2s0    # 43.208, 10.20 wireshark, oher
+FIXED_ONE_LIST_ITFC=wlo1      # 43.157, 10.21 wireshark, oher
+FIXED_ONE_LIST_ITFC=wlo1      # 43.69, 10.22 wireshark, oher
+
+FIXED_ALT_LIST="192.168.43.69 192.168.43.124 192.168.43.157 192.168.43.188 192.168.43.208"
+
+##############################
+# Variable Other List Configuration
+# Should the $OTHERS var hold single or multiple targets?
+##############################
+OTHERS="single"
+OTHERS="multiple"
+
+####################################################
+# Portability Section, this section requires update 
+# after port to new system
+####################################################
+MYLOGIN_ID=yourLoginIdGoesHere
+MYPASSWD=YourPasswordGoesHere
+COMMAND=YourPrimaryCommandNameGoesHere
+PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
+
+
+TAGA_DISPLAY="VERBOSE"
+TAGA_DISPLAY="BRIEF"
+TAGA_DISPLAY="SILENT"
+
+
+DAEMON1_IP=192.168.43.69
+DAEMON2_IP=192.168.43.124
+
+####################################################
+# Time Synch Strict Flag
+####################################################
+# verify time synch?
+TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
+TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
+
+# strict time synch?
+STRICT_TIME_SYNCH=0 # (Testing)
+STRICT_TIME_SYNCH=1 # (Normal)
+
+CONFIRM_REQD=1  # strict
+CONFIRM_REQD=0  # not strict
+
+# resource monitor (top, netstat, etc) enabled?
+RESOURCE_MON_ENABLED=0 # (Testing)
+RESOURCE_MON_ENABLED=1 # (Testing)
+let RESOURCE_DISPLAY_MODULUS=5
+let RESOURCE_DISPLAY_MODULUS=1000000
+let RESOURCE_DISPLAY_MODULUS=1
+let RESOURCE_DISPLAY_MODULUS=10
+
+# probe the targets?
+PROBE_ENABLED=1 # (Testing)
+PROBE_ENABLED=0 # (Normal)
+
+# get ping times?
+PING_TIME_CHECK_ENABLED=1 # (Testing)
+PING_TIME_CHECK_ENABLED=0 # (Normal)
+
+##############################################
+# ENVIRON SIMULATION SWITCHES
+##############################################
+MAX_ENVIRON_SIM_LOOPS=1 # simulated environ loop count (Testing)
+MAX_ENVIRON_SIM_LOOPS=0 # simulated environ loop count (Normal)
+ENVIRON_SIMULATION=1 # simulated environ on/off flag (Normal)/(Testing)
+ENVIRON_SIMULATION=0 # simulated environ on/off flag (Normal)
+
+##############################################
+# Simulation Server Config Follows
+##############################################
+
+# Primary Sim Servers 
+PRIMARY_SIM_SERVER_ON=1 # (Old Normal)
+PRIMARY_SIM_SERVER_ON=0 # (Normal) # this is now a daemon
+
+START_SIMULATION=1 # Start Specialized Simulation Servers (Testing)
+START_SIMULATION=0 # Do Not Start Specialized Simulation Servers (Normal)
+
+STOP_SIMULATION=0 # Do Not Stop Primary and Specialized Simulation Servers (Testing)
+STOP_SIMULATION=1 # Stop Primary and Specialized Simulation Servers (Normal)
+
+##############################################
+# Traffic SWITCHes
+##############################################
+SIMULATION_ONLY=1 # simulation only flag (1 disables traffic) (Testing)
+SIMULATION_ONLY=0 # simulation only flag (0 enables traffic) (Normal)
+
+# Max output (enable this output if using the simulations below)
+MAX_OUTPUT_ENABLED=1 # (Testing)
+MAX_OUTPUT_ENABLED=0 # (Normal)
+
+# XXX Stimulation
+XXX_ON=1 # (Testing)
+XXX_ON=0 # (Normal)
+
+# XXXX DEVICE simulators on/off flags
+DEVICE1=1 
+DEVICE2=1 
+DEVICE3=1
+DEVICE4=0 
+DEVICE5=0
+
+##############################################
+# End of Server Config 
+##############################################
+
+##############################################
+# Begin of Client Config 
+##############################################
+
+##############################################
+# Start of Cycle Testing (test client testing)
+##############################################
+START_OF_CYCLE_TESTS_ENABLED=1 # Testing
+START_OF_CYCLE_TESTS_ENABLED=0 # Normal
+
+##############################################
+# Mid Cycle Testing (test client testing)
+##############################################
+MID_CYCLE_TESTS_ENABLED=1 # Testing
+MID_CYCLE_TESTS_ENABLED=0 # Normal
+
+##############################################
+# End of Cycle Testing (test client testing)
+##############################################
+
+END_OF_CYCLE_TESTS1_ENABLED=1 # Testing
+END_OF_CYCLE_TESTS1_ENABLED=0 # Normal
+
+END_OF_CYCLE_TESTS2_ENABLED=1 # Testing
+END_OF_CYCLE_TESTS2_ENABLED=0 # Normal
+
+END_OF_CYCLE_TESTS3_ENABLED=1 # Testing
+END_OF_CYCLE_TESTS3_ENABLED=0 # Normal
+
+##############################################
+# additional admin/cleanup
+##############################################
+EXTRA_FILE_CLEANUP_ENABLED=1 # Testing 
+EXTRA_FILE_CLEANUP_ENABLED=0 # Normal
+
+##############################################
+# Do this up top and in this order to avoid dependency loop
+##############################################
+# Note: 'config' is not always called from TAGA_DIR so this check is required
+if [ $TAGA_CONFIG_DIR ] ; then
+  echo $TAGA_DIR is already defined >/dev/null
+else
+  TAGA_CONFIG_DIR=`pwd`
+fi 
+targetList=`$TAGA_CONFIG_DIR/targetList.sh`
+source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
+
+##############################################
+# manually generated configs
+##############################################
+
+SERVER_INIT_DELAY=20
+SERVER_INIT_DELAY=5
+SERVER_INIT_DELAY=10
+
+# MGEN Traffic Configs
+# Message Count
+MSGCOUNT=1000
+MSGCOUNT=100
+MSGCOUNT=10
+MSGCOUNT=20
+
+# Message Rate
+# Note that fractional rates are not supported by the TAGA utility
+# Note that while fractional rates are supported by MGEN, those 
+# fractional rates are not supported by the TAGA utility
+#MSGRATE=0.2 # 5 for five per second, 0.2 for each 5 seconds
+#MSGRATE=0.1 # 5 for five per second, 0.1 for each 10 seconds
+
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=500 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=100 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=100 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=400 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+
+# Message Length
+MSGLEN=1200
+MSGLEN=120
+MSGLEN=94
+MSGLEN=94
+MSGLEN=894
+MSGLEN=194
+MSGLEN=94
+
+
+# end of iteration delay 
+END_OF_ITER_DELAY=60 #0
+END_OF_ITER_DELAY_PRINT_MODULUS=10 #0
+END_OF_ITER_DELAY=1 #0
+END_OF_ITER_DELAY_PRINT_MODULUS=1 #0
+
+# try to disable traffic (MSGCOUNT == 0 does not work!)
+#MSGRATE=0.0 
+#MSGCOUNT=0
+
+####################################################
+# Archive or No Archive
+####################################################
+#
+# Set TESTONLY to 1 to force output directory to be stable (disable archiving)
+# hint: e.g. useful for countSends.sh and countReceives.sh script testing
+# 
+TESTONLY=0 # archiving enabled
+TESTONLY=1 # archiving disabled
+
+# MCAST config
+MYMCAST_ADDR="225.0.0.25"
+MYMCAST_PORT=8888
+
+# Ports
+SOURCEPORT=8880
+PORTBASE=7770
+
+# Narrow display is 10 nodes, wide display is 20 nodes
+NARROW_DISPLAY=0
+NARROW_DISPLAY=1
+
+# Continuous Synch Flag
+CONTINUOUS_SYNCH=1  # synch everything
+CONTINUOUS_SYNCH=0  # synch config only
+
+##############################################
+# manually and/or automatatically generated configs
+##############################################
+INTERFACE=wlan0
+INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
+INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+#echo $INTERFACE
+
+##############################################
+# automatatically generated configs
+##############################################
+#SCRIPTS_DIR=$HOME/scripts
+#TAGA_DIR=$SCRIPTS_DIR/taga
+TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+
+#OUTPUT_DIR=$TAGA_DIR/output
+OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
+LOG_DIR=/tmp/iboa/log # new mar 2016
+
+# dlm temp
+#hostList=`$TAGA_CONFIG_DIR/hostList.sh`
+#touch $TAGA_CONFIG_DIR/hostList.sh
+
+MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
+# default to localhost
+MYIP=localhost
+# determine MYIP from candidates list
+MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
+     grep $ip >/dev/null ; then MYIP=$ip; break;      \
+     else MYIP=localhost; fi; done
+#echo CANDIDATES: $MYIPCANDIDATES
+#echo MYIP: $MYIP
+
+# auto configure the target count
+TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
+targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
+
+# Other (One) Target Config
+
+# OTHERS (automatic) config
+if [ $OTHERS == "single" ] ; then
+   # single (first) other target in other list
+   if [ $TARGET_COUNT -gt 2 ]; then OTHER_LIST=`echo $targetList \
+       | sed s/$MYIP//g | cut -d" " -f 1` ;                      \
+       else OTHER_LIST=`echo $targetList | sed s/$MYIP//g` ; fi
+else
+   # multiple (all) other targets in other list
+   OTHER_LIST=`echo $targetList | sed s/$MYIP//g` 
+fi
+#echo $OTHER_LIST
+
+
+# DURATION depends on rate and count above
+let DURATION1=$MSGCOUNT/$MSGRATE
+let DURATION2=$TARGET_COUNT*10
+let DURATION2=$TARGET_COUNT*8
+#echo $DURATION1
+#echo $DURATION2
+
+##############################################
+# others / static constants
+##############################################
+
+##############################################
+# POLICY MGT
+##############################################
+LOG_POLICY_VOL=10     # 10 percent by volume of /tmp
+NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
+
+##############################################
+STATUS_FILE="/tmp/taga_status.txt"
+TEST_DESCRIPTION="taga_anycast"
+
+##############################################
+# Note: TAGA provides for multiple levels of config
+#  (1) primary config above 
+#  (2) static admin config below
+#  (2) extended config below 
+#  (3) overrides below and last
+##############################################
+
+##############################################
+# static admin configs in the confiig_admin file
+##############################################
+if [ -s $TAGA_CONFIG_DIR/config_admin ] ; then
+  #echo NOTICE: config is being extended by config_extensions file
+  source $TAGA_CONFIG_DIR/config_admin
+fi
+
+
+##############################################
+# extend configs in the confiig_extensions file
+##############################################
+if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
+  #echo NOTICE: config is being extended by config_extensions file
+  source $TAGA_CONFIG_DIR/config_extensions
+fi
+
+##############################################
+# override configs in the confiig_overrides file
+##############################################
+if [ -s $TAGA_CONFIG_DIR/config_overrides ] ; then
+  #echo NOTICE: config is being overriden by config_overrides file
+  source $TAGA_CONFIG_DIR/config_overrides
+fi
+
+##############################################
+# Master Machine
+# run time insert from runLoop.sh
+##############################################
+MASTER=192.168.43.124
