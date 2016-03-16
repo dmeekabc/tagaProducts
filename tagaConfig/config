@@ -402,4 +402,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=10.0.0.27
