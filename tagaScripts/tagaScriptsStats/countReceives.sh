@@ -204,8 +204,8 @@ do
   row="$row $row_cumulative"
 
   echo "$row"
-  echo "$row" >> $TAGA_DIR/counts.txt
-  echo "$row" >> $TAGA_DIR/countsReceives.txt
+  echo "$row" >> $TAGA_RUN_DIR/counts.txt
+  echo "$row" >> $TAGA_RUN_DIR/countsReceives.txt
  
 done
 
@@ -285,13 +285,13 @@ column_cumulative=$column_cumulative" "$column_cumulative_count
 
 # Print a space
 echo 
-echo >> $TAGA_DIR/counts.txt
-echo >> $TAGA_DIR/countsReceives.txt
+echo >> $TAGA_RUN_DIR/counts.txt
+echo >> $TAGA_RUN_DIR/countsReceives.txt
 
 # Print the final (Totals) row
 row="Receiver Totals: $column_cumulative"
 echo "$row"
-echo "$row" >> $TAGA_DIR/counts.txt
-echo "$row" >> $TAGA_DIR/countsReceives.txt
+echo "$row" >> $TAGA_RUN_DIR/counts.txt
+echo "$row" >> $TAGA_RUN_DIR/countsReceives.txt
 
 echo

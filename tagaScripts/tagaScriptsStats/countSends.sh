@@ -33,18 +33,20 @@ if [ $TESTONLY -eq 1 ] ; then
   outputDir=$OUTPUT_DIR/output
 fi 
 # go to the output Directory for processing
+echo outputDir: $outputDir
 cd $outputDir
 
+
 # add a line break and date to output and counts.txt
-echo; echo >> $TAGA_DIR/counts.txt
-date; date >> $TAGA_DIR/counts.txt
+echo; echo >> $TAGA_RUN_DIR/counts.txt
+date; date >> $TAGA_RUN_DIR/counts.txt
 
 # add the header
 echo ============================ TAGA Iteration:$iter ===========================
-echo ============================ TAGA Iteration:$iter =========================== >>  $TAGA_DIR/counts.txt
+echo ============================ TAGA Iteration:$iter =========================== >>  $TAGA_RUN_DIR/counts.txt
 
 echo TAGA:iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE
-echo TAGA:iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_DIR/counts.txt
+echo TAGA:iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_RUN_DIR/counts.txt
 
 # calculate the aggregate commanded throughput rate
 let targetCount=0
@@ -92,7 +94,7 @@ else
 fi
 
 echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) 
-echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) >> $TAGA_DIR/counts.txt
+echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) >> $TAGA_RUN_DIR/counts.txt
 
 
 # get Gross Received Count
@@ -119,7 +121,6 @@ else
     let grossReceivedCount=$grossReceivedCount+$targetReceivedCount
   done
 fi
-
 
 #####################################################
 # Build the Top Line of the File
@@ -162,7 +163,7 @@ else
 fi
 
 # write blank line to output; write blank line to counts.txt file
-echo; echo >> $TAGA_DIR/counts.txt
+echo; echo >> $TAGA_RUN_DIR/counts.txt
 
 # build up the buffer
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
@@ -185,7 +186,7 @@ done
 buffer2="$buffer1 ($percent%)"
 
 # write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_DIR/counts.txt
+echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
 
 
 #####################################################
@@ -251,12 +252,12 @@ else
 fi
 
 # write blank line to output; write blank line to counts.txt file
-#echo; echo >> $TAGA_DIR/counts.txt
+#echo; echo >> $TAGA_RUN_DIR/counts.txt
 
 # write to output
 #echo TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:`cat $outputDir/* | wc -l` / $expectedCount exp msgs \($percent%\)
 # write to counts.txt file
-#echo TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:`cat $outputDir/* | wc -l` / $expectedCount exp msgs \($percent%\) >> $TAGA_DIR/counts.txt
+#echo TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:`cat $outputDir/* | wc -l` / $expectedCount exp msgs \($percent%\) >> $TAGA_RUN_DIR/counts.txt
 
 # build up the buffer
 printCount=`cat $outputDir/* 2>/dev/null | wc -l`
@@ -280,9 +281,7 @@ done
 buffer2="$buffer1 ($percent%)"
 
 # write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_DIR/counts.txt
-
-
+echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
 
 
 ##################################################################
@@ -337,7 +336,10 @@ do
 
       # else get the count for this target
       HOST=`cat $TAGA_CONFIG_DIR/hostsToIps.txt | grep $target\\\. | cut -d"." -f 5`
+      #echo HOST:$HOST
+
       SOURCE_FILE_TAG=$TEST_DESCRIPTION\_$HOST\_*$target\_
+      #echo SOURCE:$SOURCE_FILE_TAG
 
       # make sure we are starting with empty files
       rm /tmp/curcount.txt /tmp/curcount2.txt 2>/dev/null
@@ -446,8 +448,8 @@ do
   row="$row $row_cumulative"
 
   echo "$row"
-  echo "$row" >> $TAGA_DIR/counts.txt
-  echo "$row" >> $TAGA_DIR/countsSends.txt
+  echo "$row" >> $TAGA_RUN_DIR/counts.txt
+  echo "$row" >> $TAGA_RUN_DIR/countsSends.txt
 
 done
 
