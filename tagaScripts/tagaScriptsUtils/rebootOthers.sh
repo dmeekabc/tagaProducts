@@ -14,7 +14,7 @@ echo Are you sure? \(y/n\) ?
 echo
 
 # issue confirmation prompt
-./confirm.sh
+$iboaUtilsDir/confirm.sh
 
 let response=$?
 if [ $response -eq 1 ]; then
