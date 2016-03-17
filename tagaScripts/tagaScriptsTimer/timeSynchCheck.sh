@@ -10,7 +10,7 @@ source $TAGA_CONFIG_DIR/config
 # get the md5sum of the targetlist config so we know if it changes
 configMd5sum=`md5sum $TAGA_CONFIG_DIR/targetList.sh | cut -d" " -f 1`
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
+echo; echo `basename $0` : $MYIP :  executing at `date`; echo
 
 # set the flag to enter the loop
 let configChanged=1

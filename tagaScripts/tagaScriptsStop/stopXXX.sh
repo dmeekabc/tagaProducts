@@ -9,7 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 # exit now if XXX is off
 if [ $XXX_ON -eq 0 ]; then
-  echo $0 - XXX simulation is OFF, exiting with no action on $MYIP
+  echo `basename $0` - XXX simulation is OFF, exiting with no action on $MYIP
   exit
 fi
 
