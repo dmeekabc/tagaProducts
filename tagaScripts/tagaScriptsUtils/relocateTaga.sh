@@ -16,7 +16,7 @@ echo
 echo Notice: If confirmed, the TAGA dir will be relocated to: $NEW_LOCATION
 
 # issue confirmation prompt
-./confirm.sh
+$iboaUtilsDir/confirm.sh
 # check the response
 let response=$?
 if [ $response -eq 1 ]; then

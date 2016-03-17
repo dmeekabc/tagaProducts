@@ -7,8 +7,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-ALIAS_FILE=$TAGA_DIR/aliasExamples.txt
-#ALIAS_FILE=$TAGA_DIR/aliasList.txt
+ALIAS_FILE=$iboaUtilsDir/aliasExamples.txt
+#ALIAS_FILE=$iboaUtilsDir/aliasList.txt
 
 # validate input
 if [ $# -eq 1 ]; then
@@ -34,7 +34,7 @@ if [ true ] ; then
    echo Please confirm that you would like to extend your aliases by sourcing the follwing file: 
    echo "$ALIAS_FILE"
    # issue confirmation prompt
-   ./confirm.sh
+   $iboaUtilsDir/confirm.sh
    # check the response
    let response=$?
    if [ $response -eq 1 ]; then

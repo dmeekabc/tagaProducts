@@ -14,7 +14,7 @@ REMOTE_NODE_ITFC=$FIXED_ONE_LIST_ITFC
 echo $0 : $MYIP remote to $REMOTE_NODE and $REMOTE_NODE_ITFC:  executing at `date`
 
 # issue confirmation prompt
-./confirm.sh
+$iboaUtilsDir/confirm.sh
 
 let response=$?
 if [ $response -eq 1 ]; then
