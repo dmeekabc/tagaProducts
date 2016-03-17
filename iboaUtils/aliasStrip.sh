@@ -10,13 +10,13 @@ source $TAGA_CONFIG_DIR/config
 CONFIRM_REQD=1
 
 # list of things to strip
-STRIP_LIST=`cat $TAGA_DIR/stripList.txt`
-ALIAS_FILE=$TAGA_DIR/aliasList.txt
-ALIAS_STRIPPED_FILE=$TAGA_DIR/aliasListStripped.txt
+STRIP_LIST=`cat $iboaUtilsDir/stripList.txt`
+ALIAS_FILE=$iboaUtilsDir/aliasList.txt
+ALIAS_STRIPPED_FILE=$iboaUtilsDir/aliasListStripped.txt
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-echo;echo; echo StipList... `ls $TAGA_DIR/stripList.txt 2>/dev/null`
+echo;echo; echo StipList... `ls $iboaUtilsDir/stripList.txt 2>/dev/null`
 
 # validate input
 echo
@@ -24,7 +24,7 @@ echo Keywords :: [ $STRIP_LIST ]
 echo
 echo NOTE: The keywords above will be stripped from $ALIAS_FILE 
 echo and a new resultant file written to $ALIAS_STRIPPED_FILE
-./confirm.sh
+$iboaUtilsDir/confirm.sh
 let response=$?
 if [ $response -eq 1 ]; then
   echo; echo Confirmed, $0 continuing....; echo
@@ -46,7 +46,7 @@ if [ $CONFIRM_REQD -eq 1 ] ; then
    echo Please confirm that the following has been performed:
    echo "alias > $ALIAS_FILE"
    # issue confirmation prompt
-   ./confirm.sh
+   $iboaUtilsDir/confirm.sh
    # check the response
    let response=$?
    if [ $response -eq 1 ]; then
