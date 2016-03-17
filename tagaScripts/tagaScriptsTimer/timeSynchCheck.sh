@@ -358,10 +358,7 @@ do
 
              fi
 
-
-             echo "Negative Delta Minutes- Hour Boundaries Trying to Support  " 
-             echo "Negative Delta Minutes- Hour Boundaries Trying to Support  " 
-
+             echo "Notice: T3: Negative Delta Mins - Hour Boundaries Not Fully Supported" 
 
           fi
        fi
@@ -427,21 +424,21 @@ do
           fi
 
           # T4
-          echo MINUTES: $MINUTES : Minute Boundary Encountered - Negative Time Delta
-          echo ------------
+#          echo MINUTES: $MINUTES : Minute Boundary Encountered - Negative Time Delta
+#          echo ------------
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
-          echo ------------
+#          echo ------------
           echo
        else
           # hour boundaries not supported
 
-             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
-             echo "Negative Delta Minutes- Hour Boundaries Trying to Support  " 
+#              echo "Notice: T4: Negative Delta Mins - Hour Boundaries Not Fully Supported" 
+#             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
 
-             echo HOURS: $HOURS
-             echo MINUTES: $MINUTES
+#             echo HOURS: $HOURS
+#             echo MINUTES: $MINUTES
           let MINUTES=$MINUTES+60
-          echo MINUTES: ~$MINUTES ?? 
+#          echo MINUTES: ~$MINUTES ?? 
 
              # check validity
              if [ $HOURS -eq 0 ] ; then 
@@ -457,8 +454,8 @@ do
                 echo HOURS is less than 0, day boundaries not supported
              else
 
-                echo HOURS: $HOURS
-                echo MINUTES: $MINUTES
+#                echo HOURS: $HOURS
+#                echo MINUTES: $MINUTES
 
                 if [ $HOURS -eq 1 ]; then
                    duration="(X < 1 hour) (~$MINUTES mins) ****" 
@@ -491,9 +488,9 @@ do
                 # T5
                 DELTA="xxxxxxxxxxxx"
                 echo HOURS: $HOURS : Hour Boundary Encountered
-                echo ------------
+#                echo ------------
                 echo "$count $TIMESTR $DELTA T5:$duration" Target: $target  $description #$count $TIMESTR
-                echo ------------
+#                echo ------------
                 echo
 
              fi
