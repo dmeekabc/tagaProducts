@@ -343,11 +343,17 @@ else
 fi
 #echo $OTHER_LIST
 
+##############################################
+# DURATION 1 and 2
+##############################################
 
-# DURATION depends on rate and count above
+# DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
-let DURATION2=$TARGET_COUNT*10
-let DURATION2=$TARGET_COUNT*8
+
+# DURATION 2 depends on target count
+let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
+let DURATION2=$TARGET_COUNT_FACTOR*8
+
 #echo $DURATION1
 #echo $DURATION2
 
