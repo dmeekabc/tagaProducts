@@ -57,7 +57,8 @@ if [ $RET -eq 0 ]; then
 
    echo 1: $1; #echo
 
-   echo $i\x: $aliasNext
+   #echo $i\x: $aliasNext
+   echo " +-> $aliasNext"
    aliasNext=`echo $aliasNext | cut -d\' -f 2`
 else
    echo Error: does $1 alias exist?; echo
@@ -81,7 +82,8 @@ do
    RET=$?
    if [ $RET -eq 0 ]; then
       #echo
-      echo $i\x: $aliasNext
+      #echo $i\x: $aliasNext
+      echo " +-> $aliasNext"
       aliasNext=`echo $aliasNext | cut -d\' -f 2`
    else
       echo; echo End of the Trace ; echo
