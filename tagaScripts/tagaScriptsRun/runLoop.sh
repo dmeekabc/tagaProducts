@@ -631,7 +631,7 @@ do
 
 
    # sleep end of iteration delay time
-   $iboaUtils/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
+   $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
 
 done
 
