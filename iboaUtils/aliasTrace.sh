@@ -7,8 +7,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-#ALIAS_FILE=$TAGA_DIR/aliasExamples.txt
-ALIAS_FILE=$TAGA_DIR/aliasList.txt
+ALIAS_FILE=$TAGA_DIR/iboaUtils/aliasList.txt
 
 # validate input
 if [ $# -eq 1 ]; then
