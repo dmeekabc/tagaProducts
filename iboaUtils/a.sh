@@ -10,7 +10,8 @@ source $TAGA_CONFIG_DIR/config
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
 # issue confirmation prompt
-./confirm.sh
+$iboaUtilsDir/confirm.sh
+
 # check the response
 let response=$?
 if [ $response -eq 1 ]; then
