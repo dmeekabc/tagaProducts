@@ -61,7 +61,6 @@ if [ $RET -eq 0 ]; then
 
    #echo $i\x: $aliasNext
    echo " +-> $aliasNext"
-   aliasLast=$aliasNext
    aliasNext=`echo $aliasNext | cut -d\' -f 2`
    aliasLast=$aliasNext
 else
@@ -88,7 +87,6 @@ do
       #echo
       #echo $i\x: $aliasNext
       echo " +-> $aliasNext"
-      aliasLast=$aliasNext
       aliasNext=`echo $aliasNext | cut -d\' -f 2`
       aliasLast=$aliasNext
    else
