@@ -8,9 +8,9 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 if [ $START_OF_CYCLE_TESTS_ENABLED == 1 ]; then
-  echo $0 Start of Cycle Tests Enabled - proceeding...
+  echo `basename $0` Start of Cycle Tests Enabled - proceeding...
 else
-  echo $0 Start of Cycle Tests Disabled - Exiting
+  echo `basename $0` Start of Cycle Tests Disabled - Exiting
   exit
 fi
 

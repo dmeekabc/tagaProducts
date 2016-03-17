@@ -8,9 +8,9 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 if [ $MID_CYCLE_TESTS_ENABLED == 1 ]; then
-  echo $0 Mid Cycle Tests Enabled - proceeding...
+  echo `basename $0` Mid Cycle Tests Enabled - proceeding...
 else
-  echo $0 Mid Cycle Tests Disabled - Exiting
+  echo `basename $0` Mid Cycle Tests Disabled - Exiting
   exit
 fi
 
