@@ -471,7 +471,8 @@ do
       echo Configuration Change Window: Change Configuration Now... $ticker
       sleep 2
    done
-   sleep 2
+
+   #sleep 2
 
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
@@ -618,7 +619,8 @@ do
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER
    fi
 
-   sleep 5
+   #sleep 5
+   sleep 2
 
    # move output to the archive
    mv $TAGA_RUN_DIR/output/output_* $TAGA_DIR/archive 2>/dev/null
