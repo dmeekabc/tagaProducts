@@ -9,6 +9,8 @@ source $TAGA_CONFIG_DIR/config
 
 ALIAS_FILE=$TAGA_DIR/iboaUtils/aliasList.txt
 
+aliasLast=""
+
 # validate input
 if [ $# -eq 1 ]; then
    echo; echo $0 : $MYIP :  executing at `date`; echo
@@ -59,7 +61,9 @@ if [ $RET -eq 0 ]; then
 
    #echo $i\x: $aliasNext
    echo " +-> $aliasNext"
+   aliasLast=$aliasNext
    aliasNext=`echo $aliasNext | cut -d\' -f 2`
+   aliasLast=$aliasNext
 else
    echo Error: does $1 alias exist?; echo
    echo "Hint: considering running: alias > $ALIAS_FILE"; echo
@@ -84,9 +88,14 @@ do
       #echo
       #echo $i\x: $aliasNext
       echo " +-> $aliasNext"
+      aliasLast=$aliasNext
       aliasNext=`echo $aliasNext | cut -d\' -f 2`
+      aliasLast=$aliasNext
    else
-      echo; echo End of the Trace ; echo
+      #echo " |" ; 
+      echo " " ; 
+      echo "End of Trace: (alias '$1' traces to: $aliasLast)" ; echo
+      #echo; echo End of the Trace ; echo
    fi
 done
 
