@@ -465,13 +465,14 @@ do
    $tagaScriptsStatsDir/countSends.sh $outputDir $iter $startTime $currentDelta $deltaEpoch $startDTG
    $tagaScriptsStatsDir/countReceives.sh $outputDir $iter $startTime $startDTG 
 
-   for i in 1 2 3 4 5 6 # 7 8 9 10 11
+   for i in 1 2 #3 4 5 6 # 7 8 9 10 11
    do
       let ticker=6-$i
       echo Configuration Change Window: Change Configuration Now... $ticker
       sleep 2
    done
-   sleep 2
+
+   #sleep 2
 
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
@@ -618,7 +619,8 @@ do
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER
    fi
 
-   sleep 5
+   #sleep 5
+   sleep 2
 
    # move output to the archive
    mv $TAGA_RUN_DIR/output/output_* $TAGA_DIR/archive 2>/dev/null
