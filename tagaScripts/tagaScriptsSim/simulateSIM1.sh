@@ -16,8 +16,7 @@ echo `basename $0` $MYIP executing at `date`
 # MAIN 
 ################################################3
 
-SIM1_DIR=~/code/sim1/python
-SIM1_DIR=$TAGA_DIR/code/sim1/python
+SIM1_DIR=$TAGA_DIR/tagaSamples/sim1/python
 
 # cleanup old processes, resources, sockets and such
 OLDPROCFILE3="/home/$MYLOGIN_ID/python/python.pid"
