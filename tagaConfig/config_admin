@@ -28,25 +28,3 @@ tagaScriptsUtilsDir=$tagaScriptsDir/tagaScriptsUtils
 # mgen needs this
 TAGA_MGEN_DIR=$tagaScriptsMgenDir
 
-#echo TAGA_MGEN_DIR:$TAGA_MGEN_DIR
-
-#echo $tagaScriptsMgenDir
-#echo $tagaScriptsRunDir
-#echo $tagaScriptsSimDir
-#echo $tagaScriptsStatsDir
-#echo $tagaScriptsStopDir
-#echo $tagaScriptsTcpdumpDir
-#echo $tagaScriptsTestDir
-#echo $tagaScriptsTimerDir
-#echo $tagaScriptsUtilsDir
-
-#ls $tagaScriptsMgenDir
-#ls $tagaScriptsRunDir
-#ls $tagaScriptsSimDir
-#ls $tagaScriptsStatsDir
-#ls $tagaScriptsStopDir
-#ls $tagaScriptsTcpdumpDir
-#ls $tagaScriptsTestDir
-#ls $tagaScriptsTimerDir
-#ls $tagaScriptsUtilsDir
-
