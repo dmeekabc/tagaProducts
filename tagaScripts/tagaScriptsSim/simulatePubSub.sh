@@ -10,7 +10,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 #echo $0 executing at `date`
-echo $0 $MYIP executing at `date`
+echo `basename $0` $MYIP executing at `date`
 
 ################################################3
 # MAIN 
@@ -18,13 +18,13 @@ echo $0 $MYIP executing at `date`
 PUBSUB_DIR=$TAGA_DIR/code/nanomsg_app/PubSub
 
 if [ $MYIP == "192.168.43.69" ]; then
-   echo $0 $MYIP: simulate running testPubSubServer
+   echo `basename $0` $MYIP: simulate running testPubSubServer
    #$PUBSUB_DIR/testPubSubServer.sh 
 elif [ $MYIP == "10.0.0.22" ]; then
-   echo $0 $MYIP: simulate running testPubSubServer
+   echo `basename $0` $MYIP: simulate running testPubSubServer
    #$PUBSUB_DIR/testPubSubServer.sh 
 else
-   echo $0 $MYIP: simulate running testPubSubClient 
+   echo `basename $0` $MYIP: simulate running testPubSubClient 
    #$PUBSUB_DIR/testPubSubClient.sh 
 fi
 

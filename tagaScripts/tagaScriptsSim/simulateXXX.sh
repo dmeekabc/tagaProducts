@@ -10,7 +10,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 #echo $0 executing at `date`
-echo $0 $MYIP executing at `date`
+echo `basename $0` $MYIP executing at `date`
 
 ################################################3
 # MAIN 
@@ -24,13 +24,13 @@ OLDPROCFILE3="/home/$MYLOGIN_ID/python/python.pid"
 rm $OLDPROCFILE3 2>/dev/null
 
 if [ $MYIP == "192.168.43.69" ]; then
-   echo $0 $MYIP: starting xxx daemon
+   echo `basename $0` $MYIP: starting xxx daemon
    $XXX_DIR/xxx.py start
 elif [ $MYIP == "10.0.0.22" ]; then
-   echo $0 $MYIP: starting xxx daemon
+   echo `basename $0` $MYIP: starting xxx daemon
    $XXX_DIR/xxx.py start
 else
-   echo $0 $MYIP: starting xxx daemon
+   echo `basename $0` $MYIP: starting xxx daemon
    $XXX_DIR/xxx.py start
 fi
 

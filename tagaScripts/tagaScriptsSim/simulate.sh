@@ -9,7 +9,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo $0 $MYIP executing at `date`
+echo `basename $0` $MYIP executing at `date`
 
 # sample simulations require $HOME/python dir
 mkdir $HOME/python 2>/dev/null
@@ -118,13 +118,13 @@ do
     sleep 5
 
   else
-   echo $0 exiting since ENVIRON environ simulationFlag is disabled
+   echo `basename $0` exiting since ENVIRON environ simulationFlag is disabled
    exit
   fi
 
   let i=$i-1
   if [ $i -eq 0 ]; then
-   echo $0 exiting since max simulation loops achieved
+   echo `basename $0` exiting since max simulation loops achieved
    exit
   fi
 
