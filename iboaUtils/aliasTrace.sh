@@ -32,7 +32,7 @@ if [ $CONFIRM_REQD -eq 1 ] ; then
    echo Please confirm that the following has been performed:
    echo "alias > $ALIAS_FILE"
    # issue confirmation prompt
-   ./confirm.sh
+   $iboaUtilsDir/confirm.sh
    # check the response
    let response=$?
    if [ $response -eq 1 ]; then
