@@ -8,9 +8,9 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 if [ $END_OF_CYCLE_TESTS1_ENABLED == 1 ]; then
-  echo $0 End of Cycle Tests 1 Enabled - proceeding...
+  echo `basename $0` End of Cycle Tests 1 Enabled - proceeding...
 else
-  echo $0 End of Cycle Tests 1 Disabled - Exiting
+  echo `basename $0` End of Cycle Tests 1 Disabled - Exiting
   exit
 fi
 
