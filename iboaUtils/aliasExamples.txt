@@ -1,1 +1,1 @@
-alias ws='gtc; source config; sudo wireshark -i any < ./passwd.txt'
+alias 5='gtu; ./pingAll.sh'
