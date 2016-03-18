@@ -7,6 +7,13 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+caller=$1
+printInfo=$2
+
+#####################################################3
+# issuePrompt function
+#####################################################3
+function issuePrompt {
 echo
 echo Please Confirm to Proceed.
 echo
@@ -16,8 +23,30 @@ echo
 read input
 
 if [ $input == "y" ]; then
-  exit 1 # confirmed
+  return 1 # confirmed
 else
-  exit 2 # not confirmed
+  return 2 # not confirmed
 fi
+}
+
+#####################################################3
+# Main
+#####################################################3
+
+# print the info
+echo $printInfo
+
+# issue the prompt
+issuePrompt
+
+# check the response
+let response=$?
+if [ $response -eq 1 ]; then
+  echo; echo Confirmed, $caller continuing....; echo
+else
+  echo; echo Not Confirmed, $caller exiting with no action...; echo
+fi
+
+# return the response to the caller
+exit $response
 
