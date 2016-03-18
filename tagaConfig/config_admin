@@ -25,6 +25,18 @@ tagaScriptsTestDir=$tagaScriptsDir/tagaScriptsTest
 tagaScriptsTimerDir=$tagaScriptsDir/tagaScriptsTimer
 tagaScriptsUtilsDir=$tagaScriptsDir/tagaScriptsUtils
 
+# shorter variants
+tagaMgenDir=$tagaScriptsMgenDir
+tagaRunDir=$tagaScriptsRunDir
+tagaSimDir=$tagaScriptsSimDir
+tagaStatsDir=$tagaScriptsStatsDir
+tagaStopDir=$tagaScriptsStopDir
+tagaTcpdumpDir=$tagaScriptsTcpdumpDir
+tagaTestDir=$tagaScriptsTestDir
+tagaTimerDir=$tagaScriptsTimerDir
+tagaUtilsDir=$tagaScriptsUtilsDir
+
+
 # mgen needs this
 TAGA_MGEN_DIR=$tagaScriptsMgenDir
 
