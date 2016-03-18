@@ -10,14 +10,11 @@ source $TAGA_CONFIG_DIR/config
 caller=$1
 printInfo=$2
 
-echo 1
 # print the input before issuing prompt
-echo $caller
 echo $printInfo
-echo 2
 
 # issue the confirmation prompt
-$iboaUtilsDir/confirm.sh
+$tagaScriptsUtilsDir/confirm.sh
 
 # check the response
 let response=$?
