@@ -11,7 +11,9 @@ caller=$1
 printInfo=$2
 
 # print the input before issuing prompt
+echo 
 echo $printInfo
+#echo 
 
 # issue the confirmation prompt
 $tagaUtilsDir/confirm.sh
