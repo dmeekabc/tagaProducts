@@ -83,7 +83,11 @@ do
    else
       echo " +---------------------------> End of Trace"
       echo
-      echo "alias '$1' traces to: $aliasLast" ; echo
+      echo ---------------Summary---------------
+      echo
+      echo "alias '$1' traces to the following:" 
+      echo
+      echo "   $aliasLast" ; echo
    fi
 done
 
