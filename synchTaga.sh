@@ -3,9 +3,13 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#MYDIR=$TAGA_DIR
 MYDIR=`pwd`
 
-echo $MYDIR
+echo
+echo NOTICE: The follwing SHOULD NOT be a soft link:
+echo
+echo "       $MYDIR "
 
 ############# 7 lines begin here #############
 # provide the info to print into the confirmation request
