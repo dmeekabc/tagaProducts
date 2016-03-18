@@ -28,3 +28,5 @@ do
 done
 echo
 
+echo $0 returned to self...; echo
+echo $0 complete!; echo
