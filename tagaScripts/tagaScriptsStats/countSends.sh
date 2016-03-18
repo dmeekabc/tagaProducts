@@ -45,8 +45,8 @@ date; date >> $TAGA_RUN_DIR/counts.txt
 echo ============================ TAGA Iteration:$iter ===========================
 echo ============================ TAGA Iteration:$iter =========================== >>  $TAGA_RUN_DIR/counts.txt
 
-echo TAGA:iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE
-echo TAGA:iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_RUN_DIR/counts.txt
+echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE
+echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_RUN_DIR/counts.txt
 
 # calculate the aggregate commanded throughput rate
 let targetCount=0
@@ -237,7 +237,7 @@ fi
 let numerator=`cat $outputDir/* 2>/dev/null | wc -l`
 let numerator=$numerator*10000
 let denominator=$expectedCount
-let percent=$numerator/$denominator 
+let percent=$numerator/$denominator 2>/dev/null 
 
 let checkValue=$numerator/10000 
 if [ $checkValue -eq $denominator ]; then
