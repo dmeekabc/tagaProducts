@@ -256,3 +256,5 @@ alias mon='TAGA_DIR=~/scripts/taga; touch $TAGA_DIR/tagaRUN/counts.txt; echo; gr
 alias mon='TAGA_DIR=~/scripts/taga; touch $TAGA_DIR/tagaRUN/counts.txt; echo; grep TAGA $TAGA_DIR/tagaRUN/counts.txt | tail -n 5; echo; echo \<.....\>; echo \<.....\>; echo; tail -f $TAGA_DIR/tagaRUN/counts.txt'
 alias grem2='gtu;./remoteLoginSelect.sh '
 alias rebootSelect='gtu;./rebootSelect.sh'
+alias grem2='gtu;./remoteLoginSelect.sh '
+alias grem='grem2'
