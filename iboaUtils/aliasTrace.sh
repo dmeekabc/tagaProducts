@@ -57,10 +57,8 @@ RET=$?
 
 if [ $RET -eq 0 ]; then
 
-   echo 1: $1; #echo
-
-   #echo $i\x: $aliasNext
-   echo " +-> $aliasNext"
+   echo 1: $1; 
+   echo " +----------> $aliasNext"
    aliasNext=`echo $aliasNext | cut -d\' -f 2`
    aliasLast=$aliasNext
 else
@@ -69,31 +67,27 @@ else
    exit
 fi 
 
-
 # iterate until we hit the end of the trace
 while [ $RET -eq 0 ] 
 do
    # increment the count
    let i=$i+1
 
-#   echo $aliasNext
-
    echo; echo $i: $aliasNext
-
-   #aliasNext=`alias $aliasNext 2>/dev/null` 2>/dev/null
    aliasNext=`alias $aliasNext 2>/dev/null` 
    RET=$?
    if [ $RET -eq 0 ]; then
-      #echo
-      #echo $i\x: $aliasNext
-      echo " +-> $aliasNext"
+      echo " +----------> $aliasNext"
       aliasNext=`echo $aliasNext | cut -d\' -f 2`
       aliasLast=$aliasNext
    else
-      #echo " |" ; 
-      echo " " ; 
-      echo "End of Trace: (alias '$1' traces to: $aliasLast)" ; echo
-      #echo; echo End of the Trace ; echo
+      echo " +---------------------------> End of Trace"
+      echo
+      echo ---------------Summary---------------
+      echo
+      echo "alias '$1' traces to the following:" 
+      echo
+      echo "   $aliasLast" ; echo
    fi
 done
 
