@@ -9,7 +9,7 @@ echo $MYDIR
 
 ############# 7 lines begin here #############
 # provide the info to print into the confirmation request
-InfoToPrint=" $MYDIR will be synchronized. "
+InfoToPrint=" $0 : $MYDIR will be synchronized and links adjusted. Warn: This should not be a soft link!! "
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
@@ -41,9 +41,10 @@ do
      scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
 
      # remove old link
-#     ssh -l darrin $target rm ~/scripts/taga 
+     ssh -l darrin $target "rm ~/scripts/taga 2>/dev/null"
+
      # create new link
-#     ssh -l darrin ln -s $MYDIR ~/scripts/taga
+     ssh -l darrin $target "ln -s $MYDIR ~/scripts/taga"
 
      # dlm temp, this is work in progress, 
      # dlm temp, note, currently pulls to root (not what we want)
