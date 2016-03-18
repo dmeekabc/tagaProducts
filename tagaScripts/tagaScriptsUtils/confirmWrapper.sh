@@ -14,7 +14,7 @@ printInfo=$2
 echo $printInfo
 
 # issue the confirmation prompt
-$tagaScriptsUtilsDir/confirm.sh
+$tagaUtilsDir/confirm.sh
 
 # check the response
 let response=$?
