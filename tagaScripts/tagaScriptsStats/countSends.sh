@@ -237,7 +237,7 @@ fi
 let numerator=`cat $outputDir/* 2>/dev/null | wc -l`
 let numerator=$numerator*10000
 let denominator=$expectedCount
-let percent=$numerator/$denominator 
+let percent=$numerator/$denominator 2>/dev/null 
 
 let checkValue=$numerator/10000 
 if [ $checkValue -eq $denominator ]; then
