@@ -33,14 +33,6 @@ class Daemon(object):
         message = "XXX: XXX: XXX: XXX: Hello World Marker\n"
         sys.stderr.write(message)
         sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
-        sys.stderr.write(message)
 
         # Do first fork
         self.fork()
