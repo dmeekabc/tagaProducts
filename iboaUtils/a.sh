@@ -9,14 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-# issue confirmation prompt
-$iboaUtilsDir/confirm.sh
-
+# issue confirmation prompt and check reponse
+$iboaUtilsDir/confirm.sh $0 "Info to Print"
 # check the response
-let response=$?
-if [ $response -eq 1 ]; then
-  echo; echo Confirmed, $0 continuing....; echo
-else
-  echo; echo Not Confirmed, $0 exiting with no action...; echo
-  exit
-fi
+response=$?; if [ $response -ne 1 ]; then exit; fi
