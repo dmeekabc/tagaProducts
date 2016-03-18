@@ -8,6 +8,6 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # issue confirmation prompt and check reponse
-$tagaUtilsDir/confirmWrapper.sh $0 "Info to Print"
+$tagaUtilsDir/confirm.sh $0 "Info to Print"
 # check the response
 response=$?; if [ $response -ne 1 ]; then exit; fi
