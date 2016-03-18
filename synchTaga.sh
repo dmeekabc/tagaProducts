@@ -15,7 +15,7 @@ echo; echo NOTICE: The follwing SHOULD NOT be a soft link:
 echo "       $MYDIR "
 echo; echo NOTICE: The follwing SHOULD NOT be the same:
 echo "       MYDIR: $MYDIR  TAGA_LINK: $TAGA_LINK"
-echo; echo NOTICE: The follwing link will be reset on target machines:
+echo; echo NOTICE: The follwing link will be set or reset on target machines:
 echo "       $TAGA_LINK "
 
 # provide the info to print into the confirmation request
