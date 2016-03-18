@@ -34,6 +34,7 @@ fi
 #####################################################3
 
 # print the info
+echo
 echo $printInfo
 
 # issue the prompt
