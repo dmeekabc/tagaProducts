@@ -65,6 +65,8 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
 
     if [ $TAGA_DISPLAY == "VERBOSE" ]; then
       mgen port $MYPORT & 
+    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+      mgen port $MYPORT > /dev/null 2>/dev/null & 
     else
       mgen port $MYPORT > /dev/null  & 
     fi
@@ -113,10 +115,19 @@ if [ $TESTTYPE == "MCAST" ]; then
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  echo ---------------------
-  cat $TAGA_MGEN_DIR/script.mgn
-  echo ---------------------
-  mgen input $TAGA_MGEN_DIR/script.mgn
+  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    echo hi 1
+    echo ---------------------
+    cat $TAGA_MGEN_DIR/script.mgn
+    echo ---------------------
+    mgen input $TAGA_MGEN_DIR/script.mgn
+  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    echo hi 2
+    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+  else
+    echo hi 3
+    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+  fi
   
   # we are done, exit the script
   exit
@@ -168,10 +179,20 @@ do
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  echo ---------------------
-  cat $TAGA_MGEN_DIR/script.mgn
-  echo ---------------------
-  mgen input $TAGA_MGEN_DIR/script.mgn
+  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    echo hi 1
+    echo ---------------------
+    cat $TAGA_MGEN_DIR/script.mgn
+    echo ---------------------
+    mgen input $TAGA_MGEN_DIR/script.mgn
+  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    echo hi 2
+    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+  else
+    echo hi 3
+    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+  fi
+  
 
 done
 
@@ -219,10 +240,19 @@ do
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  echo ---------------------
-  cat $TAGA_MGEN_DIR/script.mgn
-  echo ---------------------
-  mgen input $TAGA_MGEN_DIR/script.mgn
+  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    echo hi 1
+    echo ---------------------
+    cat $TAGA_MGEN_DIR/script.mgn
+    echo ---------------------
+    mgen input $TAGA_MGEN_DIR/script.mgn
+  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    echo hi 2
+    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+  else
+    echo hi 3
+    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+  fi
 
 done
 
