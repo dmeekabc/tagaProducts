@@ -17,11 +17,11 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 ALL_TESTS_DISABLED=1 # disable all tests (Testing)
 ALL_TESTS_DISABLED=0 # enable all tests (Normal)
 MAX_ITERATIONS=1       # max iterations (Testing)
-MAX_ITERATIONS=2       # max iterations (Testing)
 MAX_ITERATIONS=4       # max iterations (Testing)
 MAX_ITERATIONS=8       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
 MAX_ITERATIONS=1000000 # max iterations (Normal)
+MAX_ITERATIONS=2       # max iterations (Testing)
 STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
 
@@ -47,17 +47,17 @@ FIXED_ONE_LIST=192.168.43.208   # wireshark, other
 FIXED_ONE_LIST=192.168.43.157   # wireshark, other
 FIXED_ONE_LIST=192.168.43.69   # wireshark, other
 
-FIXED_ONE_LIST=10.0.0.18
 FIXED_ONE_LIST=10.0.0.20
 FIXED_ONE_LIST=10.0.0.21
 FIXED_ONE_LIST=10.0.0.22
 FIXED_ONE_LIST=10.0.0.27
+FIXED_ONE_LIST=10.0.0.18
 
 FIXED_ONE_LIST_ITFC=wlp3s0    # 43.124 , 10.27 wireshark, oher
-FIXED_ONE_LIST_ITFC=wlan0     # 43.188, 10.18 wireshark, oher
 FIXED_ONE_LIST_ITFC=wlp2s0    # 43.208, 10.20 wireshark, oher
 FIXED_ONE_LIST_ITFC=wlo1      # 43.157, 10.21 wireshark, oher
 FIXED_ONE_LIST_ITFC=wlo1      # 43.69, 10.22 wireshark, oher
+FIXED_ONE_LIST_ITFC=wlan0     # 43.188, 10.18 wireshark, oher
 
 FIXED_ALT_LIST="192.168.43.69 192.168.43.124 192.168.43.157 192.168.43.188 192.168.43.208"
 
@@ -408,4 +408,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=10.0.0.27
+MASTER=192.168.43.124
