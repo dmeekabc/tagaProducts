@@ -355,6 +355,8 @@ do
                 echo "$count $TIMESTR $DELTA T3:$duration" Target: $target  $description #$count $TIMESTR
                 echo ------------
                 echo
+                echo T3: MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo
 
              fi
 
@@ -491,6 +493,8 @@ do
 #                echo ------------
                 echo "$count $TIMESTR $DELTA T5:$duration" Target: $target  $description #$count $TIMESTR
 #                echo ------------
+                echo
+                echo T5: MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
                 echo
 
              fi
