@@ -55,12 +55,21 @@ let i=1
 aliasNext=`alias $1`
 RET=$?
 
+# define the padding
+PAD="::::"
+
 if [ $RET -eq 0 ]; then
 
    echo 1: $1; 
-   echo " +----------> $aliasNext"
+   aliasPrint=$aliasNext
+   aliasPrint=$PAD::$aliasPrint
+   echo "$aliasPrint "
+   #echo " +----------> $aliasPrint"
+   #echo " +----------> $aliasNext"
    aliasNext=`echo $aliasNext | cut -d\' -f 2`
    aliasLast=$aliasNext
+   aliasLast=$aliasNext
+   #aliasLast=$PAD::$aliasLast
 else
    echo Error: does $1 alias exist?; echo
    echo "Hint: considering running: alias > $ALIAS_FILE"; echo
@@ -73,17 +82,23 @@ do
    # increment the count
    let i=$i+1
 
+   PAD="::::$PAD"
+
    echo; echo $i: $aliasNext
    aliasNext=`alias $aliasNext 2>/dev/null` 
    RET=$?
    if [ $RET -eq 0 ]; then
-      echo " +----------> $aliasNext"
+      aliasPrint=$aliasNext
+      aliasPrint=$PAD::$aliasPrint
+      echo "$aliasPrint "
       aliasNext=`echo $aliasNext | cut -d\' -f 2`
       aliasLast=$aliasNext
+      #aliasLast=$PAD::$aliasLast
    else
-      echo " +---------------------------> End of Trace"
+      #echo " +---------------------------> End of Trace"
       echo
-      echo ---------------Summary---------------
+      #echo ---------End of Trace Summary---------
+      echo ================== End of Trace Summary ==================
       echo
       echo "alias '$1' traces to the following:" 
       echo
