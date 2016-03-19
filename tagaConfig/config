@@ -17,13 +17,16 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 ALL_TESTS_DISABLED=1 # disable all tests (Testing)
 ALL_TESTS_DISABLED=0 # enable all tests (Normal)
 MAX_ITERATIONS=1       # max iterations (Testing)
-MAX_ITERATIONS=4       # max iterations (Testing)
 MAX_ITERATIONS=8       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
 MAX_ITERATIONS=1000000 # max iterations (Normal)
+MAX_ITERATIONS=4       # max iterations (Testing)
+MAX_ITERATIONS=3       # max iterations (Testing)
 MAX_ITERATIONS=2       # max iterations (Testing)
-STEPWISE_ITERATIONS=1  # Testing
+MAX_ITERATIONS=6       # max iterations (Testing)
 STEPWISE_ITERATIONS=0  # Normal
+STEPWISE_ITERATIONS=1  # Testing
+STEPWISE_ITERATIONS=2  # Testing
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
