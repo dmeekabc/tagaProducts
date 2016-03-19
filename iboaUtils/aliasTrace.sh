@@ -84,7 +84,8 @@ do
 
    PAD="::::$PAD"
 
-   echo; echo $i: $aliasNext
+   #echo; echo $i: $aliasNext
+   echo $i: $aliasNext
    aliasNext=`alias $aliasNext 2>/dev/null` 
    RET=$?
    if [ $RET -eq 0 ]; then
@@ -95,14 +96,14 @@ do
       aliasLast=$aliasNext
       #aliasLast=$PAD::$aliasLast
    else
-      #echo " +---------------------------> End of Trace"
       echo
-      #echo ---------End of Trace Summary---------
       echo ================== End of Trace Summary ==================
       echo
       echo "alias '$1' traces to the following:" 
       echo
-      echo "   $aliasLast" ; echo
+      echo "       [  $aliasLast  ]        "
+      echo
+      echo ==========================================================
    fi
 done
 
