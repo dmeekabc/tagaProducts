@@ -7,6 +7,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+echo; echo $0: Determining GATEWAY....; echo
+
 # allow target list override if any param is provided
 if [ $# -eq 1 ]; then
    let USE_ALT_LIST=1
