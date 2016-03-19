@@ -101,7 +101,8 @@ do
       echo
       echo "alias '$1' traces to the following:" 
       echo
-      echo "       [  $aliasLast  ]        "
+      #echo "       [  $aliasLast  ]        "
+      echo "          $aliasLast           "
       echo
       echo ==========================================================
    fi
