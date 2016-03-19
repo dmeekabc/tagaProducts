@@ -116,17 +116,14 @@ if [ $TESTTYPE == "MCAST" ]; then
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
   if [ $TAGA_DISPLAY == "VERBOSE" ]; then
-    echo hi 1
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
   elif [ $TAGA_DISPLAY == "SILENT" ]; then
-    echo hi 2
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
-    echo hi 3
-    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+    mgen input $TAGA_MGEN_DIR/script.mgn #>/dev/null
   fi
   
   # we are done, exit the script
@@ -180,17 +177,14 @@ do
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
   if [ $TAGA_DISPLAY == "VERBOSE" ]; then
-    echo hi 1
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
   elif [ $TAGA_DISPLAY == "SILENT" ]; then
-    echo hi 2
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
-    echo hi 3
-    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+    mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null
   fi
   
 
@@ -241,17 +235,14 @@ do
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
   if [ $TAGA_DISPLAY == "VERBOSE" ]; then
-    echo hi 1
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
   elif [ $TAGA_DISPLAY == "SILENT" ]; then
-    echo hi 2
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
-    echo hi 3
-    mgen input $TAGA_MGEN_DIR/script.mgn >/dev/null
+    mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null
   fi
 
 done
