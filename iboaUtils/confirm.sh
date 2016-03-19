@@ -22,7 +22,7 @@ echo
 
 read input
 
-if [ $input == "y" ]; then
+if [ $input == "y" ] 2>/dev/null; then
   return 1 # confirmed
 else
   return 2 # not confirmed
