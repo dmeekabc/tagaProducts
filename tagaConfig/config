@@ -53,8 +53,8 @@ TAGA_KILL_LIST_ALT="keepAlive mgen survey xxx tcpdump"
 # The Keep Alive Function
 ####################################################
 
+let TAGA_KEEP_ALIVE=1 # testing, see test notes in keepAlive.sh
 let TAGA_KEEP_ALIVE=0 # normal
-let TAGA_KEEP_ALIVE=1 # testing
 
 ##############################
 # Fixed List Configuration
@@ -313,10 +313,6 @@ CONTINUOUS_SYNCH=0  # synch config only
 ##############################################
 # manually and/or automatatically generated configs
 ##############################################
-INTERFACE=wlan0
-INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
-INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
-#echo $INTERFACE
 
 ##############################################
 # automatatically generated configs
@@ -344,6 +340,16 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      else MYIP=localhost; fi; done
 #echo CANDIDATES: $MYIPCANDIDATES
 #echo MYIP: $MYIP
+
+if [ $MYIP == "localhost" ] ; then
+   INTERFACE=lo
+else
+   #INTERFACE=wlan0
+   #INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
+   INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+fi
+
+#echo $INTERFACE
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -439,4 +445,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=localhost

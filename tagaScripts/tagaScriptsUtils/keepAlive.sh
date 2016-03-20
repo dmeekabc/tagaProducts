@@ -7,6 +7,15 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#
+# Github notes:  We are getting return codes of 0, 1, and 141 when we
+# do an ifconfig up when the interface is already up
+# ... we are not sure what to make of those return codes at this point
+#
+#... we are putting this keepAlive effort on hold until further point in time
+#
+
+
 IP_TO_KEEP_ALIVE=$MYIP
 ITFC_TO_KEEP_ALIVE=$INTERFACE
 
