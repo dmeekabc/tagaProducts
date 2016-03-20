@@ -198,14 +198,17 @@ do
 
    if [ $STEPWISE_ITERATIONS -eq 1 ]; then
       echo; echo INFO: Step-wise iterations configured...
-      echo `date` Iterations \($iter\) Reached - Waiting confirmation to proceed
+      echo `date` 
+      echo Iterations \($iter\) Reached - Waiting confirmation to proceed
       echo; echo Press \[Enter\] to proceed...
       read input 
    elif [ $STEPWISE_ITERATIONS -ne 0 ]; then
       let modVal=$iter%$STEPWISE_ITERATIONS
       if [ $modVal -eq 0 ]; then 
          echo; echo INFO: Double Iteration Step-wise iterations configured...
-         echo `date` Iterations \($iter\) Reached - Waiting confirmation to proceed
+         echo `date` 
+         echo Iterations \($iter\) Reached - Waiting confirmation to proceed
+         #echo `date` Iterations \($iter\) Reached - Waiting confirmation to proceed
          echo; echo Press \[Enter\] to proceed...
          read input 
       fi
