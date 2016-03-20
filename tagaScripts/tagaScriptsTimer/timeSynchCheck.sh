@@ -303,24 +303,23 @@ do
              echo HOURS: $HOURS
              echo MINUTES: $MINUTES
 
+             # dlm temp find me
+
              # check validity
              if [ $HOURS -eq 0 ] ; then 
                 echo HOURS is 0, this is an anomaly?
                 echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
+                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
                 echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
+                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
              else
-
-                echo HOURS: $HOURS
-                echo MINUTES: $MINUTES
-
+                echo MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo HOURS: $HOURS MINUTES: $MINUTES
                 if [ $HOURS -eq 1 ]; then
                    duration="(X < 1 hour) (~$MINUTES mins) ****" 
                 elif [ $HOURS -eq 2 ]; then

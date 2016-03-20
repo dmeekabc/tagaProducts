@@ -22,7 +22,7 @@ echo
 
 read input
 
-if [ $input == "y" ]; then
+if [ $input == "y" ] 2>/dev/null; then
   return 1 # confirmed
 else
   return 2 # not confirmed
@@ -44,7 +44,7 @@ let response=$?
 if [ $response -eq 1 ]; then
   echo; echo Confirmed, $caller continuing....; echo
 else
-  echo; echo Not Confirmed, $caller exiting with no action...; echo
+  echo; echo Not Confirmed, $caller exiting or returning with no action...; echo
 fi
 
 # return the response to the caller
