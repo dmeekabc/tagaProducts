@@ -15,9 +15,6 @@ MY_KA_LOG_FILE=/tmp/tagaKeepAlive.log
 let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
 let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
 
-#echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES
-#echo PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES
-
 function checkInterface {
 
    echo checking interface $INTERFACE >> $MY_KA_LOG_FILE
@@ -75,6 +72,16 @@ function checkInterface {
 # MAIN
 ############################
 
+echo
+echo `date` : $0 : executing on $MYIP
+echo  Notice: This process may make changes to $INTERFACE configuration. !!
+echo  Notice: This process may make changes to $INTERFACE configuration. !!
+echo  Notice: Output from this $0 command can be found in $MY_KA_LOG_FILE
+echo  Notice: Output from this $0 command can be found in $MY_KA_LOG_FILE
+echo  Notice: Monitor $MY_KA_LOG_FILE for activity related to this $0 command.
+echo  Notice: Monitor $MY_KA_LOG_FILE for activity related to this $0 command.
+echo
+
 # do this once initially to get the password out of the way
 # note, we may be able to pass "< confirm.txt" ('y') as other option
 
@@ -93,7 +100,6 @@ do
    checkInterface
    let status=$?
 
-   echo returned status: $status >> $MY_KA_LOG_FILE
    echo returned status: $status >> $MY_KA_LOG_FILE
    echo returned status: $status >> $MY_KA_LOG_FILE
 
@@ -126,14 +132,3 @@ do
    $iboaUtilsDir/iboaDelay.sh 60 5 >> $MY_KA_LOG_FILE
 
 done
-
-#IP_TO_KEEP_ALIVE=192.168.43.208
-#ITFC_TO_KEEP_ALIVE=wlp2s0
-#
-#while true
-#do
-#  echo sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
-#  sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
-#  sleep 60
-#  date
-#done
