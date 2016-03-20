@@ -18,24 +18,28 @@ PING_COUNT=2
 SLEEP_TIME=1
 SLEEP_TIME=0
 
-echo; echo $0: Determining GATEWAY....; echo
+echo; echo $0 : $MYIP :  executing at `date`
 
-MYGATEWAY=`route | grep default | cut -c16-30`
-
-echo GATEWAY: $MYGATEWAY
+#echo; echo $0: Determining GATEWAY....; echo
+#MYGATEWAY=`route | grep default | cut -c16-30`
+#echo GATEWAY: $MYGATEWAY
 
 while true
 do
    # get the config in case it has changed
    source $TAGA_CONFIG_DIR/config
 
+   # get the gateway in case it has changed
+   echo; date; echo Determining GATEWAY....
+   MYGATEWAY=`route | grep default | cut -c16-30`
+   echo GATEWAY: $MYGATEWAY
+
    if [ $USE_ALT_LIST -eq 1 ]; then
       targetList=$FIXED_ALT_LIST
    fi
 
    # ping the gateway
-   echo;echo; date
-   echo PINGING GATEWAY: $MYGATEWAY; echo
+   echo; echo PINGING GATEWAY: $MYGATEWAY; echo
    ping -c $PING_COUNT $MYGATEWAY
    sleep $SLEEP_TIME
 
