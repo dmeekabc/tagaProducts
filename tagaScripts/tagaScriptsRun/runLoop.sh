@@ -92,7 +92,8 @@ if [ true ] ; then
 fi
 
 # stop the Simulation and Data Generation in case it is still running somewhere
-$tagaScriptsStopDir/runStop.sh
+# use alt list which includes keepAlive process
+$tagaScriptsStopDir/runStop.sh "useAltList"
 
 let iter=0
 let k=0
@@ -248,8 +249,14 @@ do
      fi
    fi
 
-   # MAIN RUN SCRIPT (primary sim server and traffic)
-   $tagaScriptsRunDir/run.sh
+   # if first iteration, use special flag to also start keepAlive processes
+   if [ $iter -eq 1 ] ; then
+     # MAIN RUN SCRIPT (primary sim server and traffic)
+     $tagaScriptsRunDir/run.sh "startKeepAlivesFlag"
+   else
+     # MAIN RUN SCRIPT (primary sim server and traffic)
+     $tagaScriptsRunDir/run.sh  
+   fi
 
    # Start of cycle tests
    #sleep $SERVER_INIT_DELAY

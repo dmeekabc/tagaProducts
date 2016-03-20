@@ -22,11 +22,17 @@ for target in $targetList
 do
    echo processing $target
 
+   #
+   # if a paramater is passed, then that is special flag to start the keepAlive process 
+   #   (i.e. this is done once per runLoop only)
+   #
+   if [ $# -eq 1 ] ; then
    if [ $TAGA_KEEP_ALIVE -eq 1 ] ; then
       echo running keepAlive.sh on $target
       #ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/keepAlive.sh <$TAGA_UTILS_DIR/confirm.txt &
       #ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/keepAlive.sh <$TAGA_UTILS_DIR/confirm.txt " &
       ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/keepAlive.sh <$TAGA_UTILS_DIR/confirm.txt >/dev/null " &
+   fi
    fi
 
    ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
