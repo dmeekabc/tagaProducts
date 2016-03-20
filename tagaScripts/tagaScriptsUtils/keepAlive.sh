@@ -22,33 +22,51 @@ function checkInterface {
 
    echo checking interface $INTERFACE >> $MY_KA_LOG_FILE
 
+   # default to success (good status)
    let status=1
-   let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
 
-   if [  $CURRENT_RX_BYTES -eq $PREVIOUS_RX_BYTES ] ; then
-      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
-      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
-      echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!! >> $MY_KA_LOG_FILE
-      echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!! >> $MY_KA_LOG_FILE
-      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
-      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
+   # loop back is always good
+   if [ $INTERFACE = "lo" ]; then
 
-      let status=2
+      echo loopback interface $INTERFACE is always good! >> $MY_KA_LOG_FILE
 
-      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
-      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
+      # status is already set to 1
+      #let status=1
+
    else
-      echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state. >> $MY_KA_LOG_FILE
-      echo Info: Interface $ITFC_TO_KEEP_ALIVE is receiving traffic. >> $MY_KA_LOG_FILE
-      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
 
-      let status=1
+      let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
 
-      echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state. >> $MY_KA_LOG_FILE
-   fi
+      if [  $CURRENT_RX_BYTES -eq $PREVIOUS_RX_BYTES ] ; then
+         echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
+         echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
+         echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!! >> $MY_KA_LOG_FILE
+         echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!! >> $MY_KA_LOG_FILE
+         echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
+         echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
+ 
+         # set status to failed (not success, bad status)
+         let status=2
+   
+         echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
+         echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
+      else
+         echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state. >> $MY_KA_LOG_FILE
+         echo Info: Interface $ITFC_TO_KEEP_ALIVE is receiving traffic. >> $MY_KA_LOG_FILE
+         echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES >> $MY_KA_LOG_FILE
+   
+         # status is already set to 1
+         #let status=1
+   
+         echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state. >> $MY_KA_LOG_FILE
 
-   let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
+      fi # end if current bytes does or does not equal previous bytes
+ 
+      let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
 
+   fi # end if loopback or otherwise 
+
+   # return good(1) or bad(2) status-
    return $status
 
 }
