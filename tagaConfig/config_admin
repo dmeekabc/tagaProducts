@@ -40,7 +40,7 @@ tagaUtilsDir=$tagaScriptsUtilsDir
 TAGA_CONFIG_DIR=$tagaConfigDir
 TAGA_MGEN_DIR=$tagaScriptsMgenDir
 TAGA_UTILS_DIR=$tagaScriptsUtilsDir
-TAGA_RUN_DIR=$tagaScriptsRunDir
+#TAGA_RUN_DIR=$tagaScriptsRunDir
 IBOA_UTILS_DIR=$iboaUtilsDir
 
 
