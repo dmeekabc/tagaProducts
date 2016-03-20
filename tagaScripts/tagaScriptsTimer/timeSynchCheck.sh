@@ -427,6 +427,9 @@ do
           # T4
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
           echo
+          echo
+          echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+          echo
        else
           # hour boundary
           let MINUTES=$MINUTES+60
