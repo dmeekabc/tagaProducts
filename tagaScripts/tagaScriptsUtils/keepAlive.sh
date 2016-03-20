@@ -10,17 +10,45 @@ source $TAGA_CONFIG_DIR/config
 IP_TO_KEEP_ALIVE=$MYIP
 ITFC_TO_KEEP_ALIVE=$INTERFACE
 
+let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
+let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
+
+#echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES
+#echo PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES
+
 function checkInterface {
 
-   let status=2
-   let status=1
-
    echo checking interface $INTERFACE
-   if [ $status -eq 1 ] ; then
-      return 1
+
+   let status=1
+   let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
+
+   if [  $CURRENT_RX_BYTES -eq $PREVIOUS_RX_BYTES ] ; then
+      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!!
+      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!!
+      echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!!
+      echo Warning: $ITFC_TO_KEEP_ALIVE does not appear to be receiving traffic!!
+      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES
+      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES
+
+      let status=2
+
+      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!!
+      echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!!
    else
-      return 2
+      echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state.
+      echo Info: Interface $ITFC_TO_KEEP_ALIVE is receiving traffic.
+      echo CURRENT_RX_BYTES:$CURRENT_RX_BYTES PREVIOUS_RX_BYTES:$PREVIOUS_RX_BYTES
+
+      let status=1
+
+      echo Info: Interface $ITFC_TO_KEEP_ALIVE appears to be in a good state.
    fi
+
+   let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
+
+   return $status
+
 }
 
 ############################
@@ -34,12 +62,13 @@ echo sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
 sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
 echo RetCode: $?
 
+# do the delay here to ensure we have chance for rx byte count to change
+$iboaUtilsDir/iboaDelay.sh 60 5
+
 while true
 do
 
    echo Keep Alive
-#   echo IP_TO_KEEP_ALIVE:$IP_TO_KEEP_ALIVE
-#   echo ITFC_TO_KEEP_ALIVE:$ITFC_TO_KEEP_ALIVE
    echo IP_TO_KEEP_ALIVE: $IP_TO_KEEP_ALIVE ITFC_TO_KEEP_ALIVE: $ITFC_TO_KEEP_ALIVE
    checkInterface
    let status=$?
@@ -58,22 +87,25 @@ do
       sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
       echo RetCode: $?
       sleep 1
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface!
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface!
       sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
       echo RetCode: $?
       sleep 5
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface!
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface!
       sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
       echo RetCode: $?
       sleep 1
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface!
+      echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface!
       sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
       echo RetCode: $?
-      return 2
    fi
 
-   $iboaUtilsDir/iboaDelay.sh 10 2
+   $iboaUtilsDir/iboaDelay.sh 60 5
 
 done
-
-
 
 #IP_TO_KEEP_ALIVE=192.168.43.208
 #ITFC_TO_KEEP_ALIVE=wlp2s0
