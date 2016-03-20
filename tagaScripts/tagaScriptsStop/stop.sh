@@ -7,9 +7,20 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# order matters! stop generators (mgen) before monitors (tcpdump)
-KILL_LIST="mgen survey xxx tcpdump" 
+#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
+#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
+#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
+#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
+#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
+# this would be a simple matter to ensure the taga or some such string was included i the grep below
 
+# order matters! stop generators (mgen) before monitors (tcpdump)
+KILL_LIST=$TAGA_KILL_LIST #KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 for proc_name in $KILL_LIST
 do
 
