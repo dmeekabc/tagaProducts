@@ -19,6 +19,8 @@ source $TAGA_CONFIG_DIR/config
 # this would be a simple matter to ensure the taga or some such string was included i the grep below
 # this would be a simple matter to ensure the taga or some such string was included i the grep below
 
+echo $1
+
 # order matters! stop generators (mgen) before monitors (tcpdump)
 KILL_LIST=$TAGA_KILL_LIST #KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 for proc_name in $KILL_LIST
