@@ -19,5 +19,19 @@ do
 done
 
 # stop everything else
-$tagaScriptsStopDir/stopAll.sh 
+# note, this used to be the stopAll.sh script which is now OBE
+
+for target in $targetList
+do
+   if [ $target == $MYIP ]; then
+      echo skipping self for now...
+      continue
+   fi
+   echo processing, cleaning $target
+   ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+done
+
+# do myself last
+echo processing, cleaning $MYIP
+ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
 

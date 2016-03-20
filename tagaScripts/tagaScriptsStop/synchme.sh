@@ -34,15 +34,15 @@ do
      # make the directory on remote (target) if it does not exist
      ssh -l darrin $target mkdir -p $MYDIR
 
+#     # special command
+#     ssh -l darrin $target rm ~/.bashrc.iboa.user.1000.swp
+
      # define the source string
+     SCP_SOURCE_STR=".bashrc.iboa.user.1000"          # use this to synch everything here and below
      SCP_SOURCE_STR="."          # use this to synch everything here and below
-     SCP_SOURCE_STR="keepAlive.sh"  # use this to synch everything here and below
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
-
-     # special command
-     ssh -l darrin $target chmod 755 $MYDIR/keepAlive.sh
 
    fi
 done

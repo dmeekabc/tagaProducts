@@ -19,10 +19,12 @@ do
       let MODULUS=$2
       let MODULUS_VAL=$DELAY%$MODULUS
       if [ $MODULUS_VAL -eq 0 ]; then
-         echo $DELAY
+         printf "%d" $DELAY 
+         printf "%c" " " 
       fi
    else
-     echo $DELAY
+     printf "%d" $DELAY 
+     printf "%c" " " 
    fi
 
    let DELAY=$DELAY-1
@@ -34,4 +36,6 @@ do
 
 done
 
+echo
 date
+

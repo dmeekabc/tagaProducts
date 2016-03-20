@@ -24,21 +24,37 @@ MAX_ITERATIONS=3       # max iterations (Testing)
 MAX_ITERATIONS=2       # max iterations (Testing)
 MAX_ITERATIONS=6       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
-STEPWISE_ITERATIONS=0  # Normal
 STEPWISE_ITERATIONS=2  # Testing
 STEPWISE_ITERATIONS=1  # Testing
+STEPWISE_ITERATIONS=0  # Normal
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
+TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Dynamic Testing
 ####################################################
 VARIABLE_TEST="var_test.sh"
+
+####################################################
+# The Kill List
+####################################################
+# order matters! stop generators (mgen) before monitors (tcpdump)
+TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey xxx tcpdump" 
+TAGA_KILL_LIST_ALT="keepAlive mgen survey xxx tcpdump" 
+
+####################################################
+# The Keep Alive Function
+####################################################
+
+let TAGA_KEEP_ALIVE=0 # normal
+let TAGA_KEEP_ALIVE=1 # testing
 
 ##############################
 # Fixed List Configuration
@@ -350,13 +366,24 @@ fi
 ##############################################
 # DURATION 1 and 2
 ##############################################
-
+##############################################
+# DURATION 1 
+##############################################
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
 
+##############################################
+# DURATION 2
+##############################################
 # DURATION 2 depends on target count
 let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
-let DURATION2=$TARGET_COUNT_FACTOR*8
+
+if [ TESTTYPE == "MCAST" ] ; then
+   let DURATION2=$TARGET_COUNT_FACTOR*2
+else
+   let DURATION2=$TARGET_COUNT_FACTOR*20
+   let DURATION2=$TARGET_COUNT_FACTOR*8
+fi
 
 #echo $DURATION1
 #echo $DURATION2
