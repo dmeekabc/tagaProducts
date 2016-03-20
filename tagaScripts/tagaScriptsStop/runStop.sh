@@ -28,10 +28,10 @@ do
       continue
    fi
    echo processing, cleaning $target
-   ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh  $1 <$TAGA_CONFIG_DIR/passwd.txt
+   ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
 done
 
 # do myself last
 echo processing, cleaning $MYIP
-ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh  $1 <$TAGA_CONFIG_DIR/passwd.txt
+ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
 
