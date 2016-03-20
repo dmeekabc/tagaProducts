@@ -28,6 +28,6 @@ do
       #echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
    done
    echo
-   $iboaUtilsDir/iboaDelay.sh 10
+   $iboaUtilsDir/iboaDelay.sh 20 2
 done
 
