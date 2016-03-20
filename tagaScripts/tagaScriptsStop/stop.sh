@@ -19,10 +19,23 @@ source $TAGA_CONFIG_DIR/config
 # this would be a simple matter to ensure the taga or some such string was included i the grep below
 # this would be a simple matter to ensure the taga or some such string was included i the grep below
 
-echo $1
+#echo $1
+
+EXTRA_MATCH_STRING="taga"
 
 # order matters! stop generators (mgen) before monitors (tcpdump)
-KILL_LIST=$TAGA_KILL_LIST #KILL_LIST="keepAlive mgen survey xxx tcpdump" 
+KILL_LIST=$TAGA_KILL_LIST 
+
+# if called with a param, it is being told to use the alt list
+if [ $# -eq 1 ]; then
+  # alt case
+  KILL_LIST=$TAGA_KILL_LIST_ALT
+else
+  # Normal case
+  KILL_LIST=$TAGA_KILL_LIST 
+fi
+
+
 for proc_name in $KILL_LIST
 do
 
@@ -47,7 +60,8 @@ do
 
    # Do the real work here
    # Kill the process id(s) of the proc name
-   KILL_LIST2=`ps -ef | grep \$proc_name | grep -v grep | cut -c10-15` 
+   #KILL_LIST2=`ps -ef | grep \$proc_name | grep -v grep | cut -c10-15` 
+   KILL_LIST2=`ps -ef | grep \$proc_name | grep $EXTRA_MATCH_STRING | grep -v grep | cut -c10-15` 
    echo killing $proc_name $filler Kill_list: $KILL_LIST2
    sudo kill -9 $KILL_LIST2 <$TAGA_CONFIG_DIR/passwd.txt # < $TAGA_CONFIG_DIR/passwd.txt
 
