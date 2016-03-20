@@ -66,49 +66,33 @@ echo;echo
 # check time synch if enabled
 if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
   $tagaScriptsTimerDir/timeSynchCheck.sh
-  #$TAGA_DIR/timeSynchCheck.sh
 fi
 
 
 # probe if enabled
 if [ $PROBE_ENABLED -eq 1 ]; then
   $tagaScriptsUtilsDir/probe.sh
-  #$TAGA_DIR/probe.sh
 fi
 
 # get ping times if enabled
 if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
   $tagaScriptsUtilsDir/pingTimes.sh
-  #$TAGA_DIR/pingTimes.sh
 fi
-#sleep 1
 
 # get resource usage if enabled
 if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
   $tagaScriptsUtilsDir/wrapResourceUsage.sh
-  #$TAGA_DIR/wrapResourceUsage.sh
 fi
 sleep 1
 
 
 # stop the Simulation Always 
 if [ true ] ; then
-#if [ $STOP_SIMULATION -eq 1 ] ; then
   $tagaScriptsStopDir/stopXXX.sh
-  #$TAGA_DIR/stopXXX.sh
 fi
 
 # stop the Simulation and Data Generation in case it is still running somewhere
 $tagaScriptsStopDir/runStop.sh
-#$TAGA_DIR/runStop.sh
-
-# 10 mar 2016, eliminate the synch due to ssh hiccups
-#if [ true ] ; then
-#if [ false ] ; then
-#  $tagaScriptsUtilsDir/synch.sh
-#  #./synch.sh
-#fi
-
 
 let iter=0
 let k=0
@@ -138,9 +122,7 @@ do
    # check time synch if enabled
    if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
      $tagaScriptsTimerDir/timeSynchCheck.sh
-     #$TAGA_DIR/timeSynchCheck.sh
    fi
-   #sleep 1
 
    # probe if enabled
    if [ $PROBE_ENABLED -eq 1 ]; then
@@ -151,7 +133,6 @@ do
    if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
      $tagaScriptsUtilsDir/pingTimes.sh
    fi
-   #sleep 1
 
    # get resource usage if enabled
    if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
@@ -161,7 +142,6 @@ do
         $tagaScriptsUtilsDir/wrapResourceUsage.sh
       fi
    fi
-   #sleep 1
 
    # new 15 jan 2016
    # Update the MASTER entry in the config
@@ -198,14 +178,16 @@ do
 
    if [ $STEPWISE_ITERATIONS -eq 1 ]; then
       echo; echo INFO: Step-wise iterations configured...
-      echo `date` Iterations \($iter\) Reached - Waiting confirmation to proceed
+      echo `date` 
+      echo Iterations \($iter\) Reached - Waiting confirmation to proceed
       echo; echo Press \[Enter\] to proceed...
       read input 
    elif [ $STEPWISE_ITERATIONS -ne 0 ]; then
       let modVal=$iter%$STEPWISE_ITERATIONS
       if [ $modVal -eq 0 ]; then 
          echo; echo INFO: Double Iteration Step-wise iterations configured...
-         echo `date` Iterations \($iter\) Reached - Waiting confirmation to proceed
+         echo `date` 
+         echo Iterations \($iter\) Reached - Waiting confirmation to proceed
          echo; echo Press \[Enter\] to proceed...
          read input 
       fi
@@ -249,9 +231,6 @@ do
    # temp/test directory
    mkdir -p $OUTPUT_DIR
 
-   #echo $OUTPUT_DIR
-
-
    # archive directory
    outputDir=$OUTPUT_DIR/output_`date +%j%H%M%S` 
    mkdir -p $outputDir
@@ -262,7 +241,6 @@ do
      # Init the sims (cleanup old files/sockets)
      $tagaScriptsSimDir/simulateInit.sh
 
-
      # Init the selected sims (cleanup old files/sockets)
      # XXX RUN SCRIPT
      if [ $XXX_ON -eq 1 ]; then
@@ -270,10 +248,8 @@ do
      fi
    fi
 
-
    # MAIN RUN SCRIPT (primary sim server and traffic)
    $tagaScriptsRunDir/run.sh
-
 
    # Start of cycle tests
    #sleep $SERVER_INIT_DELAY
@@ -285,17 +261,7 @@ do
       sleep 2
    done
 
-   #for i in 1 2 3 4 5 6 # 7 8 9 10 11
-   #do
-   #   let ticker=6-$i
-   #   echo Servers Initializing.... $ticker
-   #   sleep 2
-   #done
-   #sleep 2
-
-
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
-
 
    let i=$DURATION1
    while [ $i -gt 0 ]
@@ -312,7 +278,6 @@ do
    # run the variable test
    echo Executing variable test..... $VARIABLE_TEST
    $tagaScriptsTestDir/$VARIABLE_TEST
-
 
    let i=$DURATION2
    while [ $i -gt 0 ]
@@ -332,7 +297,6 @@ do
    $tagaScriptsTestDir/endOfCycleTests2.sh
    $tagaScriptsTestDir/endOfCycleTests3.sh
 
-
    #####################################################
    # Client-Side Specialized Test Stimulations
    #####################################################
@@ -341,8 +305,6 @@ do
      $tagaScriptsTestDir/testXXX.sh
    fi
 
- 
-   #sleep 5
    sleep 1
 
    # stop the Simulation each iteration 
@@ -350,14 +312,12 @@ do
       $tagaScriptsStopDir/stopXXX.sh
    fi
 
-
    # stop the Remaining Simulation and Data Generation
    $tagaScriptsStopDir/runStop.sh
 
    # collect and clean
    $tagaScriptsUtilsDir/collect.sh $outputDir
    $tagaScriptsUtilsDir/cleanAll.sh $outputDir
-
 
    # remove old and put current data in generic output directory
    rm -rf $OUTPUT_DIR/output
@@ -372,45 +332,30 @@ do
    # special handling for iteration 1
    if [ $iter -eq 1 ]; then
       # use the delta epoch instead of current delta
-      #printableDeltaCum="$printableDeltaCum $deltaEpoch"
       printableDeltaCum="$printableDeltaCum D: "
-      #printableAverageDeltaCum="$printableAverageDeltaCum $currentAvgDelta"
       printableAverageDeltaCum="$printableAverageDeltaCum A: "
    else 
       printableDeltaCum="$printableDeltaCum $currentDelta"
       printableAverageDeltaCum="$printableAverageDeltaCum $currentAvgDelta"
    fi
 
-
    #############################################################
    # create the log dir
    #############################################################
    mkdir -p $LOG_DIR
 
-   #echo $LOG_DIR
-
    #############################################################
    # Print to the Delta Cumlative Log File
    #############################################################
 
-   # special handling for iteration 1
-   #if [ $iter -eq 1 ]; then
-   #  echo $printableAverageDeltaCum
-   #  echo $printableAverageDeltaCum > /tmp/deltaCum.out
-   #  # make the log dir
-   #  echo $printableAverageDeltaCum > $LOG_DIR/deltaCum.out
-   #  echo $printableAverageDeltaCum > $LOG_DIR/_deltaCum.out
-   #  echo $printableAverageDeltaCum > $LOG_DIR/d_deltaCum.out
-   #else
-     echo; echo Convergence:
-     echo $printableDeltaCum
-     echo $printableDeltaCum > /tmp/deltaCum.out
-     # make the log dir
-     mkdir -p $LOG_DIR
-     echo $printableDeltaCum > $LOG_DIR/deltaCum.out
-     echo $printableDeltaCum > $LOG_DIR/_deltaCum.out
-     echo $printableDeltaCum > $LOG_DIR/d_deltaCum.out
-   #fi
+   echo; echo Convergence:
+   echo $printableDeltaCum
+   echo $printableDeltaCum > /tmp/deltaCum.out
+   # make the log dir
+   mkdir -p $LOG_DIR
+   echo $printableDeltaCum > $LOG_DIR/deltaCum.out
+   echo $printableDeltaCum > $LOG_DIR/_deltaCum.out
+   echo $printableDeltaCum > $LOG_DIR/d_deltaCum.out
 
    #############################################################
    # Print to the Average Delta Cumlative Log File
@@ -438,20 +383,10 @@ do
       if [ $beforeLastAvgDelta -eq $currentAvgDelta ] ; then
           echo Converged: $currentAvgDelta has converged 
           echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged 
           echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
           echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-
           # store it
           LAST_CONVERGED=$currentAvgDelta
-
       else
          echo Not Converged marker 1 >/dev/null
       fi
@@ -461,7 +396,6 @@ do
    fi
    fi
 
-   echo LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
    echo LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
    echo LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
 
@@ -480,8 +414,6 @@ do
       sleep 2
    done
 
-   #sleep 2
-
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
    echo
@@ -494,7 +426,6 @@ do
    let CURRENT_RX_STATS=$RX_STATS
    let DELTA_TX_STATS=$CURRENT_TX_STATS-$START_TX_STATS
    let DELTA_RX_STATS=$CURRENT_RX_STATS-$START_RX_STATS
-
 
 # GitHub Note: Consider refactoring the below four big blocks into a single script file
 # .. several input params will be required
@@ -591,7 +522,6 @@ do
       kilobytePrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
    else
-   #   echo 7c
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER
    fi
 
@@ -627,7 +557,6 @@ do
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER
    fi
 
-   #sleep 5
    sleep 2
 
    # move output to the archive
@@ -638,7 +567,6 @@ do
 
    # create output specific to this iteration from the two baseline files
    diff /tmp/runLoop.sh.out.before /tmp/runLoop.sh.out.after | cut -c3- > /tmp/runLoop.sh.out.iter
-
 
    # sleep end of iteration delay time
    $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS

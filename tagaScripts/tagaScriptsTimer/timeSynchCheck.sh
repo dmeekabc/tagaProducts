@@ -309,16 +309,16 @@ do
              if [ $HOURS -eq 0 ] ; then 
                 echo HOURS is 0, this is an anomaly?
                 echo HOURS is 0, this is an anomaly?
-                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
-                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo Anomaly1? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+                echo Anomaly1? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
                 echo HOURS is less than 0, day boundaries not supported
-                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
-                echo Anommaly? : MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo Anomaly2? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+                echo Anomaly2? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              else
-                echo MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
-                echo MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+                echo MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo HOURS: $HOURS MINUTES: $MINUTES
                 if [ $HOURS -eq 1 ]; then
                    duration="(X < 1 hour) (~$MINUTES mins) ****" 
@@ -354,7 +354,7 @@ do
                 echo "$count $TIMESTR $DELTA T3:$duration" Target: $target  $description #$count $TIMESTR
                 echo ------------
                 echo
-                echo T3: MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo T3: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo
 
              fi
@@ -425,39 +425,25 @@ do
           fi
 
           # T4
-#          echo MINUTES: $MINUTES : Minute Boundary Encountered - Negative Time Delta
-#          echo ------------
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
-#          echo ------------
+          echo
+          echo
+          echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
           echo
        else
-          # hour boundaries not supported
-
-#              echo "Notice: T4: Negative Delta Mins - Hour Boundaries Not Fully Supported" 
-#             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
-
-#             echo HOURS: $HOURS
-#             echo MINUTES: $MINUTES
+          # hour boundary
           let MINUTES=$MINUTES+60
-#          echo MINUTES: ~$MINUTES ?? 
 
              # check validity
              if [ $HOURS -eq 0 ] ; then 
-
-                echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
+                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
+                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
                 echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
+                echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+                echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              else
-
-#                echo HOURS: $HOURS
-#                echo MINUTES: $MINUTES
-
                 if [ $HOURS -eq 1 ]; then
                    duration="(X < 1 hour) (~$MINUTES mins) ****" 
                    #duration="(X < 1 hour) ******* *******" 
@@ -489,107 +475,19 @@ do
                 # T5
                 DELTA="xxxxxxxxxxxx"
                 echo HOURS: $HOURS : Hour Boundary Encountered
-#                echo ------------
                 echo "$count $TIMESTR $DELTA T5:$duration" Target: $target  $description #$count $TIMESTR
-#                echo ------------
                 echo
-                echo T5: MY_TIME:$MY_TIME2 TGT_TIME:$TGT_TIME2
+                echo T5: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo
 
              fi
        fi
      fi
-
-
    else
      echo ------------
      echo "Invalid Time Delta  Delta: (Invalid)" 
      echo ------------
    fi
-
-
-
-
-#   # check validity
-#   if [ $retCode -eq 0 ] ; then
-#     # check validity
-#     if [ $DELTA -gt 0 ] ; then 
-#
-#       # set valid to true
-#       let valid=1
-#
-#       # reset try count flag so we don't give false warnings
-#       let trycount=0
-#
-#       deltalen=`echo $DELTA | awk '{print length($0)}'`
-#
-#       if [ $deltalen -eq 1 ] ; then
-#          duration="(X < 1/100000000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 2 ] ; then
-#          duration="(X < 1/10000000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 3 ] ; then
-#          duration="(X < 1/1000000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 4 ] ; then
-#          duration="(X < 1/100000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 5 ] ; then
-#          duration="(X < 1/10000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 6 ] ; then
-#          duration="(X < 1/1000 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 7 ] ; then
-#          duration="(X < 1/100 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 8 ] ; then
-#          duration="(X < 1/10 sec)"
-#          echo WARNING: This is an Anomaly!!
-#          let delay=60
-#       elif [ $deltalen -eq 9 ] ; then
-#          duration="(X < 1 sec)"
-#          MILLISECS=`echo $DELTA | cut -c1-3`
-#          FRACTIONPART=`echo $DELTA | cut -c4`
-#          duration="(X > $MILLISECS.$FRACTIONPART msecs) ******* *******" 
-#          let delay=0
-#       elif [ $deltalen -eq 10 ] ; then
-#          duration="(1 sec < X < 10 secs) ********"
-#          SECS=`echo $DELTA | cut -c1`
-#          FRACTIONPART=`echo $DELTA | cut -c2`
-#          duration="(X > $SECS.$FRACTIONPART secs) ******* *******" 
-#          let delay=1
-#       else
-#          duration="(X > 10 secs) ******* *******" 
-#          SECS=`echo $DELTA | cut -c1-2`
-#          FRACTIONPART=`echo $DELTA | cut -c3`
-#          duration="(X > $SECS.$FRACTIONPART secs) ******* *******" 
-#          let delay=5
-#       fi
-#       echo -----------
-#       echo "$DELTA   Delta: $duration"    Target: $target
-#       echo -----------
-#     else
-#       echo -----------
-#       echo "Invalid (Negative) Delta  Delta: (Invalid) (Minute boundaries not supported)" 
-#       echo -----------
-#     fi
-#   else
-#     echo -----------
-#     echo "Invalid Delta  Delta: (Invalid) (Minute boundaries not supported)" 
-#     echo -----------
-#   fi
-
-
-
 
    # delay if warning condition
    sleep $delay
