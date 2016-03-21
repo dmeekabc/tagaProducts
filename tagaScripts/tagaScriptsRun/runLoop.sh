@@ -10,7 +10,7 @@ source $TAGA_CONFIG_DIR/config
 # this provides our inter-process comms, 
 # it is not bullet proof, but better than nothing...
 #clear the reboot in progress flag
-rm /tmp/rebootInProgress.dat
+#rm /tmp/rebootInProgress.dat
 rm $NET_RESET_IN_PROG_FLAG_FILE
 
 # basic sanity check, to ensure password updated etc
@@ -146,7 +146,7 @@ do
    # this provides our inter-process comms, 
    # it is not bullet proof, but better than nothing...
    #clear the reboot in progress flag
-   rm /tmp/rebootInProgress.dat
+   #rm /tmp/rebootInProgress.dat
    rm $NET_RESET_IN_PROG_FLAG_FILE
 
    # check/repair the interface
@@ -664,7 +664,7 @@ do
 
          # this provides our inter-process comms, 
          # it is not bullet proof, but better than nothing...
-         echo 1 > /tmp/rebootInProgress.dat
+         #echo 1 > /tmp/rebootInProgress.dat
          echo 1 > $NET_RESET_IN_PROG_FLAG_FILE
 
          $TAGA_UTILS_DIR/recoverNet.sh "doNotResetInterface" &
@@ -675,7 +675,7 @@ do
          # this provides our inter-process comms, 
          # it is not bullet proof, but better than nothing...
          #clear the reboot in progress flag
-         rm /tmp/rebootInProgress.dat
+         #rm /tmp/rebootInProgress.dat
          rm $NET_RESET_IN_PROG_FLAG_FILE
 
          # set the flag so we don't reboot next iteration
