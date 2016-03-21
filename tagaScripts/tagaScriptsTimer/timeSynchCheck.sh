@@ -218,7 +218,8 @@ do
              if [ $SECS -gt 20 ]; then
                 echo The $target is a candidate for Reboot!!! 
                 echo The $target is a candidate for Reboot!!! 
-                $TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
+                $TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
+               # $TAGA_UTILS_DIR/rebootOne.sh $target < $TAGA_UTILS_DIR/confirm.txt &
                 echo;echo $0 Suspending to let $target recover;echo
                 $IBOA_UTILS_DIR/iboaDelay.sh 60 5
              fi 
@@ -442,7 +443,9 @@ do
           if [ $SECS -gt 20 ]; then
              echo The $target is a candidate for Reboot!!! 
              echo The $target is a candidate for Reboot!!! 
-             $TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
+             $TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
+             #$TAGA_UTILS_DIR/rebootOne.sh $target < $TAGA_UTILS_DIR/confirm.txt &
+             #$TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
              echo;echo $0 Suspending to let $target recover;echo
              $IBOA_UTILS_DIR/iboaDelay.sh 60 5
           fi 
@@ -456,12 +459,9 @@ do
 
              # check validity
              if [ $HOURS -eq 0 ] ; then 
-                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
-                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
+                echo Anomaly:Back In Time! MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              else
                 if [ $HOURS -eq 1 ]; then
