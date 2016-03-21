@@ -11,6 +11,11 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 ####################################################
+# MAX DURATION BEFORE REBOOT
+####################################################
+MAX_ITER_DUR_BEFORE_REBOOT=240
+
+####################################################
 # Enable or Disable all testing per iteration loop
 # and other Main Test Iteration Configs
 ####################################################
@@ -452,4 +457,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=10.0.0.27
+MASTER=192.168.43.124
