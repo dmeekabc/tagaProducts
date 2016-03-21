@@ -1,3 +1,7 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
 
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
@@ -5,26 +9,38 @@ source $TAGA_CONFIG_DIR/config
 
 MYDIR=`pwd`
 
+echo $MYDIR
+
+# provide the info to print into the confirmation request
+InfoToPrint=" $MYDIR will be synchronized. "
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
+
 echo 
 echo $targetList
 
 for target in $targetList
 do
-
-   if [ $MYIP == $target ]; then
-      echo skipping self...
+   if [ $target == $MYIP ]; then
+     echo
+     echo skipping self \($target\) ...
+     echo
+     continue
    else
-      echo processing, synchronizing $target
-      sleep 1
-#      ssh -l $MYLOGIN_ID $target date
-#      ssh -l $MYLOGIN_ID $target hostname
-      # build the source file string
-      SCP_SOURCE_STR="."
-      # send the files to the destination
-      ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
-      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR \
-              <$TAGA_CONFIG_DIR/passwd.txt
-   fi
+     echo
+     echo processing, synchronizing $target
 
+     # make the directory on remote (target) if it does not exist
+     ssh -l darrin $target mkdir -p $MYDIR
+
+     # define the source string
+     SCP_SOURCE_STR="a.sh" # use this to synch this file only
+     SCP_SOURCE_STR="."    # use this to synch everything here and below
+
+     # send the files to the destination
+     scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR 
+
+   fi
 done
 
