@@ -271,3 +271,5 @@ alias ifup3='IP=192.168.43.157; ITFC=wlo1; echo IP:$IP; echo ITFC:$ITFC; getAndP
 alias getAndProvideConfirm='giu; ./confirm.sh < confirm.txt'
 alias disableTCPWindowScaling='sudo sysctl -w "net.ipv4.tcp_window_scaling=0"'
 alias dtws='disableTCPWindowScaling'
+alias idelay20='giu;./iboaDelay.sh 20 2'
+alias stayAlive='while true; do echo; date; gtc; . config; sudo ifconfig $INTERFACE up; gtu; ./checkInterface.sh ; idelay20; done'
