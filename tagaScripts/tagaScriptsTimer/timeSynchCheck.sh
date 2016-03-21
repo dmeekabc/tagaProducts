@@ -213,10 +213,14 @@ do
              duration="(X > $SECS.$FRACTIONPART secs) ******* *******" 
              let delay=0
 
+             # new 21 mar 2016
+             # Reboot Bad Nodes
              if [ $SECS -gt 20 ]; then
                 echo The $target is a candidate for Reboot!!! 
                 echo The $target is a candidate for Reboot!!! 
                 $TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
+                echo;echo $0 Suspending to let $target recover;echo
+                $IBOA_UTILS_DIR/iboaDelay.sh 60 5
              fi 
 
           fi
@@ -432,6 +436,17 @@ do
           # T4
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
           echo
+
+          # new 21 mar 2016
+          # Reboot Bad Nodes
+          if [ $SECS -gt 20 ]; then
+             echo The $target is a candidate for Reboot!!! 
+             echo The $target is a candidate for Reboot!!! 
+             $TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
+             echo;echo $0 Suspending to let $target recover;echo
+             $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+          fi 
+
           #echo
           #echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
           #echo

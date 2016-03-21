@@ -21,12 +21,12 @@ fi
 let retCodeSum=0
 
 
-echo PINGING TARGETS: $targetList
+echo PINGING TARGETS: $targetList >/dev/null
 
 for target in $targetList
 do
    echo
-   ping -c 1 $target
+   ping -c 1 $target >/dev/null
    let retCode=$?
    echo retCode: $retCode
    if [ $retCode -eq 2 ] ; then
