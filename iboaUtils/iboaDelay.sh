@@ -9,6 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 let DELAY=$1
 
+echo
 date
 
 while [ $DELAY -ge 0 ]; 
