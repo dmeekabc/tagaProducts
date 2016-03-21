@@ -21,6 +21,9 @@ else
   exit
 fi
 
+#dlm temp
+#exit
+
 for target in $targetList
 do
    echo
@@ -30,7 +33,7 @@ do
       continue
    fi
    echo rebooting $target .....
-   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt &
+   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt #&
 done
 echo
 
