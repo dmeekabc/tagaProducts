@@ -167,8 +167,8 @@ STOP_SIMULATION=1 # Stop Primary and Specialized Simulation Servers (Normal)
 ##############################################
 # Traffic SWITCHes
 ##############################################
-SIMULATION_ONLY=0 # simulation only flag (0 enables traffic) (Normal)
 SIMULATION_ONLY=1 # simulation only flag (1 disables traffic) (Testing)
+SIMULATION_ONLY=0 # simulation only flag (0 enables traffic) (Normal)
 
 # Max output (enable this output if using the simulations below)
 MAX_OUTPUT_ENABLED=1 # (Testing)
@@ -391,8 +391,8 @@ let DURATION1=$MSGCOUNT/$MSGRATE
 let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 
 if [ $TESTTYPE == "MCAST" ] ; then
-   let DURATION2=$TARGET_COUNT_FACTOR*2
    let DURATION2=$TARGET_COUNT_FACTOR*1
+   let DURATION2=$TARGET_COUNT_FACTOR*2
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
@@ -452,4 +452,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=10.0.0.27
