@@ -24,6 +24,8 @@ MAX_ITERATIONS=3       # max iterations (Testing)
 MAX_ITERATIONS=2       # max iterations (Testing)
 MAX_ITERATIONS=6       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
+MAX_ITERATIONS=60       # max iterations (Testing)
+MAX_ITERATIONS=100       # max iterations (Testing)
 STEPWISE_ITERATIONS=2  # Testing
 STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
@@ -55,6 +57,10 @@ TAGA_KILL_LIST_ALT="keepAlive mgen survey xxx tcpdump"
 
 let TAGA_KEEP_ALIVE=1 # testing, see test notes in keepAlive.sh
 let TAGA_KEEP_ALIVE=0 # normal
+
+# lock step is slow but sure, at least that is the plan
+let TAGA_LOCK_STEP=0 # normal
+let TAGA_LOCK_STEP=1 # testing
 
 ##############################
 # Fixed List Configuration
@@ -161,8 +167,8 @@ STOP_SIMULATION=1 # Stop Primary and Specialized Simulation Servers (Normal)
 ##############################################
 # Traffic SWITCHes
 ##############################################
-SIMULATION_ONLY=1 # simulation only flag (1 disables traffic) (Testing)
 SIMULATION_ONLY=0 # simulation only flag (0 enables traffic) (Normal)
+SIMULATION_ONLY=1 # simulation only flag (1 disables traffic) (Testing)
 
 # Max output (enable this output if using the simulations below)
 MAX_OUTPUT_ENABLED=1 # (Testing)
@@ -384,8 +390,9 @@ let DURATION1=$MSGCOUNT/$MSGRATE
 # DURATION 2 depends on target count
 let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 
-if [ TESTTYPE == "MCAST" ] ; then
+if [ $TESTTYPE == "MCAST" ] ; then
    let DURATION2=$TARGET_COUNT_FACTOR*2
+   let DURATION2=$TARGET_COUNT_FACTOR*1
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
@@ -445,4 +452,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=localhost
+MASTER=192.168.43.124
