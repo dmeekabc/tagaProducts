@@ -25,6 +25,15 @@ source $TAGA_CONFIG_DIR/config
 #fi
 #
 
+
+# parameter implies DO NOT reset the interface which is default
+# default is to reset the interface
+# override parameter indicates DO NOT reset the interface
+
+if [ $# -eq 1 ] ; then
+   echo skipping interface reset >/dev/null
+else
+
 # reset our interface
 echo Interface is in suspect state - resetting! 
 echo Interface is in suspect state - setting interface down!
@@ -34,6 +43,12 @@ sleep 5
 echo Interface is in suspect state - setting interface up!
 sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
 echo Retcode:$?
+
+fi
+
+##########################################
+##########################################
+##########################################
 
 echo $0 Recovering Network \(Rebooting Others\)
 echo $0 Recovering Network \(Rebooting Others\)
