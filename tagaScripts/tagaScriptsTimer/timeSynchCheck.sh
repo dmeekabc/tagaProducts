@@ -459,7 +459,13 @@ do
 
              # check validity
              if [ $HOURS -eq 0 ] ; then 
-                echo Anomaly:$target:Back In Time! MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
+                echo Anomaly:$target:Back In Time! 
+                echo "MY_TIME: $MY_TIME "
+                echo "TGT_TIME:$TGT_TIME" 
+                echo Anomaly:$target:Back In Time! 
+                echo "MY_TIME: $MY_TIME "
+                echo "TGT_TIME:$TGT_TIME" 
+                #echo Anomaly:$target:Back In Time! MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
                 echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
