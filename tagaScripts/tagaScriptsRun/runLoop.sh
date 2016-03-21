@@ -115,6 +115,9 @@ LAST_CONVERGED="Not Yet Converged"
 printableDeltaCum=""
 printableAverageDeltaCum=""
 
+# flag to indicate if we have reset the net
+let resetflag=0
+
 while true
 do
 
@@ -335,6 +338,26 @@ do
    let currentDelta=$currentEpoch-$lastEpoch
    let lastEpoch=$currentEpoch
    let deltaEpoch=$currentEpoch-$startEpoch
+
+
+#   #############################################
+#   # Recover Net if Necessary
+#   #############################################
+#   #if [ $currentDelta -ge 200 ]; then
+#   if [ $currentDelta -ge 150 ]; then
+#      echo Network is in a bad state... 
+#      echo Attempting to Recover Network....
+#
+#      $TAGA_UTILS_DIR/recoverNet.sh &
+#
+#      echo Suspending while the network recovers...  
+#      $IBOA_UTILS_DIR/iboaDelay.sh 150 5
+#      echo Continuing....
+#   fi
+#   #############################################
+#   # End Recover Net if Necessary
+#   #############################################
+   
 
    # special handling for iteration 1
    if [ $iter -eq 1 ]; then
@@ -577,6 +600,30 @@ do
 
    # sleep end of iteration delay time
    $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
+
+   #############################################
+   # Recover Net if Necessary
+   #############################################
+   #if [ $currentDelta -ge 200 ]; then
+   if [ $currentDelta -ge 130 ]; then
+      # if we recovered net already, don't do it twice in a row
+      if [ $resetflag -eq 1 ]; then
+         let resetflag=0
+      else
+         echo Network is in a bad state... 
+         echo Attempting to Recover Network....
+
+         $TAGA_UTILS_DIR/recoverNet.sh &
+
+         echo Suspending while the network recovers...  
+         $IBOA_UTILS_DIR/iboaDelay.sh 150 5
+         echo Continuing....
+         let resetflag=1
+      fi
+   fi
+   #############################################
+   # End Recover Net if Necessary
+   #############################################
 
 done
 

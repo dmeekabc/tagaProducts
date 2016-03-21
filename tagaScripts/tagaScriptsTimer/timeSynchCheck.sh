@@ -110,8 +110,6 @@ do
    let DELTA=$TGT_TIME4-$MY_TIME4
    let retCode=$?
 
-
-
    # check validity
    if [ $retCode -eq 0 ] ; then
      # check validity
@@ -214,6 +212,13 @@ do
              FRACTIONPART=`echo $DELTA | cut -c3`
              duration="(X > $SECS.$FRACTIONPART secs) ******* *******" 
              let delay=0
+
+             if [ $SECS -gt 20 ]; then
+                echo The $target is a candidate for Reboot!!! 
+                echo The $target is a candidate for Reboot!!! 
+                $TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
+             fi 
+
           fi
 
           # T1
@@ -427,9 +432,9 @@ do
           # T4
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
           echo
-          echo
-          echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
-          echo
+          #echo
+          #echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+          #echo
        else
           # hour boundary
           let MINUTES=$MINUTES+60

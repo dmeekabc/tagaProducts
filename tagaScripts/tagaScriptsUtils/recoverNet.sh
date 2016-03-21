@@ -42,6 +42,9 @@ echo $0 Recovering Network \(Rebooting Others\)
 # let interface recover from ifconfig command above
 sleep 5
 
+
+for i in 1 2 3 4 5 #6 7 9 9 10 
+do
 # reboot
 for target in $OTHER_LIST
 do
@@ -52,9 +55,15 @@ do
       continue
    fi
    echo rebooting $target .....
-   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt
+   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt &
+
 done
+sleep 2
 echo
+done
+
+
+
 
 echo
 echo Suspending while other nodes recover...
