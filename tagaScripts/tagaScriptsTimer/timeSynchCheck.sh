@@ -298,15 +298,15 @@ do
              echo
           else
              # hour boundaries not supported
-             echo MINUTES: $MINUTES
+             #echo MINUTES: $MINUTES
              let MINUTES=$MINUTES+60
-             echo MINUTES: ~$MINUTES ?? 
+             #echo MINUTES: ~$MINUTES ?? 
 
-             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
-             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
+             #echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
+             #echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
 
-             echo HOURS: $HOURS
-             echo MINUTES: $MINUTES
+             #echo HOURS: $HOURS
+             #echo MINUTES: $MINUTES
 
              # dlm temp find me
 

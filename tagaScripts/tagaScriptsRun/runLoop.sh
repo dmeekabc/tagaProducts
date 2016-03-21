@@ -605,7 +605,10 @@ do
    # Recover Net if Necessary
    #############################################
    #if [ $currentDelta -ge 200 ]; then
-   if [ $currentDelta -ge 130 ]; then
+   if [ $currentDelta -ge $MAX_ITER_DUR_BEFORE_REBOOT ]; then
+
+      # don't do it on first iter
+      if [ $iter -ge 2 ] ; then
       # if we recovered net already, don't do it twice in a row
       if [ $resetflag -eq 1 ]; then
          let resetflag=0
@@ -619,6 +622,7 @@ do
          $IBOA_UTILS_DIR/iboaDelay.sh 150 5
          echo Continuing....
          let resetflag=1
+      fi
       fi
    fi
    #############################################
