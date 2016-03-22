@@ -7,6 +7,13 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# this provides our inter-process comms, 
+# it is not bullet proof, but better than nothing...
+#clear the reboot in progress flag
+#rm /tmp/rebootInProgress.dat
+rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
+rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
+
 # basic sanity check, to ensure password updated etc
 $tagaScriptsUtilsDir/basicSanityCheck.sh
 if [ $? -eq 255 ]; then
@@ -15,6 +22,15 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
+# dlm temp
+# Force checks to get the password entry out of the way...
+# dlm temp remove this if not necessary!!!
+# dlm temp remove this if not necessary!!!
+# dlm temp remove this if not necessary!!!
+$TAGA_UTILS_DIR/checkInterface.sh "forceChecks"
+
+#exit
+
 START_STATS=`$tagaScriptsStatsDir/adminstats.sh` 
 let TX_STATS=`$tagaScriptsStatsDir/adminstats.sh TXonly`
 let RX_STATS=`$tagaScriptsStatsDir/adminstats.sh RXonly`
@@ -22,6 +38,13 @@ let START_TX_STATS=$TX_STATS
 let START_RX_STATS=$RX_STATS
 #echo TX_STATS:$TX_STATS
 #echo RX_STATS:$RX_STATS
+
+
+# Do this to get the password entry out of the way
+# dlm temp remove this if not necessary!!!
+# dlm temp remove this if not necessary!!!
+# dlm temp remove this if not necessary!!!
+#$TAGA_UTILS_DIR/resetInterface.sh
 
 
 #########################################
@@ -115,8 +138,20 @@ LAST_CONVERGED="Not Yet Converged"
 printableDeltaCum=""
 printableAverageDeltaCum=""
 
+# flag to indicate if we have reset the net
+let resetflag=0
+
 while true
 do
+
+   # this provides our inter-process comms, 
+   # it is not bullet proof, but better than nothing...
+   #clear the reboot in progress flag
+   #rm /tmp/rebootInProgress.dat
+   rm $NET_RESET_IN_PROG_FLAG_FILE
+
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
 
    let k=$k+1
 
@@ -249,6 +284,9 @@ do
      fi
    fi
 
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
+
    # if first iteration, use special flag to also start keepAlive processes
    if [ $iter -eq 1 ] ; then
      # MAIN RUN SCRIPT (primary sim server and traffic)
@@ -270,6 +308,9 @@ do
 
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
 
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
+
    let i=$DURATION1
    while [ $i -gt 0 ]
    do
@@ -281,6 +322,9 @@ do
 
    # Mid cycle tests
    $tagaScriptsTestDir/midCycleTests.sh & # run in background/parallel
+
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
 
    # run the variable test
    echo Executing variable test..... $VARIABLE_TEST
@@ -308,6 +352,9 @@ do
    # Client-Side Specialized Test Stimulations
    #####################################################
 
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
+
    if [ $XXX_ON -eq 1 ]; then
      $tagaScriptsTestDir/testXXX.sh
    fi
@@ -326,6 +373,9 @@ do
    $tagaScriptsUtilsDir/collect.sh $outputDir
    $tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
+
    # remove old and put current data in generic output directory
    rm -rf $OUTPUT_DIR/output
    cp -r $outputDir $OUTPUT_DIR/output
@@ -335,6 +385,26 @@ do
    let currentDelta=$currentEpoch-$lastEpoch
    let lastEpoch=$currentEpoch
    let deltaEpoch=$currentEpoch-$startEpoch
+
+
+#   #############################################
+#   # Recover Net if Necessary
+#   #############################################
+#   #if [ $currentDelta -ge 200 ]; then
+#   if [ $currentDelta -ge 150 ]; then
+#      echo Network is in a bad state... 
+#      echo Attempting to Recover Network....
+#
+#      $TAGA_UTILS_DIR/recoverNet.sh &
+#
+#      echo Suspending while the network recovers...  
+#      $IBOA_UTILS_DIR/iboaDelay.sh 150 5
+#      echo Continuing....
+#   fi
+#   #############################################
+#   # End Recover Net if Necessary
+#   #############################################
+   
 
    # special handling for iteration 1
    if [ $iter -eq 1 ]; then
@@ -350,6 +420,7 @@ do
    # create the log dir
    #############################################################
    mkdir -p $LOG_DIR
+   mkdir -p $DATA_DIR
 
    #############################################################
    # Print to the Delta Cumlative Log File
@@ -577,6 +648,55 @@ do
 
    # sleep end of iteration delay time
    $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
+
+   #############################################
+   # Recover Net if Necessary
+   #############################################
+   if [ $currentDelta -ge $MAX_ITER_DUR_BEFORE_REBOOT ]; then
+      # don't do it on first iter
+      if [ $iter -ge 2 ] ; then
+      # if we recovered net already, don't do it twice in a row
+      if [ $resetflag -eq 1 ]; then
+         # reset the flag
+         let resetflag=0
+      else
+
+         echo Network is in a bad state... 
+         echo Attempting to Recover Network....
+
+         # this provides our inter-process comms, 
+         # it is not bullet proof, but better than nothing...
+         #echo 1 > /tmp/rebootInProgress.dat
+         echo 1 > $NET_RESET_IN_PROG_FLAG_FILE
+
+         $TAGA_UTILS_DIR/recoverNet.sh "doNotResetInterface" &
+
+         echo Suspending while the network recovers...  
+         $IBOA_UTILS_DIR/iboaDelay.sh 150 5
+
+         # this provides our inter-process comms, 
+         # it is not bullet proof, but better than nothing...
+         #clear the reboot in progress flag
+         #rm /tmp/rebootInProgress.dat
+         rm $NET_RESET_IN_PROG_FLAG_FILE
+
+         # set the flag so we don't reboot next iteration
+         let resetflag=1
+
+         echo Continuing....
+
+      fi
+      fi
+   else
+      # reset the flag
+      let resetflag=0
+   fi
+   #############################################
+   # End Recover Net if Necessary
+   #############################################
+
+   # check/repair the interface
+   $TAGA_UTILS_DIR/checkInterface.sh
 
 done
 

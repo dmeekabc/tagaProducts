@@ -21,6 +21,17 @@ do
 
 for target in $targetList
 do
+
+   # do not use ssh or scp if target == MYIP and local mode flag set
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
+     if [ $target == $MYIP ]; then
+         echo TAGA: Notice: Skipping $MYIP Time Synch Check since Local Mode Flag is set
+         exit
+     fi
+   fi
+
+   # otherwise continue normally...
+
    # reinit
    let delay=0
    let valid=0
@@ -109,8 +120,6 @@ do
    # get the delta
    let DELTA=$TGT_TIME4-$MY_TIME4
    let retCode=$?
-
-
 
    # check validity
    if [ $retCode -eq 0 ] ; then
@@ -214,6 +223,26 @@ do
              FRACTIONPART=`echo $DELTA | cut -c3`
              duration="(X > $SECS.$FRACTIONPART secs) ******* *******" 
              let delay=0
+
+             # new 21 mar 2016
+             # Reboot Bad Nodes
+             if [ $SECS -gt 20 ]; then
+                echo The $target is a candidate for Reboot!!! 
+                echo The $target is a candidate for Reboot!!! 
+                if [ $target == $MYIP ]; then
+                   # we may be having trouble with SSH locally
+                   # swich to local mode for file transfer and such
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo 1 > $TAGA_LOCAL_MODE_FLAG_FILE
+                else
+                   $TAGA_UTILS_DIR/rebootOneB.sh $target & 
+                                           # < $TAGA_CONFIG_DIR/confirm.txt
+                   echo;echo $0 Suspending to let $target recover;echo
+                   $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+
+                fi
+             fi 
           fi
 
           # T1
@@ -293,15 +322,15 @@ do
              echo
           else
              # hour boundaries not supported
-             echo MINUTES: $MINUTES
+             #echo MINUTES: $MINUTES
              let MINUTES=$MINUTES+60
-             echo MINUTES: ~$MINUTES ?? 
+             #echo MINUTES: ~$MINUTES ?? 
 
-             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
-             echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
+             #echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
+             #echo "Negative Delta Minutes- Hour Boundaries Not Supported  " 
 
-             echo HOURS: $HOURS
-             echo MINUTES: $MINUTES
+             #echo HOURS: $HOURS
+             #echo MINUTES: $MINUTES
 
              # dlm temp find me
 
@@ -427,21 +456,48 @@ do
           # T4
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
           echo
-          echo
-          echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
-          echo
+
+          # new 21 mar 2016
+          # Reboot Bad Nodes
+          if [ $SECS -gt 20 ]; then
+             echo The $target is a candidate for Reboot!!! 
+             echo The $target is a candidate for Reboot!!! 
+                if [ $target == $MYIP ]; then
+                   # we may be having trouble with SSH locally
+                   # swich to local mode for file transfer and such
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo 1 > $TAGA_LOCAL_MODE_FLAG_FILE
+                else
+                   $TAGA_UTILS_DIR/rebootOneB.sh $target & 
+                                           # < $TAGA_CONFIG_DIR/confirm.txt
+                   echo;echo $0 Suspending to let $target recover;echo
+                   $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+
+                fi
+             #$TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
+             #echo;echo $0 Suspending to let $target recover;echo
+             #$IBOA_UTILS_DIR/iboaDelay.sh 60 5
+          fi 
+
+          #echo
+          #echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
+          #echo
        else
           # hour boundary
           let MINUTES=$MINUTES+60
 
              # check validity
              if [ $HOURS -eq 0 ] ; then 
-                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
-                echo Anomaly:Backwards In Time!! : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
+                echo Anomaly:$target:Back In Time! 
+                echo "MY_TIME: $MY_TIME "
+                echo "TGT_TIME:$TGT_TIME" 
+                echo Anomaly:$target:Back In Time! 
+                echo "MY_TIME: $MY_TIME "
+                echo "TGT_TIME:$TGT_TIME" 
+                #echo Anomaly:$target:Back In Time! MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME 
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo  MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              else
                 if [ $HOURS -eq 1 ]; then

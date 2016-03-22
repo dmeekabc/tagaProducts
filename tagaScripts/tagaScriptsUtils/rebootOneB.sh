@@ -7,17 +7,15 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# if user provides a param to specify a target, use it
 if [ $# -eq 1 ] ; then
 
 rebootTarget=$1
 
 # issue confirmation prompt
-$tagaUtilsDir/confirm.sh $0 \
-   "WARNING: This command will reboot the following: $rebootTarget"
+#$tagaUtilsDir/confirm.sh $0 \
+$tagaUtilsDir/confirmbasic.sh $0 < $tagaUtilsDir/confirm.txt 
 # check the response
 response=$?; if [ $response -ne 1 ]; then exit; fi
-
 
 # reboot
 for target in $rebootTarget
@@ -34,17 +32,14 @@ do
 done
 echo
 
-# otherwise, use the target per the configuration
 else
 
 # issue confirmation prompt
-$tagaUtilsDir/confirm.sh $0 \
-   "WARNING: This command will reboot the following: $FIXED_ONE_LIST"
+$tagaUtilsDir/confirmbasic.sh $0 < $tagaUtilsDir/confirm.txt 
+#$tagaUtilsDir/confirm.sh $0 \
+#   "WARNING: This command will reboot the following: $FIXED_ONE_LIST"
 # check the response
 response=$?; if [ $response -ne 1 ]; then exit; fi
-
-#dlm temp
-exit
 
 # reboot
 for target in $FIXED_ONE_LIST

@@ -35,14 +35,10 @@ do
      ssh -l darrin $target mkdir -p $MYDIR
 
      # define the source string
-     SCP_SOURCE_STR="keepAlive.sh"  # use this to synch everything here and below
      SCP_SOURCE_STR="."          # use this to synch everything here and below
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
-
-     # special command
-     #ssh -l darrin $target chmod 755 $MYDIR/keepAlive.sh
 
    fi
 done

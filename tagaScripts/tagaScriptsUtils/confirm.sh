@@ -22,6 +22,13 @@ echo
 
 read input
 
+#echo hi
+#echo $input                          
+#echo $input                          
+#echo $input                          
+#echo $input                          
+#echo hi
+
 if [ $input == "y" ]; then
   return 1 # confirmed
 else

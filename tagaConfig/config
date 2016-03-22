@@ -11,6 +11,23 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 ####################################################
+# MAX DURATION BEFORE REBOOT
+####################################################
+MAX_ITER_DUR_BEFORE_REBOOT=180
+MAX_ITER_DUR_BEFORE_REBOOT=200
+MAX_ITER_DUR_BEFORE_REBOOT=240
+
+####################################################
+# Network Reset In Proress Flag File
+####################################################
+NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
+
+####################################################
+# Local Mode Flag File
+####################################################
+TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
+
+####################################################
 # Enable or Disable all testing per iteration loop
 # and other Main Test Iteration Configs
 ####################################################
@@ -24,6 +41,9 @@ MAX_ITERATIONS=3       # max iterations (Testing)
 MAX_ITERATIONS=2       # max iterations (Testing)
 MAX_ITERATIONS=6       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
+MAX_ITERATIONS=60       # max iterations (Testing)
+MAX_ITERATIONS=100       # max iterations (Testing)
+MAX_ITERATIONS=200       # max iterations (Testing)
 STEPWISE_ITERATIONS=2  # Testing
 STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
@@ -46,15 +66,19 @@ VARIABLE_TEST="var_test.sh"
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey xxx tcpdump" 
-TAGA_KILL_LIST="mgen survey xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
 
 ####################################################
 # The Keep Alive Function
 ####################################################
 
+let TAGA_KEEP_ALIVE=1 # testing, see test notes in keepAlive.sh
 let TAGA_KEEP_ALIVE=0 # normal
-let TAGA_KEEP_ALIVE=1 # testing
+
+# lock step is slow but sure, at least that is the plan
+let TAGA_LOCK_STEP=0 # normal
+let TAGA_LOCK_STEP=1 # testing
 
 ##############################
 # Fixed List Configuration
@@ -313,10 +337,6 @@ CONTINUOUS_SYNCH=0  # synch config only
 ##############################################
 # manually and/or automatatically generated configs
 ##############################################
-INTERFACE=wlan0
-INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
-INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
-#echo $INTERFACE
 
 ##############################################
 # automatatically generated configs
@@ -327,7 +347,8 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 
 #OUTPUT_DIR=$TAGA_DIR/output
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
-LOG_DIR=/tmp/iboa/log # new mar 2016
+LOG_DIR=/tmp/taga/log # new mar 2016
+DATA_DIR=/tmp/taga/data # new mar 2016
 
 # dlm temp
 #hostList=`$TAGA_CONFIG_DIR/hostList.sh`
@@ -344,6 +365,16 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      else MYIP=localhost; fi; done
 #echo CANDIDATES: $MYIPCANDIDATES
 #echo MYIP: $MYIP
+
+if [ $MYIP == "localhost" ] ; then
+   INTERFACE=lo
+else
+   #INTERFACE=wlan0
+   #INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
+   INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+fi
+
+#echo $INTERFACE
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -378,7 +409,8 @@ let DURATION1=$MSGCOUNT/$MSGRATE
 # DURATION 2 depends on target count
 let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 
-if [ TESTTYPE == "MCAST" ] ; then
+if [ $TESTTYPE == "MCAST" ] ; then
+   let DURATION2=$TARGET_COUNT_FACTOR*1
    let DURATION2=$TARGET_COUNT_FACTOR*2
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
