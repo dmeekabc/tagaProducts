@@ -16,6 +16,7 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 MAX_ITER_DUR_BEFORE_REBOOT=180
 MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
+MAX_ITER_DUR_BEFORE_REBOOT=300
 
 ####################################################
 # Network Reset In Proress Flag File
