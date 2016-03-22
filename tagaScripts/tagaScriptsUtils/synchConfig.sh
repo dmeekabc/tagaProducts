@@ -12,7 +12,14 @@ cd $TAGA_CONFIG_DIR
 
 for target in $targetList
 do
-   echo processing, synchronizing config $target
+   echo > /tmp/$target.synchIP.dat
+
+   #echo processing, synchronizing config $target
+   echo $target : synching config
+   # start countoff in background
+   $TAGA_UTILS_DIR/countWhile.sh /tmp/$target.synchIP.dat &
+
+   #echo processing, synchronizing config $target
 
    # build the source file string
    SCP_SOURCE_STR="$SCP_SOURCE_STR config"
@@ -33,6 +40,8 @@ do
       # send the files to the destination
       scp $SCP_SOURCE_STR $MYLOGIN_ID@$target:$TAGA_CONFIG_DIR <$TAGA_CONFIG_DIR/passwd.txt
    fi
+
+   rm /tmp/$target.synchIP.dat
 
 done
 

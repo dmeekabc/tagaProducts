@@ -10,7 +10,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 #echo $0 executing at `date`
-echo `basename $0` $MYIP executing at `date`
+echo $MYIP : `basename $0` :  executing at `date`
 
 ################################################3
 # MAIN 
