@@ -9,7 +9,18 @@ source $TAGA_CONFIG_DIR/config
 
 for target in $targetList
 do
-   echo processing, cleaning $target
-   ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
+      # do not use ssh if target == MYIP and local mode flag set
+      if [ $target == $MYIP ]; then
+        echo processing, cleaning $target
+        $tagaScriptsUtilsDir/clean.sh
+      else
+        echo processing, cleaning $target
+        ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
+      fi
+   else
+        echo processing, cleaning $target
+        ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
+   fi
 done
 

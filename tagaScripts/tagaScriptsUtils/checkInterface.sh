@@ -10,8 +10,8 @@ source $TAGA_CONFIG_DIR/config
 # this is our poor-mans interprocess communications mechanism
 # it is not elegant but does work
 if cat $NET_RESET_IN_PROG_FLAG_FILE 2>/dev/null | grep 1 ; then
-   echo Notice: Reboot is in progress, 
-   echo Notice: Reboot is in progress, 
+   echo Notice: Network Reset is in progress, 
+   echo Notice: Network Reset is in progress, 
    echo Notice: This $0 is not permitted to run in this state, exiting with no action!
    echo Notice: This $0 is not permitted to run in this state, exiting with no action!
    exit
@@ -72,6 +72,8 @@ else
          break
       fi
    done
+
+   echo retCode: $retCode retCodeSum: $retCodeSum CHECKVAL: $CHECKVAL flag:$flag
 
    # if we have failed to ping anybody...
    if [ $retCodeSum -ge $CHECKVAL ] ; then

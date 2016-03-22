@@ -32,6 +32,19 @@ do
 done
 
 # do myself last
-echo processing, cleaning $MYIP
-ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+
+# do not use scp if target == MYIP and local mode flag set
+if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
+   if [ $target == $MYIP ]; then
+      echo processing, cleaning $MYIP
+      $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+   else
+      echo processing, cleaning $MYIP
+      ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+   fi
+else
+   echo processing, cleaning $MYIP
+   ssh -l $MYLOGIN_ID $MYIP $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+fi
+
 
