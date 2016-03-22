@@ -218,22 +218,20 @@ do
              if [ $SECS -gt 20 ]; then
                 echo The $target is a candidate for Reboot!!! 
                 echo The $target is a candidate for Reboot!!! 
-
                 if [ $target == $MYIP ]; then
                    # we may be having trouble with SSH locally
                    # swich to local mode for file transfer and such
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo Setting Local Mode in the Local Mode Flag File
                    echo 1 > $TAGA_LOCAL_MODE_FLAG_FILE
+                else
+                   $TAGA_UTILS_DIR/rebootOneB.sh $target & 
+                                           # < $TAGA_CONFIG_DIR/confirm.txt
+                   echo;echo $0 Suspending to let $target recover;echo
+                   $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+
                 fi
-       
-                $TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
-               # $TAGA_UTILS_DIR/rebootOne.sh $target < $TAGA_UTILS_DIR/confirm.txt &
-                echo;echo $0 Suspending to let $target recover;echo
-                $IBOA_UTILS_DIR/iboaDelay.sh 60 5
              fi 
-
-
-
-
           fi
 
           # T1
@@ -453,11 +451,22 @@ do
           if [ $SECS -gt 20 ]; then
              echo The $target is a candidate for Reboot!!! 
              echo The $target is a candidate for Reboot!!! 
-             $TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
-             #$TAGA_UTILS_DIR/rebootOne.sh $target < $TAGA_UTILS_DIR/confirm.txt &
-             #$TAGA_UTILS_DIR/rebootOne.sh $target & < $TAGA_CONFIG_DIR/confirm.txt
-             echo;echo $0 Suspending to let $target recover;echo
-             $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+                if [ $target == $MYIP ]; then
+                   # we may be having trouble with SSH locally
+                   # swich to local mode for file transfer and such
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo Setting Local Mode in the Local Mode Flag File
+                   echo 1 > $TAGA_LOCAL_MODE_FLAG_FILE
+                else
+                   $TAGA_UTILS_DIR/rebootOneB.sh $target & 
+                                           # < $TAGA_CONFIG_DIR/confirm.txt
+                   echo;echo $0 Suspending to let $target recover;echo
+                   $IBOA_UTILS_DIR/iboaDelay.sh 60 5
+
+                fi
+             #$TAGA_UTILS_DIR/rebootOneB.sh $target & # < $TAGA_CONFIG_DIR/confirm.txt
+             #echo;echo $0 Suspending to let $target recover;echo
+             #$IBOA_UTILS_DIR/iboaDelay.sh 60 5
           fi 
 
           #echo
