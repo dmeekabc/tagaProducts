@@ -21,6 +21,17 @@ do
 
 for target in $targetList
 do
+
+   # do not use ssh or scp if target == MYIP and local mode flag set
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
+     if [ $target == $MYIP ]; then
+         echo TAGA: Notice: Skipping $MYIP Time Synch Check since Local Mode Flag is set
+         exit
+     fi
+   fi
+
+   # otherwise continue normally...
+
    # reinit
    let delay=0
    let valid=0
