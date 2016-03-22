@@ -21,7 +21,7 @@ do
    SCP_SOURCE_STR="$SCP_SOURCE_STR hostList.txt"
 
    # do not use scp if target == MYIP and local mode flag set
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 ; then
       if [ $target == $MYIP ]; then
          # send the files to the destination
          cp $SCP_SOURCE_STR $TAGA_CONFIG_DIR <$TAGA_CONFIG_DIR/passwd.txt

@@ -22,19 +22,19 @@ for target in $targetList
 do
 
    # don't use ssh if local mode flag is set
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
-      echo 11111 
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 ; then
+      #echo 11111 
       if [ $target == $MYIP ]; then
-      echo 11111aaaa 
+      #echo 11111aaaa 
          processCount=`ps -ef | wc -l`           
          targethostname=`hostname` 
       else
-      echo 11111aaaa bbbbb
+      #echo 11111aaaa bbbbb
          processCount=`ssh -l $MYLOGIN_ID $target ps -ef | wc -l`           
          targethostname=`ssh -l $MYLOGIN_ID $target hostname` 
       fi
    else
-      echo 11111aaaa bbbbb ccccc
+      #echo 11111aaaa bbbbb ccccc
       processCount=`ssh -l $MYLOGIN_ID $target ps -ef | wc -l`           
       targethostname=`ssh -l $MYLOGIN_ID $target hostname` 
    fi
