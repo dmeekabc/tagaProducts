@@ -11,7 +11,8 @@ source $TAGA_CONFIG_DIR/config
 # it is not bullet proof, but better than nothing...
 #clear the reboot in progress flag
 #rm /tmp/rebootInProgress.dat
-rm $NET_RESET_IN_PROG_FLAG_FILE
+rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
+rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
 
 # basic sanity check, to ensure password updated etc
 $tagaScriptsUtilsDir/basicSanityCheck.sh
@@ -419,6 +420,7 @@ do
    # create the log dir
    #############################################################
    mkdir -p $LOG_DIR
+   mkdir -p $DATA_DIR
 
    #############################################################
    # Print to the Delta Cumlative Log File
