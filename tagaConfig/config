@@ -13,7 +13,19 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 ####################################################
 # MAX DURATION BEFORE REBOOT
 ####################################################
+MAX_ITER_DUR_BEFORE_REBOOT=180
+MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
+
+####################################################
+# Network Reset In Proress Flag File
+####################################################
+NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
+
+####################################################
+# Local Mode Flag File
+####################################################
+TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
 
 ####################################################
 # Enable or Disable all testing per iteration loop
@@ -31,6 +43,7 @@ MAX_ITERATIONS=6       # max iterations (Testing)
 MAX_ITERATIONS=20       # max iterations (Testing)
 MAX_ITERATIONS=60       # max iterations (Testing)
 MAX_ITERATIONS=100       # max iterations (Testing)
+MAX_ITERATIONS=200       # max iterations (Testing)
 STEPWISE_ITERATIONS=2  # Testing
 STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
@@ -53,8 +66,8 @@ VARIABLE_TEST="var_test.sh"
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey xxx tcpdump" 
-TAGA_KILL_LIST="mgen survey xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
 
 ####################################################
 # The Keep Alive Function
@@ -334,7 +347,8 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 
 #OUTPUT_DIR=$TAGA_DIR/output
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
-LOG_DIR=/tmp/iboa/log # new mar 2016
+LOG_DIR=/tmp/taga/log # new mar 2016
+DATA_DIR=/tmp/taga/data # new mar 2016
 
 # dlm temp
 #hostList=`$TAGA_CONFIG_DIR/hostList.sh`
