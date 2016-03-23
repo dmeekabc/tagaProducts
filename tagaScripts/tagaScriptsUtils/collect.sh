@@ -15,7 +15,7 @@ do
    echo processing, collecting files from $target start:`date | cut -c12-20`
 
    # if we are in local mode and target == MYIP , do not use ssh or scp
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 ; then
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
       if [ $target == $MYIP ]; then
         echo A: processing, collecting files from $target start:`date | cut -c12-20`
         cp /tmp/$TEST_DESCRIPTION* $outputDir
