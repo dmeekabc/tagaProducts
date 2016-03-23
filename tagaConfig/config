@@ -343,8 +343,8 @@ CONTINUOUS_SYNCH=1  # synch everything
 CONTINUOUS_SYNCH=0  # synch config only
 
 # Disabled Synch Flag
-CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 CONFIG_SYNCH_DISABLED=1  #  abnormal, disable synch in special circumstances
+CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 
 
 ##############################################
