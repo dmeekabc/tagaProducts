@@ -23,13 +23,13 @@ OLDPROCFILE3="/home/$MYLOGIN_ID/python/python.pid"
 rm $OLDPROCFILE3 2>/dev/null
 
 if [ $MYIP == "192.168.43.69" ]; then
-   echo `basename $0` $MYIP: starting xxx daemon
+   echo $MYIP : `basename $0` : starting xxx daemon
    $XXX_DIR/xxx.py start
 elif [ $MYIP == "10.0.0.22" ]; then
-   echo `basename $0` $MYIP: starting xxx daemon
+   echo $MYIP : `basename $0` : starting xxx daemon
    $XXX_DIR/xxx.py start
 else
-   echo `basename $0` $MYIP: starting xxx daemon
+   echo $MYIP : `basename $0` : starting xxx daemon
    $XXX_DIR/xxx.py start
 fi
 

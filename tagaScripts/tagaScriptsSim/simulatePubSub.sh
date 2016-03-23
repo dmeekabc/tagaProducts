@@ -18,13 +18,13 @@ echo $MYIP : `basename $0` :  executing at `date`
 PUBSUB_DIR=$TAGA_DIR/code/nanomsg_app/PubSub
 
 if [ $MYIP == "192.168.43.69" ]; then
-   echo `basename $0` $MYIP: simulate running testPubSubServer
+   echo $MYIP : `basename $0` : simulate running testPubSubServer
    #$PUBSUB_DIR/testPubSubServer.sh 
 elif [ $MYIP == "10.0.0.22" ]; then
-   echo `basename $0` $MYIP: simulate running testPubSubServer
+   echo $MYIP : `basename $0` : simulate running testPubSubServer
    #$PUBSUB_DIR/testPubSubServer.sh 
 else
-   echo `basename $0` $MYIP: simulate running testPubSubClient 
+   echo $MYIP : `basename $0` : simulate running testPubSubClient 
    #$PUBSUB_DIR/testPubSubClient.sh 
 fi
 
