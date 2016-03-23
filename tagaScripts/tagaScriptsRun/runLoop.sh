@@ -257,9 +257,14 @@ do
      $tagaScriptsUtilsDir/synch.sh
    else
      # synch config only
-     $tagaScriptsUtilsDir/synchConfig.sh
+     if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
+        echo Notice: Config Synch is Enabled.
+        $tagaScriptsUtilsDir/synchConfig.sh
+     else
+        echo Notice: Config Synch is Disabled!  
+        echo Notice: Please, ensure no config changes require distribution.
+     fi
    fi
-
 
    # baseline the aggregate log file
    cp /tmp/runLoop.sh.out /tmp/runLoop.sh.out.before
