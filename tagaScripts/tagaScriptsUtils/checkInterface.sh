@@ -15,8 +15,10 @@ echo `date` : $0 : executing on $MYIP >> $OUT_FILE
 # this is our poor-mans interprocess communications mechanism
 # it is not elegant but does work
 if cat $NET_RESET_IN_PROG_FLAG_FILE 2>/dev/null | grep 1 ; then
+   echo Notice: Network Reset is in progress,  
    echo Notice: Network Reset is in progress,  >> $OUT_FILE
    echo Notice: Network Reset is in progress,  >> $OUT_FILE
+   echo Notice: This $0 is not permitted to run in this state, exiting with no action! 
    echo Notice: This $0 is not permitted to run in this state, exiting with no action! >> $OUT_FILE
    echo Notice: This $0 is not permitted to run in this state, exiting with no action! >> $OUT_FILE
    exit
@@ -30,11 +32,14 @@ fi
 if [ $# -eq 1 ]; then
 
    # more than one bad return, this implies our interface may be bad
+   echo Interface is in suspect state - resetting!  
    echo Interface is in suspect state - resetting!  >> $OUT_FILE
+   echo Interface is in suspect state - setting interface down! 
    echo Interface is in suspect state - setting interface down! >> $OUT_FILE
    sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
    echo Retcode:$? >> $OUT_FILE
    sleep 5
+   echo Interface is in suspect state - setting interface up! 
    echo Interface is in suspect state - setting interface up! >> $OUT_FILE
    sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
    echo Retcode:$? >> $OUT_FILE
@@ -83,11 +88,14 @@ else
    # if we have failed to ping anybody...
    if [ $retCodeSum -ge $CHECKVAL ] ; then
       # more than one bad return, this implies our interface may be bad
+      echo Interface is in suspect state - resetting!  
       echo Interface is in suspect state - resetting!  >> $OUT_FILE
+      echo Interface is in suspect state - setting interface down! 
       echo Interface is in suspect state - setting interface down! >> $OUT_FILE
       sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
       echo Retcode:$? >> $OUT_FILE
       sleep 5
+      echo Interface is in suspect state - setting interface up! 
       echo Interface is in suspect state - setting interface up! >> $OUT_FILE
       sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
       echo Retcode:$? >> $OUT_FILE
@@ -113,11 +121,14 @@ else
       if [ $retCode -eq 0 ] ; then
          echo Interface appears healthy, comms with gateway AOK >> $OUT_FILE
       else
+         echo Interface is in suspect state - resetting!  
          echo Interface is in suspect state - resetting!  >> $OUT_FILE
+         echo Interface is in suspect state - setting interface down! 
          echo Interface is in suspect state - setting interface down! >> $OUT_FILE
          sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
          echo Retcode:$? >> $OUT_FILE
          sleep 5
+         echo Interface is in suspect state - setting interface up! 
          echo Interface is in suspect state - setting interface up! >> $OUT_FILE
          sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
          echo Retcode:$? >> $OUT_FILE
