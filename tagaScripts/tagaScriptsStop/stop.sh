@@ -21,7 +21,11 @@ source $TAGA_CONFIG_DIR/config
 
 #echo $1
 
+
+# the tcpdump fails to be killed with this extra taga match string setting...
+# for now, relax the restriiction (relax the match string)
 EXTRA_MATCH_STRING="taga"
+EXTRA_MATCH_STRING="t"
 
 # order matters! stop generators (mgen) before monitors (tcpdump)
 KILL_LIST=$TAGA_KILL_LIST 
