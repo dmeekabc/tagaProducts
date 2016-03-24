@@ -108,33 +108,35 @@ if [ $WAITTIME -lt 0 ]; then
    echo
 fi
 
-echo WAITTIME:$WAITTIME
-echo WAITTIME:$WAITTIME
-echo WAITTIME:$WAITTIME
-echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
 
 if [ $WAITTIME -gt 0 ]; then
    if [ $TAGA_DISPLAY == "DEBUG" ]; then
      echo 1 waiting:$WAITTIME
      echo 1 waiting:$WAITTIME
-     echo 1 waiting:$WAITTIME
+#     echo 1 waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+     echo done waiting:$WAITTIME
    elif [ $TAGA_DISPLAY == "VERBOSE" ]; then
      echo 2 waiting:$WAITTIME
-     echo 2 waiting:$WAITTIME
-     echo 2 waiting:$WAITTIME
+#     echo 2 waiting:$WAITTIME
+#     echo 2 waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+     echo done waiting:$WAITTIME
    else
-     echo 3 waiting:$WAITTIME
-     echo 3 waiting:$WAITTIME
-     echo 3 waiting:$WAITTIME
+#     echo 3 waiting:$WAITTIME
+#     echo 3 waiting:$WAITTIME
+#     echo 3 waiting:$WAITTIME
      sleep $WAITTIME
    fi
 fi
 
-echo done waiting:$WAITTIME
-echo done waiting:$WAITTIME
-echo done waiting:$WAITTIME
+#echo done waiting:$WAITTIME
+#echo done waiting:$WAITTIME
+#echo done waiting:$WAITTIME
 
 #if [ $TAGA_DISPLAY == "DEBUG" ]; then
 #  $TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
