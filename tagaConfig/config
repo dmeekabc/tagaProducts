@@ -267,10 +267,9 @@ source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 # manually generated configs
 ##############################################
 
-SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=5
+SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
-SERVER_INIT_DELAY=15
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 
 # MGEN Traffic Configs
