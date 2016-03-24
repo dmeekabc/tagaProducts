@@ -13,7 +13,7 @@ source $TAGA_CONFIG_DIR/config
 #echo $MYIP : `basename $0` : executing at `date`
 NAME=`basename $0`
 #echo $MYIP : `basename $0` :  executing at `date`
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : executing at `date`"
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
 
 ################################################3
 # MAIN 
@@ -27,15 +27,15 @@ rm $OLDPROCFILE3 2>/dev/null
 
 if [ $MYIP == "192.168.43.69" ]; then
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : starting XXXX Daemon at `date`"
+   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
    $XXX_DIR/xxx.py start
 elif [ $MYIP == "10.0.0.22" ]; then
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : starting XXXX Daemon at `date`"
+   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
    $XXX_DIR/xxx.py start
 else
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : starting XXXX Daemon at `date`"
+   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
    $XXX_DIR/xxx.py start
 fi
 

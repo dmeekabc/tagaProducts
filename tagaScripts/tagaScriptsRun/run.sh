@@ -39,9 +39,11 @@ do
    fi
 
    ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
-   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulatePubSub.sh <$TAGA_CONFIG_DIR/passwd.txt &
-   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateXXX.sh    <$TAGA_CONFIG_DIR/passwd.txt &
-   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateSIM1.sh   <$TAGA_CONFIG_DIR/passwd.txt &
+
+# dlm temp, 24 mar 2016, moving these remote calls to local calls from simulate.sh
+#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulatePubSub.sh <$TAGA_CONFIG_DIR/passwd.txt &
+#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateXXX.sh    <$TAGA_CONFIG_DIR/passwd.txt &
+#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateSIM1.sh   <$TAGA_CONFIG_DIR/passwd.txt &
 
    # run traffic unless simulation only flag is set
    if [ $SIMULATION_ONLY -eq 0 ]; then

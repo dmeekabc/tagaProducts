@@ -12,7 +12,7 @@ source $TAGA_CONFIG_DIR/config
 #echo $MYIP : `basename $0` : executing at `date`
 NAME=`basename $0`
 #echo $MYIP : `basename $0` :  executing at `date`
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : executing at `date`"
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
 
 # sample simulations require $HOME/python dir
 mkdir $HOME/python 2>/dev/null
@@ -77,8 +77,13 @@ if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
 
 else
    #echo $MYIP : `basename $0` : Primary Simulation Server Disabled 
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : primary sim server disabled at `date`"
+   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : primary sim server disabled at `date`"
 fi
+
+# start the other optional servers
+$tagaScriptsSimDir/simulatePubSub.sh <$TAGA_CONFIG_DIR/passwd.txt &
+$tagaScriptsSimDir/simulateXXX.sh    <$TAGA_CONFIG_DIR/passwd.txt &
+$tagaScriptsSimDir/simulateSIM1.sh   <$TAGA_CONFIG_DIR/passwd.txt &
 
 
 ################################################3

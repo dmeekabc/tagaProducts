@@ -34,7 +34,7 @@ done
 # do myself last
 
 # do not use scp if target == MYIP and local mode flag set
-if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
+if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
    if [ $target == $MYIP ]; then
       echo processing, cleaning $MYIP
       $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt

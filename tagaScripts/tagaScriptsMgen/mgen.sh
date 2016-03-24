@@ -8,7 +8,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 NAME=`basename $0`
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : executing at `date`"
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
 
 # get the input
 # get MYIP to use
