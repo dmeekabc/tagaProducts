@@ -128,14 +128,25 @@ MYPASSWD=YourPasswordGoesHere
 COMMAND=YourPrimaryCommandNameGoesHere
 PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 
+# TAGA DISPLAY enumeration values
+let TAGA_DISPLAY_VAL_SILENT=1
+let TAGA_DISPLAY_VAL_BRIEF=2
+let TAGA_DISPLAY_VAL_NORMAL=3
+let TAGA_DISPLAY_VAL_VERBOSE=4
+let TAGA_DISPLAY_VAL_DEBUG=5
 
-TAGA_DISPLAY="VERBOSE"  # verbose
-TAGA_DISPLAY="NORMAL"   # less verbose
-TAGA_DISPLAY="BRIEF"    # even less verbose
+# TAGA DISPLAY setting
+let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
+
+# TAGA DISPLAY setting
 TAGA_DISPLAY="SILENT"   # least verbose
+TAGA_DISPLAY="BRIEF"    # even less verbose
+TAGA_DISPLAY="NORMAL"   # less verbose
+TAGA_DISPLAY="VERBOSE"  # verbose
 TAGA_DISPLAY="DEBUG"    # debug
 
 
+# DAEMON ids
 DAEMON1_IP=192.168.43.69
 DAEMON2_IP=192.168.43.124
 
