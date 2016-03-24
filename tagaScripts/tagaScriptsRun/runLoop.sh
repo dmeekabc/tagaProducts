@@ -321,7 +321,21 @@ do
    do
       let tot=$DURATION2+$i
 
-      if [ $tot -gt 10 ]; then
+      if [ $tot -gt 1000 ]; then
+         let modVal=$tot%50
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 50 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         fi
+      elif [ $tot -gt 100 ]; then
+         let modVal=$tot%10
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 10 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         fi
+      elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
             echo Total Secs Remain: $tot : Secs Remain Part 1: $i
@@ -353,7 +367,21 @@ do
 
       let tot=$i
 
-      if [ $tot -gt 10 ]; then
+      if [ $tot -gt 1000 ]; then
+         let modVal=$tot%50
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         elif [ $i -lt 50 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         fi
+      elif [ $tot -gt 100 ]; then
+         let modVal=$tot%10
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         elif [ $i -lt 10 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         fi
+      elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
             echo Total Secs Remain: $tot : Secs Remain Part 2: $i
