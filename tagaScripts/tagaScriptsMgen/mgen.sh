@@ -96,6 +96,18 @@ fi
 let CURRENT_EPOCH=`date +%s`
 let WAITTIME=$TRAFFIC_START_EPOCH-$CURRENT_EPOCH
 
+if [ $WAITTIME -lt 0 ]; then
+   echo
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo
+fi
+
 echo WAITTIME:$WAITTIME
 echo WAITTIME:$WAITTIME
 echo WAITTIME:$WAITTIME

@@ -13,10 +13,10 @@ if [ $# -eq 1 ]; then
    elif [ $1 == "TXonly" ]; then
       ifconfig $INTERFACE | grep "TX bytes" | cut -d: -f 3 | cut -d\( -f 1
    else
-      echo : $INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
+      echo :$INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
    fi
 else
   #echo 4
-  echo : $INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
+  echo :$INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
 fi
 
