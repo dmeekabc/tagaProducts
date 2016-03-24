@@ -23,6 +23,12 @@ TAGA Features:
   7. Auto resource utilization monitor and display
   8. Distributed Processing provides for robust data generation and collection
   9. Policy-Based Management (e.g. Log Mgt and Network Overhead Control) (Note1)
+  10. New: Auto Fault Detection and Recovery (Condition-based Automatic Node and Network-wide Reboots) 
+         - this allows for *unmanned* and *24x7* testing 
+  11. New: (proprietary) TAGA Convergence utility
+         - this simplifies determination of network stability, usability and test scenario repeatability
+  12. New: Completely distributed and synchronized traffic generation initiation
+  13. New: Six levels of run-time output - user specified
 
   Extendability:
   -----------
@@ -31,11 +37,11 @@ TAGA Features:
 
   Scalability:
   -----------
-  1. TAGA 'Run and Mon' Utility scales automatically based on target list update 
-  2. Tunable Display based on scalability requirements
-  3. Round-robin and staggered starts help avoid traffic overload during large network tests
-  4. TAGA Utility scales nicely with configuration changes limited to two primary configuration 
+  1. TAGA Display scales automatically based on node count and duration 
+  2. TAGA 'Run and Mon' Utility scales automatically based on target list update 
+  3. TAGA Utility scales well by limiting configuration changes to two primary configuration 
      files (config, targetList.sh) and a few key params (timer delays, traffic rates/counts, etc)
+  4. Round-robin and staggered starts help avoid traffic overload during large network tests
 
   Ease of Use:
   -----------
