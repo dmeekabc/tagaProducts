@@ -9,7 +9,11 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo $MYIP : `basename $0` :  executing at `date`
+NAME=`basename $0`
+#echo $MYIP : `basename $0` :  executing at `date`
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 39` : executing at `date`"
+
+
 
 #####################################
 # SIMULATE INIT FUNCTION

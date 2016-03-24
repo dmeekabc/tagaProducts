@@ -511,8 +511,8 @@ do
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
    echo
-   echo "TAGA:Iter:$iter START STATS:   $START_STATS"
-   echo "TAGA:Iter:$iter CURRENT STATS: $CURRENT_STATS"
+   echo "TAGA:Iter:$iter ITFC START: $START_STATS"
+   echo "TAGA:Iter:$iter ITFC CURRENT: $CURRENT_STATS"
 
    let TX_STATS=`$tagaScriptsStatsDir/adminstats.sh TXonly`
    let RX_STATS=`$tagaScriptsStatsDir/adminstats.sh RXonly`

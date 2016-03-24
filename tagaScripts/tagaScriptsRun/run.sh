@@ -17,6 +17,9 @@ source $TAGA_CONFIG_DIR/config
 # gitHub TODO:
 # gitHub TODO:
 
+# determine the time for traffic to begin flowing
+let trafficStartEpoch=`date +%s`
+let trafficStartEpoch=$trafficStartEpoch+$MGEN_SERVER_INIT_DELAY
 
 for target in $targetList
 do
@@ -43,7 +46,7 @@ do
    # run traffic unless simulation only flag is set
    if [ $SIMULATION_ONLY -eq 0 ]; then
       ssh -l $MYLOGIN_ID $target $tagaScriptsTcpdumpDir/tcpdump.sh $target & 
-      ssh -l $MYLOGIN_ID $target $tagaScriptsMgenDir/mgen.sh $target &
+      ssh -l $MYLOGIN_ID $target $tagaScriptsMgenDir/mgen.sh $target $trafficStartEpoch&
    fi
 
 done
