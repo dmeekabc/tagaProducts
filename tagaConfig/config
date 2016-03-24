@@ -133,11 +133,16 @@ let TAGA_DISPLAY_VAL_SILENT=1
 let TAGA_DISPLAY_VAL_BRIEF=2
 let TAGA_DISPLAY_VAL_NORMAL=3
 let TAGA_DISPLAY_VAL_VERBOSE=4
-let TAGA_DISPLAY_VAL_DEBUG=5
+
+# Debug boolean
+let TAGA_DISPLAY_DEBUG=0
+let TAGA_DISPLAY_DEBUG=1
 
 # TAGA DISPLAY setting
 let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
 
+# dlm temp: the plan is to replace string usage 
+#           below with enum/boolean usage above
 # TAGA DISPLAY setting
 TAGA_DISPLAY="SILENT"   # least verbose
 TAGA_DISPLAY="BRIEF"    # even less verbose
