@@ -36,9 +36,10 @@ do
   if [ -f $FILE_TO_CHECK ]; then
     let MODVAL=$i%2
     if [ $MODVAL -eq 0 ]; then
+        # sleep before the first print
+        sleep 1
       # print once per second while file to check exists
         printf "%d" $i; printf "%c" " " ; sleep 1
-        sleep 1
     fi
   else
     # file to check does not exist...

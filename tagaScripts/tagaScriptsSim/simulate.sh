@@ -65,7 +65,7 @@ rm $OLDPROCFILE3 2>/dev/null
 # starting of servers moved external, note the cleanup above is still vital on each node
 if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
 
-   echo Primary Simulation Server Enabled - starting Server.....
+   echo $MYIP : `basename $0` : Primary Simulation Server Enabled 
 
    # start the primary sim server
 
@@ -73,7 +73,7 @@ if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
    $PRIMARY_SERVER_STARTCMD &
 
 else
-   echo Primary Simulation Server Disabled - NOT STARTING Primary Simulation Server.....
+   echo $MYIP : `basename $0` : Primary Simulation Server Disabled 
 fi
 
 

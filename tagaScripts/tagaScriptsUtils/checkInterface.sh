@@ -83,6 +83,8 @@ else
       fi
    done
 
+   # primary output line
+   echo retCode: $retCode retCodeSum: $retCodeSum CHECKVAL: $CHECKVAL flag:$flag 
    echo retCode: $retCode retCodeSum: $retCodeSum CHECKVAL: $CHECKVAL flag:$flag >> $OUT_FILE
 
    # if we have failed to ping anybody...

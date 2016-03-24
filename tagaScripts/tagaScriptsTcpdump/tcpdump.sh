@@ -28,7 +28,8 @@ fi
 
 # if we are in the listener list, then listen for traffic
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
-  echo Running tcpdump on `hostname` | tee $STATUS_FILE 
+  #echo Running tcpdump on `hostname` | tee $STATUS_FILE 
+  echo Running tcpdump on `hostname` > $STATUS_FILE 
   if [ $TAGA_DISPLAY == "VERBOSE" ]; then
     tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l   \
      <$TAGA_CONFIG_DIR/passwd.txt | tee                             \

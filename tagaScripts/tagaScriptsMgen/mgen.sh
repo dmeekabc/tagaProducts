@@ -7,7 +7,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo `basename $0` : $MYIP : executing at `date`
+echo $MYIP : `basename $0` : executing at `date`
 
 MY_PARAM_IP=$1
 
@@ -87,7 +87,9 @@ else
   exit
 fi
 
-sleep $SERVER_INIT_DELAY
+#sleep $SERVER_INIT_DELAY
+sleep $MGEN_SERVER_INIT_DELAY
+$TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
 
 ###############################
 # Traffic Generation (Client) Part
