@@ -325,10 +325,9 @@ do
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
             echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 5 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
-#         echo Total Secs Remain: $tot : Secs Remain Part 1: $i
-      elif [ $i -lt 5 ]; then
-         echo Total Secs Remain: $tot : Secs Remain Part 1: $i
       else
          echo Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
@@ -359,9 +358,6 @@ do
          if [ $modVal -eq 0 ]; then
             echo Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
-#         echo Total Secs Remain: $tot : Secs Remain Part 2: $i
-      elif [ $i -lt 5 ]; then
-         echo Total Secs Remain: $tot : Secs Remain Part 2: $i
       else
          echo Total Secs Remain: $tot : Secs Remain Part 2: $i
       fi
