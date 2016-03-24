@@ -30,8 +30,7 @@ class Daemon(object):
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
 
-        message = "XXX: XXX: XXX: XXX: Hello World Marker\n"
-        sys.stderr.write(message)
+        message = "XXX: XXX: XXX: XXX: Simulation is Running.\n"
         sys.stderr.write(message)
 
         # Do first fork
@@ -105,12 +104,12 @@ class Daemon(object):
         try:
             pid = os.fork()
             if pid > 0:
-                message = "Starting Daemon Parent Pid: %d \n"
+                message = "Starting Daemon, I am Parent, My Child's Pid: %d \n"
                 sys.stderr.write(message % pid)
                 sys.exit(0)
             else:
-                message = "Starting Daemon Parent Pid: %d \n"
-                sys.stderr.write(message % pid)
+                message = "I am Child \n"
+              #  sys.stderr.write(message)
         except OSError as e:
             sys.stderr.write("Fork failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)

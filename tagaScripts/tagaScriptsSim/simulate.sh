@@ -9,7 +9,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo `basename $0` $MYIP executing at `date`
+echo $MYIP : `basename $0` : executing at `date`
 
 # sample simulations require $HOME/python dir
 mkdir $HOME/python 2>/dev/null
@@ -65,7 +65,7 @@ rm $OLDPROCFILE3 2>/dev/null
 # starting of servers moved external, note the cleanup above is still vital on each node
 if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
 
-   echo Primary Simulation Server Enabled - starting Server.....
+   echo $MYIP : `basename $0` : Primary Simulation Server Enabled 
 
    # start the primary sim server
 
@@ -73,7 +73,7 @@ if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
    $PRIMARY_SERVER_STARTCMD &
 
 else
-   echo Primary Simulation Server Disabled - NOT STARTING Primary Simulation Server.....
+   echo $MYIP : `basename $0` : Primary Simulation Server Disabled 
 fi
 
 

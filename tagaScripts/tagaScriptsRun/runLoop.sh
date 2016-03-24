@@ -27,7 +27,7 @@ fi
 # dlm temp remove this if not necessary!!!
 # dlm temp remove this if not necessary!!!
 # dlm temp remove this if not necessary!!!
-$TAGA_UTILS_DIR/checkInterface.sh "forceChecks"
+#$TAGA_UTILS_DIR/checkInterface.sh "forceChecks"
 
 #exit
 
@@ -151,7 +151,7 @@ do
    rm $NET_RESET_IN_PROG_FLAG_FILE
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    let k=$k+1
 
@@ -257,9 +257,14 @@ do
      $tagaScriptsUtilsDir/synch.sh
    else
      # synch config only
-     $tagaScriptsUtilsDir/synchConfig.sh
+     if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
+        echo Notice: Config Synch is Enabled.
+        $tagaScriptsUtilsDir/synchConfig.sh
+     else
+        echo Notice: Config Synch is Disabled!  
+        echo Notice: Please, ensure no config changes require distribution.
+     fi
    fi
-
 
    # baseline the aggregate log file
    cp /tmp/runLoop.sh.out /tmp/runLoop.sh.out.before
@@ -285,7 +290,7 @@ do
    fi
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    # if first iteration, use special flag to also start keepAlive processes
    if [ $iter -eq 1 ] ; then
@@ -309,7 +314,7 @@ do
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    let i=$DURATION1
    while [ $i -gt 0 ]
@@ -324,7 +329,7 @@ do
    $tagaScriptsTestDir/midCycleTests.sh & # run in background/parallel
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    # run the variable test
    echo Executing variable test..... $VARIABLE_TEST
@@ -353,7 +358,7 @@ do
    #####################################################
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    if [ $XXX_ON -eq 1 ]; then
      $tagaScriptsTestDir/testXXX.sh
@@ -374,7 +379,7 @@ do
    $tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
    # remove old and put current data in generic output directory
    rm -rf $OUTPUT_DIR/output
@@ -426,14 +431,21 @@ do
    # Print to the Delta Cumlative Log File
    #############################################################
 
-   echo; echo Convergence:
-   echo $printableDeltaCum
-   echo $printableDeltaCum > /tmp/deltaCum.out
    # make the log dir
    mkdir -p $LOG_DIR
+
+   echo; echo Convergence:
+
+   echo $printableDeltaCum
+
+   echo $printableDeltaCum > /tmp/deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/_deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/d_deltaCum.out
+
+   echo $printableDeltaCum > /tmp/both.out
+   echo $printableDeltaCum > $LOG_DIR/both.out
+
 
    #############################################################
    # Print to the Average Delta Cumlative Log File
@@ -445,6 +457,10 @@ do
    echo $printableAverageDeltaCum > $LOG_DIR/averageDeltaCum.out
    echo $printableAverageDeltaCum > $LOG_DIR/_averageDeltaCum.out
    echo $printableAverageDeltaCum > $LOG_DIR/d_averageDeltaCum.out
+
+   echo $printableAverageDeltaCum >> /tmp/both.out
+   echo $printableAverageDeltaCum >> $LOG_DIR/both.out
+
 
    #these are really avgs not deltas
    let beforeLastLastLastAvgDelta=$beforeLastLastAvgDelta
@@ -696,7 +712,7 @@ do
    #############################################
 
    # check/repair the interface
-   $TAGA_UTILS_DIR/checkInterface.sh
+#   $TAGA_UTILS_DIR/checkInterface.sh
 
 done
 

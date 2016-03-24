@@ -104,12 +104,12 @@ class Daemon(object):
         try:
             pid = os.fork()
             if pid > 0:
-                message = "Starting Daemon Parent Pid: %d \n"
+                message = "Starting Daemon, I am Parent, My Child's Pid: %d \n"
                 sys.stderr.write(message % pid)
                 sys.exit(0)
             else:
-                message = "Starting Daemon Parent Pid: %d \n"
-                sys.stderr.write(message % pid)
+                message = "I am Child.\n"
+                #sys.stderr.write(message )
         except OSError as e:
             sys.stderr.write("Fork failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)

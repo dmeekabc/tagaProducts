@@ -16,6 +16,7 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 MAX_ITER_DUR_BEFORE_REBOOT=180
 MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
+MAX_ITER_DUR_BEFORE_REBOOT=300
 
 ####################################################
 # Network Reset In Proress Flag File
@@ -26,6 +27,11 @@ NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
 # Local Mode Flag File
 ####################################################
 TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
+
+####################################################
+# Check Interface Log (Out) File
+####################################################
+CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
 
 ####################################################
 # Enable or Disable all testing per iteration loop
@@ -44,6 +50,8 @@ MAX_ITERATIONS=20       # max iterations (Testing)
 MAX_ITERATIONS=60       # max iterations (Testing)
 MAX_ITERATIONS=100       # max iterations (Testing)
 MAX_ITERATIONS=200       # max iterations (Testing)
+MAX_ITERATIONS=500       # max iterations (Testing)
+MAX_ITERATIONS=2500       # max iterations (Testing)
 STEPWISE_ITERATIONS=2  # Testing
 STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
@@ -51,9 +59,9 @@ STEPWISE_ITERATIONS=0  # Normal
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Dynamic Testing
@@ -334,6 +342,11 @@ NARROW_DISPLAY=1
 CONTINUOUS_SYNCH=1  # synch everything
 CONTINUOUS_SYNCH=0  # synch config only
 
+# Disabled Synch Flag
+CONFIG_SYNCH_DISABLED=1  #  abnormal, disable synch in special circumstances
+CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
+
+
 ##############################################
 # manually and/or automatatically generated configs
 ##############################################
@@ -471,4 +484,4 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=10.0.0.27

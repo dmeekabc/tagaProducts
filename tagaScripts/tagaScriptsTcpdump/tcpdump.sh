@@ -7,7 +7,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo `basename $0` : $MYIP : executing at `date`
+echo $MYIP : `basename $0` : executing at `date`
 
 # get the input 
 MY_PARAM_IP=$1
@@ -28,7 +28,8 @@ fi
 
 # if we are in the listener list, then listen for traffic
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
-  echo Running tcpdump on `hostname` | tee $STATUS_FILE 
+  #echo Running tcpdump on `hostname` | tee $STATUS_FILE 
+  echo Running tcpdump on `hostname` > $STATUS_FILE 
   if [ $TAGA_DISPLAY == "VERBOSE" ]; then
     tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l   \
      <$TAGA_CONFIG_DIR/passwd.txt | tee                             \

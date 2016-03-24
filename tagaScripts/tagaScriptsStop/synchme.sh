@@ -32,17 +32,17 @@ do
      echo processing, synchronizing $target
 
      # make the directory on remote (target) if it does not exist
-     ssh -l darrin $target mkdir -p $MYDIR
+     ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
 
 #     # special command
-#     ssh -l darrin $target rm ~/.bashrc.iboa.user.1000.swp
+#     ssh -l $MYLOGIN_ID $target rm ~/.bashrc.iboa.user.1000.swp
 
      # define the source string
      SCP_SOURCE_STR=".bashrc.iboa.user.1000"          # use this to synch everything here and below
      SCP_SOURCE_STR="."          # use this to synch everything here and below
 
      # send the files to the destination
-     scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
+     scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
 
    fi
 done

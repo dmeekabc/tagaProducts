@@ -9,7 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 for target in $targetList
 do
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE | grep 1 ; then
+   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
       # do not use ssh if target == MYIP and local mode flag set
       if [ $target == $MYIP ]; then
         echo processing, cleaning $target
