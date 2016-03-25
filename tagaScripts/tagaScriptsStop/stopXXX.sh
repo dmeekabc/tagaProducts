@@ -15,8 +15,15 @@ fi
 
 for target in $targetList
 do
-   echo STOP XXX simulation on $target
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      echo `basename $0` processing $target .......
+   fi
+
    ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop_xxx.sh  <$TAGA_CONFIG_DIR/passwd.txt &
+
 done
 
 

@@ -247,7 +247,7 @@ def main():
     )
 
     if operation == 'start':
-        print("Starting daemon")
+        #print("Starting daemon")
         daemon.start()
         pid = daemon.get_pid()
 

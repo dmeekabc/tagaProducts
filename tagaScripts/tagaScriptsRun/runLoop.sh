@@ -98,9 +98,9 @@ if [ $PROBE_ENABLED -eq 1 ]; then
 fi
 
 # get ping times if enabled
-if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
-  $tagaScriptsUtilsDir/pingTimes.sh
-fi
+#if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
+#  $tagaScriptsUtilsDir/pingTimes.sh
+#fi
 
 # get resource usage if enabled
 if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
@@ -148,7 +148,8 @@ do
    # it is not bullet proof, but better than nothing...
    #clear the reboot in progress flag
    #rm /tmp/rebootInProgress.dat
-   rm $NET_RESET_IN_PROG_FLAG_FILE
+  # rm $NET_RESET_IN_PROG_FLAG_FILE
+   rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
@@ -248,7 +249,7 @@ do
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
 
-   echo `date` Regenerating HostToIpMap File ............ DONE
+   #echo `date` Regenerating HostToIpMap File ............ DONE
    echo
 
 
@@ -259,7 +260,10 @@ do
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
         echo Notice: Config Synch is Enabled.
-        $tagaScriptsUtilsDir/synchConfig.sh
+
+      # dlm temp new 24 mar 2016
+      #  $tagaScriptsUtilsDir/synchConfig.sh
+        $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
      else
         echo Notice: Config Synch is Disabled!  
         echo Notice: Please, ensure no config changes require distribution.
@@ -320,9 +324,35 @@ do
    while [ $i -gt 0 ]
    do
       let tot=$DURATION2+$i
-      echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+
+      if [ $tot -gt 1000 ]; then
+         let modVal=$tot%50
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 50 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         fi
+      elif [ $tot -gt 100 ]; then
+         let modVal=$tot%10
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 10 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         fi
+      elif [ $tot -gt 10 ]; then
+         let modVal=$tot%5
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         elif [ $i -lt 5 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         fi
+      else
+         echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+      fi
+
       sleep 1
       let i=$i-1
+
    done
 
    # Mid cycle tests
@@ -338,10 +368,37 @@ do
    let i=$DURATION2
    while [ $i -gt 0 ]
    do
+
       let tot=$i
-      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+
+      if [ $tot -gt 1000 ]; then
+         let modVal=$tot%50
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         elif [ $i -lt 50 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         fi
+      elif [ $tot -gt 100 ]; then
+         let modVal=$tot%10
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         elif [ $i -lt 10 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         fi
+      elif [ $tot -gt 10 ]; then
+         let modVal=$tot%5
+         if [ $modVal -eq 0 ]; then
+            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         fi
+      else
+         echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+      fi
+
+#      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+
       sleep 1
       let i=$i-1
+
    done
 
    #####################################################
@@ -375,8 +432,21 @@ do
    $tagaScriptsStopDir/runStop.sh
 
    # collect and clean
-   $tagaScriptsUtilsDir/collect.sh $outputDir
-   $tagaScriptsUtilsDir/cleanAll.sh $outputDir
+   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd1.sh
+   chmod 755 /tmp/managedRunLoopCmd1.sh
+
+   # double the managedExecute timeout since this can take awhile...
+   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd1.sh
+
+   #$tagaScriptsUtilsDir/collect.sh $outputDir
+   #$tagaScriptsUtilsDir/collect.sh $outputDir
+
+   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd2.sh 
+   chmod 755 /tmp/managedRunLoopCmd2.sh
+   # double the managedExecute timeout since it is called inside also
+   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd2.sh
+   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
+   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
@@ -511,8 +581,8 @@ do
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
    echo
-   echo "TAGA:Iter:$iter START STATS:   $START_STATS"
-   echo "TAGA:Iter:$iter CURRENT STATS: $CURRENT_STATS"
+   echo "TAGA:Iter:$iter ITFC START: $START_STATS"
+   echo "TAGA:Iter:$iter ITFC CURRENT: $CURRENT_STATS"
 
    let TX_STATS=`$tagaScriptsStatsDir/adminstats.sh TXonly`
    let RX_STATS=`$tagaScriptsStatsDir/adminstats.sh RXonly`
@@ -694,7 +764,8 @@ do
          # it is not bullet proof, but better than nothing...
          #clear the reboot in progress flag
          #rm /tmp/rebootInProgress.dat
-         rm $NET_RESET_IN_PROG_FLAG_FILE
+         #rm $NET_RESET_IN_PROG_FLAG_FILE
+         rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
 
          # set the flag so we don't reboot next iteration
          let resetflag=1

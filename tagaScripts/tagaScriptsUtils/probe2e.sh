@@ -7,28 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# reinit the files
-rm /tmp/probe2Found.out
-rm /tmp/probe2Notfound.out
-
-
-$TAGA_UTILS_DIR/probe2a.sh &
-$TAGA_UTILS_DIR/probe2a2.sh &
-$TAGA_UTILS_DIR/probe2b.sh &
-$TAGA_UTILS_DIR/probe2b2.sh &
-$TAGA_UTILS_DIR/probe2c.sh &
-$TAGA_UTILS_DIR/probe2c2.sh &
-$TAGA_UTILS_DIR/probe2d.sh &
-$TAGA_UTILS_DIR/probe2d2.sh &
-$TAGA_UTILS_DIR/probe2e.sh &
-$TAGA_UTILS_DIR/probe2e2.sh &
-
-
-exit
-
 let i=255
 
-while [ $i -gt 0 ]
+while [ $i -gt 225 ]
 do
    NETADDR=$NETADDRPART.$i
    echo
@@ -46,6 +27,18 @@ do
 
 done
 
+# this is expected to be the last processing script so do the sort now
+
+echo Found List:
+cat /tmp/probe2Found.out | sort 
+echo Not Found List:
+cat /tmp/probe2Notfound.out | sort 
+echo Found List:
+cat /tmp/probe2Found.out | sort 
+
+echo
+echo Note: Any additional probe2.sh \(ping-related\) output below indicates the lists above are not complete!
+echo Note: In that case, please examine /tmp/probe2Found.out and /tmp/probe2Notfound.out directly.
 echo
 
 

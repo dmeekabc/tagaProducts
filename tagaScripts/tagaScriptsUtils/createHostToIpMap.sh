@@ -21,6 +21,13 @@ echo
 for target in $targetList
 do
 
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      echo `basename $0` processing $target ....... >/dev/null
+   fi
+
    # don't use ssh if local mode flag is set
    if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
       if [ $target == $MYIP ]; then

@@ -30,32 +30,35 @@ class Daemon(object):
         http://www.erlenstar.demon.co.uk/unix/faq_2.html#SEC16
         """
 
-        message = "dlm temp 22222222aaaaaaaaaaa \n"
+        #message = "dlm temp 22222222aaaaaaaaaaa \n"
         #sys.stderr.write(message)
+
+        message = "SiM1: Simulation is Running.\n"
+        sys.stderr.write(message)
 
         # Do first fork
         self.fork()
 
-        message = "dlm temp 22222222bbbbbbbbbbb \n"
+        #message = "dlm temp 22222222bbbbbbbbbbb \n"
         #sys.stderr.write(message)
 
         # Decouple from parent environment
         self.dettach_env()
 
-        message = "dlm temp 22222222ccccccccccccccc \n"
+        #message = "dlm temp 22222222ccccccccccccccc \n"
         #sys.stderr.write(message)
 
         # Do second fork
         self.fork()
 
-        message = "dlm temp 22222222dddddddddddddddd \n"
+        #message = "dlm temp 22222222dddddddddddddddd \n"
         #sys.stderr.write(message)
 
         # Flush standart file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
 
-        message = "dlm temp 22222222eeeeeeeeeeeeeeeee \n"
+        #message = "dlm temp 22222222eeeeeeeeeeeeeeeee \n"
         #sys.stderr.write(message)
 
         # 
@@ -64,7 +67,7 @@ class Daemon(object):
         # dlm temp this function hangs!!!
         #self.attach_stream('stderr', mode='a+')
 
-        message = "dlm temp 22222222fffffffffffffff \n"
+        #message = "dlm temp 22222222fffffffffffffff \n"
         #sys.stderr.write(message)
        
         # write pidfile
@@ -80,7 +83,7 @@ class Daemon(object):
         subprocess.call("/home/darrin/code/nanomsg_app/PubSub/testPubSub.sh > /tmp/pubsub.out", shell=True)
         #subprocess.call(["/home/darrin/code/nanomsg_app/PubSub/test.sh", "dummyArg"])
 
-        message = "dlm temp 22222222ggggggggggggg \n"
+        #message = "dlm temp 22222222ggggggggggggg \n"
         #sys.stderr.write(message)
 
 
@@ -116,22 +119,22 @@ class Daemon(object):
 
     def create_pidfile(self):
 
-        message = "dlm temp 22222222eeeeeeeeeeeeee11111111111111 \n"
+        #message = "dlm temp 22222222eeeeeeeeeeeeee11111111111111 \n"
         #sys.stderr.write(message)
 
         atexit.register(self.delpid)
 
-        message = "dlm temp 22222222eeeeeeeeeeeeee222222222222222 \n"
+        #message = "dlm temp 22222222eeeeeeeeeeeeee222222222222222 \n"
         #sys.stderr.write(message)
 
         pid = str(os.getpid())
 
-        message = "dlm temp 22222222eeeeeeeeeeeeee33333333333333333 \n"
+        #message = "dlm temp 22222222eeeeeeeeeeeeee33333333333333333 \n"
         #sys.stderr.write(message)
 
         open(self.pidfile,'w+').write("%s\n" % pid)
 
-        message = "dlm temp 22222222eeeeeeeeeeeeee44444444444444444 \n"
+        #message = "dlm temp 22222222eeeeeeeeeeeeee44444444444444444 \n"
         #sys.stderr.write(message)
 
     def delpid(self):
@@ -153,12 +156,12 @@ class Daemon(object):
             sys.exit(1)
 
         # Start the daemon
-        message = "dlm temp 111111111111111111 \n"
+        #message = "dlm temp 111111111111111111 \n"
         #sys.stderr.write(message)
         self.daemonize()
-        message = "dlm temp 222222222222222222 \n"
+        #message = "dlm temp 222222222222222222 \n"
         self.run()
-        message = "dlm temp 3333333333333333333 \n"
+        #message = "dlm temp 3333333333333333333 \n"
 
     def get_pid(self):
         """
@@ -245,7 +248,7 @@ def main():
     )
 
     if operation == 'start':
-        print("Starting daemon")
+        #print("Starting daemon")
         daemon.start()
         pid = daemon.get_pid()
 

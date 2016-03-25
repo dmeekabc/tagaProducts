@@ -7,11 +7,16 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo $MYIP : `basename $0` : executing at `date`
+NAME=`basename $0`
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
 
+# get the input
+# get MYIP to use
 MY_PARAM_IP=$1
+# time to start sending traffic
+let TRAFFIC_START_EPOCH=$2
 
-# default to UDP
+# default to UDP, this should be overriden by config
 mgen_proto=UDP
 
 ###############################
@@ -88,8 +93,58 @@ else
 fi
 
 #sleep $SERVER_INIT_DELAY
-sleep $MGEN_SERVER_INIT_DELAY
-$TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
+let CURRENT_EPOCH=`date +%s`
+let WAITTIME=$TRAFFIC_START_EPOCH-$CURRENT_EPOCH
+
+if [ $WAITTIME -lt 0 ]; then
+   echo
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo Warning: $0: negatie WAITTIME: $WAITTIME
+   echo
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
+   echo
+fi
+
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+#echo WAITTIME:$WAITTIME
+
+if [ $WAITTIME -gt 0 ]; then
+   if [ $TAGA_DISPLAY == "DEBUG" ]; then
+     echo 1 waiting:$WAITTIME
+     echo 1 waiting:$WAITTIME
+#     echo 1 waiting:$WAITTIME
+     $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+     echo done waiting:$WAITTIME
+   elif [ $TAGA_DISPLAY == "VERBOSE" ]; then
+     echo 2 waiting:$WAITTIME
+#     echo 2 waiting:$WAITTIME
+#     echo 2 waiting:$WAITTIME
+     $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+     echo done waiting:$WAITTIME
+   else
+#     echo 3 waiting:$WAITTIME
+#     echo 3 waiting:$WAITTIME
+#     echo 3 waiting:$WAITTIME
+     sleep $WAITTIME
+   fi
+fi
+
+#echo done waiting:$WAITTIME
+#echo done waiting:$WAITTIME
+#echo done waiting:$WAITTIME
+
+#if [ $TAGA_DISPLAY == "DEBUG" ]; then
+#  $TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
+#if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+#  $TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
+#else
+#  sleep $MGEN_SERVER_INIT_DELAY
+#fi
 
 ###############################
 # Traffic Generation (Client) Part
@@ -271,4 +326,5 @@ done
 #sudo iperf -s -u -B 225.0.0.57 -i 10
 #echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
 #sudo iperf -s -u -B $MYMCAST_ADDR -i 10
+
 

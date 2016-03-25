@@ -22,6 +22,11 @@ do
 for target in $targetList
 do
 
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   fi
+
    # do not use ssh or scp if target == MYIP and local mode flag set
    if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
      if [ $target == $MYIP ]; then
@@ -57,6 +62,7 @@ do
    # get the DTS with nanoseconds granularity
    MY_TIME=`date -Ins` 
    TGT_TIME=`ssh -l $MYLOGIN_ID $target date -Ins` 
+   echo $?
 
    # check the ssh return code
    if [ $? -eq 0 ]; then
@@ -65,7 +71,21 @@ do
    else
 
        let trycount=$trycount+1
-       if [ $trycount -ge 10 ] ; then
+       if [ $trycount -ge $BLACK_LIST_THRESH ] ; then
+         # note, this black list section has been invoked
+         # black list this node 
+         # note, only one blacklist node currently supported
+         echo >> $TAGA_CONFIG_DIR/config
+         echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
+         BLACKLIST="$target"
+         echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+         echo
+         echo Warning: $target has been black listed!!
+         echo Warning: $target has been removed from this test!!
+         echo
+         break
+         #continue
+       elif [ $trycount -ge 10 ] ; then
          echo
          echo "WARNING: "
          echo "WARNING: Unable to obtain system time from $target"
@@ -548,8 +568,24 @@ do
    # delay if warning condition
    sleep $delay
 
+
    let trycount=$trycount+1
-   if [ $trycount -ge 10 ] ; then
+   if [ $trycount -ge $BLACK_LIST_THRESH ] ; then
+     # note, this black list section has not yet been seen 
+     # not sure we can actually get here...
+     # black list this node 
+     # note, only one blacklist node currently supported
+     echo >> $TAGA_CONFIG_DIR/config
+     echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
+     BLACKLIST="$target"
+     echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+     echo
+     echo Warning: $target has been black listed!!
+     echo Warning: $target has been removed from this test!!
+     echo
+     break
+     #continue
+   elif [ $trycount -ge 10 ] ; then
      echo
      echo "WARNING: "
      echo "WARNING: Unable to obtain system time from $target"
@@ -580,6 +616,8 @@ do
 
    # while not valid
    done
+
+
 
 done # end targetList
 

@@ -15,16 +15,18 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
-
 for target in $targetList
 do
-   echo
-   echo `date` : probing $target
-   echo $target: `ssh -l $MYLOGIN_ID $target hostname`
-   echo $target: `ssh -l $MYLOGIN_ID $target date`
-   echo $target: `ssh -l $MYLOGIN_ID $target uptime`
-   echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      echo; echo `date` : probing $target
+     # echo `basename $0` processing $target .......
+      echo $target: `ssh -l $MYLOGIN_ID $target hostname`
+      echo $target: `ssh -l $MYLOGIN_ID $target date`
+      echo $target: `ssh -l $MYLOGIN_ID $target uptime`
+      echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
+   fi
 done
 echo
-
-

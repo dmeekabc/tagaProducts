@@ -11,7 +11,14 @@ COMMAND_TO_WRAP=$tagaScriptsUtilsDir/resourceUsage.sh
 
 for target in $targetList
 do
-  echo `basename $0` processing $target .......
+
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      echo `basename $0` processing $target .......
+   fi
+
   sleep 1 
   ssh -l $MYLOGIN_ID $target $COMMAND_TO_WRAP
   sleep 1 
