@@ -37,6 +37,9 @@ echo Found List:
 cat /tmp/probe2Found.out | sort 
 
 echo
+echo Note: Any additional probe2.sh \(ping-related\) output below indicates the lists above are not complete!
+echo Note: In that case, please examine /tmp/probe2Found.out and /tmp/probe2Notfound.out directly.
+echo
 
 
 
