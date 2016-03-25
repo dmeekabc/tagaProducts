@@ -409,6 +409,28 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 # Black List Handling
 BLACK_LIST_THRESH=20
 
+####################################################
+# Portability Section, this section requires update 
+# after port to new system
+####################################################
+MYLOGIN_ID=yourLoginIdGoesHere
+MYPASSWD=YourPasswordGoesHere
+COMMAND=YourPrimaryCommandNameGoesHere
+PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
+
+####################################################
+# The Kill List
+####################################################
+# order matters! stop generators (mgen) before monitors (tcpdump)
+TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
+
+####################################################
+# Dynamic Testing
+####################################################
+VARIABLE_TEST="var_test.sh"
+
 ##############################################
 # Note: TAGA provides for multiple levels of config
 #  (1) primary config above 
@@ -442,37 +464,11 @@ if [ -s $TAGA_CONFIG_DIR/config_overrides ] ; then
   source $TAGA_CONFIG_DIR/config_overrides
 fi
 
-
-####################################################
-# Portability Section, this section requires update 
-# after port to new system
-####################################################
-MYLOGIN_ID=yourLoginIdGoesHere
-MYPASSWD=YourPasswordGoesHere
-COMMAND=YourPrimaryCommandNameGoesHere
-PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
-
-####################################################
-# Dynamic Testing
-####################################################
-VARIABLE_TEST="var_test.sh"
-
-####################################################
-# The Kill List
-####################################################
-# order matters! stop generators (mgen) before monitors (tcpdump)
-TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
-TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
-
 ##############################################
-# Master Machine
-# run time insert from runLoop.sh
+# Run Time Inserts ONLY Below
+# Master Machine, run time insert from runLoop.sh
+# Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-
-# BLACKLIST
-BLACKLIST=192.168.43.157
 
 # BLACKLIST
 BLACKLIST=192.168.43.208
