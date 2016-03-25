@@ -10,6 +10,14 @@ source $TAGA_CONFIG_DIR/config
 # stop the simulations
 for target in $targetList
 do
+
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      echo $0 processing $target
+   fi
+
    if [ $STOP_SIMULATION -eq 1 ] ; then
      echo STOP simulation processing on $target
      ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/simulateStop.sh     & 
@@ -23,10 +31,15 @@ done
 
 for target in $targetList
 do
-   if [ $target == $MYIP ]; then
+
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   elif [ $target == $MYIP ]; then
       echo skipping self for now...
       continue
    fi
+
    echo processing, cleaning $target
    ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
 done

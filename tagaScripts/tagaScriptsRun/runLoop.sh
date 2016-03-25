@@ -98,9 +98,9 @@ if [ $PROBE_ENABLED -eq 1 ]; then
 fi
 
 # get ping times if enabled
-if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
-  $tagaScriptsUtilsDir/pingTimes.sh
-fi
+#if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
+#  $tagaScriptsUtilsDir/pingTimes.sh
+#fi
 
 # get resource usage if enabled
 if [ $RESOURCE_MON_ENABLED -eq 1 ]; then

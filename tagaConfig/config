@@ -446,6 +446,7 @@ if [ $TESTTYPE == "MCAST" ] ; then
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
+   let DURATION2=$TARGET_COUNT_FACTOR*10
 fi
 
 #echo $DURATION1
@@ -464,6 +465,10 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 ##############################################
 STATUS_FILE="/tmp/taga_status.txt"
 TEST_DESCRIPTION="taga_anycast"
+
+
+# Black List Handling
+BLACK_LIST_THRESH=12
 
 ##############################################
 # Note: TAGA provides for multiple levels of config
@@ -502,4 +507,10 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
+
+
+
+
+# BLACKLIST
+BLACKLIST=10.0.0.20
 MASTER=10.0.0.27
