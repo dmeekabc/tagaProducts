@@ -249,7 +249,7 @@ do
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
 
-   echo `date` Regenerating HostToIpMap File ............ DONE
+   #echo `date` Regenerating HostToIpMap File ............ DONE
    echo
 
 
@@ -429,8 +429,14 @@ do
    $tagaScriptsStopDir/runStop.sh
 
    # collect and clean
-   $tagaScriptsUtilsDir/collect.sh $outputDir
-   $tagaScriptsUtilsDir/cleanAll.sh $outputDir
+   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd.dat
+   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.dat
+   #$tagaScriptsUtilsDir/collect.sh $outputDir
+   #$tagaScriptsUtilsDir/collect.sh $outputDir
+   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd.dat 
+   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.dat
+   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
+   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
