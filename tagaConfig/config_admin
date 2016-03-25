@@ -43,4 +43,22 @@ TAGA_UTILS_DIR=$tagaScriptsUtilsDir
 #TAGA_RUN_DIR=$tagaScriptsRunDir
 IBOA_UTILS_DIR=$iboaUtilsDir
 
+# vars that the coder/admin should set
+SCRIPT_HDR_PAD_LEN=34
+SCRIPT_HDR_PAD_LEN=34
+
+####################################################
+# Network Reset In Proress Flag File
+####################################################
+NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
+
+####################################################
+# Local Mode Flag File
+####################################################
+TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
+
+####################################################
+# Check Interface Log (Out) File
+####################################################
+CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
 

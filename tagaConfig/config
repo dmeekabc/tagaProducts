@@ -14,12 +14,7 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 # NEW Var SECTION, Implement then move somewhere else
 ####################################################
 
-
-SCRIPT_HDR_PAD_LEN=34
-
-
-
-
+#TBD
 
 ####################################################
 # MAX DURATION BEFORE REBOOT
@@ -28,21 +23,6 @@ MAX_ITER_DUR_BEFORE_REBOOT=180
 MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
-
-####################################################
-# Network Reset In Proress Flag File
-####################################################
-NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
-
-####################################################
-# Local Mode Flag File
-####################################################
-TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
-
-####################################################
-# Check Interface Log (Out) File
-####################################################
-CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
 
 ####################################################
 # Enable or Disable all testing per iteration loop
@@ -463,6 +443,8 @@ fi
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
+let DURATION3=120
+let DURATION3=2
 
 
 ##############################################
@@ -520,4 +502,11 @@ fi
 # Master Machine
 # run time insert from runLoop.sh
 ##############################################
+
+
+# BLACKLIST
+BLACKLIST=192.168.43.157
+
+# BLACKLIST
+BLACKLIST=192.168.43.208
 MASTER=192.168.43.124
