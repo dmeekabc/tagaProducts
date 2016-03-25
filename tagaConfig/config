@@ -11,6 +11,17 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 ####################################################
+# NEW Var SECTION, Implement then move somewhere else
+####################################################
+
+
+SCRIPT_HDR_PAD_LEN=34
+
+
+
+
+
+####################################################
 # MAX DURATION BEFORE REBOOT
 ####################################################
 MAX_ITER_DUR_BEFORE_REBOOT=180
@@ -449,8 +460,10 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*10
 fi
 
-#echo $DURATION1
-#echo $DURATION2
+# The DURATION3 allows us to force a condition if the auto config fails
+# A DURATION3 value of 0 indicates the auto config is currently sufficient
+let DURATION3=0
+
 
 ##############################################
 # others / static constants
