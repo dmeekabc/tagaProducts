@@ -7,21 +7,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# reinit the files
-rm /tmp/probe2Found.out
-rm /tmp/probe2Notfound.out
-
-
-$TAGA_UTILS_DIR/probe2a.sh &
-$TAGA_UTILS_DIR/probe2b.sh &
-$TAGA_UTILS_DIR/probe2c.sh &
-$TAGA_UTILS_DIR/probe2d.sh &
-$TAGA_UTILS_DIR/probe2e.sh &
-
-
-exit
-
-let i=255
+let i=50
 
 while [ $i -gt 0 ]
 do
