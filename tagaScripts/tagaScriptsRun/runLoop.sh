@@ -429,12 +429,14 @@ do
    $tagaScriptsStopDir/runStop.sh
 
    # collect and clean
-   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd.dat
-   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.dat
+   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd.sh
+   chmod 755 /tmp/managedRunLoopCmd.sh
+   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.sh
    #$tagaScriptsUtilsDir/collect.sh $outputDir
    #$tagaScriptsUtilsDir/collect.sh $outputDir
-   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd.dat 
-   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.dat
+   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd.sh 
+   chmod 755 /tmp/managedRunLoopCmd.sh
+   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd.sh
    #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
    #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
