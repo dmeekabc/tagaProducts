@@ -50,9 +50,9 @@ fi
 ##########################################
 ##########################################
 
-echo $0 Recovering Network \(Rebooting Others\)
-echo $0 Recovering Network \(Rebooting Others\)
-echo $0 Recovering Network \(Rebooting Others\)
+echo `basename $0` Recovering Network \(Rebooting Others\)
+echo `basename $0` Recovering Network \(Rebooting Others\)
+echo `basename $0` Recovering Network \(Rebooting Others\)
 
 # let interface recover from ifconfig command above
 sleep 5
