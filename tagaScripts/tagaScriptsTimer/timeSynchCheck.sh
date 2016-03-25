@@ -62,6 +62,7 @@ do
    # get the DTS with nanoseconds granularity
    MY_TIME=`date -Ins` 
    TGT_TIME=`ssh -l $MYLOGIN_ID $target date -Ins` 
+   echo $?
 
    # check the ssh return code
    if [ $? -eq 0 ]; then

@@ -260,7 +260,10 @@ do
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
         echo Notice: Config Synch is Enabled.
-        $tagaScriptsUtilsDir/synchConfig.sh
+
+      # dlm temp new 24 mar 2016
+      #  $tagaScriptsUtilsDir/synchConfig.sh
+        $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
      else
         echo Notice: Config Synch is Disabled!  
         echo Notice: Please, ensure no config changes require distribution.
@@ -431,14 +434,17 @@ do
    # collect and clean
    echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd1.sh
    chmod 755 /tmp/managedRunLoopCmd1.sh
-   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd1.sh
+
+   # double the managedExecute timeout since this can take awhile...
+   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd1.sh
 
    #$tagaScriptsUtilsDir/collect.sh $outputDir
    #$tagaScriptsUtilsDir/collect.sh $outputDir
 
    echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd2.sh 
    chmod 755 /tmp/managedRunLoopCmd2.sh
-   $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedRunLoopCmd2.sh
+   # double the managedExecute timeout since it is called inside also
+   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd2.sh
    #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
    #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
 
