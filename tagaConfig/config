@@ -17,12 +17,33 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 #TBD
 
 ####################################################
-# MAX DURATION BEFORE REBOOT
+# Test type - Multicast or Unicast, UDP or TCP
 ####################################################
-MAX_ITER_DUR_BEFORE_REBOOT=180
-MAX_ITER_DUR_BEFORE_REBOOT=200
-MAX_ITER_DUR_BEFORE_REBOOT=240
-MAX_ITER_DUR_BEFORE_REBOOT=300
+TESTTYPE="UCAST_TCP" # TCP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
+
+# TAGA DISPLAY enumeration values
+let TAGA_DISPLAY_VAL_SILENT=1
+let TAGA_DISPLAY_VAL_BRIEF=2
+let TAGA_DISPLAY_VAL_NORMAL=3
+let TAGA_DISPLAY_VAL_VERBOSE=4
+
+# Debug boolean
+let TAGA_DISPLAY_DEBUG=0
+let TAGA_DISPLAY_DEBUG=1
+
+# TAGA DISPLAY setting
+let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
+
+# dlm temp: the plan is to replace string usage 
+#           below with enum/boolean usage above
+# TAGA DISPLAY setting
+TAGA_DISPLAY="SILENT"   # least verbose
+TAGA_DISPLAY="BRIEF"    # even less verbose
+TAGA_DISPLAY="NORMAL"   # less verbose
+TAGA_DISPLAY="VERBOSE"  # verbose
+TAGA_DISPLAY="DEBUG"    # debug
 
 ####################################################
 # Enable or Disable all testing per iteration loop
@@ -48,25 +69,40 @@ STEPWISE_ITERATIONS=1  # Testing
 STEPWISE_ITERATIONS=0  # Normal
 
 ####################################################
-# Test type - Multicast or Unicast, UDP or TCP
+# MAX DURATION BEFORE REBOOT
 ####################################################
-TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
+MAX_ITER_DUR_BEFORE_REBOOT=180
+MAX_ITER_DUR_BEFORE_REBOOT=200
+MAX_ITER_DUR_BEFORE_REBOOT=240
+MAX_ITER_DUR_BEFORE_REBOOT=300
 
 ####################################################
-# Dynamic Testing
+# TRAFFIC CONFIG
 ####################################################
-VARIABLE_TEST="var_test.sh"
+# MGEN Traffic Configs
+# Message Count
+MSGCOUNT=10
+MSGCOUNT=20
 
-####################################################
-# The Kill List
-####################################################
-# order matters! stop generators (mgen) before monitors (tcpdump)
-TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
-TAGA_KILL_LIST="mgen survey xxx tcpdump" 
-TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
+# Message Rate
+# Note that fractional rates are not supported by the TAGA utility
+# Note that while fractional rates are supported by MGEN, those 
+# fractional rates are not supported by the TAGA utility
+#MSGRATE=0.2 # 5 for five per second, 0.2 for each 5 seconds
+#MSGRATE=0.1 # 5 for five per second, 0.1 for each 10 seconds
+
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+
+# try to disable traffic (MSGCOUNT == 0 does not work!)
+#MSGRATE=0.0 #MSGCOUNT=0
+
+# Message Length
+MSGLEN=1200
+MSGLEN=120
+MSGLEN=94
 
 ####################################################
 # The Keep Alive Function
@@ -87,7 +123,7 @@ FIXED_ONE_LIST=192.168.43.124   # wireshark, other
 FIXED_ONE_LIST=192.168.43.188   # wireshark, other
 FIXED_ONE_LIST=192.168.43.208   # wireshark, other
 FIXED_ONE_LIST=192.168.43.157   # wireshark, other
-FIXED_ONE_LIST=192.168.43.69   # wireshark, other
+FIXED_ONE_LIST=192.168.43.69    # wireshark, other
 
 FIXED_ONE_LIST=10.0.0.20
 FIXED_ONE_LIST=10.0.0.21
@@ -103,48 +139,16 @@ FIXED_ONE_LIST_ITFC=wlan0     # 43.188, 10.18 wireshark, oher
 
 FIXED_ALT_LIST="192.168.43.69 192.168.43.124 192.168.43.157 192.168.43.188 192.168.43.208"
 
+# DAEMON ids
+DAEMON1_IP=192.168.43.69
+DAEMON2_IP=192.168.43.124
+
 ##############################
 # Variable Other List Configuration
 # Should the $OTHERS var hold single or multiple targets?
 ##############################
 OTHERS="single"
 OTHERS="multiple"
-
-####################################################
-# Portability Section, this section requires update 
-# after port to new system
-####################################################
-MYLOGIN_ID=yourLoginIdGoesHere
-MYPASSWD=YourPasswordGoesHere
-COMMAND=YourPrimaryCommandNameGoesHere
-PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
-
-# TAGA DISPLAY enumeration values
-let TAGA_DISPLAY_VAL_SILENT=1
-let TAGA_DISPLAY_VAL_BRIEF=2
-let TAGA_DISPLAY_VAL_NORMAL=3
-let TAGA_DISPLAY_VAL_VERBOSE=4
-
-# Debug boolean
-let TAGA_DISPLAY_DEBUG=0
-let TAGA_DISPLAY_DEBUG=1
-
-# TAGA DISPLAY setting
-let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
-
-# dlm temp: the plan is to replace string usage 
-#           below with enum/boolean usage above
-# TAGA DISPLAY setting
-TAGA_DISPLAY="SILENT"   # least verbose
-TAGA_DISPLAY="BRIEF"    # even less verbose
-TAGA_DISPLAY="NORMAL"   # less verbose
-TAGA_DISPLAY="VERBOSE"  # verbose
-TAGA_DISPLAY="DEBUG"    # debug
-
-
-# DAEMON ids
-DAEMON1_IP=192.168.43.69
-DAEMON2_IP=192.168.43.124
 
 ####################################################
 # Time Synch Strict Flag
@@ -279,51 +283,12 @@ SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 
-# MGEN Traffic Configs
-# Message Count
-MSGCOUNT=1000
-MSGCOUNT=100
-MSGCOUNT=10
-MSGCOUNT=20
-
-# Message Rate
-# Note that fractional rates are not supported by the TAGA utility
-# Note that while fractional rates are supported by MGEN, those 
-# fractional rates are not supported by the TAGA utility
-#MSGRATE=0.2 # 5 for five per second, 0.2 for each 5 seconds
-#MSGRATE=0.1 # 5 for five per second, 0.1 for each 10 seconds
-
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=500 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=100 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=100 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=400 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-
-# Message Length
-MSGLEN=1200
-MSGLEN=120
-MSGLEN=94
-MSGLEN=94
-MSGLEN=894
-MSGLEN=194
-MSGLEN=94
-
 
 # end of iteration delay 
 END_OF_ITER_DELAY=60 #0
 END_OF_ITER_DELAY_PRINT_MODULUS=10 #0
 END_OF_ITER_DELAY=1 #0
 END_OF_ITER_DELAY_PRINT_MODULUS=1 #0
-
-# try to disable traffic (MSGCOUNT == 0 does not work!)
-#MSGRATE=0.0 
-#MSGCOUNT=0
 
 ####################################################
 # Archive or No Archive
@@ -363,18 +328,10 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 ##############################################
 # automatatically generated configs
 ##############################################
-#SCRIPTS_DIR=$HOME/scripts
-#TAGA_DIR=$SCRIPTS_DIR/taga
 TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-
-#OUTPUT_DIR=$TAGA_DIR/output
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
-
-# dlm temp
-#hostList=`$TAGA_CONFIG_DIR/hostList.sh`
-#touch $TAGA_CONFIG_DIR/hostList.sh
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
 # default to localhost
@@ -385,18 +342,12 @@ MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
      else MYIP=localhost; fi; done
-#echo CANDIDATES: $MYIPCANDIDATES
-#echo MYIP: $MYIP
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
 else
-   #INTERFACE=wlan0
-   #INTERFACE=`ifconfig | grep ^w | head -n 1 | cut -d" " -f1`
    INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
 fi
-
-#echo $INTERFACE
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -414,10 +365,9 @@ else
    # multiple (all) other targets in other list
    OTHER_LIST=`echo $targetList | sed s/$MYIP//g` 
 fi
-#echo $OTHER_LIST
 
 ##############################################
-# DURATION 1 and 2
+# DURATION 1 and 2 and 3
 ##############################################
 ##############################################
 # DURATION 1 
@@ -443,9 +393,7 @@ fi
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
-let DURATION3=120
 let DURATION3=2
-
 
 ##############################################
 # others / static constants
@@ -456,10 +404,6 @@ let DURATION3=2
 ##############################################
 LOG_POLICY_VOL=10     # 10 percent by volume of /tmp
 NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
-
-##############################################
-STATUS_FILE="/tmp/taga_status.txt"
-TEST_DESCRIPTION="taga_anycast"
 
 
 # Black List Handling
@@ -497,6 +441,29 @@ if [ -s $TAGA_CONFIG_DIR/config_overrides ] ; then
   #echo NOTICE: config is being overriden by config_overrides file
   source $TAGA_CONFIG_DIR/config_overrides
 fi
+
+
+####################################################
+# Portability Section, this section requires update 
+# after port to new system
+####################################################
+MYLOGIN_ID=yourLoginIdGoesHere
+MYPASSWD=YourPasswordGoesHere
+COMMAND=YourPrimaryCommandNameGoesHere
+PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
+
+####################################################
+# Dynamic Testing
+####################################################
+VARIABLE_TEST="var_test.sh"
+
+####################################################
+# The Kill List
+####################################################
+# order matters! stop generators (mgen) before monitors (tcpdump)
+TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
+TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
 
 ##############################################
 # Master Machine

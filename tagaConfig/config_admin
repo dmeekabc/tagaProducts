@@ -62,3 +62,9 @@ TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
 ####################################################
 CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
 
+
+##############################################
+# Status File and Test Description 
+##############################################
+STATUS_FILE="/tmp/taga_status.txt"
+TEST_DESCRIPTION="taga_anycast"
