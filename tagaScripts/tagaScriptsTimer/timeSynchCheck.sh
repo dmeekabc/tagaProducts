@@ -62,7 +62,10 @@ do
    # get the DTS with nanoseconds granularity
    MY_TIME=`date -Ins` 
    TGT_TIME=`ssh -l $MYLOGIN_ID $target date -Ins` 
-   echo $?
+   let sshRetCode=$?
+   if [ $sshRetCode -ne 0 ] ; then
+      echo Notice: SSH RetCode: $sshRetCode
+   fi
 
    # check the ssh return code
    if [ $? -eq 0 ]; then
