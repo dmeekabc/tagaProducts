@@ -15,9 +15,15 @@ PADVAR="x"
 PADVAR="."
 
 if [ $# -ne 2 ]; then
-    echo $0: Error, two params required!
+   echo $0: Error, two params required!
    echo "   required param 1: output param to be padded"
    echo "   required param 2: size of output after padding"
+   echo Your Param Count: $#
+   if [ $# -eq 1 ] ; then
+      echo Your Param 1: $1
+   fi
+   echo
+   
    exit 255
 fi
 
