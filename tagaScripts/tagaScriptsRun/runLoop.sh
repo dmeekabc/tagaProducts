@@ -401,6 +401,15 @@ do
 
    done
 
+
+   #####################################################
+   # DURATION3, this is expected to be 0 time but is provided for contingency
+   #####################################################
+
+   echo Pausing for DURATION3: $DURATION3
+   sleep $DURATION3
+
+
    #####################################################
    # Client-Side Test Stimulations
    #####################################################
