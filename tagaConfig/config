@@ -468,7 +468,7 @@ TEST_DESCRIPTION="taga_anycast"
 
 
 # Black List Handling
-BLACK_LIST_THRESH=12
+BLACK_LIST_THRESH=120
 
 ##############################################
 # Note: TAGA provides for multiple levels of config
