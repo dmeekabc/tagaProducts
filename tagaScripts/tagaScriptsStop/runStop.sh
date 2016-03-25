@@ -15,14 +15,13 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
-      echo $0 processing $target
-   fi
-
-   if [ $STOP_SIMULATION -eq 1 ] ; then
-     echo STOP simulation processing on $target
-     ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/simulateStop.sh     & 
-   else
-     echo NOT STOPING simulation processing on $target
+      echo `basename $0` processing $target
+     if [ $STOP_SIMULATION -eq 1 ] ; then
+       #echo STOP simulation processing on $target
+       ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/simulateStop.sh     & 
+     else
+       echo NOT STOPING simulation processing on $target
+     fi
    fi
 done
 
