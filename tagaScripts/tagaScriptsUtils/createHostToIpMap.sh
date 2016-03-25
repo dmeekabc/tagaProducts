@@ -25,7 +25,7 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
-      echo `basename $0` processing $target .......
+      echo `basename $0` processing $target ....... >/dev/null
    fi
 
    # don't use ssh if local mode flag is set
