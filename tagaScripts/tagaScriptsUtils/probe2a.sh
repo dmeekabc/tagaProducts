@@ -9,7 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 let i=50
 
-while [ $i -gt 0 ]
+while [ $i -gt 25 ]
 do
    NETADDR=$NETADDRPART.$i
    echo

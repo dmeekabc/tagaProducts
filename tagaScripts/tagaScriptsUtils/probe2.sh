@@ -13,10 +13,15 @@ rm /tmp/probe2Notfound.out
 
 
 $TAGA_UTILS_DIR/probe2a.sh &
+$TAGA_UTILS_DIR/probe2a2.sh &
 $TAGA_UTILS_DIR/probe2b.sh &
+$TAGA_UTILS_DIR/probe2b2.sh &
 $TAGA_UTILS_DIR/probe2c.sh &
+$TAGA_UTILS_DIR/probe2c2.sh &
 $TAGA_UTILS_DIR/probe2d.sh &
+$TAGA_UTILS_DIR/probe2d2.sh &
 $TAGA_UTILS_DIR/probe2e.sh &
+$TAGA_UTILS_DIR/probe2e2.sh &
 
 
 exit

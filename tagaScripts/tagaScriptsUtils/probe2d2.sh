@@ -7,9 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let i=100
+let i=175
 
-while [ $i -gt 75 ]
+while [ $i -gt 150 ]
 do
    NETADDR=$NETADDRPART.$i
    echo
