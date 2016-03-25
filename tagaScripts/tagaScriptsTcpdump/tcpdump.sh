@@ -10,7 +10,8 @@ source $TAGA_CONFIG_DIR/config
 #echo $MYIP : `basename $0` : executing at `date`
 NAME=`basename $0`
 #echo $MYIP : `basename $0` :  executing at `date`
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
+#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
+echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
 
 # get the input 
 MY_PARAM_IP=$1
