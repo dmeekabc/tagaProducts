@@ -9,13 +9,14 @@ TAGA Features:
 
   Deployment:
   -----------
-  1. Auto Self Replication
-  2. Auto Key Generation and Distribution
+  1. Unix/Linux shell script-based capabilities reduce dependencies and simplify deployment
+  2. Auto Self Replication
+  3. Auto Key Generation and Distribution
 
   Run-time:
   -----------
-  1. Auto Configuration of Interface Names (via targetList)
-  2. Auto Configuration of Host Names (via targetList)
+  1. Auto Configuration of Interface Names and Host Names (via targetList)
+  2. Auto Determination of Network Environment and Environment based Auto Configuration
   3. Auto Network Node Time Synchronization Verification
   4. Auto Distribution of (updates to) Configuration
   5. Auto File Collection and Process Cleanup
@@ -23,7 +24,8 @@ TAGA Features:
   7. Auto resource utilization monitor and display
   8. Distributed Processing provides for robust data generation and collection
   9. Policy-Based Management (e.g. Log Mgt and Network Overhead Control) (Note1)
-  10. New: Auto Fault Detection and Recovery (Condition-based Automatic Node and Network-wide Reboots) 
+  10. New: Auto Fault Detection, Black List Handling, and Auto Recovery (Condition-based Automatic Node and Network-wide Reboots) 
+         - this pinpoints network faults 
          - this allows for *unmanned* and *24x7* testing 
   11. New: (proprietary) TAGA Convergence utility
          - this simplifies determination of network stability, usability and test scenario repeatability
