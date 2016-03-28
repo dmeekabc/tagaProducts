@@ -33,7 +33,11 @@ if [ $TESTONLY -eq 1 ] ; then
   outputDir=$OUTPUT_DIR/output
 fi 
 # go to the output Directory for processing
-echo outputDir: $outputDir
+
+if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+  echo outputDir: $outputDir
+fi
+
 cd $outputDir
 
 

@@ -200,7 +200,7 @@ do
       # refresh the flag to check again
       source $TAGA_CONFIG_DIR/config
       echo
-      echo `date` Main Test Loop Disabled ............
+      echo TAGA: `date` Main Test Loop Disabled ............
       sleep 5
    done
 
@@ -209,7 +209,7 @@ do
       # refresh config in case it has changed
       source $TAGA_CONFIG_DIR/config
       echo
-      echo `date` Max Iterations \($iter\) Reached - Disabling ............
+      echo TAGA: `date` Max Iterations \($iter\) Reached - Disabling ............
       sleep 5
    done
 
@@ -234,17 +234,17 @@ do
    let iter=$iter+1
 
    echo
-   echo `date` Main Test Loop Enabled ............
+   echo TAGA: `date` Main Test Loop Enabled ............
 
    # exit now if simulation only
    if [ $SIMULATION_ONLY -eq 1 ]; then
-      echo `date` Simulation Only Flag is True
-      echo `date` Background Traffic is Disabled ............
+      echo TAGA: `date` Simulation Only Flag is True
+      echo TAGA: `date` Background Traffic is Disabled ............
    fi
 
 
    echo
-   echo `date` Regenerating HostToIpMap File ............
+   echo TAGA: `date` Regenerating HostToIpMap File ............
 
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
@@ -252,21 +252,20 @@ do
    #echo `date` Regenerating HostToIpMap File ............ DONE
    echo
 
-
    if [ $CONTINUOUS_SYNCH -eq 1 ]; then
      # synch everything 
      $tagaScriptsUtilsDir/synch.sh
    else
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
-        echo Notice: Config Synch is Enabled.
+        echo TAGA: Notice: Config Synch is Enabled.
 
       # dlm temp new 24 mar 2016
       #  $tagaScriptsUtilsDir/synchConfig.sh
         $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
      else
-        echo Notice: Config Synch is Disabled!  
-        echo Notice: Please, ensure no config changes require distribution.
+        echo TAGA: Notice: Config Synch is Disabled!  
+        echo TAGA: Notice: Please, ensure no config changes require distribution.
      fi
    fi
 
@@ -311,7 +310,7 @@ do
    while [ $i -gt 0 ]; 
    do
       let i=$i-1
-      echo Servers Initializing.... $i
+      echo TAGA: Servers Initializing.... $i
       sleep 2
    done
 
@@ -328,26 +327,26 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 50 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 10 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 5 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       else
-         echo Total Secs Remain: $tot : Secs Remain Part 1: $i
+         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
 
       sleep 1
@@ -362,8 +361,8 @@ do
 #   $TAGA_UTILS_DIR/checkInterface.sh
 
    # run the variable test
-   echo Executing variable test..... $VARIABLE_TEST
    $tagaScriptsTestDir/$VARIABLE_TEST
+   #echo TAGA: Executing variable test..... $VARIABLE_TEST
 
    let i=$DURATION2
    while [ $i -gt 0 ]
@@ -374,24 +373,24 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 50 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 10 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       else
-         echo Total Secs Remain: $tot : Secs Remain Part 2: $i
+         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
       fi
 
 #      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
@@ -406,7 +405,7 @@ do
    # DURATION3, this is expected to be 0 time but is provided for contingency
    #####################################################
 
-   echo Pausing for DURATION3: $DURATION3
+   echo TAGA: Pausing for DURATION3: $DURATION3
    sleep $DURATION3
 
 
@@ -515,13 +514,13 @@ do
 
    # expert displsy to standard output?
    if [ $TAGA_DISPLAY_EXPERT -eq 1 ] ; then 
-     echo; echo Convergence:
+     echo; echo TAGA: Convergence:
      echo $printableDeltaCum
      echo $printableAverageDeltaCum
      echo
    fi
    # expert displsy always to expertDisplay.dat file
-   echo; echo Convergence:         >> /tmp/expertDisplay.dat
+   echo; echo TAGA: Convergence:         >> /tmp/expertDisplay.dat
    echo $printableDeltaCum         >> /tmp/expertDisplay.dat
    echo $printableAverageDeltaCum  >> /tmp/expertDisplay.dat
    echo
@@ -560,23 +559,20 @@ do
    if [ $beforeLastLastAvgDelta -eq $beforeLastAvgDelta ] ; then
    if [ $beforeLastAvgDelta -eq $lastAvgDelta ] ; then
       if [ $beforeLastAvgDelta -eq $currentAvgDelta ] ; then
-          echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged 
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
-          echo Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
+          echo TAGA: Converged: $currentAvgDelta has converged 
+          echo TAGA: Converged: $currentAvgDelta has converged >> $TAGA_RUN_DIR/counts.txt
           # store it
           LAST_CONVERGED=$currentAvgDelta
       else
-         echo Not Converged marker 1 >/dev/null
+         echo TAGA: Not Converged marker 1 >/dev/null
       fi
     else
-      echo Not Converged marker 2 >/dev/null
+      echo TAGA: Not Converged marker 2 >/dev/null
    fi
    fi
    fi
 
-   echo LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
-   echo LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
+   echo TAGA: LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
 
    # new header
    echo `date` LastConverged: $LAST_CONVERGED >> $TAGA_RUN_DIR/counts.txt
@@ -589,7 +585,7 @@ do
    for i in 1 2 #3 4 5 6 # 7 8 9 10 11
    do
       let ticker=6-$i
-      echo Configuration Change Window: Change Configuration Now... $ticker
+      echo TAGA: Configuration Change Window: Change Configuration Now... $ticker
       sleep 2
    done
 
@@ -762,8 +758,8 @@ do
          let resetflag=0
       else
 
-         echo Network is in a bad state... 
-         echo Attempting to Recover Network....
+         echo TAGA: Notice: Network is in a bad state... 
+         echo TAGA: Notice: Attempting to Recover Network....
 
          # this provides our inter-process comms, 
          # it is not bullet proof, but better than nothing...
@@ -772,7 +768,7 @@ do
 
          $TAGA_UTILS_DIR/recoverNet.sh "doNotResetInterface" &
 
-         echo Suspending while the network recovers...  
+         echo TAGA: Suspending while the network recovers...  
          $IBOA_UTILS_DIR/iboaDelay.sh 150 5
 
          # this provides our inter-process comms, 
@@ -785,7 +781,7 @@ do
          # set the flag so we don't reboot next iteration
          let resetflag=1
 
-         echo Continuing....
+         echo TAGA: Continuing....
 
       fi
       fi

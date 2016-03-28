@@ -7,21 +7,6 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
-#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
-#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
-#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
-#gitHub Note: This should be hardened by ensuring we don't kill non-taga processes
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-# this would be a simple matter to ensure the taga or some such string was included i the grep below
-
-#echo $1
-
-
 # the tcpdump fails to be killed with this extra taga match string setting...
 # for now, relax the restriiction (relax the match string)
 EXTRA_MATCH_STRING="taga"
@@ -66,7 +51,9 @@ do
    # Kill the process id(s) of the proc name
    #KILL_LIST2=`ps -ef | grep \$proc_name | grep -v grep | cut -c10-15` 
    KILL_LIST2=`ps -ef | grep \$proc_name | grep $EXTRA_MATCH_STRING | grep -v grep | cut -c10-15` 
-   echo killing $proc_name $filler Kill_list: $KILL_LIST2
+   if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+     echo killing $proc_name $filler Kill_list: $KILL_LIST2
+   fi
    sudo kill -9 $KILL_LIST2 <$TAGA_CONFIG_DIR/passwd.txt # < $TAGA_CONFIG_DIR/passwd.txt
 
 done

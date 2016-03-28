@@ -7,10 +7,6 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# gitHub TODO:
-# gitHub Note: This should probably become single SSH command to kick off all this activity on remotes
-# gitHub Note: Consider real-time data flow and log implications of such a change
-
 # determine the time for traffic to begin flowing
 let trafficStartEpoch=`date +%s`
 let trafficStartEpoch=$trafficStartEpoch+$MGEN_SERVER_INIT_DELAY
@@ -18,7 +14,7 @@ let trafficStartEpoch=$trafficStartEpoch+$MGEN_SERVER_INIT_DELAY
 for target in $targetList
 do
 
-   if echo $BLACKLIST | grep $target ; then
+   if echo $BLACKLIST | grep $target >/dev/null ; then
       echo The $target is in the black list, skipping...
       continue
    else
@@ -36,14 +32,10 @@ do
    fi
    fi
 
+   # invoke the 'simulations' on each target 
    ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
 
-# dlm temp, 24 mar 2016, moving these remote calls to local calls from simulate.sh
-#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulatePubSub.sh <$TAGA_CONFIG_DIR/passwd.txt &
-#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateXXX.sh    <$TAGA_CONFIG_DIR/passwd.txt &
-#   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulateSIM1.sh   <$TAGA_CONFIG_DIR/passwd.txt &
-
-   # run traffic unless simulation only flag is set
+   # run traffic unless the 'simulation only' flag is set
    if [ $SIMULATION_ONLY -eq 0 ]; then
       ssh -l $MYLOGIN_ID $target $tagaScriptsTcpdumpDir/tcpdump.sh $target & 
       ssh -l $MYLOGIN_ID $target $tagaScriptsMgenDir/mgen.sh $target $trafficStartEpoch&
