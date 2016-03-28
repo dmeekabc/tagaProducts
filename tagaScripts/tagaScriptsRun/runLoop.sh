@@ -513,15 +513,24 @@ do
    # make the log dir
    mkdir -p $LOG_DIR
 
-   echo; echo Convergence:
+   # expert displsy to standard output?
+   if [ $TAGA_DISPLAY_EXPERT -eq 1 ] ; then 
+     echo; echo Convergence:
+     echo $printableDeltaCum
+     echo $printableAverageDeltaCum
+     echo
+   fi
+   # expert displsy always to expertDisplay.dat file
+   echo; echo Convergence:         >> /tmp/expertDisplay.dat
+   echo $printableDeltaCum         >> /tmp/expertDisplay.dat
+   echo $printableAverageDeltaCum  >> /tmp/expertDisplay.dat
+   echo
 
-   echo $printableDeltaCum
-
+   # stats output
    echo $printableDeltaCum > /tmp/deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/_deltaCum.out
    echo $printableDeltaCum > $LOG_DIR/d_deltaCum.out
-
    echo $printableDeltaCum > /tmp/both.out
    echo $printableDeltaCum > $LOG_DIR/both.out
 
@@ -530,13 +539,10 @@ do
    # Print to the Average Delta Cumlative Log File
    #############################################################
 
-   echo $printableAverageDeltaCum
-   echo
    echo $printableAverageDeltaCum > /tmp/averageDeltaCum.out
    echo $printableAverageDeltaCum > $LOG_DIR/averageDeltaCum.out
    echo $printableAverageDeltaCum > $LOG_DIR/_averageDeltaCum.out
    echo $printableAverageDeltaCum > $LOG_DIR/d_averageDeltaCum.out
-
    echo $printableAverageDeltaCum >> /tmp/both.out
    echo $printableAverageDeltaCum >> $LOG_DIR/both.out
 

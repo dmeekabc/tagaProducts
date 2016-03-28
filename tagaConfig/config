@@ -1,4 +1,4 @@
-#####################################################
+####################################################
 # Copyright 2016 IBOA Corp
 # All Rights Reserved
 #####################################################
@@ -13,8 +13,11 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 ####################################################
 # NEW Var SECTION, Implement then move somewhere else
 ####################################################
-
 #TBD
+let IP_PAD_LEN=16
+let NAME_PAD_LEN=24
+let CMD_PAD_LEN=16
+
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -23,18 +26,24 @@ TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 
-# TAGA DISPLAY enumeration values
-let TAGA_DISPLAY_VAL_SILENT=1
-let TAGA_DISPLAY_VAL_BRIEF=2
-let TAGA_DISPLAY_VAL_NORMAL=3
-let TAGA_DISPLAY_VAL_VERBOSE=4
+# TAGA DISPLAY (Standard out) Enumerated Values
+let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1
+let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2
+let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3
+let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
 
-# Debug boolean
-let TAGA_DISPLAY_DEBUG=0
+# TAGA DISPLAY (Standard out) Setting
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
+
+# TAGA DISPLAY Debug (Standard out) Boolean
 let TAGA_DISPLAY_DEBUG=1
+let TAGA_DISPLAY_DEBUG=0
 
-# TAGA DISPLAY setting
-let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
+# TAGA DISPLAY Expert (Standard out) Boolean (standard out boolean)
+# note: expert display always available in TAGA *.dat files
+let TAGA_DISPLAY_EXPERT=1
+let TAGA_DISPLAY_EXPERT=0
 
 # dlm temp: the plan is to replace string usage 
 #           below with enum/boolean usage above
@@ -469,7 +478,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-# BLACKLIST
-BLACKLIST=192.168.43.208
 MASTER=192.168.43.124

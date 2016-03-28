@@ -7,11 +7,16 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-#echo $MYIP : `basename $0` : executing at `date`
 NAME=`basename $0`
+IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
+NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
+echo "$IPPART : $NAMEPART : executing at `date`"
+
+#echo $MYIP : `basename $0` : executing at `date`
+#NAME=`basename $0`
 #echo $MYIP : `basename $0` :  executing at `date`
 #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
+#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
 
 # get the input 
 MY_PARAM_IP=$1
@@ -40,7 +45,9 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
      /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
   else
     tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l   \
-     <$TAGA_CONFIG_DIR/passwd.txt > /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
+     <$TAGA_CONFIG_DIR/passwd.txt > \
+         /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S`  \
+              2>/dev/null
   fi
 else
   echo `hostname` is not in the list of Traffic/PLI Receivers | tee $STATUS_FILE 

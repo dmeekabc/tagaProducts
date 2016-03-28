@@ -8,8 +8,12 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 NAME=`basename $0`
-#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
+IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
+NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
+echo "$IPPART : $NAMEPART : executing at `date`"
+
+#NAME=`basename $0`
+#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
 
 # get the input
 # get MYIP to use
@@ -49,17 +53,15 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_rcvr.mgn.template \
             > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
     # run it, joing the group
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
     else
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
     fi
 
     # start the UDP listener in background
-    #echo mgen port $MYMCAST_PORT 
-    #mgen port $MYMCAST_PORT &
   elif [ $TESTTYPE == "UCAST_TCP" ]; then
     # UCAST TCP
     # override mgen_proto default value of UDP  
@@ -69,9 +71,9 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     sed -e s/port/$MYPORT/g $TAGA_MGEN_DIR/script_tcp_listener.mgn.template \
             > $TAGA_MGEN_DIR/script_tcp_listener.mgn  
     # start the TCP listener in background
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING >= $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn & 
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING <= $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null 2> /dev/null & 
     else
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null & 
@@ -79,9 +81,9 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   else
     # UCAST UDP
     # start the UDP listener in background
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
       mgen port $MYPORT & 
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
       mgen port $MYPORT > /dev/null 2>/dev/null & 
     else
       mgen port $MYPORT > /dev/null  & 
@@ -109,43 +111,20 @@ if [ $WAITTIME -lt 0 ]; then
    echo
 fi
 
-#echo WAITTIME:$WAITTIME
-#echo WAITTIME:$WAITTIME
-#echo WAITTIME:$WAITTIME
-#echo WAITTIME:$WAITTIME
-
 if [ $WAITTIME -gt 0 ]; then
-   if [ $TAGA_DISPLAY == "DEBUG" ]; then
-     echo 1 waiting:$WAITTIME
-     echo 1 waiting:$WAITTIME
-#     echo 1 waiting:$WAITTIME
+   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
      echo done waiting:$WAITTIME
-   elif [ $TAGA_DISPLAY == "VERBOSE" ]; then
-     echo 2 waiting:$WAITTIME
-#     echo 2 waiting:$WAITTIME
-#     echo 2 waiting:$WAITTIME
+   elif [ $TAGA_DISPLAY_DEBUG -eq 1 ]; then
+     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
      echo done waiting:$WAITTIME
    else
-#     echo 3 waiting:$WAITTIME
-#     echo 3 waiting:$WAITTIME
-#     echo 3 waiting:$WAITTIME
      sleep $WAITTIME
    fi
 fi
 
-#echo done waiting:$WAITTIME
-#echo done waiting:$WAITTIME
-#echo done waiting:$WAITTIME
-
-#if [ $TAGA_DISPLAY == "DEBUG" ]; then
-#  $TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
-#if [ $TAGA_DISPLAY == "VERBOSE" ]; then
-#  $TAGA_UTILS_DIR/tagaDelay.sh $MGEN_SERVER_INIT_DELAY
-#else
-#  sleep $MGEN_SERVER_INIT_DELAY
-#fi
 
 ###############################
 # Traffic Generation (Client) Part
@@ -182,12 +161,14 @@ if [ $TESTTYPE == "MCAST" ]; then
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
-  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+  #elif [ $TAGA_DISPLAY == "SILENT" ]; then
+  elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
     mgen input $TAGA_MGEN_DIR/script.mgn #>/dev/null
@@ -236,19 +217,20 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     #echo 10.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
      echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
   fi
 
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
-  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+  elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+  #elif [ $TAGA_DISPLAY == "SILENT" ]; then
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
     mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null
@@ -294,19 +276,20 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     #echo 10.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
      echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
   fi
 
   # some cleanup
   rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
 
-  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
     cat $TAGA_MGEN_DIR/script.mgn
     echo ---------------------
     mgen input $TAGA_MGEN_DIR/script.mgn
-  elif [ $TAGA_DISPLAY == "SILENT" ]; then
+  elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+  #elif [ $TAGA_DISPLAY == "SILENT" ]; then
     mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
   else
     mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null

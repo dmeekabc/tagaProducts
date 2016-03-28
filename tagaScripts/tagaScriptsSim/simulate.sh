@@ -9,11 +9,16 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-#echo $MYIP : `basename $0` : executing at `date`
 NAME=`basename $0`
+IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
+NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
+echo "$IPPART : $NAMEPART : executing at `date`"
+
+#echo $MYIP : `basename $0` : executing at `date`
+#NAME=`basename $0`
 #echo $MYIP : `basename $0` :  executing at `date`
 #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : executing at `date`"
-echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
+#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
 
 # sample simulations require $HOME/python dir
 mkdir $HOME/python 2>/dev/null
@@ -78,7 +83,9 @@ if [ $PRIMARY_SIM_SERVER_ON -eq 1 ]; then
 
 else
    #echo $MYIP : `basename $0` : Primary Simulation Server Disabled 
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : primary sim server disabled at `date`"
+   #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : primary sim server disabled at `date`"
+   CMDPART=`$iboaUtilsDir/iboa_padded_echo.sh PrimarySimServer $CMD_PAD_LEN`
+   echo "$IPPART : $NAMEPART : disabled $CMDPART at `date`"
 fi
 
 # start the other optional servers
