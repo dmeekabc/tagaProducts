@@ -744,7 +744,14 @@ do
    diff /tmp/runLoop.sh.out.before /tmp/runLoop.sh.out.after | cut -c3- > /tmp/runLoop.sh.out.iter
 
    # sleep end of iteration delay time
-   $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
+   
+   # End of Iteration Delay
+   if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+     $iboaUtilsDir/iboaDelay.sh $END_OF_ITER_DELAY $END_OF_ITER_DELAY_PRINT_MODULUS
+   else
+     sleep $END_OF_ITER_DELAY 
+   fi
+
 
    #############################################
    # Recover Net if Necessary
