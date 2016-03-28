@@ -28,10 +28,16 @@ let TAGA_DISPLAY_VAL_SILENT=1
 let TAGA_DISPLAY_VAL_BRIEF=2
 let TAGA_DISPLAY_VAL_NORMAL=3
 let TAGA_DISPLAY_VAL_VERBOSE=4
+#let TAGA_DISPLAY_VAL_EXPERT=5
 
-# Debug boolean
+# Debug booleans
 let TAGA_DISPLAY_DEBUG=0
 let TAGA_DISPLAY_DEBUG=1
+
+# Expert display to standard output?
+# note: expert display always available in TAGA *.dat files
+let TAGA_DISPLAY_EXPERT=1
+let TAGA_DISPLAY_EXPERT=0
 
 # TAGA DISPLAY setting
 let TAGA_DISPLAY_VAL=$TAGA_DISPLAY_VAL_SILENT
@@ -470,6 +476,11 @@ fi
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
 
+
 # BLACKLIST
-BLACKLIST=192.168.43.208
-MASTER=192.168.43.124
+BLACKLIST=192.168.43.188
+
+
+# BLACKLIST
+BLACKLIST=10.0.0.18
+MASTER=10.0.0.27
