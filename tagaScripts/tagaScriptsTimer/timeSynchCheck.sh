@@ -68,7 +68,8 @@ do
    fi
 
    # check the ssh return code
-   if [ $? -eq 0 ]; then
+   #if [ $? -eq 0 ]; then
+   if [ $sshRetCode -eq 0 ]; then
       # good return code
       echo okay keep going >/dev/null
    else
