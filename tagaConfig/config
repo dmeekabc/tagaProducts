@@ -265,6 +265,9 @@ END_OF_CYCLE_TESTS2_ENABLED=0 # Normal
 END_OF_CYCLE_TESTS3_ENABLED=1 # Testing
 END_OF_CYCLE_TESTS3_ENABLED=0 # Normal
 
+VAR_TEST_ENABLED=1 # Testing
+VAR_TEST_ENABLED=0 # Normal
+
 ##############################################
 # additional admin/cleanup
 ##############################################
@@ -434,9 +437,6 @@ PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
 TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
-
-####################################################
-# Dynamic Testing
 ####################################################
 VARIABLE_TEST="var_test.sh"
 
@@ -478,4 +478,15 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
+
+
+# BLACKLIST
+BLACKLIST=192.168.43.157
+
+
+# BLACKLIST
+BLACKLIST=192.168.43.69
+
+# BLACKLIST
+BLACKLIST=192.168.43.157
 MASTER=192.168.43.124
