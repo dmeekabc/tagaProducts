@@ -49,9 +49,11 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_rcvr.mgn.template \
             > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
     # run it, joing the group
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+    #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+    #elif [ $TAGA_DISPLAY == "SILENT" ]; then
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
     else
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
@@ -69,9 +71,11 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     sed -e s/port/$MYPORT/g $TAGA_MGEN_DIR/script_tcp_listener.mgn.template \
             > $TAGA_MGEN_DIR/script_tcp_listener.mgn  
     # start the TCP listener in background
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING >= $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+    #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn & 
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING <= $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+    #elif [ $TAGA_DISPLAY == "SILENT" ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null 2> /dev/null & 
     else
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null & 
@@ -79,9 +83,11 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   else
     # UCAST UDP
     # start the UDP listener in background
-    if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
       mgen port $MYPORT & 
-    elif [ $TAGA_DISPLAY == "SILENT" ]; then
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+    #elif [ $TAGA_DISPLAY == "SILENT" ]; then
       mgen port $MYPORT > /dev/null 2>/dev/null & 
     else
       mgen port $MYPORT > /dev/null  & 
