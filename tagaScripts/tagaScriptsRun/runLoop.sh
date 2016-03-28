@@ -200,7 +200,7 @@ do
       # refresh the flag to check again
       source $TAGA_CONFIG_DIR/config
       echo
-      echo TAGA: `date` Main Test Loop Disabled ............
+      echo TAGA:PreTrafficPhase: `date` Main Test Loop Disabled ............
       sleep 5
    done
 
@@ -209,7 +209,7 @@ do
       # refresh config in case it has changed
       source $TAGA_CONFIG_DIR/config
       echo
-      echo TAGA: `date` Max Iterations \($iter\) Reached - Disabling ............
+      echo TAGA:PreTrafficPhase: `date` Max Iterations \($iter\) Reached - Disabling ............
       sleep 5
    done
 
@@ -234,17 +234,17 @@ do
    let iter=$iter+1
 
    echo
-   echo TAGA: `date` Main Test Loop Enabled ............
+   echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
    # exit now if simulation only
    if [ $SIMULATION_ONLY -eq 1 ]; then
-      echo TAGA: `date` Simulation Only Flag is True
-      echo TAGA: `date` Background Traffic is Disabled ............
+      echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
+      echo TAGA:PreTrafficPhase: `date` Background Traffic is Disabled ............
    fi
 
 
    echo
-   echo TAGA: `date` Regenerating HostToIpMap File ............
+   echo TAGA:PreTrafficPhase: `date` Regenerating HostToIpMap File ............
 
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
@@ -258,14 +258,14 @@ do
    else
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
-        echo TAGA: Notice: Config Synch is Enabled.
+        echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
 
       # dlm temp new 24 mar 2016
       #  $tagaScriptsUtilsDir/synchConfig.sh
         $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
      else
-        echo TAGA: Notice: Config Synch is Disabled!  
-        echo TAGA: Notice: Please, ensure no config changes require distribution.
+        echo TAGA:PreTrafficPhase: Notice: Config Synch is Disabled!  
+        echo TAGA:PreTrafficPhase: Notice: Please, ensure no config changes require distribution.
      fi
    fi
 
@@ -310,7 +310,7 @@ do
    while [ $i -gt 0 ]; 
    do
       let i=$i-1
-      echo TAGA: Servers Initializing.... $i
+      echo TAGA:PreTrafficPhase: Servers Initializing.... $i
       sleep 2
    done
 
