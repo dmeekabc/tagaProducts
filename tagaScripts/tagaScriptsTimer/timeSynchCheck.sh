@@ -22,7 +22,7 @@ do
 for target in $targetList
 do
 
-   if echo $BLACKLIST | grep $target ; then
+   if echo $BLACKLIST | grep $target >/dev/null ; then
       echo The $target is in the black list, skipping...
       continue
    fi

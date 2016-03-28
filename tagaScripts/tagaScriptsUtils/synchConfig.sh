@@ -8,7 +8,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # change to config dir
-cd $TAGA_CONFIG_DIR
+cd $TAGA_CONFIG_DIR >/dev/null
 
 for target in $targetList
 do
@@ -51,7 +51,7 @@ do
 done
 
 # change to orig dir
-cd -
+cd - >/dev/null
 
 
 
