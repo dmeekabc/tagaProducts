@@ -327,26 +327,26 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 5 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       else
-         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
 
       sleep 1
@@ -373,24 +373,24 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       else
-         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
       fi
 
 #      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
@@ -405,7 +405,8 @@ do
    # DURATION3, this is expected to be 0 time but is provided for contingency
    #####################################################
 
-   echo TAGA: Pausing for DURATION3: $DURATION3
+   echo TAGA:TrafficPhase: Traffic Phase complete! 
+   echo TAGA:PostTrafficPhase: Beginning...
    sleep $DURATION3
 
 
