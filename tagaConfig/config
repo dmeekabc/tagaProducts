@@ -13,8 +13,11 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 ####################################################
 # NEW Var SECTION, Implement then move somewhere else
 ####################################################
-
 #TBD
+let IP_PAD_LEN=16
+let NAME_PAD_LEN=24
+let CMD_PAD_LEN=16
+
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -30,12 +33,12 @@ let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3
 let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
 
 # TAGA DISPLAY (Standard out) Setting
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 
 # TAGA DISPLAY Debug (Standard out) Boolean
-let TAGA_DISPLAY_DEBUG=0
 let TAGA_DISPLAY_DEBUG=1
+let TAGA_DISPLAY_DEBUG=0
 
 # TAGA DISPLAY Expert (Standard out) Boolean (standard out boolean)
 # note: expert display always available in TAGA *.dat files
@@ -475,12 +478,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-
-# BLACKLIST
-BLACKLIST=192.168.43.188
-
-
-# BLACKLIST
-BLACKLIST=10.0.0.18
-MASTER=10.0.0.27
+MASTER=192.168.43.124
