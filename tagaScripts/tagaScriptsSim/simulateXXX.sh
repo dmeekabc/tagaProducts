@@ -30,15 +30,21 @@ rm $OLDPROCFILE3 2>/dev/null
 
 if [ $MYIP == "192.168.43.69" ]; then
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   CMDPART=`$iboaUtilsDir/iboa_padded_echo.sh XXXXDaemon $CMD_PAD_LEN`
+   echo "$IPPART : $NAMEPART : starting $CMDPART at `date`"
    $XXX_DIR/xxx.py start
 elif [ $MYIP == "10.0.0.22" ]; then
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   CMDPART=`$iboaUtilsDir/iboa_padded_echo.sh XXXXDaemon $CMD_PAD_LEN`
+   echo "$IPPART : $NAMEPART : starting $CMDPART at `date`"
    $XXX_DIR/xxx.py start
 else
    #echo $MYIP : `basename $0` : starting xxx daemon
-   echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   #echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME 30` : starting XXXX Daemon at `date`"
+   CMDPART=`$iboaUtilsDir/iboa_padded_echo.sh XXXXDaemon $CMD_PAD_LEN`
+   echo "$IPPART : $NAMEPART : starting $CMDPART at `date`"
    $XXX_DIR/xxx.py start
 fi
 
