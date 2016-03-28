@@ -153,7 +153,14 @@ let expectedCount=$expectedCount*$expectedCount2
 let numerator=$grossReceivedCount
 let printCount=$numerator
 let numerator=$numerator*10000; let denominator=$expectedCount
-let percent=$numerator/$denominator 
+
+if [ $denominator -gt 0 ]; then
+   let percent=$numerator/$denominator 
+else
+   echo TAGA:Notice: Denominator of 0 detected.
+fi
+
+
 let checkValue=$numerator/10000 
 if [ $checkValue -eq $denominator ]; then
   percent="100.00"
