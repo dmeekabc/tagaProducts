@@ -9,6 +9,8 @@ source $TAGA_CONFIG_DIR/config
 
 let DELAY=$1
 
+TAGADELAY_DAT_FILE=/tmp/tagaDelay.dat
+
 echo
 date
 
@@ -20,12 +22,16 @@ do
       let MODULUS=$2
       let MODULUS_VAL=$DELAY%$MODULUS
       if [ $MODULUS_VAL -eq 0 ]; then
-         printf "%d" $DELAY 
-         printf "%c" " " 
+        # conditional output to standard out
+        if [ $TAGA_DISPLAY_EXPERT -eq 1 ] ; then printf "%d" $DELAY; printf "%c" " " ; fi
+        # non-conditional output to outfile
+        printf "%d" $DELAY >> $TAGADELAY_DAT_FILE; printf "%c" " " >> $TAGADELAY_DAT_FILE
       fi
    else
-     printf "%d" $DELAY 
-     printf "%c" " " 
+     # conditional output to standard out
+     if [ $TAGA_DISPLAY_EXPERT -eq 1 ] ; then printf "%d" $DELAY; printf "%c" " " ; fi
+     # non-conditional output to outfile
+     printf "%d" $DELAY >> $TAGADELAY_DAT_FILE ; printf "%c" " " >> $TAGADELAY_DAT_FILE
    fi
 
    let DELAY=$DELAY-1
@@ -37,6 +43,16 @@ do
 
 done
 
+# we are done here...
+
+# close output to standard out
+printf "\n"  
 echo
 date
+
+# close output to out file
+printf "\n" >> $TAGADELAY_DAT_FILE 
+echo        >> $TAGADELAY_DAT_FILE 
+date        >> $TAGADELAY_DAT_FILE 
+
 
