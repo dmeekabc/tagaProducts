@@ -376,7 +376,10 @@ do
       sleep 2
    done
 
+   echo TAGA:PreTrafficPhase: Pre-Traffic Phase complete! 
    echo
+   echo TAGA:TrafficPhase: Traffic Phase Beginning...
+   #echo
 
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
 
