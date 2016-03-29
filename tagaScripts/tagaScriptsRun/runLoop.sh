@@ -150,48 +150,17 @@ do
    # Increment the iterator
    let iter=$iter+1
 
-
    echo
    echo =================================================================
    echo TAGA:Iter:$iter:PreTrafficPhase: Iteration $iter Begin  
    echo =================================================================
-   echo
-   #echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
-
-#   # exit now if simulation only
-#   if [ $SIMULATION_ONLY -eq 1 ]; then
-#      echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
-#      echo TAGA:PreTrafficPhase: `date` Background Traffic is Disabled ............
-#   fi
-
-
 
    # this provides our inter-process comms, 
    # it is not bullet proof, but better than nothing...
    #clear the reboot in progress flag
-   #rm /tmp/rebootInProgress.dat
-  # rm $NET_RESET_IN_PROG_FLAG_FILE
    rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
 
-   # check/repair the interface
-#   $TAGA_UTILS_DIR/checkInterface.sh
-
    let k=$k+1
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
    # new 15 jan 2016
@@ -249,10 +218,6 @@ do
 
    echo
    echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
-
-
-
-
 
    # check time synch if enabled
    if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
