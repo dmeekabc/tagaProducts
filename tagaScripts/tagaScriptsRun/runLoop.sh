@@ -178,29 +178,21 @@ do
 
    let k=$k+1
 
-   # check time synch if enabled
-   if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
-     $tagaScriptsTimerDir/timeSynchCheck.sh
-   fi
 
-   # probe if enabled
-   if [ $PROBE_ENABLED -eq 1 ]; then
-     $tagaScriptsUtilsDir/probe.sh
-   fi
 
-   # get ping times if enabled
-   if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
-     $tagaScriptsUtilsDir/pingTimes.sh
-   fi
 
-   # get resource usage if enabled
-   if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
-      let mod=$k%$RESOURCE_DISPLAY_MODULUS
-      if [ $mod -eq 0 ] ; then
-        echo k:$k
-        $tagaScriptsUtilsDir/wrapResourceUsage.sh
-      fi
-   fi
+
+
+
+
+
+
+
+
+
+
+
+
 
    # new 15 jan 2016
    # Update the MASTER entry in the config
@@ -258,6 +250,51 @@ do
    echo
    echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
+
+
+
+
+   # check time synch if enabled
+   if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
+     $tagaScriptsTimerDir/timeSynchCheck.sh
+   fi
+
+   # probe if enabled
+   if [ $PROBE_ENABLED -eq 1 ]; then
+     $tagaScriptsUtilsDir/probe.sh
+   fi
+
+   # get ping times if enabled
+   if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
+     $tagaScriptsUtilsDir/pingTimes.sh
+   fi
+
+   # get resource usage if enabled
+   if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
+      let mod=$k%$RESOURCE_DISPLAY_MODULUS
+      if [ $mod -eq 0 ] ; then
+        echo k:$k
+        $tagaScriptsUtilsDir/wrapResourceUsage.sh
+      fi
+   fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    # exit now if simulation only
    if [ $SIMULATION_ONLY -eq 1 ]; then
       echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
@@ -280,11 +317,14 @@ do
    else
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
-        echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
-
-      # dlm temp new 24 mar 2016
-      #  $tagaScriptsUtilsDir/synchConfig.sh
-        $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+         if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+            echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
+            $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+         else
+            # suppress output to stdout
+            $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+        fi
+   
      else
         echo TAGA:PreTrafficPhase: Notice: Config Synch is Disabled!  
         echo TAGA:PreTrafficPhase: Notice: Please, ensure no config changes require distribution.
@@ -428,6 +468,7 @@ do
    #####################################################
 
    echo TAGA:TrafficPhase: Traffic Phase complete! 
+   echo
    echo TAGA:PostTrafficPhase: Beginning...
    sleep $DURATION3
 
@@ -822,6 +863,14 @@ do
    #############################################
    # End Recover Net if Necessary
    #############################################
+
+   echo
+   echo =================================================================
+   echo TAGA:Iter:$iter:PostTrafficPhase: Iteration $iter Complete
+   echo =================================================================
+   echo
+
+   #echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
