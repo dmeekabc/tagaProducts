@@ -41,11 +41,11 @@ TESTTYPE="UCAST_UDP" # UDP UCAST
 ####################################################
 # TAGA DISPLAY (Standard out) Enumerated Values
 ####################################################
-let TAGA_DISPLAY_ENUM_VAL_0_NONE=0
-let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1
-let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2
-let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3
-let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
+let TAGA_DISPLAY_ENUM_VAL_0_NONE=0     # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1   # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2    # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3   # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
 ####################################################
 # TAGA DISPLAY (Standard out) Enumerated Values
 ####################################################
@@ -56,7 +56,7 @@ let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
 ####################################################
 
 ####################################################
-# TAGA DISPLAY (Standard out) Setting
+# TAGA DISPLAY (Standard out) Setting (bottom setting wins)
 ####################################################
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
