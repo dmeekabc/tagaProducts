@@ -39,7 +39,8 @@ fi
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   #echo Running tcpdump on `hostname` | tee $STATUS_FILE 
   echo Running tcpdump on `hostname` > $STATUS_FILE 
-  if [ $TAGA_DISPLAY == "VERBOSE" ]; then
+  if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+  #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
     tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l   \
      <$TAGA_CONFIG_DIR/passwd.txt | tee                             \
      /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
