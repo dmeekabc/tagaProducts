@@ -34,6 +34,10 @@ TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
+# Begin of TAGA DISPLAY Config
+####################################################
+
+####################################################
 # TAGA DISPLAY (Standard out) Enumerated Values
 ####################################################
 # Note: Do not use these directly in code
@@ -56,13 +60,24 @@ let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
 ####################################################
 
 ####################################################
+#
+# Note: For MAX OUTPUT, the following three configurations 
+# are required:
+#
+#   1. TAGA DISPLAY SETTING VALUE == VERBOSE ENUM VALUE
+#   2. TAGA DEBUG DISPLAY BOOLEAN == 1
+#   3. TAGA EXPERT DISPLAY BOOLEAN == 1
+#
+####################################################
+
+####################################################
 # TAGA DISPLAY (Standard out) Setting (bottom setting wins)
 ####################################################
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 
 
 ####################################################
@@ -76,6 +91,10 @@ let TAGA_DISPLAY_DEBUG=0
 # note: expert display always available in TAGA *.dat files
 let TAGA_DISPLAY_EXPERT=1
 let TAGA_DISPLAY_EXPERT=0
+
+####################################################
+# End of TAGA DISPLAY Config
+####################################################
 
 # dlm temp: the plan is to replace string usage 
 #           below with enum/boolean usage above
