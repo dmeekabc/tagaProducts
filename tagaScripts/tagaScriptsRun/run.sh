@@ -32,8 +32,14 @@ do
    fi
    fi
 
-   # invoke the 'simulations' on each target 
-   ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
+   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_3_NORMAL ]; then
+      # invoke the 'simulations' on each target 
+      ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
+   else
+      # invoke the 'simulations' on each target 
+      # suppress std out output
+      ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh >/dev/null   <$TAGA_CONFIG_DIR/passwd.txt &
+   fi
 
    # run traffic unless the 'simulation only' flag is set
    if [ $SIMULATION_ONLY -eq 0 ]; then
