@@ -376,6 +376,8 @@ do
       sleep 2
    done
 
+   echo
+
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
 
    # check/repair the interface
