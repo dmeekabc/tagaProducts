@@ -144,6 +144,28 @@ let resetflag=0
 while true
 do
 
+   # get a fresh config
+   source $TAGA_CONFIG_DIR/config
+
+   # Increment the iterator
+   let iter=$iter+1
+
+
+   echo
+   echo =================================================================
+   echo TAGA:Iter:$iter:PreTrafficPhase: Iteration $iter Begin  
+   echo =================================================================
+   echo
+   #echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
+
+#   # exit now if simulation only
+#   if [ $SIMULATION_ONLY -eq 1 ]; then
+#      echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
+#      echo TAGA:PreTrafficPhase: `date` Background Traffic is Disabled ............
+#   fi
+
+
+
    # this provides our inter-process comms, 
    # it is not bullet proof, but better than nothing...
    #clear the reboot in progress flag
@@ -231,7 +253,7 @@ do
    fi
 
    # Increment the iterator
-   let iter=$iter+1
+   #let iter=$iter+1
 
    echo
    echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
