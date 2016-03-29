@@ -26,15 +26,28 @@ TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 
+####################################################
 # TAGA DISPLAY (Standard out) Enumerated Values
+####################################################
+# Note: Do not use these directly in code
+# Note: Do not use these directly in code
+# Note: In code, use these in comparisons only to value below
+# Note: In code, use these in comparisons only to value below
+####################################################
+# TAGA DISPLAY (Standard out) Enumerated Values
+####################################################
+let TAGA_DISPLAY_ENUM_VAL_0_NONE=0
 let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1
 let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2
 let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3
 let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
 
 # TAGA DISPLAY (Standard out) Setting
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 
 # TAGA DISPLAY Debug (Standard out) Boolean
 let TAGA_DISPLAY_DEBUG=1
@@ -489,4 +502,8 @@ BLACKLIST=192.168.43.69
 
 # BLACKLIST
 BLACKLIST=192.168.43.157
-MASTER=192.168.43.124
+
+
+# BLACKLIST
+BLACKLIST=10.0.0.22
+MASTER=10.0.0.20
