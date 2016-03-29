@@ -105,6 +105,11 @@ if [ $WAITTIME -lt 0 ]; then
    echo Warning: $0: negatie WAITTIME: $WAITTIME
    echo Warning: $0: negatie WAITTIME: $WAITTIME
    echo
+   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
+   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
+   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
+   echo
+   echo
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
