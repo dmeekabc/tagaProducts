@@ -74,6 +74,8 @@ do
       echo okay keep going >/dev/null
    else
 
+      echo Count: $trycount
+
        let trycount=$trycount+1
        if [ $trycount -ge $BLACK_LIST_THRESH ] ; then
          # note, this black list section has been invoked
