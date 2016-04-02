@@ -17,10 +17,6 @@ startDTG=$6
 
 # get the average iteration duration
 
-#echo $deltaEpoch
-#echo $iter
-#echo averageDuration=$deltaEpoch/$iter
-
 let averageDuration=$deltaEpoch/$iter
 # special handling for iteration 1
 if [ $iter -eq 1 ]; then
@@ -64,22 +60,16 @@ let commandedRate=$MSGRATE*$targetCount*$MSGLEN*$BITS_PER_BYTE
 let megabitRate=$commandedRate*1000/1000000
 let kilobitRate=$commandedRate*1000/1000
 
-#echo kilobitrate: $kilobitRate
-
 # pad target name as necessary to have nice output
 let ratelen=`echo $commandedRate | awk '{print length($0)}'`
-#echo $ratelen
 if [ $ratelen -eq 8 ]; then
   megabitPrint=`echo $megabitRate | cut -c1-2`.`echo $megabitRate | cut -c3-4`
-  #kilobitPrint=`echo $kilobitRate `
   let kilobitPrint=$kilobitRate/1000
 elif [ $ratelen -eq 7 ]; then
   megabitPrint=`echo $megabitRate | cut -c1`.`echo $megabitRate | cut -c2-4`
-  #kilobitPrint=`echo $kilobitRate `
   let kilobitPrint=$kilobitRate/1000
 elif [ $ratelen -eq 6 ]; then
   megabitPrint=0.`echo $megabitRate | cut -c1-3`
-  #kilobitPrint=`echo $kilobitRate `
   let kilobitPrint=$kilobitRate/1000
 elif [ $ratelen -eq 5 ]; then
   megabitPrint=0.0`echo $megabitRate | cut -c1-2`
@@ -262,14 +252,6 @@ else
   fi
 fi
 
-# write blank line to output; write blank line to counts.txt file
-#echo; echo >> $TAGA_RUN_DIR/counts.txt
-
-# write to output
-#echo TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:`cat $outputDir/* | wc -l` / $expectedCount exp msgs \($percent%\)
-# write to counts.txt file
-#echo TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:`cat $outputDir/* | wc -l` / $expectedCount exp msgs \($percent%\) >> $TAGA_RUN_DIR/counts.txt
-
 # build up the buffer
 printCount=`cat $outputDir/* 2>/dev/null | wc -l`
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
@@ -293,7 +275,6 @@ buffer2="$buffer1 ($percent%)"
 
 # write buffer line to output; write buffer line to counts.txt file
 echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
-
 
 ##################################################################
 # PRINT HEADER ROWS
@@ -427,19 +408,14 @@ do
 
   row="$row"" "
 
-  # dlm temp
-  let ROW_SIZE=62
   let ROW_SIZE=66
   let rowlen=`echo $row | awk '{print length($0)}'`
-#  echo $rowlen
   let padlen=$ROW_SIZE-$rowlen
 
   # add the padding
   let i=$padlen
   while [ $i -gt 0 ];
   do
-     # dlm temp find me
-     #row='"$row "'
      row="$row "
      let i=$i-1
   done
