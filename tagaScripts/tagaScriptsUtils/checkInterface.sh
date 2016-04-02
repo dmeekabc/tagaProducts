@@ -7,15 +7,24 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# method to determine gateway name
-GW_DETERMINATINO_METHOD="runtime"
-GW_DETERMINATINO_METHOD="config"
+OUT_FILE=$CHECK_INTERFACE_LOG_FILE
+
+NETADDR=$NETADDRPART.0
 
 let ADD_ROUTE_FLAG=0
 let ADD_ROUTE_FLAG=1
 
-#OUT_FILE=/tmp/checkInterface.out
-OUT_FILE=$CHECK_INTERFACE_LOG_FILE
+# method to determine gateway name
+GW_DETERMINATINO_METHOD="runtime"
+GW_DETERMINATINO_METHOD="config"
+
+if [ $GW_DETERMINATIN_METHOD == "runtime" ] ; then
+   # get gateway via runtime check
+   MYGATEWAY=`route | grep default | cut -c16-30`
+else
+   # get gateway via config
+   MYGATEWAY=$NETADDRPART.1
+fi
 
 echo `date` : $0 : executing on $MYIP >> $OUT_FILE
 
@@ -51,9 +60,9 @@ if [ $# -eq 1 ]; then
 
    if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
       echo Adding Route ... 
-      sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+      sudo route add -net $NETADDR gw $MYGATEWAY netmask 255.255.255.0 dev $INTERFACE
       echo Adding Defalt Route ... 
-      sudo route add default gw $NETADDRPART.1
+      sudo route add default gw $MYGATEWAY
    fi
 
 else
@@ -116,9 +125,9 @@ else
 
       if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
          echo Adding Route ... 
-         sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+         sudo route add -net $NETADDR gw $MYGATEWAY netmask 255.255.255.0 dev $INTERFACE
          echo Adding Defalt Route ... 
-         sudo route add default gw $NETADDRPART.1
+         sudo route add default gw $MYGATEWAY
       fi
 
    # here is another way to check , this may make the block above unnecessary, 
@@ -131,13 +140,6 @@ else
       # before we declare failure, let's check against the gateway
       # get the gateway in case it has changed
       echo; date; echo Determining GATEWAY.... >> $OUT_FILE
-      if [ $GW_DETERMINATIN_METHOD == "runtime" ] ; then
-         # get gateway via runtime check
-         MYGATEWAY=`route | grep default | cut -c16-30`
-      else
-         # get gateway via config
-         MYGATEWAY=$NETADDRPART.1
-      fi
   #    MYGATEWAY=`route | grep default | cut -c16-30`
       echo GATEWAY: $MYGATEWAY >> $OUT_FILE
 
@@ -161,19 +163,11 @@ else
          echo Retcode:$? >> $OUT_FILE
          if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
             echo Adding Route ... 
-            sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+            sudo route add -net $NETADDR gw $MYGATEWAY netmask 255.255.255.0 dev $INTERFACE
             echo Adding Defalt Route ... 
-            sudo route add default gw $NETADDRPART.1
+            sudo route add default gw $MYGATEWAY
          fi
       fi
    fi
 fi
-
-#      echo; date; echo Determining GATEWAY....
-#      MYGATEWAY=`route | grep default | cut -c16-30`
-#      echo GATEWAY: $MYGATEWAY
-#
-#      echo; echo PINGING GATEWAY: $MYGATEWAY; echo
-#      ping -c 1 $MYGATEWAY
-#      let retCode=$?
 
