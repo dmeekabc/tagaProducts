@@ -23,7 +23,7 @@ echo >> $TAGA_RUN_DIR/counts.txt
 #echo `date` Iteration:$iter StartDTG: $startTime $startDTG $TESTTYPE
 #echo `date` Iteration:$iter StartDTG: $startTime $startDTG $TESTTYPE >> $TAGA_RUN_DIR/counts.txt
 
-row="$1 TABLE   -------------------------------  RECEIVERS LIST -------------------------------------"
+row="$1 TABLE      -------------------------------------  RECEIVERS LIST --------------------------------------------"
 if [ $NARROW_DISPLAY -eq 1 ]; then
   row="$1 TABLE     ------------------ RECEIVERS LIST --------------------"
 fi
@@ -37,7 +37,7 @@ fi
 echo "SENDERS LIST      $row"
 echo "SENDERS LIST      $row" >> $TAGA_RUN_DIR/counts.txt
 
-  row="------------     ---- ---- ---- ---- ---- ---- ---- ---- --- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----"
+  row="-------------      ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----"
 if [ $NARROW_DISPLAY -eq 1 ]; then
   row="------------      ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----"
 fi
