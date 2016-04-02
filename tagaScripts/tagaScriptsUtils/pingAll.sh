@@ -44,7 +44,6 @@ do
       MYGATEWAY=$NETADDRPART.1
    fi
    echo GATEWAY: $MYGATEWAY
-   exit
 
    if [ $USE_ALT_LIST -eq 1 ]; then
       targetList=$FIXED_ALT_LIST
