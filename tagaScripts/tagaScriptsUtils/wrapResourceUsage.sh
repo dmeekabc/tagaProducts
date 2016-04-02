@@ -17,6 +17,7 @@ do
       continue
    else
       #echo `basename $0` processing $target .......
+      echo
       echo --------------------------
       echo Resource Usage: $target 
       echo --------------------------
