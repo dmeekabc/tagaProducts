@@ -16,7 +16,10 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
-      echo `basename $0` processing $target .......
+      echo ----------------------------
+      echo Resource Usage: $target 
+      echo ----------------------------
+      #echo `basename $0` processing $target .......
    fi
 
   sleep 1 
