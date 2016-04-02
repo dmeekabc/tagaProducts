@@ -19,25 +19,12 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 # continue to execute the command
 echo $0 Proceeding.... at `date`; echo
 
-
 sudo ifconfig wlp3s0 up
 echo Retcode:$?
-sudo iwconfig wlp3s0 essid HOME-7AE2
+sudo iwconfig wlp3s0 essid YOUR_SSID_HERE
 echo Retcode:$?
-sudo iwconfig wlp3s0 key s:X779KUNLRYXFK4CY
+sudo iwconfig wlp3s0 key s:YOUR_WIRLESS_NETWORK_KEY_HERE
 echo Retcode:$?
 sudo dhclient wlp3s0 
 echo Retcode:$?
-
-exit
-
-sudo ifconfig $INTERFACE up
-echo Retcode:$?
-sudo iwconfig $INTERFACE essid HOME-7AE2
-echo Retcode:$?
-sudo iwconfig $INTERFACE key s:X779KUNLRYXFK4CY
-echo Retcode:$?
-sudo dhclient $INTERFACE
-echo Retcode:$?
-
 
