@@ -175,7 +175,13 @@ do
 
     # dlm temp scalability stuff
     let rownodeCount=$rownodeCount+1
-    let modVal=$rownodeCount%20
+
+    if [ $NARROW_DISPLAY -eq 1 ]; then
+      let modVal=$rownodeCount%10
+    else
+      let modVal=$rownodeCount%20
+    fi
+
     if  [ $modVal -eq 0 ]; then
         echo $row
         row="................."
