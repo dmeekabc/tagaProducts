@@ -15,8 +15,8 @@ let ADD_ROUTE_FLAG=0
 let ADD_ROUTE_FLAG=1
 
 # method to determine gateway name
-GW_DETERMINATINO_METHOD="runtime"
-GW_DETERMINATINO_METHOD="config"
+GW_DETERMINATIN_METHOD="runtime"
+GW_DETERMINATIN_METHOD="config"
 
 if [ $GW_DETERMINATIN_METHOD == "runtime" ] ; then
    # get gateway via runtime check
