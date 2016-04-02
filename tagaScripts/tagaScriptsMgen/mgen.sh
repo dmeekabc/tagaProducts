@@ -12,9 +12,6 @@ IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
 NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
 echo "$IPPART : $NAMEPART : executing at `date`"
 
-#NAME=`basename $0`
-#echo "`$iboaUtilsDir/iboa_padded_echo.sh $MYIP:..$NAME $SCRIPT_HDR_PAD_LEN` : executing at `date`"
-
 # get the input
 # get MYIP to use
 MY_PARAM_IP=$1
