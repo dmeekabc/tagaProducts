@@ -144,17 +144,80 @@ let resetflag=0
 while true
 do
 
+   # get a fresh config
+   source $TAGA_CONFIG_DIR/config
+
+   # Increment the iterator
+   let iter=$iter+1
+
+   echo
+   echo =================================================================
+   echo TAGA:Iter:$iter:PreTrafficPhase: Iteration $iter Begin  
+   echo =================================================================
+
    # this provides our inter-process comms, 
    # it is not bullet proof, but better than nothing...
    #clear the reboot in progress flag
-   #rm /tmp/rebootInProgress.dat
-  # rm $NET_RESET_IN_PROG_FLAG_FILE
    rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
 
-   # check/repair the interface
-#   $TAGA_UTILS_DIR/checkInterface.sh
-
    let k=$k+1
+
+
+   # new 15 jan 2016
+   # Update the MASTER entry in the config
+   # strip old MASTER entries and blank lines at end of file
+   cat $TAGA_CONFIG_DIR/config | sed -e s/^MASTER=.*$//g |     \
+         sed -e :a -e '/./,$!d;/^\n*$/{$d;N;;};/\n$/ba' \
+             > $TAGA_CONFIG_DIR/tmp.config
+   mv $TAGA_CONFIG_DIR/tmp.config $TAGA_CONFIG_DIR/config
+
+   # Update the MASTER entry in the config
+   echo MASTER=$MYIP >> $TAGA_CONFIG_DIR/config
+   echo $ENVIRON_SIMULATION > /tmp/simulationFlag.txt
+
+   # get the config again in case it has changed
+   source $TAGA_CONFIG_DIR/config
+
+   while [ $ALL_TESTS_DISABLED -eq 1 ] 
+   do
+      # refresh the flag to check again
+      source $TAGA_CONFIG_DIR/config
+      echo
+      echo TAGA:PreTrafficPhase: `date` Main Test Loop Disabled ............
+      sleep 5
+   done
+
+   while [ $iter -ge $MAX_ITERATIONS ] 
+   do
+      # refresh config in case it has changed
+      source $TAGA_CONFIG_DIR/config
+      echo
+      echo TAGA:PreTrafficPhase: `date` Max Iterations \($iter\) Reached - Disabling ............
+      sleep 5
+   done
+
+   if [ $STEPWISE_ITERATIONS -eq 1 ]; then
+      echo; echo INFO: Step-wise iterations configured...
+      echo `date` 
+      echo Iterations \($iter\) Reached - Waiting confirmation to proceed
+      echo; echo Press \[Enter\] to proceed...
+      read input 
+   elif [ $STEPWISE_ITERATIONS -ne 0 ]; then
+      let modVal=$iter%$STEPWISE_ITERATIONS
+      if [ $modVal -eq 0 ]; then 
+         echo; echo INFO: Double Iteration Step-wise iterations configured...
+         echo `date` 
+         echo Iterations \($iter\) Reached - Waiting confirmation to proceed
+         echo; echo Press \[Enter\] to proceed...
+         read input 
+      fi
+   fi
+
+   # Increment the iterator
+   #let iter=$iter+1
+
+   echo
+   echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
    # check time synch if enabled
    if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
@@ -180,71 +243,32 @@ do
       fi
    fi
 
-   # new 15 jan 2016
-   # Update the MASTER entry in the config
-   # strip old MASTER entries and blank lines at end of file
-   cat $TAGA_CONFIG_DIR/config | sed -e s/^MASTER=.*$//g |     \
-         sed -e :a -e '/./,$!d;/^\n*$/{$d;N;;};/\n$/ba' \
-             > $TAGA_CONFIG_DIR/tmp.config
-   mv $TAGA_CONFIG_DIR/tmp.config $TAGA_CONFIG_DIR/config
 
-   # Update the MASTER entry in the config
-   echo MASTER=$MYIP >> $TAGA_CONFIG_DIR/config
-   echo $ENVIRON_SIMULATION > /tmp/simulationFlag.txt
 
-   # get the config again in case it has changed
-   source $TAGA_CONFIG_DIR/config
 
-   while [ $ALL_TESTS_DISABLED -eq 1 ] 
-   do
-      # refresh the flag to check again
-      source $TAGA_CONFIG_DIR/config
-      echo
-      echo TAGA: `date` Main Test Loop Disabled ............
-      sleep 5
-   done
 
-   while [ $iter -ge $MAX_ITERATIONS ] 
-   do
-      # refresh config in case it has changed
-      source $TAGA_CONFIG_DIR/config
-      echo
-      echo TAGA: `date` Max Iterations \($iter\) Reached - Disabling ............
-      sleep 5
-   done
 
-   if [ $STEPWISE_ITERATIONS -eq 1 ]; then
-      echo; echo INFO: Step-wise iterations configured...
-      echo `date` 
-      echo Iterations \($iter\) Reached - Waiting confirmation to proceed
-      echo; echo Press \[Enter\] to proceed...
-      read input 
-   elif [ $STEPWISE_ITERATIONS -ne 0 ]; then
-      let modVal=$iter%$STEPWISE_ITERATIONS
-      if [ $modVal -eq 0 ]; then 
-         echo; echo INFO: Double Iteration Step-wise iterations configured...
-         echo `date` 
-         echo Iterations \($iter\) Reached - Waiting confirmation to proceed
-         echo; echo Press \[Enter\] to proceed...
-         read input 
-      fi
-   fi
 
-   # Increment the iterator
-   let iter=$iter+1
 
-   echo
-   echo TAGA: `date` Main Test Loop Enabled ............
+
+
+
+
+
+
+
+
+
 
    # exit now if simulation only
    if [ $SIMULATION_ONLY -eq 1 ]; then
-      echo TAGA: `date` Simulation Only Flag is True
-      echo TAGA: `date` Background Traffic is Disabled ............
+      echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
+      echo TAGA:PreTrafficPhase: `date` Background Traffic is Disabled ............
    fi
 
 
    echo
-   echo TAGA: `date` Regenerating HostToIpMap File ............
+   echo TAGA:PreTrafficPhase: `date` Regenerating HostToIpMap File ............
 
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
@@ -258,14 +282,17 @@ do
    else
      # synch config only
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
-        echo TAGA: Notice: Config Synch is Enabled.
-
-      # dlm temp new 24 mar 2016
-      #  $tagaScriptsUtilsDir/synchConfig.sh
-        $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+         if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+            echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
+            $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+         else
+            # suppress output to stdout
+            $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+        fi
+   
      else
-        echo TAGA: Notice: Config Synch is Disabled!  
-        echo TAGA: Notice: Please, ensure no config changes require distribution.
+        echo TAGA:PreTrafficPhase: Notice: Config Synch is Disabled!  
+        echo TAGA:PreTrafficPhase: Notice: Please, ensure no config changes require distribution.
      fi
    fi
 
@@ -310,9 +337,14 @@ do
    while [ $i -gt 0 ]; 
    do
       let i=$i-1
-      echo TAGA: Servers Initializing.... $i
+      echo TAGA:PreTrafficPhase: Servers Initializing.... $i
       sleep 2
    done
+
+   echo TAGA:PreTrafficPhase: Pre-Traffic Phase complete! 
+   echo
+   echo TAGA:TrafficPhase: Traffic Phase Beginning...
+   #echo
 
    $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
 
@@ -327,26 +359,26 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 5 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       else
-         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 1: $i
+         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
 
       sleep 1
@@ -373,24 +405,24 @@ do
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       else
-         echo TAGA: Total Secs Remain: $tot : Secs Remain Part 2: $i
+         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
       fi
 
 #      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
@@ -405,7 +437,9 @@ do
    # DURATION3, this is expected to be 0 time but is provided for contingency
    #####################################################
 
-   echo TAGA: Pausing for DURATION3: $DURATION3
+   echo TAGA:TrafficPhase: Traffic Phase complete! 
+   echo
+   echo TAGA:PostTrafficPhase: Beginning...
    sleep $DURATION3
 
 
@@ -799,6 +833,14 @@ do
    #############################################
    # End Recover Net if Necessary
    #############################################
+
+   echo
+   echo =================================================================
+   echo TAGA:Iter:$iter:PostTrafficPhase: Iteration $iter Complete
+   echo =================================================================
+   echo
+
+   #echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh

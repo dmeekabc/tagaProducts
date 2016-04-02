@@ -7,6 +7,13 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# method to determine gateway name
+GW_DETERMINATINO_METHOD="runtime"
+GW_DETERMINATINO_METHOD="config"
+
+let ADD_ROUTE_FLAG=0
+let ADD_ROUTE_FLAG=1
+
 #OUT_FILE=/tmp/checkInterface.out
 OUT_FILE=$CHECK_INTERFACE_LOG_FILE
 
@@ -17,9 +24,7 @@ echo `date` : $0 : executing on $MYIP >> $OUT_FILE
 if cat $NET_RESET_IN_PROG_FLAG_FILE 2>/dev/null | grep 1 ; then
    echo Notice: Network Reset is in progress,  
    echo Notice: Network Reset is in progress,  >> $OUT_FILE
-   echo Notice: Network Reset is in progress,  >> $OUT_FILE
    echo Notice: This $0 is not permitted to run in this state, exiting with no action! 
-   echo Notice: This $0 is not permitted to run in this state, exiting with no action! >> $OUT_FILE
    echo Notice: This $0 is not permitted to run in this state, exiting with no action! >> $OUT_FILE
    exit
 fi
@@ -43,6 +48,13 @@ if [ $# -eq 1 ]; then
    echo Interface is in suspect state - setting interface up! >> $OUT_FILE
    sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
    echo Retcode:$? >> $OUT_FILE
+
+   if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
+      echo Adding Route ... 
+      sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+      echo Adding Defalt Route ... 
+      sudo route add default gw $NETADDRPART.1
+   fi
 
 else
 
@@ -101,19 +113,32 @@ else
       echo Interface is in suspect state - setting interface up! >> $OUT_FILE
       sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
       echo Retcode:$? >> $OUT_FILE
+
+      if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
+         echo Adding Route ... 
+         sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+         echo Adding Defalt Route ... 
+         sudo route add default gw $NETADDRPART.1
+      fi
+
    # here is another way to check , this may make the block above unnecessary, 
    # believe that this one is more demanding than the one above
    elif [ $flag -eq 0 ] ; then
       # failure to contact anybody implies our interface may be bad
-
-      # dlm temp, this whole thing needs relooked, gateway is not valid, and the logic for only 1 or 2 nodes is probably wrong
-
-      # dlm temp, this whole thing needs relooked, gateway is not valid, and the logic for only 1 or 2 nodes is probably wrong
+      # dlm temp, this whole thing needs relooked, gateway is not valid, 
+      # and the logic for only 1 or 2 nodes is probably wrong
      
       # before we declare failure, let's check against the gateway
       # get the gateway in case it has changed
       echo; date; echo Determining GATEWAY.... >> $OUT_FILE
-      MYGATEWAY=`route | grep default | cut -c16-30`
+      if [ $GW_DETERMINATIN_METHOD == "runtime" ] ; then
+         # get gateway via runtime check
+         MYGATEWAY=`route | grep default | cut -c16-30`
+      else
+         # get gateway via config
+         MYGATEWAY=$NETADDRPART.1
+      fi
+  #    MYGATEWAY=`route | grep default | cut -c16-30`
       echo GATEWAY: $MYGATEWAY >> $OUT_FILE
 
       echo; echo PINGING GATEWAY: $MYGATEWAY; echo >> $OUT_FILE
@@ -134,6 +159,12 @@ else
          echo Interface is in suspect state - setting interface up! >> $OUT_FILE
          sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
          echo Retcode:$? >> $OUT_FILE
+         if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
+            echo Adding Route ... 
+            sudo route add -net $NETADDRPART.0 gw $NETADDRPART.1 netmask 255.255.255.0 dev $INTERFACE
+            echo Adding Defalt Route ... 
+            sudo route add default gw $NETADDRPART.1
+         fi
       fi
    fi
 fi

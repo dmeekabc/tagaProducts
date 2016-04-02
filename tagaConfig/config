@@ -11,6 +11,13 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 ####################################################
+# Enable or Disable all testing per iteration loop
+# and other Main Test Iteration Configs
+####################################################
+ALL_TESTS_DISABLED=1 # disable all tests (Testing)
+ALL_TESTS_DISABLED=0 # enable all tests (Normal)
+
+####################################################
 # NEW Var SECTION, Implement then move somewhere else
 ####################################################
 #TBD
@@ -26,16 +33,56 @@ TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 
+####################################################
+# Begin of TAGA DISPLAY Config
+####################################################
+
+####################################################
 # TAGA DISPLAY (Standard out) Enumerated Values
-let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1
-let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2
-let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3
-let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4
+####################################################
+# Note: Do not use these directly in code
+# Note: In code, use these in comparisons only to value below
+####################################################
+# TAGA DISPLAY (Standard out) Enumerated Values
+####################################################
+let TAGA_DISPLAY_ENUM_VAL_0_NONE=0     # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_1_SILENT=1   # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_2_BRIEF=2    # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_3_NORMAL=3   # Do Not Change Order (No Effect)
+let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
+####################################################
+# TAGA DISPLAY (Standard out) Enumerated Values
+####################################################
+# Note: Do not use these directly in code
+# Note: In code, use these in comparisons only to value below
+####################################################
+# TAGA DISPLAY (Standard out) Enumerated Values
+####################################################
 
-# TAGA DISPLAY (Standard out) Setting
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
+####################################################
+#
+# Note: For MAX OUTPUT, the following three configurations 
+# are required:
+#
+#   1. TAGA DISPLAY SETTING VALUE == VERBOSE ENUM VALUE
+#   2. TAGA DEBUG DISPLAY BOOLEAN == 1
+#   3. TAGA EXPERT DISPLAY BOOLEAN == 1
+#
+####################################################
+
+####################################################
+# TAGA DISPLAY (Standard out) Setting (bottom setting wins)
+####################################################
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 
+
+####################################################
+# TAGA DISPLAY Booleans
+####################################################
 # TAGA DISPLAY Debug (Standard out) Boolean
 let TAGA_DISPLAY_DEBUG=1
 let TAGA_DISPLAY_DEBUG=0
@@ -45,21 +92,23 @@ let TAGA_DISPLAY_DEBUG=0
 let TAGA_DISPLAY_EXPERT=1
 let TAGA_DISPLAY_EXPERT=0
 
+####################################################
+# End of TAGA DISPLAY Config
+####################################################
+
 # dlm temp: the plan is to replace string usage 
 #           below with enum/boolean usage above
 # TAGA DISPLAY setting
-TAGA_DISPLAY="SILENT"   # least verbose
-TAGA_DISPLAY="BRIEF"    # even less verbose
-TAGA_DISPLAY="NORMAL"   # less verbose
-TAGA_DISPLAY="VERBOSE"  # verbose
-TAGA_DISPLAY="DEBUG"    # debug
+#TAGA_DISPLAY="SILENT"   # least verbose
+#TAGA_DISPLAY="BRIEF"    # even less verbose
+#TAGA_DISPLAY="NORMAL"   # less verbose
+#TAGA_DISPLAY="VERBOSE"  # verbose
+#TAGA_DISPLAY="DEBUG"    # debug
 
 ####################################################
-# Enable or Disable all testing per iteration loop
-# and other Main Test Iteration Configs
+# MAX ITERATIONS
 ####################################################
-ALL_TESTS_DISABLED=1 # disable all tests (Testing)
-ALL_TESTS_DISABLED=0 # enable all tests (Normal)
+
 MAX_ITERATIONS=1       # max iterations (Testing)
 MAX_ITERATIONS=8       # max iterations (Testing)
 MAX_ITERATIONS=1000000 # max iterations (Normal)
@@ -489,4 +538,12 @@ BLACKLIST=192.168.43.69
 
 # BLACKLIST
 BLACKLIST=192.168.43.157
-MASTER=192.168.43.124
+
+
+# BLACKLIST
+BLACKLIST=10.0.0.22
+
+
+# BLACKLIST
+BLACKLIST=192.168.43.124
+MASTER=10.0.0.20
