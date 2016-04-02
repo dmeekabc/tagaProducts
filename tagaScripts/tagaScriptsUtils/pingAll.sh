@@ -7,6 +7,10 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# method to determine gateway name
+GW_DETERMINATINO_METHOD="runtime"
+GW_DETERMINATINO_METHOD="config"
+
 # allow target list override if any param is provided
 if [ $# -eq 1 ]; then
    let USE_ALT_LIST=1
@@ -31,8 +35,16 @@ do
 
    # get the gateway in case it has changed
    echo; date; echo Determining GATEWAY....
-   MYGATEWAY=`route | grep default | cut -c16-30`
+
+   if [ $GW_DETERMINATINO_METHOD == "runtime" ] ; then
+      # get gateway via runtime check
+      MYGATEWAY=`route | grep default | cut -c16-30`
+   else
+      # get gateway via config
+      MYGATEWAY=$NETADDRPART.1
+   fi
    echo GATEWAY: $MYGATEWAY
+   exit
 
    if [ $USE_ALT_LIST -eq 1 ]; then
       targetList=$FIXED_ALT_LIST
