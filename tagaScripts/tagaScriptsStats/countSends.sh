@@ -413,7 +413,12 @@ do
 
   row="$row"" "
 
-  let ROW_SIZE=66
+  if [ $NARROW_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=66
+  else
+    let ROW_SIZE=118
+  fi
+
   let rowlen=`echo $row | awk '{print length($0)}'`
   let padlen=$ROW_SIZE-$rowlen
 

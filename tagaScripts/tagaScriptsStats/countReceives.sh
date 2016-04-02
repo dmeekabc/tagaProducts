@@ -185,8 +185,12 @@ do
 
   row="$row"" "
 
-  let ROW_SIZE=62
-  let ROW_SIZE=66
+  if [ $NARROW_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=66
+  else
+    let ROW_SIZE=118
+  fi
+
   #let ROW_SIZE=58
   let rowlen=`echo $row | awk '{print length($0)}'`
   let padlen=$ROW_SIZE-$rowlen
@@ -257,15 +261,14 @@ do
 
 done
 
-#column_cumulative="$column_cumulative"" "
 
-let ROW_SIZE=48
-let ROW_SIZE=51
-let ROW_SIZE=47
-let ROW_SIZE=44
-let ROW_SIZE=46
-let ROW_SIZE=45
-let ROW_SIZE=49
+if [ $NARROW_DISPLAY -eq 1 ]; then
+  let ROW_SIZE=49
+else
+  let ROW_SIZE=49
+fi
+
+
 let rowlen=`echo $column_cumulative | awk '{print length($0)}'`
 let padlen=$ROW_SIZE-$rowlen
 
@@ -276,8 +279,6 @@ do
   column_cumulative="$column_cumulative "
   let i=$i-1
 done
-
-#column_cumulative="$column_cumulative"" "
 
 # get the padding
 let valuelen=`echo $column_cumulative_count | awk '{print length($0)}'`
