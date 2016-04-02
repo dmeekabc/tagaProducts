@@ -4,16 +4,24 @@
 #####################################################
 
 TAGA_DIR=~/scripts/taga
-source $TAGA_DIR/config
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+source $TAGA_CONFIG_DIR/config
 
-COMMAND_TO_WRAP=$TAGA_DIR/resourceUsage.sh
+COMMAND_TO_WRAP=$tagaScriptsUtilsDir/resourceUsage.sh
 
 for target in $targetList
 do
-  #echo $0 processing $target .......
-  echo ----------------------------------
-  echo Node Resource Usage: $target 
-  echo ----------------------------------
+
+   if echo $BLACKLIST | grep $target >/dev/null ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+      #echo `basename $0` processing $target .......
+      echo --------------------------
+      echo Resource Usage: $target 
+      echo --------------------------
+   fi
+
   sleep 1 
   ssh -l $MYLOGIN_ID $target $COMMAND_TO_WRAP
   sleep 1 
