@@ -170,10 +170,6 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
-let ROW_SIZE=66
-let ROW_SIZE=60
-let ROW_SIZE=68
-let ROW_SIZE=64
 let ROW_SIZE=62
 let padlen=$ROW_SIZE-$buflen
 # add the padding
@@ -319,6 +315,7 @@ do
   fi
 
   # get the sent count for (to) this target
+  let rownodeCount=0
   for target2 in $targetList
   do
     if [ $target == $target2 ] ; then
@@ -403,6 +400,14 @@ do
     
     # append count to the row string
     row="$row $curcount"
+
+    # dlm temp scalability stuff
+    let rownodeCount=$rownodeCount+1
+    let modVal=$rownodeCount%20
+    if  [ $modVal -eq 0 ]; then
+        echo $row
+        row=".................."
+    fi
 
   done # continue to next target
 

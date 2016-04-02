@@ -84,6 +84,7 @@ do
   let j=0
 
   # get the received count for (to) this target
+  let rownodeCount=0
   for target2 in $targetList
 
   do
@@ -171,6 +172,14 @@ do
     
     # append count to the row string
     row="$row $curcount"
+
+    # dlm temp scalability stuff
+    let rownodeCount=$rownodeCount+1
+    let modVal=$rownodeCount%20
+    if  [ $modVal -eq 0 ]; then
+        echo $row
+        row="................."
+    fi
 
   done # continue to next target
 
