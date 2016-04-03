@@ -14,14 +14,16 @@ do
    NETADDR=$NETADDRPART.$i
    echo
    echo processing $NETADDR
+
+   $TAGA_UTILS_DIR/probe2x.sh $NETADDR &
    
-   ping -W 1 -c 1 $NETADDR
+  # ping -W 1 -c 1 $NETADDR
   
-   if [ $? -eq 0 ]; then
-      echo $NETADDR >> /tmp/probe2Found.out
-   else
-      echo $NETADDR >> /tmp/probe2Notfound.out
-   fi
+  # if [ $? -eq 0 ]; then
+  #    echo $NETADDR >> /tmp/probe2Found.out
+  # else
+  #    echo $NETADDR >> /tmp/probe2Notfound.out
+  # fi
 
    let i=$i-1
 
