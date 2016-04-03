@@ -183,7 +183,10 @@ do
     fi
 
     if  [ $modVal -eq 0 ]; then
-        echo $row
+     #   echo $row
+        echo "$row"
+        echo "$row" >> $TAGA_RUN_DIR/counts.txt
+        echo "$row" >> $TAGA_RUN_DIR/countsReceives.txt
         row="................."
     fi
 
