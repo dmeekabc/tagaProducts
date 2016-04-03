@@ -381,6 +381,8 @@ PORTBASE=7770
 # Narrow display is 10 nodes, wide display is 20 nodes
 NARROW_DISPLAY=1
 NARROW_DISPLAY=0
+WIDE_DISPLAY=0
+WIDE_DISPLAY=1
 
 # Continuous Synch Flag
 CONTINUOUS_SYNCH=1  # synch everything
@@ -540,8 +542,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-
-# BLACKLIST
-BLACKLIST=10.0.0.22
 MASTER=10.0.0.27
