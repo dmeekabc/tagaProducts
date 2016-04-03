@@ -391,7 +391,7 @@ do
         echo file exists! >/dev/null
       else
         #if echo $BLACKLIST | grep "$target " >/dev/null; then
-        if echo $BLACKLIST | grep "$target$" >/dev/null; then
+        if echo $BLACKLIST | grep -e "$target " -e "$target$" >/dev/null; then
            curcount="BLKL"
         else
            curcount="----"

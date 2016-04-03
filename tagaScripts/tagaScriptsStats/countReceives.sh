@@ -162,7 +162,8 @@ do
       if [ -f  $DEST_FILE_TAG* ] ; then
         echo file exists! >/dev/null
       else
-        if echo $BLACKLIST | grep "$target2$" >/dev/null; then
+        #if echo $BLACKLIST | grep "$target2$" >/dev/null; then
+        if echo $BLACKLIST | grep -e "$target2 " -e "$target2$" >/dev/null; then
            curcount="BLKL"
         else
            curcount="----"
