@@ -407,9 +407,12 @@ do
 
     if [ $NARROW_DISPLAY -eq 1 ]; then
       let modVal=$rownodeCount%10
+    elif [ $WIDE_DISPLAY -eq 1 ]; then
+      let modVal=$rownodeCount%50
     else
       let modVal=$rownodeCount%20
     fi
+
     if  [ $modVal -eq 0 ]; then
         #echo $row
         echo "$row"
@@ -424,6 +427,8 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+  elif [ $WIDE_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=166
   else
     let ROW_SIZE=118
   fi
