@@ -142,6 +142,7 @@ MAX_ITER_DUR_BEFORE_REBOOT=300
 MSGCOUNT=10
 MSGCOUNT=20
 MSGCOUNT=200
+MSGCOUNT=500
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -155,6 +156,7 @@ MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -164,6 +166,7 @@ MSGLEN=1200
 MSGLEN=120
 MSGLEN=94
 MSGLEN=940
+MSGLEN=1040
 
 ####################################################
 # The Keep Alive Function
@@ -452,6 +455,7 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
    let DURATION2=$TARGET_COUNT_FACTOR*10
+   let DURATION2=$TARGET_COUNT_FACTOR*1
 fi
 
 # The DURATION3 allows us to force a condition if the auto config fails
@@ -472,6 +476,9 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 
 # Black List Handling
 BLACK_LIST_THRESH=20
+BLACK_LIST_THRESH=3
+BLACK_LIST_THRESH=1
+BLACK_LIST_THRESH=2
 
 ####################################################
 # Portability Section, this section requires update 
