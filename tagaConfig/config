@@ -135,6 +135,7 @@ MAX_ITER_DUR_BEFORE_REBOOT=180
 MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
+MAX_ITER_DUR_BEFORE_REBOOT=600
 
 ####################################################
 # TRAFFIC CONFIG
@@ -539,3 +540,8 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
+
+
+# BLACKLIST
+BLACKLIST=10.0.0.22
+MASTER=10.0.0.27
