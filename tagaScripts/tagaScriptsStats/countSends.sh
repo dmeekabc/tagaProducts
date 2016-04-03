@@ -390,7 +390,8 @@ do
       if [ -f  $SOURCE_FILE_TAG*$target_ ] ; then
         echo file exists! >/dev/null
       else
-        if echo $BLACKLIST | grep $target >/dev/null; then
+        #if echo $BLACKLIST | grep "$target " >/dev/null; then
+        if echo $BLACKLIST | grep "$target$" >/dev/null; then
            curcount="BLKL"
         else
            curcount="----"
