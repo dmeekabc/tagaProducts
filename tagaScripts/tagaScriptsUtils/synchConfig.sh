@@ -30,6 +30,8 @@ do
    #SCP_SOURCE_STR="$SCP_SOURCE_STR config_extensions"
    SCP_SOURCE_STR="$SCP_SOURCE_STR targetList.sh"
    SCP_SOURCE_STR="$SCP_SOURCE_STR hostList.txt"
+   SCP_SOURCE_STR="$SCP_SOURCE_STR midsizeTargetList.txt"
+   SCP_SOURCE_STR="$SCP_SOURCE_STR largeTargetList.txt"
 
    # do not use scp if target == MYIP and local mode flag set
    if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then

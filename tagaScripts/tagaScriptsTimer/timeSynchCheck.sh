@@ -81,7 +81,13 @@ do
          # note, only one blacklist node currently supported
          echo >> $TAGA_CONFIG_DIR/config
          echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
-         BLACKLIST="$target"
+         if [ $BLACK_LIST_PERSIST -eq 1 ]; then
+            # dlm temp this did not work
+            #BLACKLIST="$BLACKLIST $target"
+            BLACKLIST="$target"
+         else
+            BLACKLIST="$target"
+         fi
          echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
          echo
          echo Warning: $target has been black listed!!

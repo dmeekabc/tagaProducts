@@ -309,7 +309,7 @@ do
   elif [ $tgtlen -eq 11 ] ; then
     row=$target\...... 
   elif [ $tgtlen -eq 10 ] ; then
-    row=$target\........ 
+    row=$target\....... 
   else
     row=$target\........ 
   fi
@@ -390,7 +390,8 @@ do
       if [ -f  $SOURCE_FILE_TAG*$target_ ] ; then
         echo file exists! >/dev/null
       else
-        if echo $BLACKLIST | grep $target >/dev/null; then
+        #if echo $BLACKLIST | grep "$target " >/dev/null; then
+        if echo $BLACKLIST | grep -e "$target " -e "$target$" >/dev/null; then
            curcount="BLKL"
         else
            curcount="----"
@@ -406,11 +407,17 @@ do
 
     if [ $NARROW_DISPLAY -eq 1 ]; then
       let modVal=$rownodeCount%10
+    elif [ $WIDE_DISPLAY -eq 1 ]; then
+      let modVal=$rownodeCount%50
     else
       let modVal=$rownodeCount%20
     fi
+
     if  [ $modVal -eq 0 ]; then
-        echo $row
+        #echo $row
+        echo "$row"
+        echo "$row" >> $TAGA_RUN_DIR/counts.txt
+        echo "$row" >> $TAGA_RUN_DIR/countsSends.txt
         row=".................."
     fi
 
@@ -420,6 +427,8 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+  elif [ $WIDE_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=166
   else
     let ROW_SIZE=118
   fi

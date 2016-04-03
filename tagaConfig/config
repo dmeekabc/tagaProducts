@@ -25,6 +25,8 @@ let IP_PAD_LEN=16
 let NAME_PAD_LEN=24
 let CMD_PAD_LEN=16
 
+let MANAGED_WAIT_FACTOR=5
+
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -133,6 +135,7 @@ MAX_ITER_DUR_BEFORE_REBOOT=180
 MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
+MAX_ITER_DUR_BEFORE_REBOOT=600
 
 ####################################################
 # TRAFFIC CONFIG
@@ -376,8 +379,10 @@ SOURCEPORT=8880
 PORTBASE=7770
 
 # Narrow display is 10 nodes, wide display is 20 nodes
-NARROW_DISPLAY=0
 NARROW_DISPLAY=1
+NARROW_DISPLAY=0
+WIDE_DISPLAY=0
+WIDE_DISPLAY=1
 
 # Continuous Synch Flag
 CONTINUOUS_SYNCH=1  # synch everything
@@ -454,8 +459,8 @@ if [ $TESTTYPE == "MCAST" ] ; then
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
-   let DURATION2=$TARGET_COUNT_FACTOR*10
    let DURATION2=$TARGET_COUNT_FACTOR*1
+   let DURATION2=$TARGET_COUNT_FACTOR*10
 fi
 
 # The DURATION3 allows us to force a condition if the auto config fails

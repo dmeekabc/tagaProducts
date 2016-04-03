@@ -162,7 +162,8 @@ do
       if [ -f  $DEST_FILE_TAG* ] ; then
         echo file exists! >/dev/null
       else
-        if echo $BLACKLIST | grep $target2 >/dev/null; then
+        #if echo $BLACKLIST | grep "$target2$" >/dev/null; then
+        if echo $BLACKLIST | grep -e "$target2 " -e "$target2$" >/dev/null; then
            curcount="BLKL"
         else
            curcount="----"
@@ -178,12 +179,17 @@ do
 
     if [ $NARROW_DISPLAY -eq 1 ]; then
       let modVal=$rownodeCount%10
+    elif [ $WIDE_DISPLAY -eq 1 ]; then
+      let modVal=$rownodeCount%50
     else
       let modVal=$rownodeCount%20
     fi
 
     if  [ $modVal -eq 0 ]; then
-        echo $row
+     #   echo $row
+        echo "$row"
+        echo "$row" >> $TAGA_RUN_DIR/counts.txt
+        echo "$row" >> $TAGA_RUN_DIR/countsReceives.txt
         row="................."
     fi
 
@@ -193,6 +199,8 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+  elif [ $WIDE_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=166
   else
     let ROW_SIZE=118
   fi
@@ -239,7 +247,7 @@ do
 done
 
 column_cumulative=""
-for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
 do 
 
   v="flag_$i"
@@ -269,6 +277,8 @@ done
 
 
 if [ $NARROW_DISPLAY -eq 1 ]; then
+  let ROW_SIZE=49
+elif [ $WIDE_DISPLAY -eq 1 ]; then
   let ROW_SIZE=49
 else
   let ROW_SIZE=49

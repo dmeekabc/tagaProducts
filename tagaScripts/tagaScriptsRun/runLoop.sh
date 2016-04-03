@@ -494,21 +494,20 @@ do
    $tagaScriptsStopDir/runStop.sh
 
    # collect and clean
-   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCmd1.sh
-   chmod 755 /tmp/managedRunLoopCmd1.sh
+   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCollect.sh
+   chmod 755 /tmp/managedRunLoopCollect.sh
 
    # double the managedExecute timeout since this can take awhile...
-   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd1.sh
+   let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+   #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
+   $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
 
-   #$tagaScriptsUtilsDir/collect.sh $outputDir
-   #$tagaScriptsUtilsDir/collect.sh $outputDir
-
-   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCmd2.sh 
-   chmod 755 /tmp/managedRunLoopCmd2.sh
+   echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCleanAll.sh 
+   chmod 755 /tmp/managedRunLoopCleanAll.sh
    # double the managedExecute timeout since it is called inside also
-   $tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCmd2.sh
-   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
-   #$tagaScriptsUtilsDir/cleanAll.sh $outputDir
+   let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+   #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCleanAll.sh
+   $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCleanAll.sh
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
