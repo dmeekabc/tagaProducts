@@ -84,6 +84,7 @@ do
   let j=0
 
   # get the received count for (to) this target
+  let rownodeCount=0
   for target2 in $targetList
 
   do
@@ -172,12 +173,30 @@ do
     # append count to the row string
     row="$row $curcount"
 
+    # dlm temp scalability stuff
+    let rownodeCount=$rownodeCount+1
+
+    if [ $NARROW_DISPLAY -eq 1 ]; then
+      let modVal=$rownodeCount%10
+    else
+      let modVal=$rownodeCount%20
+    fi
+
+    if  [ $modVal -eq 0 ]; then
+        echo $row
+        row="................."
+    fi
+
   done # continue to next target
 
   row="$row"" "
 
-  let ROW_SIZE=62
-  let ROW_SIZE=66
+  if [ $NARROW_DISPLAY -eq 1 ]; then
+    let ROW_SIZE=66
+  else
+    let ROW_SIZE=118
+  fi
+
   #let ROW_SIZE=58
   let rowlen=`echo $row | awk '{print length($0)}'`
   let padlen=$ROW_SIZE-$rowlen
@@ -248,15 +267,14 @@ do
 
 done
 
-#column_cumulative="$column_cumulative"" "
 
-let ROW_SIZE=48
-let ROW_SIZE=51
-let ROW_SIZE=47
-let ROW_SIZE=44
-let ROW_SIZE=46
-let ROW_SIZE=45
-let ROW_SIZE=49
+if [ $NARROW_DISPLAY -eq 1 ]; then
+  let ROW_SIZE=49
+else
+  let ROW_SIZE=49
+fi
+
+
 let rowlen=`echo $column_cumulative | awk '{print length($0)}'`
 let padlen=$ROW_SIZE-$rowlen
 
@@ -267,8 +285,6 @@ do
   column_cumulative="$column_cumulative "
   let i=$i-1
 done
-
-#column_cumulative="$column_cumulative"" "
 
 # get the padding
 let valuelen=`echo $column_cumulative_count | awk '{print length($0)}'`

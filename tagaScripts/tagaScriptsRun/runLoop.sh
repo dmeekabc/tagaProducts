@@ -356,29 +356,40 @@ do
    do
       let tot=$DURATION2+$i
 
+      #SECS_REMAINING_STR="TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i"
+      #SECS_REMAINING_STR="TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i"
+      SECS_REMAINING_STR="TAGA:TrafficPhase: Secs Remain Part 1: $i : Secs Remain Total: $tot"
+
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          elif [ $i -lt 5 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
          fi
       else
-         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
+         echo $SECS_REMAINING_STR
+         #echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
 
       sleep 1
@@ -402,27 +413,36 @@ do
 
       let tot=$i
 
+      #SECS_REMAINING_STR="TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i"
+      SECS_REMAINING_STR="TAGA:TrafficPhase: Secs Remain Part 2: $i : Secs Remain Total: $tot"
+
       if [ $tot -gt 1000 ]; then
          let modVal=$tot%50
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 50 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 100 ]; then
          let modVal=$tot%10
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          elif [ $i -lt 10 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       elif [ $tot -gt 10 ]; then
          let modVal=$tot%5
          if [ $modVal -eq 0 ]; then
-            echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+            echo $SECS_REMAINING_STR
+         #   echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
          fi
       else
-         echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
+         echo $SECS_REMAINING_STR
+         #echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 2: $i
       fi
 
 #      echo Total Secs Remain: $tot : Secs Remain Part 2: $i
