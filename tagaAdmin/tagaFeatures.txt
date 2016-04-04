@@ -9,7 +9,7 @@ TAGA Features:
 
   Deployment:
   -----------
-  1. Unix/Linux shell script-based capabilities reduce dependencies and simplify deployment
+  1. Unix/Linux shell script-based capabilities reduce dependencies simplifying deployment
   2. Auto Self Replication
   3. Auto Key Generation and Distribution
 
@@ -27,9 +27,9 @@ TAGA Features:
   10. Auto Fault Detection and Recovery (Condition-based Automatic Node and Network-wide Reboots) 
          - this automatically pinpoints network faults 
          - this allows for *unmanned* and *24x7* testing 
+         - allows for user-configurable blacklist handling
   11. TAGA Convergence utility
          - simplifies determination of network stability, usability and test scenario repeatability
-         - allows for user-configurable blacklist handling
   12. Precise synchronization of traffic generation initiation
   13. Six levels of run-time output - user specified
 
@@ -60,7 +60,7 @@ TAGA Features:
   1. IBOA Auto Alias Utility is bundled with the TAGA Framework Release
       - enables fast and automatic creation of individual and group (team) specialized aliases
           - smart aliases increase workflow and productivity by reducing keystrokes and input errors
-          - smart aliases allow for more work at the end of the day and reduce cycle times 
+          - smart aliases provide for more efficient operations and reduced cycle times 
       - enables fast filter creation for enhanced data analysis
       - fosters teamwork, collaboration, and communication
   2. Sample Filters and other extensions available upon request to info@iboa.us
@@ -68,6 +68,7 @@ TAGA Features:
 =============================
 TAGA Future Extensions:
 =============================
+
   1. More capable Automated Test Analytic Artifact Generation (ATAAG) (TM pending) (IBOA AI filters).
   2. Complete implementation of items identified by Note1 (Initially/Partially supported items).
   3. Additional protocol support (options to UDP, TCP, SSH, etc.)
@@ -78,12 +79,12 @@ TAGA Future Extensions:
 TAGA System Requirements:
 =============================
 
-1. Linux-like operating environment
-2. Bash or equivalent shell (for full capabilities)
-3. libssh (ssh)
-4. libpcap (tcpdump)
-5. mgen, iperf, or similar traffic generation engines
-6. IPv4-based network addressing scheme
+  1. Linux-like operating environment
+  2. Bash or equivalent shell (for full capabilities)
+  3. One-time set-up of security-related configs enabling automatic behavior
+  4. libssh (ssh) and libpcap (tcpdump) or similar/equivalent libraries
+  6. mgen, iperf, or similar/equivalent traffic generation engines
+  7. IPv4-based network addressing scheme
 
 ---------
 NOTES:
