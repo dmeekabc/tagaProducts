@@ -1,0 +1,12 @@
+
+CTRL-T-T-T-T
+
+click-to-activate-window1 1 return
+click-to-activate-window2 2 return
+click-to-activate-window3 3 return
+
+click-to-activate-window4 4 return
+return
+return
+ALT-S
+
