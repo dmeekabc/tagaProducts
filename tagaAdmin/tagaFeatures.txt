@@ -22,15 +22,16 @@ TAGA Features:
   5. Auto File Collection and Process Cleanup
   6. Auto Generation of Analytical Artifacts
   7. Auto resource utilization monitor and display
-  8. Distributed Processing provides for robust data generation and collection
+  8. Distributed and Parallel Processing provides for timely and robust data generation and collection
   9. Policy-Based Management (e.g. Log Mgt and Network Overhead Control) (Note1)
-  10. New: Auto Fault Detection, Black List Handling, and Auto Recovery (Condition-based Automatic Node and Network-wide Reboots) 
-         - this pinpoints network faults 
+  10. Auto Fault Detection and Recovery (Condition-based Automatic Node and Network-wide Reboots) 
+         - this automatically pinpoints network faults 
          - this allows for *unmanned* and *24x7* testing 
-  11. New: (proprietary) TAGA Convergence utility
-         - this simplifies determination of network stability, usability and test scenario repeatability
-  12. New: Completely distributed and synchronized traffic generation initiation
-  13. New: Six levels of run-time output - user specified
+  11. TAGA Convergence utility
+         - simplifies determination of network stability, usability and test scenario repeatability
+         - allows for user-configurable blacklist handling
+  12. Precise synchronization of traffic generation initiation
+  13. Six levels of run-time output - user specified
 
   Extendability:
   -----------
@@ -54,11 +55,6 @@ TAGA Features:
   5. Human Readable and Tailorable Timestamps
   6. Multiple Interfaces per Host supported (Note1)
 
-  Recent Additions:
-  -----------
-  1. ta - trace alias utility
-  2. rebootAll alias enhancement 
-
   Other:
   -----------
   1. IBOA Auto Alias Utility is bundled with the TAGA Framework Release
@@ -70,6 +66,15 @@ TAGA Features:
   2. Sample Filters and other extensions available upon request to info@iboa.us
 
 =============================
+TAGA Future Extensions:
+=============================
+  1. More capable Automated Test Analytic Artifact Generation (ATAAG) (TM pending) (IBOA AI filters).
+  2. Complete implementation of items identified by Note1 (Initially/Partially supported items).
+  3. Additional protocol support (options to UDP, TCP, SSH, etc.)
+  4. Scalability and Performance Improvements
+  5. IPv6 Support
+
+=============================
 TAGA System Requirements:
 =============================
 
@@ -78,6 +83,7 @@ TAGA System Requirements:
 3. libssh (ssh)
 4. libpcap (tcpdump)
 5. mgen, iperf, or similar traffic generation engines
+6. IPv4-based network addressing scheme
 
 ---------
 NOTES:
