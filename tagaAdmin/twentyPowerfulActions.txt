@@ -3,7 +3,7 @@
 # All Rights Reserved
 #####################################################
 
-CTRL-T-T-T-T
+CTRL-ALT-T-T-T-T
 
 click-to-activate-window1 1 return
 click-to-activate-window2 2 return
