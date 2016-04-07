@@ -4,7 +4,7 @@
 #####################################################
 
 # Set to 1 if at home, set to 0 otherwise
-if ifconfig | grep 10\\.0\\.0 >/dev/null; then
+if /sbin/ifconfig | grep 10\\.0\\.0 >/dev/null; then
   HOMELOCATION=1
 else
   HOMELOCATION=0
@@ -25,6 +25,8 @@ HOMELIST="10.0.0.18 10.0.0.20 10.0.0.21 10.0.0.22 10.0.0.27 "
 HOMELIST="10.0.0.21 10.0.0.27 " 
 HOMELIST="10.0.0.25 10.0.0.27 " 
 HOMELIST="10.0.0.18 10.0.0.20 10.0.0.21 10.0.0.22 10.0.0.25 10.0.0.27 " 
+HOMELIST="10.0.0.18 10.0.0.21 10.0.0.22 10.0.0.27 " 
+HOMELIST="10.0.0.18 10.0.0.21 " 
 
 # Work Location List
 WORKLIST="192.168.43.6 192.168.43.188 192.168.43.228" 
