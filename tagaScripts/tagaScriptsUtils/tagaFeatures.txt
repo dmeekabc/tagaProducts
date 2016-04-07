@@ -1,0 +1,92 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+=============================
+TAGA Features:
+=============================
+
+  Deployment:
+  -----------
+  1. Unix/Linux shell script-based capabilities reduce dependencies and simplify deployment
+  2. Auto Self Replication
+  3. Auto Key Generation and Distribution
+
+  Run-time:
+  -----------
+  1. Auto Configuration of Interface Names and Host Names (via targetList)
+  2. Auto Determination of Network Environment and Environment based Auto Configuration
+  3. Auto Network Node Time Synchronization Verification
+  4. Auto Distribution of (updates to) Configuration
+  5. Auto File Collection and Process Cleanup
+  6. Auto Generation of Analytical Artifacts
+  7. Auto resource utilization monitor and display
+  8. Distributed and Parallel Processing provides for timely and robust data generation and collection
+  9. Policy-Based Management (e.g. Log Mgt and Network Overhead Control) (Note1)
+  10. Auto Fault Detection and Recovery (Condition-based Automatic Node and Network-wide Reboots) 
+         - this automatically pinpoints network faults 
+         - this allows for *unmanned* and *24x7* testing 
+  11. TAGA Convergence utility
+         - simplifies determination of network stability, usability and test scenario repeatability
+         - allows for user-configurable blacklist handling
+  12. Precise synchronization of traffic generation initiation
+  13. Six levels of run-time output - user specified
+
+  Extendability:
+  -----------
+  1. Start of Test (Traffic), Middle of Test (Traffic), and End of Run Test (Traffic) Test Shells Provided
+  2. TAGA Provided Samples include Pub/Sub implementation and File Input/output in Python and C languages 
+
+  Scalability:
+  -----------
+  1. TAGA Display scales automatically based on node count and duration 
+  2. TAGA 'Run and Mon' Utility scales automatically based on target list update 
+  3. TAGA Utility scales well by limiting configuration changes to two primary configuration 
+     files (config, targetList.sh) and a few key params (timer delays, traffic rates/counts, etc)
+  4. Round-robin and staggered starts help avoid traffic overload during large network tests
+
+  Ease of Use:
+  -----------
+  1. Basic Network Health Check at a single commmand (run or mon)
+  2. Tailorability of Displays
+  3. Standardized INFO, WARN, and ALARM tags simplify filtering (Note1)
+  4. "Go Remote" "Probe" "Prep" "TimeTimer" and other time saving utilities
+  5. Human Readable and Tailorable Timestamps
+  6. Multiple Interfaces per Host supported (Note1)
+
+  Other:
+  -----------
+  1. IBOA Auto Alias Utility is bundled with the TAGA Framework Release
+      - enables fast and automatic creation of individual and group (team) specialized aliases
+          - smart aliases increase workflow and productivity by reducing keystrokes and input errors
+          - smart aliases allow for more work at the end of the day and reduce cycle times 
+      - enables fast filter creation for enhanced data analysis
+      - fosters teamwork, collaboration, and communication
+  2. Sample Filters and other extensions available upon request to info@iboa.us
+
+=============================
+TAGA Future Extensions:
+=============================
+  1. More capable Automated Test Analytic Artifact Generation (ATAAG) (TM pending) (IBOA AI filters).
+  2. Complete implementation of items identified by Note1 (Initially/Partially supported items).
+  3. Additional protocol support (options to UDP, TCP, SSH, etc.)
+  4. Scalability and Performance Improvements
+  5. IPv6 Support
+
+=============================
+TAGA System Requirements:
+=============================
+
+1. Linux-like operating environment
+2. Bash or equivalent shell (for full capabilities)
+3. libssh (ssh)
+4. libpcap (tcpdump)
+5. mgen, iperf, or similar traffic generation engines
+6. IPv4-based network addressing scheme
+
+---------
+NOTES:
+---------
+Note1: Initial/Partial Support Only
+
