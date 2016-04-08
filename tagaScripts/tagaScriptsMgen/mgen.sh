@@ -68,9 +68,9 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     sed -e s/port/$MYPORT/g $TAGA_MGEN_DIR/script_tcp_listener.mgn.template \
             > $TAGA_MGEN_DIR/script_tcp_listener.mgn  
     # start the TCP listener in background
-    if [ $TAGA_DISPLAY_SETTING >= $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn & 
-    elif [ $TAGA_DISPLAY_SETTING <= $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null 2> /dev/null & 
     else
       mgen input $TAGA_MGEN_DIR/script_tcp_listener.mgn > /dev/null & 
