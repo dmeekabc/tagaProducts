@@ -20,7 +20,7 @@ thistest=0
 if [ $thistest -eq 1 ]; then 
    echo ------------  ifconfig `hostname` ifconfig $MYIP --------------------------
 #   sleep 1
-   ifconfig
+   /sbin/ifconfig
 fi
 
 thistest=0

@@ -25,7 +25,7 @@ do
       sleep 5
       #echo $target: `ssh -l $MYLOGIN_ID $target date`
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
-      #echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
+      #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    done
    echo
    $iboaUtilsDir/iboaDelay.sh 20 2

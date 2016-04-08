@@ -11,10 +11,10 @@ source $TAGA_CONFIG_DIR/config
 # reset our interface
 echo Interface is in suspect state - resetting! 
 echo Interface is in suspect state - setting interface down!
-sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
+sudo /sbin/ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
 echo Retcode:$?
 sleep 5
 echo Interface is in suspect state - setting interface up!
-sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
+sudo /sbin/ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
 echo Retcode:$?
 

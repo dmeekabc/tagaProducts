@@ -9,7 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 #
 # Github notes:  We are getting return codes of 0, 1, and 141 when we
-# do an ifconfig up when the interface is already up
+# do an /sbin/ifconfig up when the interface is already up
 # ... we are not sure what to make of those return codes at this point
 #
 #... we are putting this keepAlive effort on hold until further point in time
@@ -21,7 +21,7 @@ ITFC_TO_KEEP_ALIVE=$INTERFACE
 
 MY_KA_LOG_FILE=/tmp/tagaKeepAlive.log
 
-let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
+let CURRENT_RX_BYTES=`/sbin/ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
 let PREVIOUS_RX_BYTES=$CURRENT_RX_BYTES
 
 function checkInterface {
@@ -41,7 +41,7 @@ function checkInterface {
 
    else
 
-      let CURRENT_RX_BYTES=`ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
+      let CURRENT_RX_BYTES=`/sbin/ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1`
 
       if [  $CURRENT_RX_BYTES -eq $PREVIOUS_RX_BYTES ] ; then
          echo Warning: Potential Problem with Interface $ITFC_TO_KEEP_ALIVE Identified!! >> $MY_KA_LOG_FILE
@@ -94,8 +94,8 @@ echo
 # do this once initially to get the password out of the way
 # note, we may be able to pass "< confirm.txt" ('y') as other option
 
-echo sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up >> $MY_KA_LOG_FILE
-sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
+echo sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up >> $MY_KA_LOG_FILE
+sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
 echo RetCode: $? >> $MY_KA_LOG_FILE
 
 # do the delay here to ensure we have chance for rx byte count to change
@@ -113,28 +113,28 @@ do
    echo returned status: $status >> $MY_KA_LOG_FILE
 
    if [ $status -eq 1 ] ; then
-      echo "sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up" >> $MY_KA_LOG_FILE
-      sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
+      echo "sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up" >> $MY_KA_LOG_FILE
+      sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
       echo RetCode: $? >> $MY_KA_LOG_FILE
    else
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface! >> $MY_KA_LOG_FILE
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface! >> $MY_KA_LOG_FILE
-      sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
+      sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
       echo RetCode: $? >> $MY_KA_LOG_FILE
       sleep 1
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface! >> $MY_KA_LOG_FILE
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, resetting interface! >> $MY_KA_LOG_FILE
-      sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
+      sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE down
       echo RetCode: $? >> $MY_KA_LOG_FILE
       sleep 5
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface! >> $MY_KA_LOG_FILE
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface! >> $MY_KA_LOG_FILE
-      sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
+      sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
       echo RetCode: $? >> $MY_KA_LOG_FILE
       sleep 1
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface! >> $MY_KA_LOG_FILE
       echo Possible Issue with $ITFC_TO_KEEP_ALIVE identified, restoring interface! >> $MY_KA_LOG_FILE
-      sudo ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
+      sudo /sbin/ifconfig $ITFC_TO_KEEP_ALIVE $IP_TO_KEEP_ALIVE up
       echo RetCode: $? >> $MY_KA_LOG_FILE
    fi
 
