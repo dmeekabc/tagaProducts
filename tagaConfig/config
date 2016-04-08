@@ -424,7 +424,7 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
 else
-   INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+   INTERFACE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 # auto configure the target count
