@@ -32,9 +32,9 @@ let MANAGED_WAIT_FACTOR=5
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
-TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
+TESTTYPE="UCAST_TCP" # TCP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -165,12 +165,17 @@ MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
 
+
+# NOTE: 
+# NOTE: 1024 is max for TCP for TAGA counting
+# NOTE: 
 # Message Length
 MSGLEN=1200
 MSGLEN=120
 MSGLEN=94
 MSGLEN=940
 MSGLEN=1040
+MSGLEN=1024 # note, 1024 is max for TCP for TAGA counting
 
 ####################################################
 # The Keep Alive Function
@@ -419,7 +424,7 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
 else
-   INTERFACE=`ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+   INTERFACE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 # auto configure the target count
@@ -545,56 +550,232 @@ fi
 ##############################################
 
 
-# BLACKLIST
-BLACKLIST=10.0.0.208
-
-# BLACKLIST
-BLACKLIST=10.0.0.207
 
 
-# BLACKLIST
-BLACKLIST=10.0.0.240
-
-# BLACKLIST
-BLACKLIST=10.0.0.239
-
-# BLACKLIST
-BLACKLIST=10.0.0.238
-
-# BLACKLIST
-BLACKLIST=10.0.0.237
-
-# BLACKLIST
-BLACKLIST=10.0.0.236
 
 
-# BLACKLIST
-BLACKLIST=10.0.0.21
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # BLACKLIST
 BLACKLIST=10.0.0.22
-
-
-# BLACKLIST
-BLACKLIST=10.0.0.18
-
-# BLACKLIST
-BLACKLIST=10.0.0.21
-
-# BLACKLIST
-BLACKLIST=10.0.0.22
-
-
-# BLACKLIST
-BLACKLIST=10.0.0.18
-
-# BLACKLIST
-BLACKLIST=10.0.0.21
-
-# BLACKLIST
-BLACKLIST=10.0.0.22
-
-
-# BLACKLIST
-BLACKLIST=10.0.0.27
-MASTER=10.0.0.18
+MASTER=10.0.0.21

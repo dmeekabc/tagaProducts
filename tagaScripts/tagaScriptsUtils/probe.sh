@@ -26,7 +26,7 @@ do
       echo $target: `ssh -l $MYLOGIN_ID $target hostname`
       echo $target: `ssh -l $MYLOGIN_ID $target date`
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
-      echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    fi
 done
 echo

@@ -37,11 +37,11 @@ else
 # reset our interface
 echo Interface is in suspect state - resetting! 
 echo Interface is in suspect state - setting interface down!
-sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
+sudo /sbin/ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
 echo Retcode:$?
 sleep 5
 echo Interface is in suspect state - setting interface up!
-sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
+sudo /sbin/ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
 echo Retcode:$?
 
 fi
@@ -54,7 +54,7 @@ echo `basename $0` Recovering Network \(Rebooting Others\)
 echo `basename $0` Recovering Network \(Rebooting Others\)
 echo `basename $0` Recovering Network \(Rebooting Others\)
 
-# let interface recover from ifconfig command above
+# let interface recover from /sbin/ifconfig command above
 sleep 5
 
 

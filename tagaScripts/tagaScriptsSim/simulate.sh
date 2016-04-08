@@ -48,11 +48,11 @@ function doSimulate {
   do
 
     echo $myinterface going down... 
-    sudo ifconfig $myinterface down
+    sudo /sbin/ifconfig $myinterface down
     sleep $CONFIG_DELAY
 
     echo $myinterface going up... 
-    sudo ifconfig $myinterface up <$TAGA_CONFIG_DIR/passwd.txt
+    sudo /sbin/ifconfig $myinterface up <$TAGA_CONFIG_DIR/passwd.txt
     sleep $CONFIG_DELAY
 
   done

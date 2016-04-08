@@ -22,7 +22,7 @@ if [ $TESTTYPE == "UCAST_TCP" ]; then myproto=tcp; else myproto=udp; fi
 if [ $MYIP == "localhost" ] ; then
   MYINTERFACE="lo"
 else
-  MYINTERFACE=`ifconfig | grep $MY_PARAM_IP -B1 | head -n 1 | cut -d" " -f1`
+  MYINTERFACE=`/sbin/ifconfig | grep $MY_PARAM_IP -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 # if we are in the listener list, then listen for traffic

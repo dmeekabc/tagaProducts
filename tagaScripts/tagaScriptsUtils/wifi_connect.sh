@@ -20,7 +20,7 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 echo $0 Proceeding.... at `date`; echo
 
 
--sudo ifconfig wlp3s0 up
+-sudo /sbin/ifconfig wlp3s0 up
 -echo Retcode:$?
 -sudo iwconfig wlp3s0 essid YOUR_SSID_HERE
 -echo Retcode:$?

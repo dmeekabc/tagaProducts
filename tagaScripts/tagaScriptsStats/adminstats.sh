@@ -9,14 +9,14 @@ source $TAGA_CONFIG_DIR/config
 
 if [ $# -eq 1 ]; then
    if [ $1 == "RXonly" ]; then
-      ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1
+      /sbin/ifconfig $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d\( -f 1
    elif [ $1 == "TXonly" ]; then
-      ifconfig $INTERFACE | grep "TX bytes" | cut -d: -f 3 | cut -d\( -f 1
+      /sbin/ifconfig $INTERFACE | grep "TX bytes" | cut -d: -f 3 | cut -d\( -f 1
    else
-      echo :$INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
+      echo :$INTERFACE: `/sbin/ifconfig $INTERFACE | grep RX | grep bytes`
    fi
 else
   #echo 4
-  echo :$INTERFACE: `ifconfig $INTERFACE | grep RX | grep bytes`
+  echo :$INTERFACE: `/sbin/ifconfig $INTERFACE | grep RX | grep bytes`
 fi
 

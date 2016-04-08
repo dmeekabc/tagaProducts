@@ -41,12 +41,12 @@ if [ $# -eq 1 ]; then
    echo Interface is in suspect state - resetting!  >> $OUT_FILE
    echo Interface is in suspect state - setting interface down! 
    echo Interface is in suspect state - setting interface down! >> $OUT_FILE
-   sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
+   sudo /sbin/ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
    echo Retcode:$? >> $OUT_FILE
    sleep 5
    echo Interface is in suspect state - setting interface up! 
    echo Interface is in suspect state - setting interface up! >> $OUT_FILE
-   sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
+   sudo /sbin/ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
    echo Retcode:$? >> $OUT_FILE
 
    if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
@@ -106,12 +106,12 @@ else
       echo Interface is in suspect state - resetting!  >> $OUT_FILE
       echo Interface is in suspect state - setting interface down! 
       echo Interface is in suspect state - setting interface down! >> $OUT_FILE
-      sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
+      sudo /sbin/ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
       echo Retcode:$? >> $OUT_FILE
       sleep 5
       echo Interface is in suspect state - setting interface up! 
       echo Interface is in suspect state - setting interface up! >> $OUT_FILE
-      sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
+      sudo /sbin/ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
       echo Retcode:$? >> $OUT_FILE
 
       if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
@@ -152,12 +152,12 @@ else
          echo Interface is in suspect state - resetting!  >> $OUT_FILE
          echo Interface is in suspect state - setting interface down! 
          echo Interface is in suspect state - setting interface down! >> $OUT_FILE
-         sudo ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
+         sudo /sbin/ifconfig $INTERFACE  down < $TAGA_CONFIG_DIR/passwd.txt
          echo Retcode:$? >> $OUT_FILE
          sleep 5
          echo Interface is in suspect state - setting interface up! 
          echo Interface is in suspect state - setting interface up! >> $OUT_FILE
-         sudo ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
+         sudo /sbin/ifconfig $INTERFACE  up < $TAGA_CONFIG_DIR/passwd.txt
          echo Retcode:$? >> $OUT_FILE
          if [ $ADD_ROUTE_FLAG -eq 1 ] ; then
             echo Adding Route ... 

@@ -23,7 +23,7 @@ do
    ssh -l $MYLOGIN_ID $target "sudo sysctl -w \"net.ipv4.tcp_window_scaling=0\"" <$TAGA_CONFIG_DIR/passwd.txt
    #echo $target: `ssh -l $MYLOGIN_ID $target date`
    #echo $target: `ssh -l $MYLOGIN_ID $target uptime`
-   #echo $target: `ssh -l $MYLOGIN_ID $target ifconfig | grep HWaddr`
+   #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
 done
 echo
 
