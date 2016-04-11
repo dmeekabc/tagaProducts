@@ -147,6 +147,7 @@ MSGCOUNT=10
 MSGCOUNT=20
 MSGCOUNT=200
 MSGCOUNT=500
+MSGCOUNT=1
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -161,6 +162,7 @@ MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -176,6 +178,7 @@ MSGLEN=94
 MSGLEN=940
 MSGLEN=1040
 MSGLEN=1024 # note, 1024 is max for TCP for TAGA counting
+MSGLEN=94
 
 ####################################################
 # The Keep Alive Function
@@ -778,4 +781,4 @@ fi
 
 # BLACKLIST
 BLACKLIST=10.0.0.22
-MASTER=10.0.0.21
+MASTER=localhost
