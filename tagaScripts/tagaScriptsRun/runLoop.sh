@@ -545,7 +545,7 @@ do
    # special handling for iteration 1
    if [ $iter -eq 1 ]; then
       # use the delta epoch instead of current delta
-      printableDeltaCum="$printableDeltaCum D: "
+      printableDeltaCum="$printableDeltaCum D: $deltaEpoch "
       printableAverageDeltaCum="$printableAverageDeltaCum A: "
    else 
       printableDeltaCum="$printableDeltaCum $currentDelta"
