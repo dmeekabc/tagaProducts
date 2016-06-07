@@ -9,6 +9,12 @@ source $TAGA_CONFIG_DIR/config
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
    echo
    echo processing $target
    if [ $target == $MYIP ]; then
@@ -24,7 +30,7 @@ do
    response=$?; if [ $response -ne 1 ]; then echo Skpipping!; continue; fi
 
    echo Remotely logging into $target vis SSH ...
-   ssh $target
+   ssh -l $MYLOGIN_ID $target
 done
 echo
 

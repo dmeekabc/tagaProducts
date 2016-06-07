@@ -17,6 +17,11 @@ fi
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+
+
    if echo $BLACKLIST | grep $target ; then
       echo The $target is in the black list, skipping...
       continue

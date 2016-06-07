@@ -61,7 +61,7 @@ do
    for target in $targetList
    do
       echo
-      ping -c $PING_COUNT $target
+      sudo ping -c $PING_COUNT $target
       sleep $SLEEP_TIME
    done
 
