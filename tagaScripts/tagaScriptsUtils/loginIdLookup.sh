@@ -7,6 +7,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+echo $MYLOGIN_ID
 
 SEARCHSTRING=`echo $1 | cut -d. -f1-3`
 SEARCHSTRING=$SEARCHSTRING:
