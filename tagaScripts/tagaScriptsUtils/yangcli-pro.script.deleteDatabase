@@ -1,12 +1,11 @@
-connect --server=restconf-dev protocol=restconf --user=darrin --password=roller123
-delete /jte/jte2/jte3/jte4/jte5
-delete /jte/jte2/jte3/jte4
-delete /jte/jte2/jte3
-delete /jte/jte2
-delete /jte
-delete /jta
-delete /jtr
-delete /jts
-delete /jtw
-delete /toaster
+connect --server=$1 protocol=$2 --user=$3 --password=$4
+delete /taga/taga2/taga3/taga4/taga5
+delete /taga/taga2/taga3/taga4
+delete /taga/taga2/taga3
+delete /taga/taga2
+delete /taga
+delete /iboa4
+delete /iboa3
+delete /iboa2
+delete /iboa1
 quit
