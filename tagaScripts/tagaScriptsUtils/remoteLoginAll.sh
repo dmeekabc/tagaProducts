@@ -9,6 +9,14 @@ source $TAGA_CONFIG_DIR/config
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
+
+
    if [ $target == $MYIP ]; then
      echo processing $target
      echo
@@ -19,7 +27,7 @@ do
      echo
      echo Remotely logging into $target vis SSH ...
      echo
-     ssh $target
+     ssh -l $MYLOGIN_ID $target
      echo
      echo Exited Remote log into $target vis SSH ...
      echo

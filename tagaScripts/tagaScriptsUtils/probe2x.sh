@@ -8,7 +8,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 NETADDR=$1
-ping -W 1 -c 1 $NETADDR
+sudo ping -W 1 -c 1 $NETADDR
 if [ $? -eq 0 ]; then
    echo $NETADDR >> /tmp/probe2Found.out
 else

@@ -1,0 +1,13 @@
+#connect --server=localhost --user=darrin --password=roller123
+connect --server=restconf-dev protocol=restconf --user=darrin --password=roller123
+create /jte
+create /jte/jte2
+create /jte/jte2/jte3
+create /jte/jte2/jte3/jte4
+create /jte/jte2/jte3/jte4/jte5
+create /jta
+create /jtr
+create /jts
+create /jtw
+create /toaster
+quit
