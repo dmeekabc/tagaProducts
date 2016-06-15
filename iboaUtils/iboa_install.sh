@@ -133,7 +133,7 @@ else
    echo "}"                                                                      >> $IBOA_FILE
 
    # create the wrapAliasPrevious function for the 'wrap alias previous' (previous command) (wap) alias
-   echo "function __wrapAliasPrevious() {"                                     >> $IBOA_FILE
+   echo "function __insertAliasPreviousWrapped() {"                              >> $IBOA_FILE
    echo "  if [ \$# -eq 1 ]; then"                                               >> $IBOA_FILE
    echo "    which \$1 "                                                         >> $IBOA_FILE
    echo "    if [ \$? -eq 0 ]; then"                                             >> $IBOA_FILE
@@ -162,11 +162,13 @@ else
    echo "alias ias='__insertAliasSystem'"                                        >> $IBOA_FILE
    echo "alias iai='__insertAliasIboa'"                                          >> $IBOA_FILE
    echo "alias iap='__insertAliasPrevious'"                                      >> $IBOA_FILE
-   echo "alias wap='__wrapAliasPrevious'"                                        >> $IBOA_FILE
+   echo "alias iapw='__insertAliasPreviousWrapped'"                              >> $IBOA_FILE
    echo \#alias ia=iai                                                           >> $IBOA_FILE
    echo \#alias ia=ias                                                           >> $IBOA_FILE
    echo \#alias ia=iag                                                           >> $IBOA_FILE
    echo alias ia=iau                                                             >> $IBOA_FILE
+   echo alias wap=iapw                                                          >> $IBOA_FILE
+
 
    # create the 'lr' and the 'gt' and the 'u' aliases 
    echo alias lr=\'ls -lrth\'                                                    >> $IBOA_FILE
@@ -223,10 +225,10 @@ else
    echo "################################################################" >> $IBOA_SYSTEM_FILE
    echo "alias testiboa='echo This is a Test'"                             >> $IBOA_SYSTEM_FILE
 
-   # order below matters!  current policy, let user override all others
-   echo source $IBOA_SYSTEM_FILE >> $IBOA_FILE
+   # order below matters!  current policy, let user override group and let system have final say
    echo source $IBOA_GROUP_FILE  >> $IBOA_FILE
    echo source $IBOA_USER_FILE   >> $IBOA_FILE
+   echo source $IBOA_SYSTEM_FILE >> $IBOA_FILE
 
    # install iboa
    echo source $IBOA_FILE >> ~/.bashrc
