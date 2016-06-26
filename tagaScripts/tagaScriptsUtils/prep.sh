@@ -27,17 +27,8 @@ do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-
-#   echo $MYLOGIN_ID | wc -c
-
-   # dlm temp , I have no clue why this is needed but it is...
-   # dlm temp , I have no clue why this is needed but it is...
    # dlm temp , I have no clue why this is needed but it is...
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
-
-#   echo $MYLOGIN_ID | wc -c
-   #echo $MYLOGIN_ID
-   #exit
 
   ssh-copy-id $MYLOGIN_ID@$target
 
