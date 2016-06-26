@@ -79,6 +79,15 @@ done
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# determine LOGIN ID for each target
+MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+# dlm temp , I have no clue why this is needed but it is...
+MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
+COMMAND_TO_RUN=$tagaScriptsStopDir/stop.sh     
+COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
+COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+
 # do not use scp if target == MYIP and local mode flag set
 if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
    if [ $target == $MYIP ]; then
