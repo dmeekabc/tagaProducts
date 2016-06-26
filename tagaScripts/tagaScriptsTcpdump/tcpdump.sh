@@ -7,6 +7,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#echo INTERFACE:$INTERFACE
+
 NAME=`basename $0`
 IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
 NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
@@ -25,15 +27,18 @@ else
   MYINTERFACE=`/sbin/ifconfig | grep $MY_PARAM_IP -B1 | head -n 1 | cut -d" " -f1`
 fi
 
+#echo MYINTERFACE:$MYINTERFACE
+
 # if we are in the listener list, then listen for traffic
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
-  echo Running tcpdump on `hostname` > $STATUS_FILE 
+  echo Running /usr/sbin/tcpdump on `hostname` > $STATUS_FILE 
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-    tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
+    /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
      <$TAGA_CONFIG_DIR/passwd.txt | tee                                                  \
      /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
   else
-    tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
+    #echo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l       
+    /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
      <$TAGA_CONFIG_DIR/passwd.txt >                                                      \
          /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` \
               2>/dev/null
