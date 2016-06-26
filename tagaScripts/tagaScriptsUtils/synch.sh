@@ -18,6 +18,12 @@ cd $TAGA_CONFIG_DIR
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
    echo processing, synchronizing $target
    sleep 1
 

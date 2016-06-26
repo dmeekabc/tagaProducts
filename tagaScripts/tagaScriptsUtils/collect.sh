@@ -11,6 +11,12 @@ outputDir=$1
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
    echo
    echo processing, collecting files from $target start:`date | cut -c12-20`
 
