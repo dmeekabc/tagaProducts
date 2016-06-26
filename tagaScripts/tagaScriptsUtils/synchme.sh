@@ -10,7 +10,7 @@ source $TAGA_CONFIG_DIR/config
 # get my login id for this machine and create the path name based on variable user ids
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 MYDIR=`pwd`
-MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
+MYDIR=`echo $MYDIR | sed -e s/\\\/home\\\/$MYLOCALLOGIN_ID/\\\/home\\\/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
 InfoToPrint=" $MYDIR will be synchronized. "
@@ -30,8 +30,9 @@ do
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    MYDIR=`pwd`
-   MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   MYDIR=`echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+   #MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
+   MYDIR=`echo $MYDIR | sed -e s/\\\/home\\\/$MYLOCALLOGIN_ID/\\\/home\\\/MYLOGIN_ID/g`
+   MYDIR=`echo $MYDIR | sed -e s/\\\/home\\\/MYLOGIN_ID/\\\/home\\\/$MYLOGIN_ID/g`
 
    if [ $target == $MYIP ]; then
      echo
@@ -46,8 +47,8 @@ do
      ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
 
      # define the source string
-     SCP_SOURCE_STR="synchme.sh" # use this to synch this file only         
      SCP_SOURCE_STR="."          # use this to synch everything here and below
+     SCP_SOURCE_STR="synchme.sh"  # use this to synch this file only
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
