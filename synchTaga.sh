@@ -7,15 +7,14 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-TAGA_LINK=~/scripts/taga
-
-MYDIR=`pwd`
+TAGA_LINK=/home/$MYLOGIN_ID/scripts/taga
+MYDIR=/home/$MYLOGIN_ID/scripts/tagaProductized
 
 echo; echo NOTICE: The follwing MUST NOT be a soft link:
 echo "       $MYDIR "
 echo; echo NOTICE: The follwing MUST NOT be the same:
 echo "       MYDIR: $MYDIR  TAGA_LINK: $TAGA_LINK"
-echo; echo NOTICE: If confirmed, the follwing link will be set or reset on target machines:
+echo; echo NOTICE: If confirmed, the follwing link will be set or reset on all target user accounts and machines:
 echo "       $TAGA_LINK "
 
 # provide the info to print into the confirmation request
@@ -38,6 +37,15 @@ echo;echo $targetList;echo
 
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
+   TAGA_LINK=/home/$MYLOGIN_ID/scripts/taga
+   MYDIR=/home/$MYLOGIN_ID/scripts/tagaProductized
+
    if [ $target == $MYIP ]; then
      echo
      echo skipping self \($target\) ...
@@ -48,19 +56,19 @@ do
      echo processing, synchronizing $target
 
      # remove old link
-     ssh -l darrin $target "rm $TAGA_LINK 2>/dev/null"
+     ssh -l $MYLOGIN_ID $target "rm $TAGA_LINK 2>/dev/null"
 
      # make the new directory on remote (target) if it does not exist
-     ssh -l darrin $target mkdir -p $MYDIR
+     ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
 
      # define the source string
      SCP_SOURCE_STR="."          # use this to synch everything here and below
 
      # send the files to the destination
-     scp -r $SCP_SOURCE_STR darrin@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
+     scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
 
      # create new link
-     ssh -l darrin $target "ln -s $MYDIR $TAGA_LINK"
+     ssh -l $MYLOGIN_ID $target "ln -s $MYDIR $TAGA_LINK"
 
    fi
 done
