@@ -10,10 +10,7 @@ source $TAGA_CONFIG_DIR/config
 # get my login id for this machine and create the path name based on variable user ids
 MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 MYDIR=`pwd`
-#echo $MYDIR
-#echo $MYDIR | sed -e s/$MYLOGIN_ID/MYLOGIN_ID/g
 MYDIR=`echo $MYDIR | sed -e s/$MYLOGIN_ID/MYLOGIN_ID/g`
-#echo $MYDIR
 
 # provide the info to print into the confirmation request
 InfoToPrint=" $MYDIR will be synchronized. "
@@ -31,21 +28,8 @@ do
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
    # dlm temp , I have no clue why this is needed but it is...
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
-   echo 111aaa: $target $MYLOGIN_ID
 
-#   echo $MYDIR
-#   echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g
    MYDIR=`echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
-#   echo $MYDIR
-#   break
-
-#   MYDIR=`pwd`
-#   echo $MYDIR
-#   echo $MYDIR | sed -e s/$MYLOGIN_ID/\$MYLOGIN_ID/g
-#   MYDIR=`echo $MYDIR | sed -e s/$MYLOGIN_ID/\\\$MYLOGIN_ID/g`
-
-   echo 111: $target $MYDIR
-   #break
 
    if [ $target == $MYIP ]; then
      echo
