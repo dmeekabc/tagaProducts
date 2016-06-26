@@ -7,6 +7,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+
 # stop the simulations
 for target in $targetList
 do
@@ -16,6 +18,10 @@ do
    # dlm temp , I have no clue why this is needed but it is...
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
+   COMMAND_TO_RUN=$tagaScriptsStopDir/simulateStop.sh     
+   COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
+   COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+
    if echo $BLACKLIST | grep $target >/dev/null ; then
       echo The $target is in the black list, skipping...
       continue
@@ -23,7 +29,8 @@ do
       echo `basename $0` processing $target
      if [ $STOP_SIMULATION -eq 1 ] ; then
        #echo STOP simulation processing on $target
-       ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/simulateStop.sh     & 
+       #ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/simulateStop.sh     & 
+       ssh -l $MYLOGIN_ID $target $COMMAND_TO_RUN  & 
      else
        echo NOT STOPING simulation processing on $target
      fi
@@ -36,6 +43,15 @@ done
 for target in $targetList
 do
 
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # dlm temp , I have no clue why this is needed but it is...
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
+   COMMAND_TO_RUN=$tagaScriptsStopDir/stop.sh     
+   COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
+   COMMAND_TO_RUN=`echo $COMMAND_TO_RUN | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+
    if echo $BLACKLIST | grep $target >/dev/null ; then
       echo The $target is in the black list, skipping...
       continue
@@ -45,7 +61,8 @@ do
    fi
 
    echo processing, cleaning $target
-   ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+   #ssh -l $MYLOGIN_ID $target $tagaScriptsStopDir/stop.sh $1 <$TAGA_CONFIG_DIR/passwd.txt
+   ssh -l $MYLOGIN_ID $target $COMMAND_TO_RUN $1 <$TAGA_CONFIG_DIR/passwd.txt
 done
 
 # do myself last
