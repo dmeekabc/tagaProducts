@@ -419,7 +419,8 @@ MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
-     else MYIP=localhost; fi; done
+     else MYIP=$ip; fi; done  # last one wins if no match
+#     else MYIP=localhost; fi; done
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
