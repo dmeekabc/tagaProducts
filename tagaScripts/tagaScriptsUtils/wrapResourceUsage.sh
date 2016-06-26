@@ -9,8 +9,6 @@ source $TAGA_CONFIG_DIR/config
 
 
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
-MYDIR=`pwd`
-MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 COMMAND_TO_WRAP=$tagaScriptsUtilsDir/resourceUsage.sh
 COMMAND_TO_WRAP=`echo $COMMAND_TO_WRAP | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
