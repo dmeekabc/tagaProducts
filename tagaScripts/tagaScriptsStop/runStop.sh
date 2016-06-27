@@ -79,8 +79,8 @@ done
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# determine LOGIN ID for each target
-MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+# determine LOGIN ID for myself
+MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 # dlm temp , I have no clue why this is needed but it is...
 MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
