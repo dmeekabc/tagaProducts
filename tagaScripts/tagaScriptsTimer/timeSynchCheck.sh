@@ -92,14 +92,20 @@ do
          # note, only one blacklist node currently supported
          echo >> $TAGA_CONFIG_DIR/config
          echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
-         if [ $BLACK_LIST_PERSIST -eq 1 ]; then
+         # dlm temp july 2016
+         #if [ $BLACK_LIST_PERSIST -eq 1 ]; then
+         if [ true ]; then
             # dlm temp this did not work
-            #BLACKLIST="$BLACKLIST $target"
-            BLACKLIST="$target"
+            BLACKLIST="$BLACKLIST $target"
+            #BLACKLIST=`echo $BLACKLIST | sed -e s/$BLACKLIST/$BLACKLIST\ $target/g`
          else
             BLACKLIST="$target"
          fi
-         echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+
+         # dlm temp
+         #BLACKLIST="192.1.1.1 192.2.2.2" 
+
+         echo BLACKLIST=\"$BLACKLIST\" >> $TAGA_CONFIG_DIR/config
          echo
          echo Warning: $target has been black listed!!
          echo Warning: $target has been removed from this test!!
