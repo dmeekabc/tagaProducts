@@ -115,7 +115,7 @@ do
        elif [ $trycount -ge 10 ] ; then
          echo
          echo "WARNING: "
-         echo "WARNING: Unable to obtain system time from $target"
+         echo "WARNING: Unable to obtain system time and/or time synch with $target"
          echo "WARNING: "
          echo
          sleep 2
@@ -141,7 +141,7 @@ do
       # bad return code
       echo 
       echo "WARNING: "
-      echo "WARNING: Unable to obtain system time from $target"
+      echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
       echo "WARNING: "
       echo 
       sleep 2
@@ -617,7 +617,7 @@ do
    elif [ $trycount -ge 10 ] ; then
      echo
      echo "WARNING: "
-     echo "WARNING: Unable to obtain system time from $target"
+     echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
      echo "WARNING: "
      echo
      sleep 2
