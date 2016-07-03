@@ -197,6 +197,7 @@ else
    echo "alias tr='tra'"                                                   >> $IBOA_USER_FILE
    echo "alias ta='tr'"                                                    >> $IBOA_USER_FILE
    echo "alias t='tr'"                                                     >> $IBOA_USER_FILE
+   echo "alias s='ps -ef | grep -v grep | grep \$1'"                       >> $IBOA_USER_FILE
    echo "alias ea='aa'"                                                    >> $IBOA_USER_FILE
    echo "alias run='TAGA_DIR=~/scripts/taga; \$TAGA_DIR/runLoopWrapper.sh'" >> $IBOA_USER_FILE
    echo "alias mon='TAGA_DIR=~/scripts/taga; touch \$TAGA_DIR/counts.txt; tail -f \$TAGA_DIR/counts.txt'" >> $IBOA_USER_FILE
