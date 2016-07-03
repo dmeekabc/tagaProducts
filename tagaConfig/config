@@ -490,11 +490,11 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 
 
 # Black List Handling
+BLACK_LIST_THRESH=200
 BLACK_LIST_THRESH=3
 BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=2
 BLACK_LIST_THRESH=20
-BLACK_LIST_THRESH=200
 
 ####################################################
 # Portability Section, this section requires update 
