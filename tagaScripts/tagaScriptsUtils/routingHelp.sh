@@ -18,6 +18,7 @@ echo base commands....
 echo list
 echo show ip rip status
 echo show mem rip 
+echo show history
 
 echo; echo
 echo drill down commands....
