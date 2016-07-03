@@ -234,8 +234,8 @@ TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 
 # strict time synch?
-STRICT_TIME_SYNCH=0 # (Testing)
 STRICT_TIME_SYNCH=1 # (Normal)
+STRICT_TIME_SYNCH=0 # (Testing)
 
 CONFIRM_REQD=1  # strict
 CONFIRM_REQD=0  # not strict
@@ -420,6 +420,27 @@ MYIP=localhost
 # determine MYIP from candidates list
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
+if [ ! $MYIPCANDIDATES  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! $MYIPCANDIDATES  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT2 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! $MYIPCANDIDATES  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT3 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! $MYIPCANDIDATES  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT4 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! $MYIPCANDIDATES  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT5 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
      else MYIP=$ip; fi; done  # last one wins if no match
