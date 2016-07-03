@@ -52,10 +52,6 @@ else
    echo \#alias aa=aag                                                          >> $IBOA_FILE
    echo alias aa=aau                                                            >> $IBOA_FILE
 
-   # create the 'goto taga dir' ('g') and 'trace alias' ('ta') aliases
-   echo "alias g='TAGA_DIR=~/scripts/taga; cd \$TAGA_DIR'"                      >> $IBOA_FILE
-   echo "alias ta='g; ./aliasTrace.sh'"                                         >> $IBOA_FILE
-
    # create the insertAliasUser function for the 'install alias user' (iau) alias
    echo "function __insertAliasUser() {"                                         >> $IBOA_FILE
    echo "  if [ \$# -ge 1 ]; then"                                               >> $IBOA_FILE
@@ -195,10 +191,11 @@ else
    echo "alias run='echo This is a Test'"                                  >> $IBOA_USER_FILE
    echo "alias x='exit'"                                                   >> $IBOA_USER_FILE
    echo "alias g='TAGA_DIR=~/scripts/taga; cd \$TAGA_DIR'"                 >> $IBOA_USER_FILE
-   echo "alias trace='g; ./aliasTrace.sh'"                                 >> $IBOA_USER_FILE
+   echo "alias trace='g; cd iboaUtils; alias > aliasList.txt; ./aliasTrace.sh'" >> $IBOA_USER_FILE
    echo "alias trac='trace'"                                               >> $IBOA_USER_FILE
    echo "alias tra='trac'"                                                 >> $IBOA_USER_FILE
    echo "alias tr='tra'"                                                   >> $IBOA_USER_FILE
+   echo "alias ta='tr'"                                                    >> $IBOA_USER_FILE
    echo "alias t='tr'"                                                     >> $IBOA_USER_FILE
    echo "alias ea='aa'"                                                    >> $IBOA_USER_FILE
    echo "alias run='TAGA_DIR=~/scripts/taga; \$TAGA_DIR/runLoopWrapper.sh'" >> $IBOA_USER_FILE
@@ -206,7 +203,6 @@ else
    echo "alias grem='TAGA_DIR=~/scripts/taga; \$TAGA_DIR/remoteLoginAll.sh'" >> $IBOA_USER_FILE
    echo "alias vc='TAGA_DIR=~/scripts/taga; vi \$TAGA_DIR/config'"         >> $IBOA_USER_FILE
    echo "alias vt='TAGA_DIR=~/scripts/taga; vi \$TAGA_DIR/targetList.sh'"  >> $IBOA_USER_FILE
-   echo "alias ta='TAGA_DIR=~/scripts/taga; cd $TAGA_DIR; ./traceAlias.sh'" >> $IBOA_USER_FILE
    echo "################################################################" >> $IBOA_USER_FILE
    echo "# END TAGA Exensions are included here                          " >> $IBOA_USER_FILE
    echo "################################################################" >> $IBOA_USER_FILE
