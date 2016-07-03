@@ -273,7 +273,8 @@ do
 
              # new 21 mar 2016
              # Reboot Bad Nodes
-             if [ $SECS -gt 20 ]; then
+             #if [ $SECS -gt 20 ]; then
+             if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
                 echo The $target is a candidate for Reboot!!! 
                 echo The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
@@ -506,7 +507,8 @@ do
 
           # new 21 mar 2016
           # Reboot Bad Nodes
-          if [ $SECS -gt 20 ]; then
+          #if [ $SECS -gt 20 ]; then
+          if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
              echo The $target is a candidate for Reboot!!! 
              echo The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
