@@ -33,8 +33,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="MCAST"     # UDP MCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="UCAST_TCP" # TCP UCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -137,6 +137,9 @@ MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
 MAX_ITER_DUR_BEFORE_REBOOT=600
+
+# set this very large to eliminate (perceivably) spurious reboots
+MAX_TIME_DELTA_BEFORE_REBOOT=20
 
 ####################################################
 # TRAFFIC CONFIG
@@ -487,10 +490,11 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 
 
 # Black List Handling
-BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=3
 BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=2
+BLACK_LIST_THRESH=20
+BLACK_LIST_THRESH=200
 
 ####################################################
 # Portability Section, this section requires update 
@@ -549,13 +553,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124 192.168.43.147"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124 192.168.43.147 192.168.43.157"
-MASTER=192.168.43.69
+MASTER=192.168.43.157
