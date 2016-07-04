@@ -606,8 +606,10 @@ do
      # note, only one blacklist node currently supported
      echo >> $TAGA_CONFIG_DIR/config
      echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
-     BLACKLIST="$target"
-     echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+     BLACKLIST="$BLACKLIST $target"
+     #BLACKLIST="$target"
+     #echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+     echo BLACKLIST=\"$BLACKLIST\" >> $TAGA_CONFIG_DIR/config
      echo
      echo Warning: $target has been black listed!!
      echo Warning: $target has been removed from this test!!
