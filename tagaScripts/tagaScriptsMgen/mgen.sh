@@ -242,6 +242,7 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
+     let tcpDelay=$tcpDelay+1
      echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE      # append TCP specific stuff
   fi
 
@@ -317,6 +318,7 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
+     let tcpDelay=$tcpDelay+1
      echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE       # append TCP specific stuff
   fi
 
