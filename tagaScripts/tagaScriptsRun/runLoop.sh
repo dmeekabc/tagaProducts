@@ -284,10 +284,15 @@ do
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
          if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
             echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
-            $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+            #$tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+            MANAGED_EXECUTE_WAIT_TIME=20
+            $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_EXECUTE_WAIT_TIME \
+                       $tagaScriptsUtilsDir/synchConfig.sh
+            echo $? is mangedExecuteReturnCode
          else
             # suppress output to stdout
             $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
+            echo $? is mangedExecuteReturnCode
         fi
    
      else
