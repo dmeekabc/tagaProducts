@@ -245,21 +245,6 @@ do
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    # exit now if simulation only
    if [ $SIMULATION_ONLY -eq 1 ]; then
       echo TAGA:PreTrafficPhase: `date` Simulation Only Flag is True
@@ -285,7 +270,8 @@ do
          if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
             echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
             #$tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
-            MANAGED_EXECUTE_WAIT_TIME=20
+            #let MANAGED_EXECUTE_WAIT_TIME=20
+            let MANAGED_EXECUTE_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
             $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_EXECUTE_WAIT_TIME \
                        $tagaScriptsUtilsDir/synchConfig.sh
             echo $? is mangedExecuteReturnCode
