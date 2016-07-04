@@ -242,7 +242,7 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
+     echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE      # append TCP specific stuff
   fi
 
   # some cleanup
@@ -317,7 +317,7 @@ do
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
+     echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE       # append TCP specific stuff
   fi
 
   # some cleanup
