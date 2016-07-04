@@ -32,9 +32,9 @@ let MANAGED_WAIT_FACTOR=5
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
-TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_TCP" # TCP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -152,6 +152,7 @@ MSGCOUNT=200
 MSGCOUNT=500
 MSGCOUNT=100
 MSGCOUNT=10
+MSGCOUNT=22
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -163,9 +164,9 @@ MSGCOUNT=10
 MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
