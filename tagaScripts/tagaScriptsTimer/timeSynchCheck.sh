@@ -7,6 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# black list thresh should be one higher unless we want lots of black listing
+let TRY_COUNT_THRESH=3
+
 # get the md5sum of the targetlist config so we know if it changes
 configMd5sum=`md5sum $TAGA_CONFIG_DIR/targetList.sh | cut -d" " -f 1`
 
@@ -112,7 +115,8 @@ do
          echo
          break
          #continue
-       elif [ $trycount -ge 10 ] ; then
+       #elif [ $trycount -ge 10 ] ; then
+       elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
          echo
          echo "WARNING: "
          echo "WARNING: Unable to obtain system time and/or time synch with $target"
@@ -616,7 +620,8 @@ do
      echo
      break
      #continue
-   elif [ $trycount -ge 10 ] ; then
+   #elif [ $trycount -ge 10 ] ; then
+   elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
      echo
      echo "WARNING: "
      echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
