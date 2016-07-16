@@ -13,6 +13,7 @@ source $TAGA_CONFIG_DIR/config
 
 # start with fresh file
 rm $TAGA_CONFIG_DIR/hostsToIps.txt 2>/dev/null
+rm $TAGA_CONFIG_DIR/hostsToSharedIps.txt 2>/dev/null
 rm $TAGA_CONFIG_DIR/hostList.txt 2>/dev/null
 
 echo
@@ -71,9 +72,18 @@ do
    # write buffer line to output
    echo $buffer2 
 
+
+  alternateIps=`ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep "inet addr" | grep -v $target | grep -v 127.0.0.1 | cut -d: -f 2 | cut -d" " -f 1 | head -n 1`
+
+   #echo alternateIps: $alternateIps
+
+
    # write the hostList.txt and hostsToIps.txt files
    echo $targethostname >> $TAGA_CONFIG_DIR/hostList.txt
    echo $target.$targethostname >> $TAGA_CONFIG_DIR/hostsToIps.txt
+   echo $target.$targethostname.$alternateIps >> $TAGA_CONFIG_DIR/hostsToSharedIps.txt
 
 done
 echo
+
+
