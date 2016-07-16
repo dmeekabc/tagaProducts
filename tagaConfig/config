@@ -14,6 +14,8 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 INTERFACE_SPECIFIED_SOURCE=1
 INTERFACE_SPECIFIED_SOURCE=0
 
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
+
 ####################################################
 # Enable or Disable all testing per iteration loop
 # and other Main Test Iteration Configs
@@ -238,8 +240,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
+TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)

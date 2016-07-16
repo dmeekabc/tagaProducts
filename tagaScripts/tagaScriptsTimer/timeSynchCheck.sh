@@ -8,7 +8,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # black list thresh should be one higher unless we want lots of black listing
-let TRY_COUNT_THRESH=3
+let TRY_COUNT_THRESH=$TIME_SYNCH_CHECK_TRY_COUNT_THRESH
 
 # get the md5sum of the targetlist config so we know if it changes
 configMd5sum=`md5sum $TAGA_CONFIG_DIR/targetList.sh | cut -d" " -f 1`
