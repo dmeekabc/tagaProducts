@@ -9,6 +9,7 @@ source $TAGA_CONFIG_DIR/config
 
 # get my login id for this machine and create the path name based on variable user ids
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/\\\/home\\\/$MYLOCALLOGIN_ID/\\\/home\\\/MYLOGIN_ID/g`
 
