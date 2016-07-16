@@ -14,7 +14,9 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 INTERFACE_SPECIFIED_SOURCE=1
 INTERFACE_SPECIFIED_SOURCE=0
 
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
+
 
 ####################################################
 # Enable or Disable all testing per iteration loop
@@ -39,8 +41,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -584,4 +586,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.1.10
+MASTER=192.168.43.146
