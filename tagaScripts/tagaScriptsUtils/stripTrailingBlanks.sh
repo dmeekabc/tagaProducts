@@ -7,4 +7,4 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-$TAGA_DIR/tagaScripts/tagaScriptsRun/runLoop.sh | tee /tmp/runLoop.sh.out
+sed -i ':a;/^[ \n]*$/{$d;N;ba}' $TAGA_CONFIG_DIR/config

@@ -7,6 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# black list thresh should be one higher unless we want lots of black listing
+let TRY_COUNT_THRESH=$TIME_SYNCH_CHECK_TRY_COUNT_THRESH
+
 # get the md5sum of the targetlist config so we know if it changes
 configMd5sum=`md5sum $TAGA_CONFIG_DIR/targetList.sh | cut -d" " -f 1`
 
@@ -112,10 +115,11 @@ do
          echo
          break
          #continue
-       elif [ $trycount -ge 10 ] ; then
+       #elif [ $trycount -ge 10 ] ; then
+       elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
          echo
          echo "WARNING: "
-         echo "WARNING: Unable to obtain system time from $target"
+         echo "WARNING: Unable to obtain system time and/or time synch with $target"
          echo "WARNING: "
          echo
          sleep 2
@@ -141,7 +145,7 @@ do
       # bad return code
       echo 
       echo "WARNING: "
-      echo "WARNING: Unable to obtain system time from $target"
+      echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
       echo "WARNING: "
       echo 
       sleep 2
@@ -273,7 +277,8 @@ do
 
              # new 21 mar 2016
              # Reboot Bad Nodes
-             if [ $SECS -gt 20 ]; then
+             #if [ $SECS -gt 20 ]; then
+             if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
                 echo The $target is a candidate for Reboot!!! 
                 echo The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
@@ -506,7 +511,8 @@ do
 
           # new 21 mar 2016
           # Reboot Bad Nodes
-          if [ $SECS -gt 20 ]; then
+          #if [ $SECS -gt 20 ]; then
+          if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
              echo The $target is a candidate for Reboot!!! 
              echo The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
@@ -604,18 +610,21 @@ do
      # note, only one blacklist node currently supported
      echo >> $TAGA_CONFIG_DIR/config
      echo "# BLACKLIST" >> $TAGA_CONFIG_DIR/config
-     BLACKLIST="$target"
-     echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+     BLACKLIST="$BLACKLIST $target"
+     #BLACKLIST="$target"
+     #echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
+     echo BLACKLIST=\"$BLACKLIST\" >> $TAGA_CONFIG_DIR/config
      echo
      echo Warning: $target has been black listed!!
      echo Warning: $target has been removed from this test!!
      echo
      break
      #continue
-   elif [ $trycount -ge 10 ] ; then
+   #elif [ $trycount -ge 10 ] ; then
+   elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
      echo
      echo "WARNING: "
-     echo "WARNING: Unable to obtain system time from $target"
+     echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
      echo "WARNING: "
      echo
      sleep 2

@@ -13,8 +13,10 @@ NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
 echo "$IPPART : $NAMEPART : executing at `date`"
 
 # get the input
-# get MYIP to use
+# get MYIP and INTERFACE to use, note $MYIP is in $1
 MY_PARAM_IP=$1
+INTERFACE=`/sbin/ifconfig | grep $1 -B1 | head -n 1 | cut -d" " -f1`
+
 # time to start sending traffic
 let TRAFFIC_START_EPOCH=$2
 
@@ -102,9 +104,9 @@ if [ $WAITTIME -lt 0 ]; then
    echo Warning: $0: negatie WAITTIME: $WAITTIME
    echo Warning: $0: negatie WAITTIME: $WAITTIME
    echo
-   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
-   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
-   echo Warning: Bad SUDO, SSH, other config can cause delays , this condition.
+   echo Warning: Bad SUDO, SSH, bad time synch, bad config, etc can cause delays , this condition.
+   echo Warning: Bad SUDO, SSH, bad time synch, bad config, etc can cause delays , this condition.
+   echo Warning: Bad SUDO, SSH, bad time synch, bad config, etc can cause delays , this condition.
    echo
    echo
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
@@ -150,30 +152,44 @@ if [ $TESTTYPE == "MCAST" ]; then
 
   let DESTPORT=$MYMCAST_PORT
   target=$MYMCAST_ADDR
+
+  TEMPFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp  
+  TEMP2FILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp2  
+  SCRIPTFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn
   
   # prep the mgen config 
-  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TAGA_MGEN_DIR/script.mgn.temp  # create temp from template
-  sed -e s/destport/$DESTPORT/g $TAGA_MGEN_DIR/script.mgn.temp      > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/sourceport/$SOURCEPORT/g $TAGA_MGEN_DIR/script.mgn.temp2 > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/count/$MSGCOUNT/g $TAGA_MGEN_DIR/script.mgn.temp         > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/rate/$MSGRATE/g $TAGA_MGEN_DIR/script.mgn.temp2          > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/proto/$mgen_proto/g $TAGA_MGEN_DIR/script.mgn.temp       > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/len/$MSGLEN/g $TAGA_MGEN_DIR/script.mgn.temp2            > $TAGA_MGEN_DIR/script.mgn       # finalize
+  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TEMPFILE  # create temp from template
+  sed -e s/destport/$DESTPORT/g $TEMPFILE                           > $TEMP2FILE # toggle temp/temp2
+  sed -e s/sourceport/$SOURCEPORT/g $TEMP2FILE                      > $TEMPFILE  # toggle temp/temp2
+  sed -e s/count/$MSGCOUNT/g $TEMPFILE                              > $TEMP2FILE # toggle temp/temp2
+  sed -e s/rate/$MSGRATE/g $TEMP2FILE                               > $TEMPFILE  # toggle temp/temp2
+  sed -e s/proto/$mgen_proto/g $TEMPFILE                            > $TEMP2FILE # toggle temp/temp2
+  sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
+  sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
+
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
 
   # some cleanup
-  rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
+  rm $TEMPFILE ; rm $TEMP2FILE
 
   #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
-    cat $TAGA_MGEN_DIR/script.mgn
+    cat $SCRIPTFILE
     echo ---------------------
-    mgen input $TAGA_MGEN_DIR/script.mgn
+    mgen input $SCRIPTFILE 
   #elif [ $TAGA_DISPLAY == "SILENT" ]; then
   elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
-    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+    mgen input $SCRIPTFILE  > /dev/null 2> /dev/null
   else
-    mgen input $TAGA_MGEN_DIR/script.mgn #>/dev/null
+    mgen input $SCRIPTFILE  #>/dev/null
   fi
   
   # we are done, exit the script
@@ -208,34 +224,59 @@ do
 
   let DESTPORT=$PORTBASE+$i
 
+  TEMPFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp  
+  TEMP2FILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp2  
+  SCRIPTFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn
+
   # prep the mgen config 
-  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TAGA_MGEN_DIR/script.mgn.temp  # create temp from template
-  sed -e s/destport/$DESTPORT/g $TAGA_MGEN_DIR/script.mgn.temp      > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/sourceport/$SOURCEPORT/g $TAGA_MGEN_DIR/script.mgn.temp2 > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/count/$MSGCOUNT/g $TAGA_MGEN_DIR/script.mgn.temp         > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/rate/$MSGRATE/g $TAGA_MGEN_DIR/script.mgn.temp2          > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/proto/$mgen_proto/g $TAGA_MGEN_DIR/script.mgn.temp       > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/len/$MSGLEN/g $TAGA_MGEN_DIR/script.mgn.temp2            > $TAGA_MGEN_DIR/script.mgn       # finalize
+#  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TAGA_MGEN_DIR/script.mgn.temp  # create temp from template
+#  sed -e s/destport/$DESTPORT/g $TAGA_MGEN_DIR/script.mgn.temp      > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/sourceport/$SOURCEPORT/g $TAGA_MGEN_DIR/script.mgn.temp2 > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/count/$MSGCOUNT/g $TAGA_MGEN_DIR/script.mgn.temp         > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/rate/$MSGRATE/g $TAGA_MGEN_DIR/script.mgn.temp2          > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/proto/$mgen_proto/g $TAGA_MGEN_DIR/script.mgn.temp       > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/interface/$INTERFACE/g $TAGA_MGEN_DIR/script.mgn.temp2   > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/len/$MSGLEN/g $TAGA_MGEN_DIR/script.mgn.temp             > $TAGA_MGEN_DIR/script.$INTERFACE.mgn       # finalize
+
+  # prep the mgen config 
+  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TEMPFILE  # create temp from template
+  sed -e s/destport/$DESTPORT/g $TEMPFILE                           > $TEMP2FILE # toggle temp/temp2
+  sed -e s/sourceport/$SOURCEPORT/g $TEMP2FILE                      > $TEMPFILE  # toggle temp/temp2
+  sed -e s/count/$MSGCOUNT/g $TEMPFILE                              > $TEMP2FILE # toggle temp/temp2
+  sed -e s/rate/$MSGRATE/g $TEMP2FILE                               > $TEMPFILE  # toggle temp/temp2
+  sed -e s/proto/$mgen_proto/g $TEMPFILE                            > $TEMP2FILE # toggle temp/temp2
+  sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
+  sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
+
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
+     let tcpDelay=$tcpDelay+1
+     echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE      # append TCP specific stuff
   fi
 
   # some cleanup
-  rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
+  rm $TEMPFILE ; rm $TEMP2FILE
 
   #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
-    cat $TAGA_MGEN_DIR/script.mgn
+    cat $SCRIPTFILE 
     echo ---------------------
-    mgen input $TAGA_MGEN_DIR/script.mgn
+    mgen input $SCRIPTFILE 
   elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
   #elif [ $TAGA_DISPLAY == "SILENT" ]; then
-    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+    mgen input $SCRIPTFILE  > /dev/null 2> /dev/null
   else
-    mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null
+    mgen input $SCRIPTFILE  # >/dev/null
   fi
   
 
@@ -266,35 +307,60 @@ do
   fi
 
   let DESTPORT=$PORTBASE+$i
+
+  TEMPFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp  
+  TEMP2FILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn.temp2  
+  SCRIPTFILE=$TAGA_MGEN_DIR/script.$INTERFACE.mgn
   
   # prep the mgen config 
-  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TAGA_MGEN_DIR/script.mgn.temp  # create temp from template
-  sed -e s/destport/$DESTPORT/g $TAGA_MGEN_DIR/script.mgn.temp      > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/sourceport/$SOURCEPORT/g $TAGA_MGEN_DIR/script.mgn.temp2 > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/count/$MSGCOUNT/g $TAGA_MGEN_DIR/script.mgn.temp         > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/rate/$MSGRATE/g $TAGA_MGEN_DIR/script.mgn.temp2          > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
-  sed -e s/proto/$mgen_proto/g $TAGA_MGEN_DIR/script.mgn.temp       > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
-  sed -e s/len/$MSGLEN/g $TAGA_MGEN_DIR/script.mgn.temp2            > $TAGA_MGEN_DIR/script.mgn       # finalize
+#  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TAGA_MGEN_DIR/script.mgn.temp  # create temp from template
+#  sed -e s/destport/$DESTPORT/g $TAGA_MGEN_DIR/script.mgn.temp      > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/sourceport/$SOURCEPORT/g $TAGA_MGEN_DIR/script.mgn.temp2 > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/count/$MSGCOUNT/g $TAGA_MGEN_DIR/script.mgn.temp         > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/rate/$MSGRATE/g $TAGA_MGEN_DIR/script.mgn.temp2          > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/proto/$mgen_proto/g $TAGA_MGEN_DIR/script.mgn.temp       > $TAGA_MGEN_DIR/script.mgn.temp2 # toggle temp/temp2
+#  sed -e s/interface/$INTERFACE/g $TAGA_MGEN_DIR/script.mgn.temp2   > $TAGA_MGEN_DIR/script.mgn.temp  # toggle temp/temp2
+#  sed -e s/len/$MSGLEN/g $TAGA_MGEN_DIR/script.mgn.temp             > $TAGA_MGEN_DIR/script.$INTERFACE.mgn       # finalize
+
+  # prep the mgen config 
+  sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TEMPFILE  # create temp from template
+  sed -e s/destport/$DESTPORT/g $TEMPFILE                           > $TEMP2FILE # toggle temp/temp2
+  sed -e s/sourceport/$SOURCEPORT/g $TEMP2FILE                      > $TEMPFILE  # toggle temp/temp2
+  sed -e s/count/$MSGCOUNT/g $TEMPFILE                              > $TEMP2FILE # toggle temp/temp2
+  sed -e s/rate/$MSGRATE/g $TEMP2FILE                               > $TEMPFILE  # toggle temp/temp2
+  sed -e s/proto/$mgen_proto/g $TEMPFILE                            > $TEMP2FILE # toggle temp/temp2
+  sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
+  sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
+
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
-     echo $tcpDelay.0 OFF 1 >> $TAGA_MGEN_DIR/script.mgn       # append TCP specific stuff
+     let tcpDelay=$tcpDelay+1
+     echo $tcpDelay.0 OFF 1 >> $SCRIPTFILE       # append TCP specific stuff
   fi
 
   # some cleanup
-  rm $TAGA_MGEN_DIR/script.mgn.temp $TAGA_MGEN_DIR/script.mgn.temp2
+  rm $TEMPFILE ; rm $TEMP2FILE
 
   #if [ $TAGA_DISPLAY == "VERBOSE" ]; then
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     echo ---------------------
-    cat $TAGA_MGEN_DIR/script.mgn
+    cat $SCRIPTFILE 
     echo ---------------------
-    mgen input $TAGA_MGEN_DIR/script.mgn
+    mgen input $SCRIPTFILE 
   elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
   #elif [ $TAGA_DISPLAY == "SILENT" ]; then
-    mgen input $TAGA_MGEN_DIR/script.mgn > /dev/null 2> /dev/null
+    mgen input $SCRIPTFILE  > /dev/null 2> /dev/null
   else
-    mgen input $TAGA_MGEN_DIR/script.mgn # >/dev/null
+    mgen input $SCRIPTFILE  # >/dev/null
   fi
 
 done

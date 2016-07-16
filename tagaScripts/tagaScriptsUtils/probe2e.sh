@@ -47,15 +47,16 @@ echo Note: Any additional probe2.sh \(ping-related\) output below indicates the 
 echo Note: In that case, please examine /tmp/probe2Found.out and /tmp/probe2Notfound.out directly.
 echo
 
-
-sleep 5
-
-echo Found List:
-cat /tmp/probe2Found.out | sort 
-echo Not Found List:
-cat /tmp/probe2Notfound.out | sort 
-echo Found List:
-cat /tmp/probe2Found.out | sort 
+for i in 1 2 3 4 5  
+do
+   sleep 2
+   echo Found List:
+   cat /tmp/probe2Found.out | sort 
+   echo Not Found List:
+   cat /tmp/probe2Notfound.out | sort 
+   echo Found List:
+   cat /tmp/probe2Found.out | sort 
+done
 
 echo
 echo Note: Any additional probe2.sh \(ping-related\) output below indicates the lists above are not complete!

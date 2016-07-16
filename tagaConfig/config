@@ -10,6 +10,14 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+# dlm temp new jul 2016
+INTERFACE_SPECIFIED_SOURCE=1
+INTERFACE_SPECIFIED_SOURCE=0
+
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
+
+
 ####################################################
 # Enable or Disable all testing per iteration loop
 # and other Main Test Iteration Configs
@@ -32,9 +40,9 @@ let MANAGED_WAIT_FACTOR=5
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
+TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
-TESTTYPE="UCAST_TCP" # TCP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -138,6 +146,9 @@ MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
 MAX_ITER_DUR_BEFORE_REBOOT=600
 
+# set this very large to eliminate (perceivably) spurious reboots
+MAX_TIME_DELTA_BEFORE_REBOOT=20
+
 ####################################################
 # TRAFFIC CONFIG
 ####################################################
@@ -147,6 +158,10 @@ MSGCOUNT=10
 MSGCOUNT=20
 MSGCOUNT=200
 MSGCOUNT=500
+MSGCOUNT=100
+MSGCOUNT=22
+MSGCOUNT=2000
+MSGCOUNT=10
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -158,9 +173,9 @@ MSGCOUNT=500
 MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -231,8 +246,8 @@ TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 
 # strict time synch?
-STRICT_TIME_SYNCH=0 # (Testing)
 STRICT_TIME_SYNCH=1 # (Normal)
+STRICT_TIME_SYNCH=0 # (Testing)
 
 CONFIRM_REQD=1  # strict
 CONFIRM_REQD=0  # not strict
@@ -417,6 +432,27 @@ MYIP=localhost
 # determine MYIP from candidates list
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT2 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT3 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT4 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT5 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+fi
+
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
      else MYIP=$ip; fi; done  # last one wins if no match
@@ -487,9 +523,10 @@ NET_POLICY_NM_RATE=10 # 10 percent thruput rate allowed for nm traffic
 
 
 # Black List Handling
-BLACK_LIST_THRESH=20
+BLACK_LIST_THRESH=200
 BLACK_LIST_THRESH=3
 BLACK_LIST_THRESH=1
+BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=2
 
 ####################################################
@@ -549,13 +586,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124 192.168.43.147"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.124 192.168.43.147 192.168.43.157"
-MASTER=192.168.43.69
+MASTER=192.168.43.146
