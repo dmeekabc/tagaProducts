@@ -1,4 +1,4 @@
-#####################################################
+####################################################
 # Copyright 2016 IBOA Corp
 # All Rights Reserved
 #####################################################
@@ -121,6 +121,79 @@ do
         cat /tmp/curcount.txt  | grep $target\\\.      > /tmp/curcount2.txt # filter on the target (row)
         cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
       fi
+
+
+#     echo here111
+#     cat /tmp/curcount.txt
+
+
+      # check if we have a 0 count, if so, it is possible that the tcpdump output specified by
+      # hostname rather than by IP address, so we have an option to check further
+      # if the option is set, then examine the tcpdump output for hostname vice IP address
+
+      # dlm temp, add real check here
+      let CHECK_DUAL_INTERFACES_FOR_COUNTS=0
+      let CHECK_DUAL_INTERFACES_FOR_COUNTS=1
+      
+      if [ $CHECK_DUAL_INTERFACES_FOR_COUNTS -eq 1 ] ; then
+         mycurcount=`cat /tmp/curcount.txt`
+         if [ $mycurcount -eq 0 ]; then
+#           echo here1111
+            echo Notice: Alternate Interface to $target Checked for Traffic Counts >> /tmp/tagaCountReceivesNotice.txt
+#             echo dlm temp hi target is $target, current count is  $mycurcount, we found count of 0
+             myalternateInterface=`cat ~/scripts/taga/tagaConfig/hostsToSharedIps.txt | grep $target\. | cut -d\. -f 6-9`
+#             echo myalternateInterface:$myalternateInterface
+             if [ ! $myalternateInterface ]; then
+                echo No alternate interface found, no further checks >/dev/null
+             else
+                echo Alternate interface found, counts continue... >/dev/null
+             # start over, once again, write to the curcount.txt file
+             cat $DEST_FILE_TAG* > /tmp/curcount.txt 2>/dev/null
+             
+            # mcast or ucast? 
+#            echo here222
+            if [ $TESTTYPE == "MCAST" ]; then
+              # MCAST
+              cat /tmp/curcount.txt  | grep "length $MSGLEN" > /tmp/curcount2.txt # verify length
+              cat /tmp/curcount2.txt | cut -d">" -f 1       > /tmp/curcount.txt  # get senders only
+              cat /tmp/curcount.txt  | grep $myalternateInterface\.      > /tmp/curcount2.txt # filter on the target (row)
+              cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
+            else
+#              echo here333
+#              cat /tmp/curcount.txt  
+#              echo here444
+              # UCAST
+              cat /tmp/curcount.txt  | grep "length $MSGLEN" > /tmp/curcount2.txt # verify length
+              cat /tmp/curcount2.txt | cut -d">" -f 1       > /tmp/curcount.txt  # get senders only
+              cat /tmp/curcount.txt  | grep $myalternateInterface\\\.      > /tmp/curcount2.txt # filter on the target (row)
+              cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
+            fi
+
+
+            fi
+
+         fi
+      fi
+
+#     echo here222
+#     cat /tmp/curcount.txt
+
+#      echo dlm temp hi target is $target
+#      echo dlm temp hi target is $target, current count is  `cat /tmp/curcount.txt`
+#      echo dlm temp hi target is $target, current count is  $mycurcount
+#      echo dlm temp hi target is $target, current count is  $mycurcount
+
+#      if [ $mycurcount -eq 0 ]; then
+#          echo dlm temp hi target is $target, current count is  $mycurcount, we found count of 0
+#         echo dlm temp hi target is $target, current count is  $mycurcount, we found count of 0
+#         echo dlm temp hi target is $target, current count is  $mycurcount, we found count of 0
+#         echo dlm temp hi target is $target, current count is  $mycurcount, we found count of 0
+#         cat ~/scripts/taga/tagaConfig/hostsToIps.txt
+#         cat ~/scripts/taga/tagaConfig/hostsToIps.txt | grep $target\. | cut -d\. -f 5
+#         mytargethostname=`cat ~/scripts/taga/tagaConfig/hostsToIps.txt | grep $target\. | cut -d\. -f 5`
+#         echo mytargethostname:$mytargethostname
+#      fi
+
 
       # populate curcount from the curcount.txt file
       let curcount=`cat /tmp/curcount.txt`
