@@ -10,6 +10,10 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+# dlm temp new jul 2016
+INTERFACE_SPECIFIED_SOURCE=1
+INTERFACE_SPECIFIED_SOURCE=0
+
 ####################################################
 # Enable or Disable all testing per iteration loop
 # and other Main Test Iteration Configs
@@ -32,9 +36,9 @@ let MANAGED_WAIT_FACTOR=5
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
+TESTTYPE="UCAST_TCP" # TCP UCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
-TESTTYPE="UCAST_TCP" # TCP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -151,8 +155,9 @@ MSGCOUNT=20
 MSGCOUNT=200
 MSGCOUNT=500
 MSGCOUNT=100
-MSGCOUNT=10
 MSGCOUNT=22
+MSGCOUNT=2000
+MSGCOUNT=10
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -233,8 +238,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
+TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -577,3 +582,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
+MASTER=192.168.1.10
