@@ -13,7 +13,7 @@ NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
 echo "$IPPART : $NAMEPART : executing at `date`"
 
 # get the input
-# get MYIP and INTERFACE to use
+# get MYIP and INTERFACE to use, note $MYIP is in $1
 MY_PARAM_IP=$1
 INTERFACE=`/sbin/ifconfig | grep $1 -B1 | head -n 1 | cut -d" " -f1`
 
@@ -167,6 +167,15 @@ if [ $TESTTYPE == "MCAST" ]; then
   sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
   sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
 
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
+
   # some cleanup
   rm $TEMPFILE ; rm $TEMP2FILE
 
@@ -239,6 +248,14 @@ do
   sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
   sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
 
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
@@ -315,6 +332,14 @@ do
   sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
   sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
 
+  # make sure we want to specify the interface
+  if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
+    echo okay, no change needed >/dev/null
+  else
+    echo okay, we need to prune the interface info from the script file
+    sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
+    sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
+  fi
 
   if [ $TESTTYPE == "UCAST_TCP" ]; then
      let tcpDelay=$MSGCOUNT/$MSGRATE
