@@ -12,7 +12,9 @@ MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 
 if echo $MYLOGIN_ID | grep GoesHere >/dev/null ; then
    echo
-   echo WARNING: It appears you have not updated the config file with your configuration information
+   echo NOTICE: Config file missing required information.
+   echo
+   echo NOTICE: Please updated Config File: $TAGA_CONFIG_DIR/config with information shown below.
    echo e.g. [ MYLOGIN_ID: $MYLOGIN_ID ]
    echo
    exit 255
