@@ -281,8 +281,8 @@ do
              # Reboot Bad Nodes
              #if [ $SECS -gt 20 ]; then
              if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
-                echo The $target is a candidate for Reboot!!! 
-                echo The $target is a candidate for Reboot!!! 
+                echo SECS: $SECS: The $target is a candidate for Reboot!!! 
+                echo SECS: $SECS: The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
                    # we may be having trouble with SSH locally
                    # swich to local mode for file transfer and such
@@ -513,8 +513,8 @@ do
           # Reboot Bad Nodes
           #if [ $SECS -gt 20 ]; then
           if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
-             echo The $target is a candidate for Reboot!!! 
-             echo The $target is a candidate for Reboot!!! 
+             echo SECS: $SECS: The $target is a candidate for Reboot!!! 
+             echo SECS: $SECS: The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
                    # we may be having trouble with SSH locally
                    # swich to local mode for file transfer and such
