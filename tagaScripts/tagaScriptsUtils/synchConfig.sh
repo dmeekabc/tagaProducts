@@ -8,6 +8,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 
 # change to config dir
 cd $TAGA_CONFIG_DIR >/dev/null
