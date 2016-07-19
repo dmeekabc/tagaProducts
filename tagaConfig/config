@@ -41,8 +41,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -162,6 +162,7 @@ MSGCOUNT=100
 MSGCOUNT=22
 MSGCOUNT=2000
 MSGCOUNT=10
+MSGCOUNT=2000
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -176,6 +177,7 @@ MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -393,6 +395,8 @@ TESTONLY=1 # archiving disabled
 
 # MCAST config
 MYMCAST_ADDR="225.0.0.25"
+MYMCAST_ADDR="224.1.2.3"
+MYMCAST_ADDR="225.1.2.3"
 MYMCAST_PORT=8888
 
 # Ports
@@ -432,25 +436,36 @@ MYIP=localhost
 # determine MYIP from candidates list
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
+
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT2 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT2 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT3 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT3 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT4 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT4 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT5 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT5 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT6 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
@@ -461,7 +476,7 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
 else
-   INTERFACE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+   INTERFACE=$INTERFACECANDIDATE
 fi
 
 # auto configure the target count
@@ -528,6 +543,7 @@ BLACK_LIST_THRESH=3
 BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=2
+BLACK_LIST_THRESH=4
 
 ####################################################
 # Portability Section, this section requires update 
@@ -586,4 +602,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.146
+MASTER=192.168.1.10
