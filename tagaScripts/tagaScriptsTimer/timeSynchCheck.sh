@@ -7,13 +7,16 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+MAX_TIME_DELTA_BEFORE_REBOOT=30 # enable reboot
+MAX_TIME_DELTA_BEFORE_REBOOT=1000000 # disable reboot
+
 # black list thresh should be one higher unless we want lots of black listing
 let TRY_COUNT_THRESH=$TIME_SYNCH_CHECK_TRY_COUNT_THRESH
 
 # get the md5sum of the targetlist config so we know if it changes
 configMd5sum=`md5sum $TAGA_CONFIG_DIR/targetList.sh | cut -d" " -f 1`
 
-echo; echo `basename $0` : $MYIP :  executing at `date`; echo
+echo `basename $0` : $MYIP :  executing at `date`
 
 # set the flag to enter the loop
 let configChanged=1
@@ -108,46 +111,46 @@ do
          #BLACKLIST="192.1.1.1 192.2.2.2" 
 
          echo BLACKLIST=\"$BLACKLIST\" >> $TAGA_CONFIG_DIR/config
-         echo
+         #echo
          echo Warning: $target has been black listed!!
          echo Warning: $target has been removed from this test!!
-         echo
+         #echo
          break
          #continue
        #elif [ $trycount -ge 10 ] ; then
        elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
-         echo
-         echo "WARNING: "
+         #echo
+         #echo "WARNING: "
          echo "WARNING: Unable to obtain system time and/or time synch with $target"
-         echo "WARNING: "
-         echo
-         sleep 2
+         #echo "WARNING: "
+         #echo
+         sleep 1
 
          if [ $STRICT_TIME_SYNCH -eq 0 ];  then 
-           echo "WARNING: "
+           #echo "WARNING: "
            echo "WARNING: Continuing without time synch check with $target ....."
-           echo "WARNING: "
-           echo
-           sleep 2
+           #echo "WARNING: "
+           #echo
+           sleep 1
            # break from while loop
            break
          else
-           echo NOTE:
+           #echo NOTE:
            echo "NOTE: Strict Time Synch is Enabled."
            echo "NOTE: To proceed without time synch, set STRICT_TIME_SYNCH  = 0 in config."
-           echo NOTE:
-           echo
-           sleep 2
+           #echo NOTE:
+           #echo
+           sleep 1
          fi
        fi
 
       # bad return code
-      echo 
-      echo "WARNING: "
+      #echo 
+      #echo "WARNING: "
       echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
-      echo "WARNING: "
-      echo 
-      sleep 2
+      #echo "WARNING: "
+      #echo 
+      sleep 1
       continue
    fi
 
@@ -370,7 +373,7 @@ do
              echo ------------
              echo "$count $TIMESTR 0$DELTA T2:$duration" Target: $target  $description #$count $TIMESTR
              echo ------------
-             echo
+             #echo
           else
              # hour boundaries not supported
              #echo MINUTES: $MINUTES
@@ -388,16 +391,11 @@ do
              # check validity
              if [ $HOURS -eq 0 ] ; then 
                 echo HOURS is 0, this is an anomaly?
-                echo HOURS is 0, this is an anomaly?
-                echo Anomaly1? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo Anomaly1? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              elif [ $HOURS -lt 0 ] ; then 
                 echo HOURS is less than 0, day boundaries not supported
-                echo HOURS is less than 0, day boundaries not supported
-                echo Anomaly2? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo Anomaly2? : MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
              else
-                echo MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
                 echo HOURS: $HOURS MINUTES: $MINUTES
                 if [ $HOURS -eq 1 ]; then
@@ -435,7 +433,7 @@ do
                 echo ------------
                 echo
                 echo T3: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
-                echo
+                #echo
 
              fi
 
@@ -467,6 +465,9 @@ do
 
        # check validity
        if [ $MINUTES -gt 0 ] ; then 
+
+          # assume even minute boundary for now...
+          let SECS=0
 
           if [ $MINUTES -eq 1 ]; then
 
@@ -506,7 +507,7 @@ do
 
           # T4
           echo "$count $TIMESTR $DELTA T4:$duration" Target: $target  $description #$count $TIMESTR
-          echo
+          #echo
 
           # new 21 mar 2016
           # Reboot Bad Nodes
@@ -584,9 +585,9 @@ do
                 DELTA="xxxxxxxxxxxx"
                 echo HOURS: $HOURS : Hour Boundary Encountered
                 echo "$count $TIMESTR $DELTA T5:$duration" Target: $target  $description #$count $TIMESTR
-                echo
+     #           echo
                 echo T5: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
-                echo
+     #           echo
 
              fi
        fi
@@ -613,36 +614,36 @@ do
      #BLACKLIST="$target"
      #echo BLACKLIST=$BLACKLIST >> $TAGA_CONFIG_DIR/config
      echo BLACKLIST=\"$BLACKLIST\" >> $TAGA_CONFIG_DIR/config
-     echo
+     #echo
      echo Warning: $target has been black listed!!
      echo Warning: $target has been removed from this test!!
-     echo
+     #echo
      break
      #continue
    #elif [ $trycount -ge 10 ] ; then
    elif [ $trycount -ge $TRY_COUNT_THRESH ] ; then
-     echo
-     echo "WARNING: "
+     #echo
+     #echo "WARNING: "
      echo "WARNING: Unable to obtain system time and/or obtain time synch with $target"
-     echo "WARNING: "
-     echo
-     sleep 2
+     #echo "WARNING: "
+     #echo
+     sleep 1
 
      if [ $STRICT_TIME_SYNCH -eq 0 ];  then 
-       echo "WARNING: "
+       #echo "WARNING: "
        echo "WARNING: Continuing without time synch check with $target ....."
-       echo "WARNING: "
-       echo
-       sleep 2
+       #echo "WARNING: "
+       #echo
+       sleep 1
        # break from while loop
        break
      else
-       echo NOTE:
+       #echo NOTE:
        echo "NOTE: Strict Time Synch is Enabled."
        echo "NOTE: To proceed without time synch, set STRICT_TIME_SYNCH  = 0 in config."
-       echo NOTE:
-       echo
-       sleep 2
+       #echo NOTE:
+       #echo
+       sleep 1
      fi
    fi
 
