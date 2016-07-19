@@ -12,7 +12,7 @@ let PING_SUDO_REQD=0 # Other systems
 
 NETADDR=$1
 
-if [ $PING_SUDO_REQD -eq 1 ] then
+if [ $PING_SUDO_REQD -eq 1 ]; then
   sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
 else
   ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
