@@ -1,4 +1,4 @@
-#####################################################
+####################################################
 # Copyright 2016 IBOA Corp
 # All Rights Reserved
 #####################################################
@@ -12,13 +12,13 @@ IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
 NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
 echo "$IPPART : $NAMEPART : executing at `date`"
 
-# get the input
-# get MYIP and INTERFACE to use, note $MYIP is in $1
-MY_PARAM_IP=$1
-INTERFACE=`/sbin/ifconfig | grep $1 -B1 | head -n 1 | cut -d" " -f1`
+# get the INTERFACE to use, note my IP is in $1 which is used to find INTERFACE
+if [ $# -ge 1 ] ; then
+  INTERFACE=`/sbin/ifconfig | grep $1 -B1 | head -n 1 | cut -d" " -f1`
+else
+  INTERFACE=`/sbin/ifconfig | grep $MYIP -B1 | head -n 1 | cut -d" " -f1`
+fi
 
-# time to start sending traffic
-let TRAFFIC_START_EPOCH=$2
 
 # default to UDP, this should be overriden by config
 mgen_proto=UDP
@@ -96,7 +96,22 @@ fi
 
 #sleep $SERVER_INIT_DELAY
 let CURRENT_EPOCH=`date +%s`
-let WAITTIME=$TRAFFIC_START_EPOCH-$CURRENT_EPOCH
+
+# determine the time to start sending traffic (set wait time accorrdingly)
+if [ $# -ge 2 ] ; then
+   # we have a start time parameter, get it and calc wait time...
+   let TRAFFIC_START_EPOCH=$2
+   let WAITTIME=$TRAFFIC_START_EPOCH-$CURRENT_EPOCH
+else
+   # if we have no start time param, start immediately (set wait time to 0)
+   let WAITTIME=0
+fi
+
+# if wait time exceeds, max allowed, set it to the max wait time allowed
+MAX_WAIT_TIME=10
+if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
+  let WAITTIME=MAX_WAIT_TIME
+fi
 
 if [ $WAITTIME -lt 0 ]; then
    echo
@@ -171,7 +186,7 @@ if [ $TESTTYPE == "MCAST" ]; then
   if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
     echo okay, no change needed >/dev/null
   else
-    echo okay, we need to prune the interface info from the script file
+    echo okay, we need to prune the interface info from the script file >/dev/null
     sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
     sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
   fi
@@ -252,7 +267,7 @@ do
   if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
     echo okay, no change needed >/dev/null
   else
-    echo okay, we need to prune the interface info from the script file
+    echo okay, we need to prune the interface info from the script file >/dev/null
     sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
     sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
   fi
@@ -336,7 +351,7 @@ do
   if [ $INTERFACE_SPECIFIED_SOURCE -eq 1 ]; then
     echo okay, no change needed >/dev/null
   else
-    echo okay, we need to prune the interface info from the script file
+    echo okay, we need to prune the interface info from the script file >/dev/null
     sed -e s/INTERFACE//g $SCRIPTFILE  > $TEMPFILE # create temp from script file
     sed -e s/$INTERFACE//g $TEMPFILE > $SCRIPTFILE  # finalize again
   fi
