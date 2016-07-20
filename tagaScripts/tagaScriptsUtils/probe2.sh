@@ -8,8 +8,8 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # reinit the files
-rm /tmp/probe2Found.out
-rm /tmp/probe2Notfound.out
+rm /tmp/probe2Found.out    2>/dev/null
+rm /tmp/probe2Notfound.out 2>/dev/null
 
 
 $TAGA_UTILS_DIR/probe2a.sh &

@@ -7,6 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+let AUTO_REBOOT_ENABLED=1 # auto reboot enabled
+let AUTO_REBOOT_ENABLED=0 # auto reboot disabled
+
 MAX_TIME_DELTA_BEFORE_REBOOT=30 # enable reboot
 MAX_TIME_DELTA_BEFORE_REBOOT=1000000 # disable reboot
 
@@ -280,9 +283,14 @@ do
              # new 21 mar 2016
              # Reboot Bad Nodes
              #if [ $SECS -gt 20 ]; then
+
+
+
+
+             if [ $AUTO_REBOOT_ENABLED -eq 1 ]; then
              if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
-                echo The $target is a candidate for Reboot!!! 
-                echo The $target is a candidate for Reboot!!! 
+                echo SECS: $SECS: The $target is a candidate for Reboot!!! 
+                echo SECS: $SECS: The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
                    # we may be having trouble with SSH locally
                    # swich to local mode for file transfer and such
@@ -297,6 +305,9 @@ do
 
                 fi
              fi 
+             fi 
+
+
           fi
 
           # T1
@@ -512,9 +523,13 @@ do
           # new 21 mar 2016
           # Reboot Bad Nodes
           #if [ $SECS -gt 20 ]; then
+
+
+
+          if [ $AUTO_REBOOT_ENABLED -eq 1 ]; then
           if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
-             echo The $target is a candidate for Reboot!!! 
-             echo The $target is a candidate for Reboot!!! 
+             echo SECS: $SECS: The $target is a candidate for Reboot!!! 
+             echo SECS: $SECS: The $target is a candidate for Reboot!!! 
                 if [ $target == $MYIP ]; then
                    # we may be having trouble with SSH locally
                    # swich to local mode for file transfer and such
@@ -532,10 +547,17 @@ do
              #echo;echo $0 Suspending to let $target recover;echo
              #$IBOA_UTILS_DIR/iboaDelay.sh 60 5
           fi 
+          fi 
+
+
+
+
+
 
           #echo
           #echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
           #echo
+
        else
           # hour boundary
           let MINUTES=$MINUTES+60
