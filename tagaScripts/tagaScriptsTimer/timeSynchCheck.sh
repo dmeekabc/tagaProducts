@@ -7,6 +7,9 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+let AUTO_REBOOT_ENABLED=1 # auto reboot enabled
+let AUTO_REBOOT_ENABLED=0 # auto reboot disabled
+
 MAX_TIME_DELTA_BEFORE_REBOOT=30 # enable reboot
 MAX_TIME_DELTA_BEFORE_REBOOT=1000000 # disable reboot
 
