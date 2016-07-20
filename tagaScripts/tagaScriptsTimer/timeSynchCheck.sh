@@ -280,6 +280,11 @@ do
              # new 21 mar 2016
              # Reboot Bad Nodes
              #if [ $SECS -gt 20 ]; then
+
+
+
+
+             if [ $AUTO_REBOOT_ENABLED -eq 1 ]; then
              if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
                 echo SECS: $SECS: The $target is a candidate for Reboot!!! 
                 echo SECS: $SECS: The $target is a candidate for Reboot!!! 
@@ -297,6 +302,9 @@ do
 
                 fi
              fi 
+             fi 
+
+
           fi
 
           # T1
@@ -512,6 +520,10 @@ do
           # new 21 mar 2016
           # Reboot Bad Nodes
           #if [ $SECS -gt 20 ]; then
+
+
+
+          if [ $AUTO_REBOOT_ENABLED -eq 1 ]; then
           if [ $SECS -gt $MAX_TIME_DELTA_BEFORE_REBOOT ]; then
              echo SECS: $SECS: The $target is a candidate for Reboot!!! 
              echo SECS: $SECS: The $target is a candidate for Reboot!!! 
@@ -532,10 +544,17 @@ do
              #echo;echo $0 Suspending to let $target recover;echo
              #$IBOA_UTILS_DIR/iboaDelay.sh 60 5
           fi 
+          fi 
+
+
+
+
+
 
           #echo
           #echo T4: MY_TIME:$MY_TIME TGT_TIME:$TGT_TIME
           #echo
+
        else
           # hour boundary
           let MINUTES=$MINUTES+60
