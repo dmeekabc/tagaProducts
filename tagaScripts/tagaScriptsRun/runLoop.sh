@@ -14,6 +14,14 @@ source $TAGA_CONFIG_DIR/config
 rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
 rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
 
+# remove old *.dat and mark* files
+rm /tmp/*.dat 2>/dev/null
+rm /tmp/mark* 2>/dev/null
+
+
+# remove old in progress flag if it exists
+rm /tmp/startOfCycleTests.sh.InProgress.dat 2>/dev/null
+
 # basic sanity check, to ensure password updated etc
 $tagaScriptsUtilsDir/basicSanityCheck.sh
 if [ $? -eq 255 ]; then
@@ -82,9 +90,10 @@ fi
 
 sleep 1
 
-echo;echo;echo
-echo $0 initializing....  please be patient...
-echo;echo
+echo
+#echo;echo
+#echo $0 initializing....  please be patient...
+#echo;echo
 
 # check time synch if enabled
 if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
@@ -269,12 +278,21 @@ do
      if [ $CONFIG_SYNCH_DISABLED -ne 1 ]; then
          if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
             echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
-            #$tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
-            #let MANAGED_EXECUTE_WAIT_TIME=20
             let MANAGED_EXECUTE_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
             $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_EXECUTE_WAIT_TIME \
                        $tagaScriptsUtilsDir/synchConfig.sh
-            echo $? is mangedExecuteReturnCode
+
+            if [ $? -ne 0 ] ; then
+               # not okay
+               echo $? is mangedExecuteReturnCode
+               echo WARNING: Config did not synch!
+               echo NOTICE: Please perform manual Config Synch!
+               echo NOTICE:   i.e.  ~/scripts/taga/tagaConfig/synchme.sh
+            else
+               # okay
+               echo $? is mangedExecuteReturnCode > /dev/null
+            fi
+
          else
             # suppress output to stdout
             $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
@@ -337,7 +355,12 @@ do
    echo TAGA:TrafficPhase: Traffic Phase Beginning...
    #echo
 
-   $tagaScriptsTestDir/startOfCycleTests.sh & # run in background/parallel
+   # dlm temp find me
+
+   # for some reason this file is not being created by script below 
+   # so create it here instead
+   echo 1 > /tmp/startOfCycleTests.sh.InProgress.dat 
+   $tagaScriptsTestDir/startOfCycleTests.sh $iter $TEST_LABEL & # run in background/parallel
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
@@ -451,7 +474,31 @@ do
    echo TAGA:TrafficPhase: Traffic Phase complete! 
    echo
    echo TAGA:PostTrafficPhase: Beginning...
-   sleep $DURATION3
+
+   #sleep $DURATION3
+
+   let i=$DURATION3
+   while [ $i -gt 0 ]
+   do
+      SECS_REMAINING_STR="TAGA:PostTrafficPhase: Additional Delay Secs Remain Part 3: $i "
+      echo $SECS_REMAINING_STR
+      sleep 1
+      let i=$i-1
+   done
+
+
+   #####################################################
+   # Wait for Start of Cycle Tests to Complete
+   # dlm temp new July 2016
+   #####################################################
+   let i=0
+   while [ -f /tmp/startOfCycleTests.sh.InProgress.dat ]
+   do
+      SECS_WAITING_STR="TAGA:PostTrafficPhase: Waiting for Start of Cycle Test To Complete! $i "
+      echo $SECS_WAITING_STR
+      let i=$i+1
+      sleep 1
+   done
 
 
    #####################################################
@@ -480,6 +527,7 @@ do
    if [ $STOP_SIMULATION -eq 1 ] ; then
       $tagaScriptsStopDir/stopXXX.sh
    fi
+
 
    # stop the Remaining Simulation and Data Generation
    $tagaScriptsStopDir/runStop.sh
