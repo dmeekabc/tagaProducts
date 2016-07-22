@@ -55,6 +55,16 @@ do
    fi
    fi
 
+   # if a paramater is passed, then that is special flag to start the keepAlive process 
+   #   (i.e. this is done once per runLoop only)
+   if [ $# -eq 1 ] ; then
+   if [ $TAGA_ADMIN_STATS_REMOTE -eq 1 ] ; then
+      echo running interfaceMonitor.sh on $target
+      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/$TEST_DESCRIPTION_interfaceMonitor.dat" &  
+      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/tmp.dat" &  
+   fi
+   fi
+
    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_3_NORMAL ]; then
       # invoke the 'simulations' on each target 
       ssh -l $MYLOGIN_ID $target $tagaScriptsSimDir/simulate.sh       <$TAGA_CONFIG_DIR/passwd.txt &
