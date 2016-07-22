@@ -13,8 +13,12 @@ source $TAGA_CONFIG_DIR/config
 
 # start with fresh file
 rm $TAGA_CONFIG_DIR/hostsToIps.txt 2>/dev/null
-rm $TAGA_CONFIG_DIR/hostsToSharedIps.txt 2>/dev/null
 rm $TAGA_CONFIG_DIR/hostList.txt 2>/dev/null
+
+if [ $REGEN_SHRARED_IP_FILE -eq 1 ] ; then
+   # we will regen this file so clear it now
+   rm $TAGA_CONFIG_DIR/hostsToSharedIps.txt 2>/dev/null
+fi
 
 echo
 
@@ -81,7 +85,13 @@ do
    # write the hostList.txt and hostsToIps.txt files
    echo $targethostname >> $TAGA_CONFIG_DIR/hostList.txt
    echo $target.$targethostname >> $TAGA_CONFIG_DIR/hostsToIps.txt
-   echo $target.$targethostname.$alternateIps >> $TAGA_CONFIG_DIR/hostsToSharedIps.txt
+
+   # write to the shared IP file if the flag is set
+   if [ $REGEN_SHRARED_IP_FILE -eq 1 ] ; then
+      echo $target.$targethostname.$alternateIps >> $TAGA_CONFIG_DIR/hostsToSharedIps.txt
+   fi
+
+
 
 done
 echo

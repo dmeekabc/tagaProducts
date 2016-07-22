@@ -148,8 +148,10 @@ do
              myalternateInterface=`cat ~/scripts/taga/tagaConfig/hostsToSharedIps.txt | grep $target\. | cut -d\. -f 6-9`
 #             echo myalternateInterface:$myalternateInterface
              if [ ! $myalternateInterface ]; then
+#           echo here2222
                 echo No alternate interface found, no further checks >/dev/null
              else
+#           echo here3333
                 echo Alternate interface found, counts continue... >/dev/null
              # start over, once again, write to the curcount.txt file
              cat $DEST_FILE_TAG* > /tmp/curcount.txt 2>/dev/null
@@ -164,6 +166,8 @@ do
               cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
             else
 #              echo here333
+#              echo myalternateInterface:$myalternateInterface
+#              echo here333aaa
 #              cat /tmp/curcount.txt  
 #              echo here444
               # UCAST

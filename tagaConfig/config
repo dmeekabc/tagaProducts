@@ -14,8 +14,12 @@ TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 INTERFACE_SPECIFIED_SOURCE=1
 INTERFACE_SPECIFIED_SOURCE=0
 
+let REGEN_SHRARED_IP_FILE=1 # do this once to start
+let REGEN_SHRARED_IP_FILE=0 # do this after custom edits to shared IP file
+
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1
 
 
 ####################################################
@@ -156,13 +160,12 @@ MAX_TIME_DELTA_BEFORE_REBOOT=20
 # Message Count
 MSGCOUNT=10
 MSGCOUNT=20
+MSGCOUNT=22
+MSGCOUNT=2000
 MSGCOUNT=200
 MSGCOUNT=500
 MSGCOUNT=100
-MSGCOUNT=22
-MSGCOUNT=2000
-MSGCOUNT=10
-MSGCOUNT=2000
+MSGCOUNT=1000
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -178,6 +181,9 @@ MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -193,6 +199,7 @@ MSGLEN=94
 MSGLEN=940
 MSGLEN=1040
 MSGLEN=1024 # note, 1024 is max for TCP for TAGA counting
+MSGLEN=120
 
 ####################################################
 # The Keep Alive Function
@@ -244,8 +251,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
+TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -394,9 +401,13 @@ TESTONLY=0 # archiving enabled
 TESTONLY=1 # archiving disabled
 
 # MCAST config
-MYMCAST_ADDR="225.0.0.25"
-MYMCAST_ADDR="224.1.2.3"
-MYMCAST_ADDR="225.1.2.3"
+MYMCAST_ADDR="225.0.0.25" # does not work
+MYMCAST_ADDR="224.1.2.4"  # does not work
+MYMCAST_ADDR="225.1.2.4"  # does not work
+MYMCAST_ADDR="226.1.2.3"  # does not work
+MYMCAST_ADDR="227.1.2.3"  # does not work
+MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="225.1.2.3" # works
 MYMCAST_PORT=8888
 
 # Ports
@@ -603,4 +614,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.1.10
+MASTER=192.168.44.233
