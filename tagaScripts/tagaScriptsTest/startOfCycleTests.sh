@@ -11,6 +11,8 @@ source $TAGA_CONFIG_DIR/config
 iter=0
 TEST_LABEL="Config1" # default to Config1
 
+echo $0 : Test Label : $TEST_LABEL
+
 # get the input (iteration number and test label) if provided
 if [ $# -ge 1 ] ; then
   iter=$1
@@ -39,41 +41,51 @@ else
   exit
 fi
 
-
 # If we get here, we are enabled, we need to remove (unset) the  
 # "complete" flag file and create (set) our "in progress" flag file
 
-rm /tmp/$0.Complete.dat 2>/dev/null
+rm /tmp/mark.out 2>/dev/null
 rm /tmp/markSecs1.dat 2>/dev/null
+rm /tmp/startOfCycleTests.sh.Complete.dat 2>/dev/null
+
+#START TEST
 
 echo "iter:$iter TEST:$TEST_LABEL In Progress" > /tmp/startOfCycleTests.sh.InProgress.dat
+echo StartDTG: `date` > /tmp/startOfTest.dat
+
+#mark1 begin
+date -Ins > /tmp/mark.out
 
 #mark2 begin
 ~/scripts/taga/tagaScripts/tagaScriptsTimer/timeDeltaCalcSeconds.sh startOfTestTimer
 
-echo StartDTG: `date` > /tmp/startOfTest.dat
 
-echo $0 : Test Label : $TEST_LABEL
-
+PAD=""
+PAD0="..."
 
 # simulate a test
 echo Simulating a Test for 10 seconds...
-sleep 10
-
-~/scripts/taga/tagaScripts/tagaScriptsTimer/timeDeltaCalcSeconds.sh startOfTestTimer > /tmp/startOfTestTimer.dat
-
-echo iter:$iter: $TEST:$TEST_LABEL: `cat /tmp/startOfTestTimer.dat` >> /tmp/startOfTestTimer_mark_cum.dat
+for i in 1 2 3 4 5 6 7 8 9 10
+do
+   PAD="$PAD$PAD0"
+  #echo $PAD$i
+  echo $i$PAD
+  sleep 1
+done
+echo DONE Simulating a Test for 10 seconds...
 
 # WE are DONE
-
 echo StopDTG:: `date` >> /tmp/startOfTestTimer.dat
 
-# mark2 > /tmp/startOfTestTimer_mark.dat'
+#mark1 end
+~/scripts/taga/tagaScripts/tagaScriptsTimer/timeDeltaCalc.sh > /tmp/startOfTestTimer.dat
+rm /tmp/mark.out 2>/dev/null
+
+#mark2 end
 ~/scripts/taga/tagaScripts/tagaScriptsTimer/timeDeltaCalcSeconds.sh startOfTestTimer > /tmp/startOfTestTimer_mark.dat
+
 echo iter:$iter: $TEST:$TEST_LABEL: `cat /tmp/startOfTestTimer_mark.dat` >> /tmp/startOfTestTimer_mark_cum.dat
-
-sleep $DELAY_INTERVAL
-
+echo iter:$iter: $TEST:$TEST_LABEL: `cat /tmp/startOfTestTimer_mark.dat` >> /tmp/startOfTestTimer_mark_cum.dat
 
 echo;echo; echo /tmp/startOfTestTimer.dat; echo -------------; cat /tmp/startOfTestTimer.dat
 echo;echo; echo /tmp/startOfTestTimer_mark.dat; echo -------------; cat /tmp/startOfTestTimer_mark.dat
@@ -87,5 +99,5 @@ echo;echo;
 # Clear the "In Progress" and Set the "Complete" Flag Files
 
 rm /tmp/startOfCycleTests.sh.InProgress.dat
-echo $0 Complete > /tmp/$0.Complete.dat
+echo Complete > /tmp/startOfCycleTests.sh.Complete.dat
 
