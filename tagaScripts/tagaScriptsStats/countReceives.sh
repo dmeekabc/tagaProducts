@@ -120,9 +120,18 @@ do
       else
         # UCAST
         cat /tmp/curcount.txt  | grep "length $MSGLEN" > /tmp/curcount2.txt # verify length
-        cat /tmp/curcount2.txt | cut -d">" -f 1       > /tmp/curcount.txt  # get senders only
-        cat /tmp/curcount.txt  | grep $target\\\.      > /tmp/curcount2.txt # filter on the target (row)
-        cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
+        if [ $FILTER_OUT_GATEWAY_DUP_COUNTS -eq 1 ] ; then
+           # make sure I am the destination (gateways can get extra messages destined elsewhere)
+           # to do this, ensure the target2 is in the receivers field of the message string
+           cat /tmp/curcount2.txt | grep $target2.....:   > /tmp/curcount.txt  # get messages destined for me
+        else
+           # otherwise, just copy/cat the file directly without additional filter
+           cat /tmp/curcount2.txt                      > /tmp/curcount.txt  # get messages destined for me
+        fi
+        cat /tmp/curcount.txt | cut -d">" -f 1         > /tmp/curcount2.txt  # get senders only
+        cat /tmp/curcount2.txt  | grep $target\\\.     > /tmp/curcount.txt # filter on the target (row)
+        cat /tmp/curcount.txt | wc -l                  > /tmp/curcount2.txt  # get the count
+        cp /tmp/curcount2.txt /tmp/curcount.txt                              # finalize
       fi
 
 #     echo here111
