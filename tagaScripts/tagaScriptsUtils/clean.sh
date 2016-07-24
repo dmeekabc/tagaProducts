@@ -7,4 +7,5 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-rm /tmp/*taga* 2>/dev/null
+#rm /tmp/*taga* 2>/dev/null
+rm /tmp/$TEST_DESCRIPTION*
