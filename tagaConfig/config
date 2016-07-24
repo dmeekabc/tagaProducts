@@ -165,13 +165,14 @@ MAX_TIME_DELTA_BEFORE_REBOOT=20
 # MGEN Traffic Configs
 # Message Count
 MSGCOUNT=10
-MSGCOUNT=20
 MSGCOUNT=22
 MSGCOUNT=2000
 MSGCOUNT=200
 MSGCOUNT=500
 MSGCOUNT=100
 MSGCOUNT=1000
+MSGCOUNT=10
+MSGCOUNT=20
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -578,7 +579,12 @@ PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
+
+# alternate kill list used once at run begin only ??
+# alternate kill list used once at run begin only ??
+TAGA_KILL_LIST_ALT="interfaceMon keepAlive mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="interfaceMon mgen survey sim1 xxx tcpdump" 
+
 ####################################################
 VARIABLE_TEST="var_test.sh"
 
@@ -620,3 +626,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
+MASTER=192.168.43.157
