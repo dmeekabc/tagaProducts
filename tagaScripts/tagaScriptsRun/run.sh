@@ -45,7 +45,7 @@ do
    fi
 
    #
-   # if a paramater is passed, then that is special flag to start the keepAlive process 
+   # if a paramater is passed, then that is the iteration 1 flag
    #   (i.e. this is done once per runLoop only)
    #
    if [ $# -eq 1 ] ; then
@@ -55,13 +55,12 @@ do
    fi
    fi
 
-   # if a paramater is passed, then that is special flag to start the keepAlive process 
+   # if a paramater is passed, then that is the iteration 1 flag
    #   (i.e. this is done once per runLoop only)
    if [ $# -eq 1 ] ; then
    if [ $TAGA_ADMIN_STATS_REMOTE -eq 1 ] ; then
       echo running interfaceMonitor.sh on $target
-      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/$TEST_DESCRIPTION_interfaceMonitor.dat" &  
-      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/tmp.dat" &  
+      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/$TEST_DESCRIPTION.interfaceMonitor.$MYIP.dat" &  
    fi
    fi
 
