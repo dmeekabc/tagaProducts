@@ -9,9 +9,9 @@ source $TAGA_CONFIG_DIR/config
 
 # set defaults; support operation without input
 iter=0
+
 TEST_LABEL="Config1" # default to Config1
 
-echo $0 : Test Label : $TEST_LABEL
 
 # get the input (iteration number and test label) if provided
 if [ $# -ge 1 ] ; then
@@ -40,6 +40,8 @@ else
 #  echo `basename $0` Start of Cycle Tests 1 Disabled - Exiting
   exit
 fi
+
+echo $0 : Test Label : $TEST_LABEL
 
 # If we get here, we are enabled, we need to remove (unset) the  
 # "complete" flag file and create (set) our "in progress" flag file
