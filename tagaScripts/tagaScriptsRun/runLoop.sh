@@ -491,14 +491,17 @@ do
    # Wait for Start of Cycle Tests to Complete
    # dlm temp new July 2016
    #####################################################
-   let i=0
-   while [ -f /tmp/startOfCycleTests.sh.InProgress.dat ]
-   do
-      SECS_WAITING_STR="TAGA:PostTrafficPhase: Waiting for Start of Cycle Test To Complete! $i "
-      echo $SECS_WAITING_STR
-      let i=$i+1
-      sleep 1
-   done
+
+   if [ $START_OF_CYCLE_TESTS_ENABLED == 1 ]; then
+      let i=0
+      while [ -f /tmp/startOfCycleTests.sh.InProgress.dat ]
+      do
+         SECS_WAITING_STR="TAGA:PostTrafficPhase: Waiting for Start of Cycle Test To Complete! $i "
+         echo $SECS_WAITING_STR
+         let i=$i+1
+         sleep 1
+      done
+   fi
 
 
    #####################################################
