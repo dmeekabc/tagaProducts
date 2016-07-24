@@ -19,6 +19,10 @@ rm /tmp/*.dat 2>/dev/null
 rm /tmp/mark* 2>/dev/null
 
 
+# clean old /tmp/tagaRun* files from all targets
+# TODO!!
+
+
 # remove old in progress flag if it exists
 rm /tmp/startOfCycleTests.sh.InProgress.dat 2>/dev/null
 
