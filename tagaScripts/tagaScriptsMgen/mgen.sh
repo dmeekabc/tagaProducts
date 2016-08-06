@@ -64,6 +64,9 @@ done
 
 # Start Server
 
+echo TAGA: $MYIP : Starting MGEN Server / Receiver
+
+
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   if [ $TESTTYPE == "MCAST" ]; then
     # MCAST UDP
@@ -147,6 +150,9 @@ if [ $WAITTIME -lt 0 ]; then
 fi
 
 if [ $WAITTIME -gt 0 ]; then
+
+   echo TAGA: $MYIP : Waiting $WAITTIME seconds to Start MGEN Sender...
+
    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
      echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
@@ -163,6 +169,10 @@ if [ $WAITTIME -gt 0 ]; then
      #echo TAGA: Starting mgen Receiver...
      echo TAGA: Starting mgen Sender...
    fi
+
+   echo TAGA: $MYIP : DONE Waiting $WAITTIME seconds to Start MGEN Sender...
+   echo TAGA: $MYIP : Starting MGEN Sender...
+
 fi
 
 
