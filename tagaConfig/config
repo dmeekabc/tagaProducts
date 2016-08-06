@@ -170,10 +170,14 @@ MSGCOUNT=22
 MSGCOUNT=200
 MSGCOUNT=1000
 MSGCOUNT=10
-MSGCOUNT=20
 MSGCOUNT=100
 MSGCOUNT=10000
 MSGCOUNT=500
+MSGCOUNT=1000
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=1000
+MSGCOUNT=5000
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -192,6 +196,7 @@ MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -386,10 +391,15 @@ source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 # manually generated configs
 ##############################################
 
-SERVER_INIT_DELAY=5
+SERVER_INIT_DELAY=20
+SERVER_INIT_DELAY=4
+SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=15
 SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 
 
 # end of iteration delay 
@@ -425,8 +435,8 @@ PORTBASE=7770
 # Narrow display is 10 nodes, wide display is 20 nodes
 WIDE_DISPLAY=1
 WIDE_DISPLAY=0
-NARROW_DISPLAY=1
 NARROW_DISPLAY=0
+NARROW_DISPLAY=1
 
 #NORMAL_DISPLAY=0
 #NORMAL_DISPLAY=1
@@ -568,7 +578,21 @@ fi
 ##############################################
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
-let DURATION1=$DURATION1*$TARGET_COUNT
+
+if [ $TESTTYPE == "MCAST" ] ; then
+  #let DURATION1=$DURATION1*2
+  let NODE_ADJUST=2*TARGET_COUNT
+  #echo N:$NODE_ADJUST
+  let DURATION1=$DURATION1+$NODE_ADJUST
+  let DURATION1=$DURATION1+10
+else
+  let DURATION1=$DURATION1*$TARGET_COUNT
+fi
+
+# round to nearest 5
+let DURATION1=$DURATION1/5
+let DURATION1=$DURATION1*5
+let DURATION1=$DURATION1+5
 
 ##############################################
 # DURATION 2
@@ -587,11 +611,21 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*2
 fi
 
+# round to nearest 5
+let DURATION2=$DURATION2/5
+let DURATION2=$DURATION2*5
+let DURATION2=$DURATION2+5
+
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
 let DURATION3=2
+let DURATION3=6
+let DURATION3=30
 let DURATION3=60
+let DURATION3=20
+let DURATION3=10
+let DURATION3=8
 let DURATION3=6
 
 ##############################################
@@ -674,4 +708,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.146
+MASTER=192.168.43.124
