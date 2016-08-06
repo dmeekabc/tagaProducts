@@ -133,12 +133,18 @@ else
    let WAITTIME=0
 fi
 
+# round to nearest 5
+let WAITTIME=$WAITTIME/5
+let WAITTIME=$WAITTIME*5
+let WAITTIME=$WAITTIME+5
+
 # if wait time exceeds, max allowed, set it to the max wait time allowed
-MAX_WAIT_TIME=30
+MAX_WAIT_TIME=40
 if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
   let WAITTIME=MAX_WAIT_TIME
 fi
 
+# ensure non-negative wait time
 if [ $WAITTIME -lt 0 ]; then
    echo
    echo Warning: $0: negatie WAITTIME: $WAITTIME
@@ -148,6 +154,8 @@ if [ $WAITTIME -lt 0 ]; then
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo
+   # something is wrong, wait max amount of time
+   let WAITTIME=MAX_WAIT_TIME
 fi
 
 if [ $WAITTIME -gt 0 ]; then
