@@ -7,6 +7,26 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+if [ $MYIP == "localhost" ]; then
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost
+  /sbin/ifconfig
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
+  echo WARNING: MYIP == localhost
+  echo WARNING: MYIP == localhost
+fi
+
 NAME=`basename $0`
 IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
 NAMEPART=`$iboaUtilsDir/iboa_padded_echo.sh $NAME $NAME_PAD_LEN`
