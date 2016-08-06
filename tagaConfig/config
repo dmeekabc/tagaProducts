@@ -176,6 +176,7 @@ MSGCOUNT=500
 MSGCOUNT=1000
 MSGCOUNT=20
 MSGCOUNT=100
+MSGCOUNT=1000
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -194,6 +195,7 @@ MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -602,6 +604,9 @@ let DURATION3=6
 let DURATION3=30
 let DURATION3=60
 let DURATION3=20
+let DURATION3=10
+let DURATION3=8
+let DURATION3=6
 
 ##############################################
 # others / static constants
