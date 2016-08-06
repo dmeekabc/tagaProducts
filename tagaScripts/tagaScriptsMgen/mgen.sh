@@ -131,7 +131,7 @@ else
 fi
 
 # if wait time exceeds, max allowed, set it to the max wait time allowed
-MAX_WAIT_TIME=10
+MAX_WAIT_TIME=30
 if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
   let WAITTIME=MAX_WAIT_TIME
 fi
