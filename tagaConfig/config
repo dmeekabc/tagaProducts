@@ -51,8 +51,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -597,9 +597,10 @@ fi
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
 let DURATION3=2
-let DURATION3=60
 let DURATION3=6
 let DURATION3=30
+let DURATION3=60
+let DURATION3=20
 
 ##############################################
 # others / static constants
