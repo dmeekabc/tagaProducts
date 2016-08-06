@@ -163,20 +163,20 @@ if [ $WAITTIME -gt 0 ]; then
    echo TAGA: $MYIP : Waiting $WAITTIME seconds to Start MGEN Sender...
 
    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-     echo  waiting:$WAITTIME
+#     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo done waiting:$WAITTIME
+#     echo done waiting:$WAITTIME
    elif [ $TAGA_DISPLAY_DEBUG -eq 1 ]; then
-     echo  waiting:$WAITTIME
+#     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo done waiting:$WAITTIME
+#     echo done waiting:$WAITTIME
    else
      #sleep $WAITTIME
-     echo  waiting:$WAITTIME
+#     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo Done waiting:$WAITTIME seconds
+#     echo Done waiting:$WAITTIME seconds
      #echo TAGA: Starting mgen Receiver...
-     echo TAGA: Starting mgen Sender...
+#     echo TAGA: Starting mgen Sender...
    fi
 
    echo TAGA: $MYIP : DONE Waiting $WAITTIME seconds to Start MGEN Sender...
