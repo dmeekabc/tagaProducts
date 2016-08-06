@@ -159,7 +159,9 @@ if [ $WAITTIME -gt 0 ]; then
      #sleep $WAITTIME
      echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo done waiting:$WAITTIME
+     echo Done waiting:$WAITTIME seconds
+     #echo TAGA: Starting mgen Receiver...
+     echo TAGA: Starting mgen Sender...
    fi
 fi
 
