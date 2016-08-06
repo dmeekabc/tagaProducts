@@ -60,7 +60,7 @@ do
    if [ $# -eq 1 ] ; then
    if [ $TAGA_ADMIN_STATS_REMOTE -eq 1 ] ; then
       echo running interfaceMonitor.sh on $target
-      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/tagaRun.interfaceMonitor.$MYIP.dat" &  
+      ssh -l $MYLOGIN_ID $target "$tagaScriptsUtilsDir/interfaceMonitor.sh > /tmp/tagaRun.interfaceMonitor.$target.dat" &  
    fi
    fi
 
