@@ -134,9 +134,15 @@ else
 fi
 
 # round to nearest 5
-let WAITTIME=$WAITTIME/5
-let WAITTIME=$WAITTIME*5
-let WAITTIME=$WAITTIME+5
+# note, this rounding impacts the "traffic start synch"
+# note that this round time becomes a: 
+#    "closest ensured traffic start time synch"
+# note, 
+let ROUND_TIME=1
+let ROUND_TIME=5
+let WAITTIME=$WAITTIME/$ROUND_TIME
+let WAITTIME=$WAITTIME*$ROUND_TIME
+let WAITTIME=$WAITTIME+$ROUND_TIME
 
 # if wait time exceeds, max allowed, set it to the max wait time allowed
 MAX_WAIT_TIME=40
