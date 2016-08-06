@@ -11,7 +11,7 @@ let DELAY=$1
 
 TAGADELAY_DAT_FILE=/tmp/tagaDelay.dat
 
-echo
+#echo
 date
 
 while [ $DELAY -ge 0 ]; 
@@ -47,7 +47,8 @@ done
 
 # close output to standard out
 printf "\n"  
-echo
+
+#echo
 date
 
 # close output to out file
