@@ -274,6 +274,11 @@ do
    #echo `date` Regenerating HostToIpMap File ............ DONE
    echo
 
+
+   # resource the config in case it has changed
+   source $TAGA_CONFIG_DIR/config 
+
+
    if [ $CONTINUOUS_SYNCH -eq 1 ]; then
      # synch everything 
      $tagaScriptsUtilsDir/synch.sh
@@ -283,6 +288,7 @@ do
          if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
             echo TAGA:PreTrafficPhase: Notice: Config Synch is Enabled.
             let MANAGED_EXECUTE_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+            let MANAGED_EXECUTE_WAIT_TIME=$MANAGED_EXECUTE_WAIT_TIME*2
             $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_EXECUTE_WAIT_TIME \
                        $tagaScriptsUtilsDir/synchConfig.sh
 
@@ -545,6 +551,7 @@ do
 
    # double the managedExecute timeout since this can take awhile...
    let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+   let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
    #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
    $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
 
