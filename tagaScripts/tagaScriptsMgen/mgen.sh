@@ -156,7 +156,10 @@ if [ $WAITTIME -gt 0 ]; then
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
      echo done waiting:$WAITTIME
    else
-     sleep $WAITTIME
+     #sleep $WAITTIME
+     echo  waiting:$WAITTIME
+     $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+     echo done waiting:$WAITTIME
    fi
 fi
 
