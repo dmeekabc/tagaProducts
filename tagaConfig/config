@@ -576,7 +576,12 @@ fi
 ##############################################
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
-let DURATION1=$DURATION1*$TARGET_COUNT
+
+if [ $TESTTYPE == "MCAST" ] ; then
+  let DURATION1=$DURATION1*1
+else
+  let DURATION1=$DURATION1*$TARGET_COUNT
+fi
 
 # round to nearest 5
 let DURATION1=$DURATION1/5
