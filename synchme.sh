@@ -9,6 +9,9 @@ source $TAGA_CONFIG_DIR/config
 
 # get my login id for this machine and create the path name based on variable user ids
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+# strip trailing white space
+MYLOCALLOGIN_ID=`$MYLOCALLOGIN_ID`
+
 MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/\\\/home\\\/$MYLOCALLOGIN_ID/\\\/home\\\/MYLOGIN_ID/g`
 
@@ -26,7 +29,7 @@ do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
+   # strip trailing white space
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    MYDIR=`pwd`
