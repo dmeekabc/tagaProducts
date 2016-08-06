@@ -17,7 +17,7 @@ function issuePrompt {
 echo
 echo Please Confirm to Proceed.
 echo
-echo Confirm? \(y/n\) ?
+echo Confirm? \(y/n\) \?
 echo
 
 read input

@@ -10,6 +10,7 @@ source $TAGA_CONFIG_DIR/config
 # Single Machine Commands
 
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 
 # Taga:TODO: Add logic to check if this has been done
 

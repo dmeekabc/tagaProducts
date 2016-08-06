@@ -7,6 +7,23 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# dlm temp do not do this for now
+
+#if [ 1 ]; then
+
+NET_REBOOT_ENABLED=1
+NET_REBOOT_ENABLED=0
+
+if [ $NET_REBOOT_ENABLED -eq 1 ]; then
+   echo NOTICE: $0 is called and is enabled, $0 rebooting/resetting the network
+   echo NOTICE: $0 is called and is enabled, $0 rebooting/resetting the network
+else
+   echo NOTICE: $0 has been called but is disabled, $0 exiting with no action.
+   echo NOTICE: $0 has been called but is disabled, $0 exiting with no action.
+   exit
+fi
+
+
 #echo
 #echo WARNING: This command will reboot the following: $OTHER_LIST
 #echo
@@ -61,7 +78,8 @@ sleep 5
 for i in 1 2 3 4 5 #6 7 9 9 10 
 do
 # reboot
-for target in $OTHER_LIST
+#for target in $OTHER_LIST
+for target in $REBOOT_LIST
 do
    echo
    echo processing $target

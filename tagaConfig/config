@@ -10,12 +10,22 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+TAGA_ADMIN_STATS_REMOTE=0
+TAGA_ADMIN_STATS_REMOTE=1
+
 # dlm temp new jul 2016
-INTERFACE_SPECIFIED_SOURCE=1
 INTERFACE_SPECIFIED_SOURCE=0
+INTERFACE_SPECIFIED_SOURCE=1
+
+FILTER_OUT_GATEWAY_DUP_COUNTS=1
+FILTER_OUT_GATEWAY_DUP_COUNTS=0
+
+let REGEN_SHRARED_IP_FILE=0 # do this after custom edits to shared IP file
+let REGEN_SHRARED_IP_FILE=1 # do this once to start
 
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1
 
 
 ####################################################
@@ -41,8 +51,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -145,6 +155,7 @@ MAX_ITER_DUR_BEFORE_REBOOT=200
 MAX_ITER_DUR_BEFORE_REBOOT=240
 MAX_ITER_DUR_BEFORE_REBOOT=300
 MAX_ITER_DUR_BEFORE_REBOOT=600
+MAX_ITER_DUR_BEFORE_REBOOT=10000000 # disable
 
 # set this very large to eliminate (perceivably) spurious reboots
 MAX_TIME_DELTA_BEFORE_REBOOT=20
@@ -155,13 +166,14 @@ MAX_TIME_DELTA_BEFORE_REBOOT=20
 # MGEN Traffic Configs
 # Message Count
 MSGCOUNT=10
-MSGCOUNT=20
-MSGCOUNT=200
-MSGCOUNT=500
-MSGCOUNT=100
 MSGCOUNT=22
-MSGCOUNT=2000
+MSGCOUNT=200
+MSGCOUNT=1000
 MSGCOUNT=10
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=10000
+MSGCOUNT=500
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -176,6 +188,10 @@ MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -191,6 +207,7 @@ MSGLEN=94
 MSGLEN=940
 MSGLEN=1040
 MSGLEN=1024 # note, 1024 is max for TCP for TAGA counting
+MSGLEN=120
 
 ####################################################
 # The Keep Alive Function
@@ -242,8 +259,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
+TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -253,8 +270,8 @@ CONFIRM_REQD=1  # strict
 CONFIRM_REQD=0  # not strict
 
 # resource monitor (top, netstat, etc) enabled?
-RESOURCE_MON_ENABLED=0 # (Testing)
 RESOURCE_MON_ENABLED=1 # (Testing)
+RESOURCE_MON_ENABLED=0 # (Testing)
 let RESOURCE_DISPLAY_MODULUS=5
 let RESOURCE_DISPLAY_MODULUS=1000000
 let RESOURCE_DISPLAY_MODULUS=1
@@ -392,7 +409,13 @@ TESTONLY=0 # archiving enabled
 TESTONLY=1 # archiving disabled
 
 # MCAST config
-MYMCAST_ADDR="225.0.0.25"
+MYMCAST_ADDR="225.0.0.25" # does not work
+MYMCAST_ADDR="224.1.2.4"  # does not work
+MYMCAST_ADDR="225.1.2.4"  # does not work
+MYMCAST_ADDR="226.1.2.3"  # does not work
+MYMCAST_ADDR="227.1.2.3"  # does not work
+MYMCAST_ADDR="225.1.2.3" # works
+MYMCAST_ADDR="224.1.2.3" # works
 MYMCAST_PORT=8888
 
 # Ports
@@ -402,8 +425,16 @@ PORTBASE=7770
 # Narrow display is 10 nodes, wide display is 20 nodes
 WIDE_DISPLAY=1
 WIDE_DISPLAY=0
-NARROW_DISPLAY=0
 NARROW_DISPLAY=1
+NARROW_DISPLAY=0
+
+#NORMAL_DISPLAY=0
+#NORMAL_DISPLAY=1
+
+# future
+#DISPLAY_TYPE=WIDE
+#DISPLAY_TYPE=NORMAL
+#DISPLAY_TYPE=NARROW
 
 # Continuous Synch Flag
 CONTINUOUS_SYNCH=1  # synch everything
@@ -418,6 +449,29 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 # manually and/or automatatically generated configs
 ##############################################
 
+
+
+##############################################
+# extend configs in the confiig_extensions file
+# NOTE: This file is machine/system specific and is not synched
+# NOTE: Do this here so MYIP and INTERFACE auto config below 
+#       can reference and make use of these extensions
+##############################################
+if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
+  #echo NOTICE: config is being extended by config_extensions file
+  source $TAGA_CONFIG_DIR/config_extensions
+fi
+
+
+
+
+
+
+
+
+
+
+
 ##############################################
 # automatatically generated configs
 ##############################################
@@ -427,30 +481,52 @@ LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
+
+
+
+
+
+
+
+
+
+
 # default to localhost
 MYIP=localhost
 # determine MYIP from candidates list
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
+INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT2 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT2 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT3 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT3 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT4 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT4 -B1 | head -n 1 | cut -d" " -f1`
 fi
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT5 |  \
      cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT5 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT6 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
@@ -461,12 +537,15 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
 else
-   INTERFACE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+   INTERFACE=$INTERFACECANDIDATE
 fi
+
+
+
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
-targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
+#targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
 
 # Other (One) Target Config
 
@@ -489,6 +568,7 @@ fi
 ##############################################
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
+let DURATION1=$DURATION1*$TARGET_COUNT
 
 ##############################################
 # DURATION 2
@@ -504,12 +584,15 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*8
    let DURATION2=$TARGET_COUNT_FACTOR*1
    let DURATION2=$TARGET_COUNT_FACTOR*10
+   let DURATION2=$TARGET_COUNT_FACTOR*2
 fi
 
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
 let DURATION3=2
+let DURATION3=60
+let DURATION3=6
 
 ##############################################
 # others / static constants
@@ -528,6 +611,7 @@ BLACK_LIST_THRESH=3
 BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=2
+BLACK_LIST_THRESH=4
 
 ####################################################
 # Portability Section, this section requires update 
@@ -544,7 +628,12 @@ PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="keepAlive mgen survey sim1 xxx tcpdump" 
+
+# alternate kill list used once at run begin only ??
+# alternate kill list used once at run begin only ??
+TAGA_KILL_LIST_ALT="interfaceMon keepAlive mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="interfaceMon mgen survey sim1 xxx tcpdump" 
+
 ####################################################
 VARIABLE_TEST="var_test.sh"
 
@@ -560,10 +649,9 @@ VARIABLE_TEST="var_test.sh"
 # static admin configs in the confiig_admin file
 ##############################################
 if [ -s $TAGA_CONFIG_DIR/config_admin ] ; then
-  #echo NOTICE: config is being extended by config_extensions file
+  #echo NOTICE: config is being extended by config_admin file
   source $TAGA_CONFIG_DIR/config_admin
 fi
-
 
 ##############################################
 # extend configs in the confiig_extensions file

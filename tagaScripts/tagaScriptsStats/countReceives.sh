@@ -52,6 +52,9 @@ do
 
   # build Row output
 
+  # reset ALT COUNT FLAG each row
+  ALT_COUNT_FLAG=0
+
   # init the row cumulative
   let row_cumulative=0
 
@@ -112,24 +115,35 @@ do
         # MCAST
         cat /tmp/curcount.txt  | grep "length $MSGLEN" > /tmp/curcount2.txt # verify length
         cat /tmp/curcount2.txt | cut -d">" -f 1       > /tmp/curcount.txt  # get senders only
-        cat /tmp/curcount.txt  | grep $target\.      > /tmp/curcount2.txt # filter on the target (row)
+        #cat /tmp/curcount.txt  | grep $target\.      > /tmp/curcount2.txt # filter on the target (row)
+        cat /tmp/curcount.txt  | grep $target\\\.      > /tmp/curcount2.txt # filter on the target (row)
         cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
       else
         # UCAST
         cat /tmp/curcount.txt  | grep "length $MSGLEN" > /tmp/curcount2.txt # verify length
-        cat /tmp/curcount2.txt | cut -d">" -f 1       > /tmp/curcount.txt  # get senders only
-        cat /tmp/curcount.txt  | grep $target\\\.      > /tmp/curcount2.txt # filter on the target (row)
-        cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
+        if [ $FILTER_OUT_GATEWAY_DUP_COUNTS -eq 1 ] ; then
+           # make sure I am the destination (gateways can get extra messages destined elsewhere)
+           # to do this, ensure the target2 is in the receivers field of the message string
+           cat /tmp/curcount2.txt | grep $target2.....:   > /tmp/curcount.txt  # get messages destined for me
+        else
+           # otherwise, just copy/cat the file directly without additional filter
+           cat /tmp/curcount2.txt                      > /tmp/curcount.txt  # get messages destined for me
+        fi
+        cat /tmp/curcount.txt | cut -d">" -f 1         > /tmp/curcount2.txt  # get senders only
+        cat /tmp/curcount2.txt  | grep $target\\\.     > /tmp/curcount.txt # filter on the target (row)
+        cat /tmp/curcount.txt | wc -l                  > /tmp/curcount2.txt  # get the count
+        cp /tmp/curcount2.txt /tmp/curcount.txt                              # finalize
       fi
-
 
 #     echo here111
 #     cat /tmp/curcount.txt
 
-
       # check if we have a 0 count, if so, it is possible that the tcpdump output specified by
       # hostname rather than by IP address, so we have an option to check further
       # if the option is set, then examine the tcpdump output for hostname vice IP address
+
+      ### reset ALT COUNT FLAG each target
+      ### ALT_COUNT_FLAG=0
 
       # dlm temp, add real check here
       let CHECK_DUAL_INTERFACES_FOR_COUNTS=0
@@ -144,8 +158,10 @@ do
              myalternateInterface=`cat ~/scripts/taga/tagaConfig/hostsToSharedIps.txt | grep $target\. | cut -d\. -f 6-9`
 #             echo myalternateInterface:$myalternateInterface
              if [ ! $myalternateInterface ]; then
+#           echo here2222
                 echo No alternate interface found, no further checks >/dev/null
              else
+#           echo here3333
                 echo Alternate interface found, counts continue... >/dev/null
              # start over, once again, write to the curcount.txt file
              cat $DEST_FILE_TAG* > /tmp/curcount.txt 2>/dev/null
@@ -160,6 +176,8 @@ do
               cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
             else
 #              echo here333
+#              echo myalternateInterface:$myalternateInterface
+#              echo here333aaa
 #              cat /tmp/curcount.txt  
 #              echo here444
               # UCAST
@@ -169,6 +187,11 @@ do
               cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt  # get the count
             fi
 
+            mycurcount=`cat /tmp/curcount.txt`
+            if [ $mycurcount -ne 0 ]; then
+               # we changed our counts based on alternate ip address, set the flag so we can indicate it in the display
+               ALT_COUNT_FLAG=1
+            fi
 
             fi
 
@@ -307,6 +330,11 @@ do
 
   # append the cumulative row total to the row output
   row="$row $row_cumulative"
+
+  # dlm temp find me
+  if [ $ALT_COUNT_FLAG -eq 1 ]; then
+     row="$row*"
+  fi
 
   echo "$row"
   echo "$row" >> $TAGA_RUN_DIR/counts.txt
