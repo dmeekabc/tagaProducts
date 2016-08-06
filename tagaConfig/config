@@ -51,8 +51,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -387,10 +387,13 @@ source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 ##############################################
 
 SERVER_INIT_DELAY=20
-SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=4
+SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=15
+SERVER_INIT_DELAY=20
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 
 
 # end of iteration delay 
@@ -594,6 +597,7 @@ let DURATION3=0
 let DURATION3=2
 let DURATION3=60
 let DURATION3=6
+let DURATION3=30
 
 ##############################################
 # others / static constants
