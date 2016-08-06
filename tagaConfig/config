@@ -577,6 +577,10 @@ fi
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
 let DURATION1=$DURATION1*$TARGET_COUNT
+
+# round to nearest 5
+let DURATION1=$DURATION1/5
+let DURATION1=$DURATION1*5
 let DURATION1=$DURATION1+5
 
 ##############################################
@@ -595,6 +599,11 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*10
    let DURATION2=$TARGET_COUNT_FACTOR*2
 fi
+
+# round to nearest 5
+let DURATION2=$DURATION2/5
+let DURATION2=$DURATION2*5
+let DURATION2=$DURATION2+5
 
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
