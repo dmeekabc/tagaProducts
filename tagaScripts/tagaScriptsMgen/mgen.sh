@@ -64,6 +64,9 @@ done
 
 # Start Server
 
+echo TAGA: $MYIP : Starting MGEN Server / Receiver
+
+
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   if [ $TESTTYPE == "MCAST" ]; then
     # MCAST UDP
@@ -73,11 +76,14 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
             > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
     # run it, joing the group
     if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn &
     elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null &
     else
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null &
     fi
 
     # start the UDP listener in background
@@ -127,37 +133,62 @@ else
    let WAITTIME=0
 fi
 
+# round to nearest 5
+# note, this rounding impacts the "traffic start synch"
+# note that this round time becomes a: 
+#    "closest ensured traffic start time synch"
+# note, 
+let ROUND_TIME=1
+let ROUND_TIME=5
+let WAITTIME=$WAITTIME/$ROUND_TIME
+let WAITTIME=$WAITTIME*$ROUND_TIME
+let WAITTIME=$WAITTIME+$ROUND_TIME
+
 # if wait time exceeds, max allowed, set it to the max wait time allowed
-MAX_WAIT_TIME=10
+MAX_WAIT_TIME=40
 if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
   let WAITTIME=MAX_WAIT_TIME
 fi
 
+# ensure non-negative wait time
 if [ $WAITTIME -lt 0 ]; then
    echo
    echo Warning: $0: negatie WAITTIME: $WAITTIME
    echo Warning: $0: negatie WAITTIME: $WAITTIME
-   echo
    echo Warning: Bad SUDO, SSH, bad time synch, bad config, etc can cause delays , this condition.
    echo Warning: Bad SUDO, SSH, bad time synch, bad config, etc can cause delays , this condition.
-   echo
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo Warning: Consider increasing MGEN_SERVER_INIT_DELAY
    echo
+   # something is wrong, wait max amount of time
+   let WAITTIME=MAX_WAIT_TIME
 fi
 
 if [ $WAITTIME -gt 0 ]; then
+
+   echo TAGA: $MYIP : Waiting $WAITTIME seconds to Start MGEN Sender...
+
    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-     echo  waiting:$WAITTIME
+#     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo done waiting:$WAITTIME
+#     echo done waiting:$WAITTIME
    elif [ $TAGA_DISPLAY_DEBUG -eq 1 ]; then
-     echo  waiting:$WAITTIME
+#     echo  waiting:$WAITTIME
      $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
-     echo done waiting:$WAITTIME
+#     echo done waiting:$WAITTIME
    else
-     sleep $WAITTIME
+     #sleep $WAITTIME
+#     echo  waiting:$WAITTIME
+     $TAGA_UTILS_DIR/tagaDelay.sh $WAITTIME
+#     echo Done waiting:$WAITTIME seconds
+     #echo TAGA: Starting mgen Receiver...
+#     echo TAGA: Starting mgen Sender...
    fi
+
+   #echo TAGA: $MYIP : DONE Waiting $WAITTIME seconds to Start MGEN Sender...
+   #echo TAGA: $MYIP : Starting MGEN Sender...
+   echo TAGA: $MYIP : $WAITTIME seconds WAIT COMPLETE, Starting MGEN Sender...
+
 fi
 
 
