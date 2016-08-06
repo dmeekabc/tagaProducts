@@ -76,11 +76,14 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
             > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
     # run it, joing the group
     if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn &
     elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null &
     else
-      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
+      #mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null #&
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null &
     fi
 
     # start the UDP listener in background
