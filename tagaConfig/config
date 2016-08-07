@@ -25,7 +25,8 @@ let REGEN_SHRARED_IP_FILE=1 # do this once to start
 
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
-TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1 # do not use
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=2 # minimum to choose
 
 
 ####################################################
@@ -170,10 +171,17 @@ MSGCOUNT=22
 MSGCOUNT=200
 MSGCOUNT=1000
 MSGCOUNT=10
-MSGCOUNT=20
 MSGCOUNT=100
 MSGCOUNT=10000
 MSGCOUNT=500
+MSGCOUNT=1000
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=1000
+MSGCOUNT=5000
+MSGCOUNT=100
+MSGCOUNT=150
+MSGCOUNT=4
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -192,6 +200,8 @@ MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -259,8 +269,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
+TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -386,9 +396,17 @@ source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 # manually generated configs
 ##############################################
 
-SERVER_INIT_DELAY=5
+SERVER_INIT_DELAY=20
+SERVER_INIT_DELAY=4
+SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=15
 SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=5
+SERVER_INIT_DELAY=10
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 
 
@@ -425,8 +443,8 @@ PORTBASE=7770
 # Narrow display is 10 nodes, wide display is 20 nodes
 WIDE_DISPLAY=1
 WIDE_DISPLAY=0
-NARROW_DISPLAY=1
 NARROW_DISPLAY=0
+NARROW_DISPLAY=1
 
 #NORMAL_DISPLAY=0
 #NORMAL_DISPLAY=1
@@ -450,7 +468,6 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 ##############################################
 
 
-
 ##############################################
 # extend configs in the confiig_extensions file
 # NOTE: This file is machine/system specific and is not synched
@@ -463,15 +480,6 @@ if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
 fi
 
 
-
-
-
-
-
-
-
-
-
 ##############################################
 # automatatically generated configs
 ##############################################
@@ -482,14 +490,17 @@ DATA_DIR=/tmp/taga/data # new mar 2016
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
 
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
 
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
 
-
-
-
-
-
-
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
 
 # default to localhost
 MYIP=localhost
@@ -528,6 +539,51 @@ if [ ! "$MYIPCANDIDATES"  ]; then
      cut -d: -f 2 | cut -d" " -f 1`
   INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
 fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT7 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT7 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT8 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT8 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT9 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT9 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT10 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT10 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT11 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT11 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT12 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT12 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT13 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT13 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT14 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT14 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT15 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT15 -B1 | head -n 1 | cut -d" " -f1`
+fi
 
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
@@ -536,10 +592,11 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
+   echo WARNING: MYIP == localhost, check config NETADDRPART:$NETADDRPART, check config_extensions
+   echo WARNING: MYIP == localhost, check config NETADDRPART:$NETADDRPART, check config_extensions
 else
    INTERFACE=$INTERFACECANDIDATE
 fi
-
 
 
 
@@ -568,7 +625,26 @@ fi
 ##############################################
 # DURATION 1 depends on msg rate and msg count 
 let DURATION1=$MSGCOUNT/$MSGRATE
-let DURATION1=$DURATION1*$TARGET_COUNT
+
+if [ $TESTTYPE == "MCAST" ] ; then
+  #let DURATION1=$DURATION1*2
+  let NODE_ADJUST=2*TARGET_COUNT
+  #echo N:$NODE_ADJUST
+  let DURATION1=$DURATION1+$NODE_ADJUST
+  let DURATION1=$DURATION1+10
+else
+  let DURATION1=$DURATION1*$TARGET_COUNT
+fi
+
+if [ $DURATION1 -lt $MGEN_SERVER_INIT_DELAY ]; then
+   let DURATION1=$MGEN_SERVER_INIT_DELAY
+fi  
+
+# round to nearest 5
+let DURATION1=$DURATION1/5
+let DURATION1=$DURATION1*5
+let DURATION1=$DURATION1+5
+
 
 ##############################################
 # DURATION 2
@@ -587,12 +663,23 @@ else
    let DURATION2=$TARGET_COUNT_FACTOR*2
 fi
 
+# round to nearest 5
+let DURATION2=$DURATION2/5
+let DURATION2=$DURATION2*5
+let DURATION2=$DURATION2+5
+
 # The DURATION3 allows us to force a condition if the auto config fails
 # A DURATION3 value of 0 indicates the auto config is currently sufficient
 let DURATION3=0
 let DURATION3=2
-let DURATION3=60
 let DURATION3=6
+let DURATION3=30
+let DURATION3=60
+let DURATION3=20
+let DURATION3=10
+let DURATION3=8
+let DURATION3=6
+let DURATION3=3
 
 ##############################################
 # others / static constants
@@ -612,6 +699,8 @@ BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=2
 BLACK_LIST_THRESH=4
+BLACK_LIST_THRESH=1
+BLACK_LIST_THRESH=2
 
 ####################################################
 # Portability Section, this section requires update 
@@ -674,4 +763,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.146
+MASTER=192.168.43.124

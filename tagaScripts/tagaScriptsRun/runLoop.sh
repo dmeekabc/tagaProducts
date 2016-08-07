@@ -376,9 +376,14 @@ do
 #   $TAGA_UTILS_DIR/checkInterface.sh
 
    let i=$DURATION1
+
+   #echo DLM TMP: i:  $i
+
    while [ $i -gt 0 ]
    do
       let tot=$DURATION2+$i
+
+      #echo DLM TMP 11111: i:  $i
 
       #SECS_REMAINING_STR="TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i"
       #SECS_REMAINING_STR="TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i"
@@ -416,8 +421,12 @@ do
          #echo TAGA:TrafficPhase: Total Secs Remain: $tot : Secs Remain Part 1: $i
       fi
 
+      #echo DLM TMP 11111aaaaaa: i:  $i
+
       sleep 1
       let i=$i-1
+
+      #echo DLM TMP 2222: i:  $i
 
    done
 

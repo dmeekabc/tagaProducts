@@ -8,4 +8,4 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 #rm /tmp/*taga* 2>/dev/null
-rm /tmp/$TEST_DESCRIPTION*
+rm /tmp/$TEST_DESCRIPTION* 2>/dev/null

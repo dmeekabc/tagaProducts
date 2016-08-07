@@ -1,2 +1,2 @@
 0.0 JOIN mcastgroup 
-30.0 LEAVE mcastgroup 
+100000.0 LEAVE mcastgroup 
