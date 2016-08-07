@@ -475,6 +475,12 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 # NOTE: This file is machine/system specific and is not synched
 # NOTE: Do this here so MYIP and INTERFACE auto config below 
 #       can reference and make use of these extensions
+# NOTE: This config_extensions has been used to change NETADDRPART 
+#       to use the 2nd interface rather than 1st interface
+# NOTE: This config_extensions has been used to change NETADDRPART 
+#       to use the 2nd interface rather than 1st interface
+# NOTE: Consider if config_overrides is better suited for that purpose
+# NOTE: Consider if config_overrides is better suited for that purpose
 ##############################################
 if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
   #echo NOTICE: config is being extended by config_extensions file
@@ -765,7 +771,7 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.124
+
 
 # BLACKLIST
 BLACKLIST=" 192.168.43.146"
@@ -775,3 +781,4 @@ BLACKLIST=" 192.168.43.146 192.168.43.148"
 
 # BLACKLIST
 BLACKLIST=" 192.168.43.146 192.168.43.148 192.168.43.228"
+MASTER=192.168.43.124
