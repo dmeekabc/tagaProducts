@@ -52,8 +52,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -97,9 +97,9 @@ let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
 ####################################################
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 
 
 ####################################################
@@ -182,6 +182,7 @@ MSGCOUNT=5000
 MSGCOUNT=100
 MSGCOUNT=150
 MSGCOUNT=4
+MSGCOUNT=500
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -202,6 +203,7 @@ MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -764,3 +766,12 @@ fi
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
 MASTER=192.168.43.124
+
+# BLACKLIST
+BLACKLIST=" 192.168.43.146"
+
+# BLACKLIST
+BLACKLIST=" 192.168.43.146 192.168.43.148"
+
+# BLACKLIST
+BLACKLIST=" 192.168.43.146 192.168.43.148 192.168.43.228"
