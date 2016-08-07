@@ -178,6 +178,8 @@ MSGCOUNT=20
 MSGCOUNT=100
 MSGCOUNT=1000
 MSGCOUNT=5000
+MSGCOUNT=100
+MSGCOUNT=150
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -197,6 +199,7 @@ MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -747,4 +750,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=192.168.43.148
