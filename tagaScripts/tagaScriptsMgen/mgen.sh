@@ -9,21 +9,13 @@ source $TAGA_CONFIG_DIR/config
 
 if [ $MYIP == "localhost" ]; then
   echo WARNING: MYIP == localhost
-  echo WARNING: MYIP == localhost
   echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
   echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost
   echo WARNING: MYIP == localhost
   /sbin/ifconfig
   echo WARNING: MYIP == localhost
-  echo WARNING: MYIP == localhost
   echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
   echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost, check configuration, check config_extensions!!
-  echo WARNING: MYIP == localhost
   echo WARNING: MYIP == localhost
 fi
 
@@ -65,7 +57,6 @@ done
 # Start Server
 
 echo TAGA: $MYIP : Starting MGEN Server / Receiver
-
 
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   if [ $TESTTYPE == "MCAST" ]; then
@@ -190,7 +181,7 @@ if [ $WAITTIME -gt 0 ]; then
 
    #echo TAGA: $MYIP : DONE Waiting $WAITTIME seconds to Start MGEN Sender...
    #echo TAGA: $MYIP : Starting MGEN Sender...
-   echo TAGA: $MYIP : $WAITTIME seconds WAIT COMPLETE, Starting MGEN Sender...
+   echo TAGA: $MYIP : Wait Complete: $WAITTIME sec waited: Starting MGEN Sender...
 
 fi
 
