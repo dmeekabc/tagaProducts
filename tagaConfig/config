@@ -460,7 +460,6 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 ##############################################
 
 
-
 ##############################################
 # extend configs in the confiig_extensions file
 # NOTE: This file is machine/system specific and is not synched
@@ -474,14 +473,6 @@ fi
 
 
 
-
-
-
-
-
-
-
-
 ##############################################
 # automatatically generated configs
 ##############################################
@@ -491,13 +482,6 @@ LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
-
-
-
-
-
-
-
 
 
 
@@ -546,10 +530,11 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
+   echo WARNING: MYIP == localhost, check config, check config_extensions
+   echo WARNING: MYIP == localhost, check config, check config_extensions
 else
    INTERFACE=$INTERFACECANDIDATE
 fi
-
 
 
 
