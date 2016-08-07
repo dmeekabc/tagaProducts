@@ -199,7 +199,6 @@ MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -631,10 +630,15 @@ else
   let DURATION1=$DURATION1*$TARGET_COUNT
 fi
 
+if [ $DURATION1 -lt $MGEN_SERVER_INIT_DELAY+10 ]; then
+   let DURATION1=$MGEN_SERVER_INIT_DELAY+10
+fi  
+
 # round to nearest 5
 let DURATION1=$DURATION1/5
 let DURATION1=$DURATION1*5
 let DURATION1=$DURATION1+5
+
 
 ##############################################
 # DURATION 2
@@ -750,4 +754,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.148
+MASTER=192.168.43.124
