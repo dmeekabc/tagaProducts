@@ -25,7 +25,8 @@ let REGEN_SHRARED_IP_FILE=1 # do this once to start
 
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
-TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=1 # do not use
+TIME_SYNCH_CHECK_TRY_COUNT_THRESH=2 # minimum to choose
 
 
 ####################################################
@@ -180,6 +181,7 @@ MSGCOUNT=1000
 MSGCOUNT=5000
 MSGCOUNT=100
 MSGCOUNT=150
+MSGCOUNT=4
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -267,8 +269,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
+TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -697,6 +699,8 @@ BLACK_LIST_THRESH=1
 BLACK_LIST_THRESH=20
 BLACK_LIST_THRESH=2
 BLACK_LIST_THRESH=4
+BLACK_LIST_THRESH=1
+BLACK_LIST_THRESH=2
 
 ####################################################
 # Portability Section, this section requires update 
