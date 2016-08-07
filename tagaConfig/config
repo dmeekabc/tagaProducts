@@ -472,7 +472,6 @@ if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
 fi
 
 
-
 ##############################################
 # automatatically generated configs
 ##############################################
@@ -483,7 +482,17 @@ DATA_DIR=/tmp/taga/data # new mar 2016
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
 
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
 
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
+
+# DLM TEMP
+# Clearly, the below should be replaced with a loop or a list or some smarter way
+# to search all of these alternates rather than the brute force method below
 
 # default to localhost
 MYIP=localhost
@@ -521,6 +530,51 @@ if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT6 |  \
      cut -d: -f 2 | cut -d" " -f 1`
   INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT7 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT7 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT8 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT8 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT9 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT9 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT10 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT10 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT11 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT11 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT12 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT12 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT13 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT13 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT14 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT14 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT15 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT15 -B1 | head -n 1 | cut -d" " -f1`
 fi
 
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
