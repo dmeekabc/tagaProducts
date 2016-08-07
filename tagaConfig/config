@@ -584,8 +584,8 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
-   echo WARNING: MYIP == localhost, check config, check config_extensions
-   echo WARNING: MYIP == localhost, check config, check config_extensions
+   echo WARNING: MYIP == localhost, check config NETADDRPART:$NETADDRPART, check config_extensions
+   echo WARNING: MYIP == localhost, check config NETADDRPART:$NETADDRPART, check config_extensions
 else
    INTERFACE=$INTERFACECANDIDATE
 fi
