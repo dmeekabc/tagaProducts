@@ -199,6 +199,7 @@ MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -399,9 +400,11 @@ SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=15
 SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=5
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 
 
 # end of iteration delay 
@@ -673,6 +676,7 @@ let DURATION3=20
 let DURATION3=10
 let DURATION3=8
 let DURATION3=6
+let DURATION3=3
 
 ##############################################
 # others / static constants
