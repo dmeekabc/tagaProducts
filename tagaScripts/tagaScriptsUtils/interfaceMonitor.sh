@@ -125,7 +125,7 @@ do
       #let kilobitPrint=$kilobytePrint*8 
       #let kilobitPrint=$kilobitPrint*8 
       let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs, 5000 ms,  per iteration
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobitPrint kbps\)
    elif [ $wordlen -eq 5 ]; then
@@ -138,7 +138,7 @@ do
       #let kilobitPrint=$KBytes*8
       #let kilobitPrint=$DELTA_RX_STATS_ITER*8
       let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs , 5000 ms, per iteration
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobitPrint kbps \)
    elif [ $wordlen -eq 4 ]; then
@@ -151,7 +151,7 @@ do
       #let kilobitPrint=$KBytes*8
       #let kilobitPrint=$DELTA_RX_STATS_ITER*8
       let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs , 5000 ms, per iteration
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobitPrint kbps \)
    else
@@ -181,7 +181,7 @@ do
       #let kilobitPrint=$KBytes*8
       #let kilobitPrint=$DELTA_RX_STATS_ITER*8
       let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs , 5000 ms, per iteration
       echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER \($kilobitPrint kbps \)
    elif [ $wordlen -eq 5 ]; then
@@ -194,7 +194,7 @@ do
       #let kilobitPrint=$KBytes*8
       #let kilobitPrint=$DELTA_RX_STATS_ITER*8
       let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs , 5000 ms, per iteration
       echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER \($kilobitPrint kbps \)
    elif [ $wordlen -eq 4 ]; then
@@ -207,7 +207,7 @@ do
       #let kilobitPrint=$KBytes*8
       #let kilobitPrint=$DELTA_RX_STATS_ITER*8
       let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
-      let kilobitPrint=$kilobitPrint/5 # five secs per iteration
+      let kilobitPrint=$kilobitPrint/5000 # five secs , 5000 ms, per iteration
       echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER \($kilobitPrint kbps \)
    else
