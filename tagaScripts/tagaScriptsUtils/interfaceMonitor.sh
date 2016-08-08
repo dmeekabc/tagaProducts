@@ -14,6 +14,7 @@ let START_RX_STATS=$RX_STATS
 
 let iter=0
 
+STARTDATE=`date`
 START_STATS=`$tagaScriptsStatsDir/adminstats.sh` 
 
 while true
@@ -21,9 +22,12 @@ do
 
    let iter=$iter+1
 
+   CURRENTDATE=`date`
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
    echo
+   echo $CURRENTDATE
+   echo START DTG: $STARTDATE  CURRENT DTG: $CURRENTDATE
    echo "TAGA:Iter:$iter ITFC START: $START_STATS"
    echo "TAGA:Iter:$iter ITFC CURRENT: $CURRENT_STATS"
 
