@@ -300,13 +300,13 @@ do
                echo NOTICE:   i.e.  ~/scripts/taga/tagaConfig/synchme.sh
             else
                # okay
-               echo $? is mangedExecuteReturnCode > /dev/null
+               echo $? is managedExecuteReturnCode > /dev/null
             fi
 
          else
             # suppress output to stdout
             $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
-            echo $? is mangedExecuteReturnCode >/dev/null
+            echo $? is managedExecuteReturnCode >/dev/null
         fi
    
      else
