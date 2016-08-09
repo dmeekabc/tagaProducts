@@ -306,7 +306,7 @@ do
          else
             # suppress output to stdout
             $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
-            echo $? is mangedExecuteReturnCode
+            echo $? is mangedExecuteReturnCode >/dev/null
         fi
    
      else
