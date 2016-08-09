@@ -40,8 +40,8 @@ do
    # build the source file string
    SCP_SOURCE_STR="$SCP_SOURCE_STR config"
    SCP_SOURCE_STR="$SCP_SOURCE_STR config_admin"
-   SCP_SOURCE_STR="$SCP_SOURCE_STR config_overrides"
-   #SCP_SOURCE_STR="$SCP_SOURCE_STR config_extensions"
+   SCP_SOURCE_STR="$SCP_SOURCE_STR config_overrides" # config overrides ARE synchronized
+   #SCP_SOURCE_STR="$SCP_SOURCE_STR config_extensions" # config extensions ARE NOT synchronized
    SCP_SOURCE_STR="$SCP_SOURCE_STR targetList.sh"
    SCP_SOURCE_STR="$SCP_SOURCE_STR hostList.txt"
    SCP_SOURCE_STR="$SCP_SOURCE_STR midsizeTargetList.txt"
