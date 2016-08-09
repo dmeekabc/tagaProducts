@@ -51,6 +51,7 @@ do
      SCP_SOURCE_STR="."          # use this to synch everything here and below
      SCP_SOURCE_STR="."          # use this to synch everything here and below
      SCP_SOURCE_STR="synchme.sh"  # use this to synch this file only
+     SCP_SOURCE_STR="."          # use this to synch everything here and below
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
