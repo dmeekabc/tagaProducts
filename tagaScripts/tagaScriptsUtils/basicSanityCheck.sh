@@ -18,8 +18,10 @@ if echo $MYLOGIN_ID | grep GoesHere >/dev/null ; then
    echo
    echo NOTICE: Config file missing required information.
    echo
-   echo NOTICE: Please update the Config File: $TAGA_CONFIG_DIR/config or the Config Overrides
-   echo         File: $TAGA_CONFIG_DIR/config_overrides with the information shown below.
+   echo NOTICE: Please update one of the following three files with the information shown below:
+   echo  " 1. Config File: $TAGA_CONFIG_DIR/config "
+   echo  " 2. Config Overrides File: $TAGA_CONFIG_DIR/config_overrides "
+   echo  " 3. Login Map File: $TAGA_CONFIG_DIR/loginmap.txt "
    echo
    echo "     e.g. [ MYLOGIN_ID: $MYLOGIN_ID ] "
    echo
