@@ -7,12 +7,12 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo myip: $MYIP
+#echo myip: $MYIP
 
 # get MYLOGIN_ID from the config or the loginIdMap file if the file exists
 MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 
-echo login: $MYLOGIN_ID
+#echo login: $MYLOGIN_ID
 
 if echo $MYLOGIN_ID | grep GoesHere >/dev/null ; then
    echo
