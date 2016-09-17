@@ -900,4 +900,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.41.221
+MASTER=192.168.43.124
