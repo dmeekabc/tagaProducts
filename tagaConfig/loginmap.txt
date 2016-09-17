@@ -1,5 +1,5 @@
 # by iboa convention, most general on top with specializiation below
-192.168.20:iboa
-192.168.43:taga
-192.168.43.157:darrin
-192.168.43.167:david
+192.168.43:pi
+192.168.43.124:darrin
+192.168.43.208:darrin
+192.168.43.228:darrin

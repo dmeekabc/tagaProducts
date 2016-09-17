@@ -97,9 +97,9 @@ let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
 ####################################################
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 
 
 ####################################################
@@ -771,14 +771,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.146"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.146 192.168.43.148"
-
-# BLACKLIST
-BLACKLIST=" 192.168.43.146 192.168.43.148 192.168.43.228"
 MASTER=192.168.43.124
