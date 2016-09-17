@@ -7,24 +7,43 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+echo; echo $0 : Initializing...; echo
+
 # this provides our inter-process comms, 
 # it is not bullet proof, but better than nothing...
 #clear the reboot in progress flag
 #rm /tmp/rebootInProgress.dat
-rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
-rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
 
+
+echo 0
+
+rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
+echo 0a
+rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
+echo 0b
+
+
+# dlm temp, changed 16 sept 2016
+# dlm temp, changed 16 sept 2016
+# dlm temp, changed 16 sept 2016
 # remove old *.dat and mark* files
-rm /tmp/*.dat 2>/dev/null
+#sudo chmod 777 /tmp/*.dat
+#rm /tmp/*.dat 2>/dev/null
+sudo chmod 777 /tmp/*taga*.dat 2>/dev/null
+rm /tmp/*taga*.dat 2>/dev/null
+echo 0c
+
 rm /tmp/mark* 2>/dev/null
 
+echo 0d
 
 # clean old /tmp/tagaRun* files from all targets
 # TODO!!
 
-
 # remove old in progress flag if it exists
 rm /tmp/startOfCycleTests.sh.InProgress.dat 2>/dev/null
+
+echo 1
 
 # basic sanity check, to ensure password updated etc
 $tagaScriptsUtilsDir/basicSanityCheck.sh
@@ -33,6 +52,8 @@ if [ $? -eq 255 ]; then
   echo
   exit 255
 fi
+
+echo 1a
 
 # dlm temp
 # Force checks to get the password entry out of the way...
@@ -58,6 +79,7 @@ let START_RX_STATS=$RX_STATS
 # dlm temp remove this if not necessary!!!
 #$TAGA_UTILS_DIR/resetInterface.sh
 
+echo 1b
 
 #########################################
 # Update the MASTER entry in the config
@@ -80,6 +102,8 @@ echo $ENVIRON_SIMULATION > /tmp/simulationFlag.txt
 # source again due to above as well as other boot strap-like dependencies
 # note, this may not be necessary and is candidate to investigate 
 source $TAGA_CONFIG_DIR/config
+
+echo 1c
 
 echo;echo
 if [ $TESTONLY -eq 1 ] ; then
@@ -104,6 +128,7 @@ if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
   $tagaScriptsTimerDir/timeSynchCheck.sh
 fi
 
+#echo 1d
 
 # probe if enabled
 if [ $PROBE_ENABLED -eq 1 ]; then
@@ -200,13 +225,19 @@ do
       sleep 5
    done
 
-   while [ $iter -ge $MAX_ITERATIONS ] 
+   while [ $iter -gt $MAX_ITERATIONS ] 
    do
       # refresh config in case it has changed
       source $TAGA_CONFIG_DIR/config
-      echo
-      echo TAGA:PreTrafficPhase: `date` Max Iterations \($iter\) Reached - Disabling ............
+
+      if [ $EXIT_ON_MAX_ITERATIONS -eq 1 ] ; then
+         echo; echo TAGA:PreTrafficPhase: `date` Max Iterations \($MAX_ITERATIONS\) Reached - Exiting ..........
+         exit
+      else
+         echo; echo TAGA:PreTrafficPhase: `date` Max Iterations \($MAX_ITERATIONS\) Reached - Disabling ............
+      fi
       sleep 5
+
    done
 
    if [ $STEPWISE_ITERATIONS -eq 1 ]; then
@@ -300,13 +331,13 @@ do
                echo NOTICE:   i.e.  ~/scripts/taga/tagaConfig/synchme.sh
             else
                # okay
-               echo $? is managedExecuteReturnCode > /dev/null
+               echo $? is mangedExecuteReturnCode > /dev/null
             fi
 
          else
             # suppress output to stdout
             $tagaScriptsUtilsDir/managedExecute.sh $tagaScriptsUtilsDir/synchConfig.sh
-            echo $? is managedExecuteReturnCode >/dev/null
+            echo $? is mangedExecuteReturnCode
         fi
    
      else
@@ -323,6 +354,8 @@ do
 
    # archive directory
    outputDir=$OUTPUT_DIR/output_`date +%j%H%M%S` 
+
+   echo $0 : Creating Output Dir: $outputDir
    mkdir -p $outputDir
 
    # start the Simulation 
@@ -370,7 +403,10 @@ do
    # for some reason this file is not being created by script below 
    # so create it here instead
    echo 1 > /tmp/startOfCycleTests.sh.InProgress.dat 
-   $tagaScriptsTestDir/startOfCycleTests.sh $iter $TEST_LABEL & # run in background/parallel
+
+   # dlm temp, 6 sept 2016 output start of cycle tests to log file
+   #$tagaScriptsTestDir/startOfCycleTests.sh $iter $TEST_LABEL & # run in background/parallel
+   $tagaScriptsTestDir/startOfCycleTests.sh $iter $TEST_LABEL > /tmp/startOfCycleTests.$iter.out & # run in background/parallel
 
    # check/repair the interface
 #   $TAGA_UTILS_DIR/checkInterface.sh
@@ -551,18 +587,52 @@ do
    fi
 
 
-   # stop the Remaining Simulation and Data Generation
-   $tagaScriptsStopDir/runStop.sh
 
-   # collect and clean
-   echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCollect.sh
-   chmod 755 /tmp/managedRunLoopCollect.sh
+   # dlm temp, new, 7 sept 2016
 
-   # double the managedExecute timeout since this can take awhile...
-   let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
-   let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
-   #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
-   $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
+   if [ $EARLY_COLLECT -eq 1 ] ; then
+
+      echo Early Collection is Enabled, collecting data now...
+
+      # collect and clean
+      # dlm temp , new 6 sept 2016, make directory in case it does not yet exist
+      mkdir -p $outputDir 2>/dev/null
+      echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCollect.sh
+      chmod 755 /tmp/managedRunLoopCollect.sh
+      # double the managedExecute timeout since this can take awhile...
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
+      $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
+
+      # now, stop the Remaining Simulation and Data Generation
+      $tagaScriptsStopDir/runStop.sh
+
+   else
+
+      echo Early Collection is Disabled, collecting data after stopping processes...
+
+      if [ $TAGA_TURBO_MODE -eq 1 ] ; then
+         # stop processes in uncontrolled manner ( in the background)
+         # stop the Remaining Simulation and Data Generation
+         $tagaScriptsStopDir/runStop.sh &
+      else
+         # stop processes in controlled manner ( in the foreground)
+         # stop the Remaining Simulation and Data Generation
+         $tagaScriptsStopDir/runStop.sh
+      fi
+
+      # collect and clean
+      # dlm temp , new 6 sept 2016, make directory in case it does not yet exist
+      mkdir -p $outputDir 2>/dev/null
+      echo $tagaScriptsUtilsDir/collect.sh $outputDir > /tmp/managedRunLoopCollect.sh
+      chmod 755 /tmp/managedRunLoopCollect.sh
+      # double the managedExecute timeout since this can take awhile...
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
+      $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
+   fi
 
    echo $tagaScriptsUtilsDir/cleanAll.sh $outputDir > /tmp/managedRunLoopCleanAll.sh 
    chmod 755 /tmp/managedRunLoopCleanAll.sh
@@ -694,8 +764,17 @@ do
 
    # count and sort and display results matrix
    # note, startDTG must be last param since includes spaces
-   $tagaScriptsStatsDir/countSends.sh $outputDir $iter $startTime $currentDelta $deltaEpoch $startDTG
-   $tagaScriptsStatsDir/countReceives.sh $outputDir $iter $startTime $startDTG 
+
+   if [ $COUNTS_DISABLED -eq 1 ]; then
+      echo Counts Disabled, Skipping countSends and countReceives scripts
+   elif [ $SENT_COUNTS_DISABLED -eq 1 ]; then
+      echo Sent Counts Disabled, Skipping countSends scripts
+      $tagaScriptsStatsDir/countReceives.sh $outputDir $iter $startTime $startDTG 
+   else
+      $tagaScriptsStatsDir/countSends.sh $outputDir $iter $startTime $currentDelta $deltaEpoch $startDTG
+      $tagaScriptsStatsDir/countReceives.sh $outputDir $iter $startTime $startDTG 
+   fi
+
 
    for i in 1 2 #3 4 5 6 # 7 8 9 10 11
    do
@@ -726,7 +805,7 @@ do
       let MBytes=$DELTA_RX_STATS*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS:      $DELTA_RX_STATS ($megabytePrint MB RX)"
+      echo "TAGA:Iter:$iter DELTA_RX_STATS:      $DELTA_RX_STATS \($megabytePrint MB RX\)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$DELTA_RX_STATS*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
