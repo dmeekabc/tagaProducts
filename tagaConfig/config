@@ -10,18 +10,46 @@ TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+
+let TAGA_TURBO_MODE=0
+let TAGA_TURBO_MODE=1
+
+let EARLY_COLLECT=1 # testing
+let EARLY_COLLECT=0 # normal
+
+let USE_ALT_MONITOR_LIST=1 # testing
+let USE_ALT_MONITOR_LIST=0 # normal
+
+let SIM_COUNTS_DISABLED=1 # testing
+let SIM_COUNTS_DISABLED=0 # normal
+
+let SENT_COUNTS_DISABLED=1 # testing
+let SENT_COUNTS_DISABLED=0 # normal
+
+let COUNTS_DISABLED=1 # testing
+let COUNTS_DISABLED=0 # normal
+
+let PARALLEL_STOP=0 # normal
+let PARALLEL_STOP=1 # testing
+
+let PARALLEL_CLEAN=0 # normal
+let PARALLEL_CLEAN=1 # testing
+
 TAGA_ADMIN_STATS_REMOTE=0
 TAGA_ADMIN_STATS_REMOTE=1
 
 # dlm temp new jul 2016
-INTERFACE_SPECIFIED_SOURCE=0
 INTERFACE_SPECIFIED_SOURCE=1
+INTERFACE_SPECIFIED_SOURCE=0
 
 FILTER_OUT_GATEWAY_DUP_COUNTS=1
 FILTER_OUT_GATEWAY_DUP_COUNTS=0
 
+let REGEN_HOSTS_TO_IP_MAP_FILE=0 # test, use with caution
+let REGEN_HOSTS_TO_IP_MAP_FILE=1 # normal
+
 let REGEN_SHRARED_IP_FILE=0 # do this after custom edits to shared IP file
-let REGEN_SHRARED_IP_FILE=1 # do this once to start
+let REGEN_SHRARED_IP_FILE=1 # normal, do this at least once to start
 
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=10
 TIME_SYNCH_CHECK_TRY_COUNT_THRESH=3
@@ -52,8 +80,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -97,8 +125,8 @@ let TAGA_DISPLAY_ENUM_VAL_4_VERBOSE=4  # Do Not Change Order (No Effect)
 ####################################################
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_0_NONE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_3_NORMAL
-let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
+let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 
 
@@ -182,6 +210,29 @@ MSGCOUNT=5000
 MSGCOUNT=100
 MSGCOUNT=150
 MSGCOUNT=4
+MSGCOUNT=500
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=5
+MSGCOUNT=5000
+MSGCOUNT=100
+MSGCOUNT=1000
+MSGCOUNT=200
+MSGCOUNT=100
+MSGCOUNT=5000
+MSGCOUNT=100
+MSGCOUNT=200
+MSGCOUNT=50
+MSGCOUNT=20
+MSGCOUNT=200
+MSGCOUNT=100
+MSGCOUNT=10
+MSGCOUNT=20
+MSGCOUNT=100
+MSGCOUNT=50
+MSGCOUNT=10
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -202,6 +253,25 @@ MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=3 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=4   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -269,8 +339,8 @@ OTHERS="multiple"
 # Time Synch Strict Flag
 ####################################################
 # verify time synch?
-TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
+TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
@@ -404,10 +474,12 @@ SERVER_INIT_DELAY=20
 SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=5
 SERVER_INIT_DELAY=10
+SERVER_INIT_DELAY=20
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 
 
 # end of iteration delay 
@@ -434,13 +506,33 @@ MYMCAST_ADDR="226.1.2.3"  # does not work
 MYMCAST_ADDR="227.1.2.3"  # does not work
 MYMCAST_ADDR="225.1.2.3" # works
 MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="225.1.2.3" # works
+MYMCAST_ADDR="224.1.2.3" # works
 MYMCAST_PORT=8888
+
+
+########################################################
+## MCAST Traffic and Group Join CONFIG
+########################################################
+
+# NOTE: Use Set1 or Set2 below, bottom set wins
+
+# Set1: Selective MCAST Traffic
+MCAST_SENDER_FILTER_LIST="192.168.44.233 192.168.44.223 "
+MCAST_NON_RECEIVER_FILTER_LIST=$MCAST_SENDER_FILTER_LIST
+
+# Set2: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
+MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+########################################################
 
 # Ports
 SOURCEPORT=8880
 PORTBASE=7770
 
 # Narrow display is 10 nodes, wide display is 20 nodes
+# Note: For Middle display set wide==0 and narrow==0
 WIDE_DISPLAY=1
 WIDE_DISPLAY=0
 NARROW_DISPLAY=0
@@ -459,8 +551,8 @@ CONTINUOUS_SYNCH=1  # synch everything
 CONTINUOUS_SYNCH=0  # synch config only
 
 # Disabled Synch Flag
-CONFIG_SYNCH_DISABLED=1  #  abnormal, disable synch in special circumstances
 CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
+CONFIG_SYNCH_DISABLED=1  #  abnormal, disable synch in special circumstances
 
 
 ##############################################
@@ -473,6 +565,12 @@ CONFIG_SYNCH_DISABLED=0  #  normal, synch normally
 # NOTE: This file is machine/system specific and is not synched
 # NOTE: Do this here so MYIP and INTERFACE auto config below 
 #       can reference and make use of these extensions
+# NOTE: This config_extensions has been used to change NETADDRPART 
+#       to use the 2nd interface rather than 1st interface
+# NOTE: This config_extensions has been used to change NETADDRPART 
+#       to use the 2nd interface rather than 1st interface
+# NOTE: Consider if config_overrides is better suited for that purpose
+# NOTE: Consider if config_overrides is better suited for that purpose
 ##############################################
 if [ -s $TAGA_CONFIG_DIR/config_extensions ] ; then
   #echo NOTICE: config is being extended by config_extensions file
@@ -584,11 +682,37 @@ if [ ! "$MYIPCANDIDATES"  ]; then
      cut -d: -f 2 | cut -d" " -f 1`
   INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT15 -B1 | head -n 1 | cut -d" " -f1`
 fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT16 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT16 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT17 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT17 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT18 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT18 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT19 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT19 -B1 | head -n 1 | cut -d" " -f1`
+fi
+if [ ! "$MYIPCANDIDATES"  ]; then
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT20 |  \
+     cut -d: -f 2 | cut -d" " -f 1`
+  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT20 -B1 | head -n 1 | cut -d" " -f1`
+fi
 
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
      else MYIP=$ip; fi; done  # last one wins if no match
 #     else MYIP=localhost; fi; done
+
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
@@ -596,9 +720,24 @@ if [ $MYIP == "localhost" ] ; then
    echo WARNING: MYIP == localhost, check config NETADDRPART:$NETADDRPART, check config_extensions
 else
    INTERFACE=$INTERFACECANDIDATE
+   MYLABEL=`cat /etc/hosts | grep $MYIP | cut -d" " -f 2`
+   #echo MYLABEL:$MYLABEL
+   if [ ! $MYLABEL ] ; then
+      MYLABEL=$MYIP
+   fi
 fi
 
-
+# get my target list index
+let MY_TGT_LIST_INDEX=99
+let INDEX_BASE=0
+let p=$INDEX_BASE
+for thistarget in $targetList
+do
+   let p=$p+1
+   if [ $MYIP == $thistarget ]; then
+      let MY_TGT_LIST_INDEX=$p
+   fi
+done
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -617,23 +756,21 @@ else
    OTHER_LIST=`echo $targetList | sed s/$MYIP//g` 
 fi
 
+
 ##############################################
 # DURATION 1 and 2 and 3
 ##############################################
 ##############################################
 # DURATION 1 
 ##############################################
-# DURATION 1 depends on msg rate and msg count 
+# DURATION 1 depends on msg rate and msg count and also node count if unicast
 let DURATION1=$MSGCOUNT/$MSGRATE
 
 if [ $TESTTYPE == "MCAST" ] ; then
-  #let DURATION1=$DURATION1*2
-  let NODE_ADJUST=2*TARGET_COUNT
-  #echo N:$NODE_ADJUST
-  let DURATION1=$DURATION1+$NODE_ADJUST
   let DURATION1=$DURATION1+10
 else
   let DURATION1=$DURATION1*$TARGET_COUNT
+  let DURATION1=$DURATION1+5
 fi
 
 if [ $DURATION1 -lt $MGEN_SERVER_INIT_DELAY ]; then
@@ -655,6 +792,7 @@ let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 if [ $TESTTYPE == "MCAST" ] ; then
    let DURATION2=$TARGET_COUNT_FACTOR*1
    let DURATION2=$TARGET_COUNT_FACTOR*2
+   let DURATION2=$TARGET_COUNT_FACTOR*1
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
@@ -707,6 +845,7 @@ BLACK_LIST_THRESH=2
 # after port to new system
 ####################################################
 MYLOGIN_ID=yourLoginIdGoesHere
+MYLOGIN_ID=`/usr/bin/whoami` # dlm temp, changed from above 17 sept 2016
 MYPASSWD=YourPasswordGoesHere
 COMMAND=YourPrimaryCommandNameGoesHere
 PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
@@ -763,4 +902,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.124
+MASTER=10.0.0.27

@@ -1,10 +1,2 @@
-darrin-HP-15-Notebook-PC
-darrin-Lenovo-ideapad-100-15IBD
-darrin-HP-15-Notebook-PC
-darrin-Lenovo-ideapad-100-15IBD
-darrin-HP-15-Notebook-PC
-darrin-Lenovo-ideapad-100-15IBD
-darrin-HP-15-Notebook-PC
-darrin-Lenovo-ideapad-100-15IBD
-darrin-HP-15-Notebook-PC
+raspberrypi
 darrin-Lenovo-ideapad-100-15IBD

@@ -8,10 +8,14 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+# remove trailing white space
 MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 
 # change to config dir
 cd $TAGA_CONFIG_DIR >/dev/null
+
+# touch it to eliminate warnings if not present
+touch config_overrides
 
 for target in $targetList
 do
@@ -21,7 +25,7 @@ do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
+   # remove trailing white space
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    TAGA_CONFIG_DIR=`echo $TAGA_CONFIG_DIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
@@ -40,8 +44,8 @@ do
    # build the source file string
    SCP_SOURCE_STR="$SCP_SOURCE_STR config"
    SCP_SOURCE_STR="$SCP_SOURCE_STR config_admin"
-   SCP_SOURCE_STR="$SCP_SOURCE_STR config_overrides"
-   #SCP_SOURCE_STR="$SCP_SOURCE_STR config_extensions"
+   SCP_SOURCE_STR="$SCP_SOURCE_STR config_overrides" # config overrides ARE synchronized
+   #SCP_SOURCE_STR="$SCP_SOURCE_STR config_extensions" # config extensions ARE NOT synchronized
    SCP_SOURCE_STR="$SCP_SOURCE_STR targetList.sh"
    SCP_SOURCE_STR="$SCP_SOURCE_STR hostList.txt"
    SCP_SOURCE_STR="$SCP_SOURCE_STR midsizeTargetList.txt"

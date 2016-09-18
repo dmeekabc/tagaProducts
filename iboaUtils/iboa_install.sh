@@ -112,7 +112,8 @@ else
    echo "      echo the \$1 command exists - no action taken!"                   >> $IBOA_FILE
    echo "    else"                                                               >> $IBOA_FILE
    echo "      alias \$1  >/dev/null 2>/dev/null"                                >> $IBOA_FILE
-   echo "      if [ \$? -eq 0 ]; then"                                           >> $IBOA_FILE
+   #echo "      if [ \$? -eq 0 ]; then"                                          >> $IBOA_FILE
+   echo "      if [ \$? -eq 0 ] && [ \$1 != 'doit' ] && [ \$1 != 'doitw' ] ; then"   >> $IBOA_FILE
    echo "        echo the \$1 alias exists - no action taken!"                   >> $IBOA_FILE
    echo "      else"                                                             >> $IBOA_FILE
    echo "        CMD=\`history | tail -n 2 | head -n 1 | cut -c8-\`"             >> $IBOA_FILE
@@ -136,7 +137,8 @@ else
    echo "      echo the \$1 command exists - no action taken!"                   >> $IBOA_FILE
    echo "    else"                                                               >> $IBOA_FILE
    echo "      alias \$1  >/dev/null 2>/dev/null"                                >> $IBOA_FILE
-   echo "      if [ \$? -eq 0 ]; then"                                           >> $IBOA_FILE
+   #echo "      if [ \$? -eq 0 ]; then"                                           >> $IBOA_FILE
+   echo "      if [ \$? -eq 0 ] && [ \$1 != 'doit' ] && [ \$1 != 'doitw' ] ; then"   >> $IBOA_FILE
    echo "        echo the \$1 alias exists - no action taken!"                   >> $IBOA_FILE
    echo "      else"                                                             >> $IBOA_FILE
    echo "        CMD=\`history | tail -n 2 | head -n 1 | cut -c8-\`"             >> $IBOA_FILE
