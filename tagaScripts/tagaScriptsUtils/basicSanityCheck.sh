@@ -20,7 +20,7 @@ MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 
 if echo $MYLOGIN_ID | grep GoesHere >/dev/null ; then
 
-   MYLOGIN_ID=`whoami`
+   MYLOGIN_ID=`/usr/bin/whoami`
 #   echo MYLOGIN_ID:$MYLOGIN_ID
 
 
