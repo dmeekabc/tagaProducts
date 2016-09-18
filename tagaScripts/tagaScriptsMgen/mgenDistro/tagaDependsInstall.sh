@@ -32,13 +32,13 @@
 TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
 TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
 
-if [ $TAGA_FULL_INSTALL -eq 1 ]; then
-   TAGA_DIR=~/scripts/taga
-else
-   TAGA_DIR=/tmp/tagaMini
-fi
-TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
+#if [ $TAGA_FULL_INSTALL -eq 1 ]; then
+#   TAGA_DIR=~/scripts/taga
+#else
+#   TAGA_DIR=/tmp/tagaMini
+#fi
+#TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+#source $TAGA_CONFIG_DIR/config
 
 if [ $# -ge 1 ] ; then
 if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
@@ -55,22 +55,23 @@ fi
 
 # provide the info to print into the confirmation request
 InfoToPrint=" TAGA Dependencies will be installed. "
+
 # issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
+#$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+#response=$?; if [ $response -ne 1 ]; then exit; fi
 
 echo Installing Open SSH Server....
 sudo apt-get install openssh-server
-RETCODE=$?;  echo Return code from apt-get : $RETCODE
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
 echo Installing MGEN ...
 sudo apt-get install mgen
-RETCODE=$?;  echo Return code from apt-get : $RETCODE
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
 echo Installing Git Versioning System...
 sudo apt-get install git
-RETCODE=$?;  echo Return code from apt-get : $RETCODE
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
 echo Installing Python ...
 sudo apt-get install python
-RETCODE=$?;  echo Return code from apt-get : $RETCODE
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
