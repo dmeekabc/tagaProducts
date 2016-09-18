@@ -1,3 +1,4 @@
+#!/bin/bash
 #######################################################################
 #
 # Copyright (c) IBOA Corp 2016
@@ -28,33 +29,27 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
+
+if [ $# -ge 1 ] ; then
+if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
+   echo Usage: $0 [[optionalFileList] [optionalTargetList]]
+   echo 'Example: $0 ".bashrc.iboa .bashrc.iboa.user.1000" "192.168.43.124 192.168.43.208"'
+   echo
+   echo Notice: A Param 2 optionalTargetList requires a Param 1 optionalFileList
+   echo
+   echo Notice: If no Param is provided, the SCP LIST embedded in this script will be used to all targets.
+   echo
+   exit
+fi
+fi
 
 # get my login id for this machine and create the path name based on variable user ids
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-
-if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
-   echo Usage: $0 [optionalFileList] [optionalTargetList]
-   echo 'Example: $0 "synchme.sh .bashrc.iboa" "192.168.44.233 192.168.44.232"'
-   exit
-fi
-fi
-
-
-# Support Alternate Target List as 2nd input param
-if [ $# -ge 2 ]; then
-  targetList=$2
-fi
-
-echo 
-echo targetList : $targetList
 
 # provide the info to print into the confirmation request
 InfoToPrint=" $MYDIR will be synchronized. "
@@ -62,6 +57,22 @@ InfoToPrint=" $MYDIR will be synchronized. "
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
+
+# use the input parameter if provided
+if [ $# -ge 1 ]; then
+   SCP_SOURCE_STR=$1
+else
+   # define the source string right here
+   SCP_SOURCE_STR="."          # use this to synch everything here and below
+   SCP_SOURCE_STR="*CLEAN*"          # use this to synch everything here and below
+fi
+
+# Support Alternate Target List as 2nd input param
+if [ $# -ge 2 ]; then
+  targetList=$2
+fi
+
+echo; echo targetList : $targetList
 
 for target in $targetList
 do
@@ -86,15 +97,6 @@ do
 
      # make the directory on remote (target) if it does not exist
      ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
-
-     # define the source string
-     SCP_SOURCE_STR="."          # use this to synch everything here and below
-     SCP_SOURCE_STR="*CLEAN*"          # use this to synch everything here and below
-
-     # use the input parameter if provided
-     if [ $# -ge 1 ]; then
-        SCP_SOURCE_STR=$1
-     fi
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
