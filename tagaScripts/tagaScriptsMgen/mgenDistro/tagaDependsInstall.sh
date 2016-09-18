@@ -60,17 +60,17 @@ $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
 echo Installing Open SSH Server....
-sudo apt-get openssh-server
+sudo apt-get install openssh-server
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
 
 echo Installing MGEN ...
-sudo apt-get mgen
+sudo apt-get install mgen
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
 
 echo Installing Git Versioning System...
-sudo apt-get git
+sudo apt-get install git
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
 
 echo Installing Python ...
-sudo apt-get python
+sudo apt-get install python
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
