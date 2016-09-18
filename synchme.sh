@@ -57,21 +57,21 @@ InfoToPrint=" $MYDIR will be synchronized. "
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
-
-# use the input parameter if provided
-if [ $# -ge 1 ]; then
-   SCP_SOURCE_STR=$1
-else
+# Define SCP_SOURCE_STR here or from Param 1 Input
+if [ $# -eq 0 ]; then
    # define the source string right here
+   # note, this applies if this script called with no params!!
    SCP_SOURCE_STR="."          # use this to synch everything here and below
-   SCP_SOURCE_STR="*CLEAN*"          # use this to synch everything here and below
+   SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
+else
+   # use the input parameter if provided
+   SCP_SOURCE_STR=$1
 fi
 
 # Support Alternate Target List as 2nd input param
 if [ $# -ge 2 ]; then
   targetList=$2
 fi
-
 echo; echo targetList : $targetList
 
 for target in $targetList
@@ -79,7 +79,7 @@ do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
+   # strip trailing blanks
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    MYDIR=`pwd`
