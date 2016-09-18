@@ -59,10 +59,6 @@ InfoToPrint=" TAGA Dependencies will be installed. "
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
-echo Installing GIT ...
-sudo apt-get git
-RETCODE=$?;  echo Return code from apt-get : $RETCODE
-
 echo Installing Open SSH Server....
 sudo apt-get openssh-server
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
@@ -71,4 +67,10 @@ echo Installing MGEN ...
 sudo apt-get mgen
 RETCODE=$?;  echo Return code from apt-get : $RETCODE
 
+echo Installing Git Versioning System...
+sudo apt-get git
+RETCODE=$?;  echo Return code from apt-get : $RETCODE
 
+echo Installing Python ...
+sudo apt-get python
+RETCODE=$?;  echo Return code from apt-get : $RETCODE
