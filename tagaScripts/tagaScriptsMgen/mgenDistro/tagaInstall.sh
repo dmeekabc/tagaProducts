@@ -29,7 +29,14 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
+TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
+TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
+
+if [ $TAGA_FULL_INSTALL -eq 1 ]; then
+   TAGA_DIR=~/scripts/taga
+else
+   TAGA_DIR=/tmp/tagaMini
+fi
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -40,7 +47,7 @@ if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
    echo
    echo Notice: A Param 2 optionalTargetList requires a Param 1 optionalFileList
    echo
-   echo Notice: If no Param is provided, the SCP LIST embedded in this script will be used to all targets.
+   echo Notice: If no Params are provided, the SCP_SOURCE_STR List embedded in this script will be used to all targets.
    echo
    exit
 fi
