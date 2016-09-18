@@ -52,7 +52,7 @@ MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
-InfoToPrint=" $MYDIR will be synchronized. "
+InfoToPrint=" $MYDIR will be installed and/or synchronized. "
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi

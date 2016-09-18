@@ -80,8 +80,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
 TESTTYPE="UCAST_UDP" # UDP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -902,4 +902,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.208
+MASTER=192.168.43.69
