@@ -57,12 +57,13 @@ InfoToPrint=" $MYDIR will be synchronized. "
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
-# Define SCP_SOURCE_STR here or from Param 1 Input
+# Define SCP_SOURCE_STR here *** IF IT IS NOT PROVIDED as Param 1 Input ***
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
+   SCP_SOURCE_STR="$0" # use this to synch this file only
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
