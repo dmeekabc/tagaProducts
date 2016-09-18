@@ -1,5 +1,6 @@
 # by iboa convention, most general on top with specializiation below
-192.168.43:pi
+10.0.0:darrin
+192.168.43:darrin
 192.168.43.124:darrin
 192.168.43.208:darrin
 192.168.43.228:darrin
