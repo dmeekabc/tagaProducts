@@ -232,6 +232,7 @@ MSGCOUNT=10
 MSGCOUNT=20
 MSGCOUNT=100
 MSGCOUNT=50
+MSGCOUNT=10
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -844,6 +845,7 @@ BLACK_LIST_THRESH=2
 # after port to new system
 ####################################################
 MYLOGIN_ID=yourLoginIdGoesHere
+MYLOGIN_ID=`whoami` # dlm temp, changed from above 17 sept 2016
 MYPASSWD=YourPasswordGoesHere
 COMMAND=YourPrimaryCommandNameGoesHere
 PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
