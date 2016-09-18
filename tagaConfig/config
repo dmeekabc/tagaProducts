@@ -845,7 +845,7 @@ BLACK_LIST_THRESH=2
 # after port to new system
 ####################################################
 MYLOGIN_ID=yourLoginIdGoesHere
-MYLOGIN_ID=`whoami` # dlm temp, changed from above 17 sept 2016
+MYLOGIN_ID=`/usr/bin/whoami` # dlm temp, changed from above 17 sept 2016
 MYPASSWD=YourPasswordGoesHere
 COMMAND=YourPrimaryCommandNameGoesHere
 PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
