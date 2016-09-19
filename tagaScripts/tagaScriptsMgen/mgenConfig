@@ -483,8 +483,8 @@ if [ $TAGA_CONFIG_DIR ] ; then
 else
   TAGA_CONFIG_DIR=`pwd`
 fi 
-targetList=`$TAGA_CONFIG_DIR/targetList.sh`
-source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
+targetList=`$TAGA_CONFIG_DIR/mgenTargetList.sh`
+source $TAGA_CONFIG_DIR/mgenTargetList.sh   > /dev/null # for NETADDRPART
 
 ##############################################
 # manually generated configs
@@ -765,7 +765,6 @@ done
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
-#targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
 
 # Other (One) Target Config
 
@@ -900,9 +899,9 @@ VARIABLE_TEST="var_test.sh"
 ##############################################
 # static admin configs in the confiig_admin file
 ##############################################
-if [ -s $TAGA_CONFIG_DIR/config_admin ] ; then
-  #echo NOTICE: config is being extended by config_admin file
-  source $TAGA_CONFIG_DIR/config_admin
+if [ -s $TAGA_CONFIG_DIR/mgenConfigAdmin ] ; then
+  #echo NOTICE: config is being extended by mgenConfigAdmin file
+  source $TAGA_CONFIG_DIR/mgenConfigAdmin
 fi
 
 ##############################################
