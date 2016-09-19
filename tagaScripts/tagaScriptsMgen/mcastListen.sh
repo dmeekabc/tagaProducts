@@ -32,10 +32,11 @@
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 if [ -f $TAGA_CONFIG_DIR/config ]; then
-  echo sourcing
+  echo sourcing $TAGA_CONFIG_DIR/config
   source $TAGA_CONFIG_DIR/config
 else
-  echo not sourcing
+  echo sourcing ./mgenConfig
+  source ./mgenConfig
 fi
 
 # Configure the listener
