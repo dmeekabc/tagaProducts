@@ -52,12 +52,9 @@ fi
 echo $GROUP_PREFIX
 
 # create the script from the template
-sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_rcvr.mgn.template \
-   > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
+sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_sndr.mgn.template \
+   > $TAGA_MGEN_DIR/script_mcast_sndr.mgn 
 
-# start the mcast receiver in the backgrond (Join the Multicast Group)
-/usr/bin/mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn &
-
-# listen for multicast traffic per the ITFC and GROUP_PREFIIX settings
-tcpdump -i $ITFC udp | grep $GROUP_PREFIX
+# start the mcast sender 
+/usr/bin/mgen input $TAGA_MGEN_DIR/script_mcast_sndr.mgn &
 
