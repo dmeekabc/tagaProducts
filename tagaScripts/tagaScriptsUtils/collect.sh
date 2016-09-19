@@ -77,6 +77,6 @@ do
 done
 
 echo
-echo `basename $0` : Total File Count: `ls $outputDir | wc -l` Total Line Count: `cat $outputDir/* | wc -l`
+echo `basename $0` : Total File Count: `ls $outputDir/*$TEST_DESCRIPTION* | wc -l` Total Line Count: `cat $outputDir/*$TEST_DESCRIPTION* | wc -l`
 echo
 
