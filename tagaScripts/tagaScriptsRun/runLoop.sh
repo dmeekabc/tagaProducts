@@ -80,7 +80,7 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
-echo 1a
+#echo 1a
 
 # dlm temp
 # Force checks to get the password entry out of the way...
@@ -106,7 +106,7 @@ let START_RX_STATS=$RX_STATS
 # dlm temp remove this if not necessary!!!
 #$TAGA_UTILS_DIR/resetInterface.sh
 
-echo 1b
+#echo 1b
 
 #########################################
 # Update the MASTER entry in the config
@@ -130,7 +130,7 @@ echo $ENVIRON_SIMULATION > /tmp/simulationFlag.txt
 # note, this may not be necessary and is candidate to investigate 
 source $TAGA_CONFIG_DIR/config
 
-echo 1c
+#echo 1c
 
 echo;echo
 if [ $TESTONLY -eq 1 ] ; then
