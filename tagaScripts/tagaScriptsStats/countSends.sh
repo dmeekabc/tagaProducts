@@ -194,7 +194,7 @@ fi
 echo; echo >> $TAGA_RUN_DIR/counts.txt
 
 # build up the buffer
-buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
+buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir/*$TEST_DESCRIPTION* | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=62
@@ -258,7 +258,7 @@ else
    let expectedCount=$expectedCount*$expectedCount2
 fi
 
-let numerator=`cat $outputDir/* 2>/dev/null | wc -l`
+let numerator=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
 let numerator=$numerator*10000
 let denominator=$expectedCount
 let percent=$numerator/$denominator 2>/dev/null 
@@ -276,8 +276,8 @@ else
 fi
 
 # build up the buffer
-printCount=`cat $outputDir/* 2>/dev/null | wc -l`
-buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
+printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir/*$TEST_DESCRIPTION* | wc -l` Total Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=66
