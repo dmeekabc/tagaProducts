@@ -31,7 +31,12 @@
 #######################################################################
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
+if [ -f $TAGA_CONFIG_DIR/config ]; then
+  echo sourcing
+  source $TAGA_CONFIG_DIR/config
+else
+  echo not sourcing
+fi
 
 # Configure the listener
 if [ $INTERFACE ] ; then
@@ -41,6 +46,7 @@ else
 fi
 
 GROUP_PREFIX=`echo $MYMCAST_ADDR | cut -d\. -f 1`
+GROUP_PREFIX=$MYMCAST_ADDR
 
 if [ $GROUP_PREFIX ]; then
   echo got it > /dev/null

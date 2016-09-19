@@ -40,21 +40,11 @@ else
   ITFC=wlan0
 fi
 
-GROUP_PREFIX=`echo $MYMCAST_ADDR | cut -d\. -f 1`
-
-if [ $GROUP_PREFIX ]; then
-  echo got it > /dev/null
-else
-  # use 224 as default
-  GROUP_PREFIX=224
-fi
-
-echo $GROUP_PREFIX
-
 # create the script from the template
-sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_sndr.mgn.template \
+sed -e s/mcastgroup/$MYMCAST_ADDR/g \
+   $TAGA_MGEN_DIR/script_mcast_sndr.mgn.template \
    > $TAGA_MGEN_DIR/script_mcast_sndr.mgn 
 
 # start the mcast sender 
-/usr/bin/mgen input $TAGA_MGEN_DIR/script_mcast_sndr.mgn &
+/usr/bin/mgen input $TAGA_MGEN_DIR/script_mcast_sndr.mgn 
 
