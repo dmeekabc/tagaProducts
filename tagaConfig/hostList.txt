@@ -1,2 +1,3 @@
-raspberrypi
 darrin-Lenovo-ideapad-100-15IBD
+darrin-HP-15-Notebook-PC-2
+darrin-X200MA

@@ -1,2 +1,1 @@
-192.168.43.195.raspberrypi
-192.168.43.124.darrin-Lenovo-ideapad-100-15IBD
+10.0.0.27.darrin-Lenovo-ideapad-100-15IBD
