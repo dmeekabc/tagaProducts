@@ -29,8 +29,8 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
 TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
+TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
 
 if [ $TAGA_FULL_INSTALL -eq 1 ]; then
    TAGA_DIR=~/scripts/taga
