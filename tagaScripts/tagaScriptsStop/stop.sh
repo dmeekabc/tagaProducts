@@ -85,6 +85,8 @@ do
    fi
 
    if [ "$KILL_LIST2" ]; then
+    
+#      echo "sudo kill -9 $KILL_LIST2" # < $TAGA_CONFIG_DIR/passwd.txt 
       sudo kill -9 $KILL_LIST2 # < $TAGA_CONFIG_DIR/passwd.txt 
    fi
 
