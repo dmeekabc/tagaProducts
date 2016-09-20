@@ -77,11 +77,18 @@ do
    # Do the real work here
    # Kill the process id(s) of the proc name
    #KILL_LIST2=`ps -ef | grep \$proc_name | grep -v grep | cut -c10-15` 
+
    KILL_LIST2=`ps -ef | grep \$proc_name | grep $EXTRA_MATCH_STRING | grep -v grep | cut -c10-15` 
+
    if [ $TAGA_DISPLAY_SETTING -gt $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
      echo killing $proc_name $filler Kill_list: $KILL_LIST2
    fi
-   sudo kill -9 $KILL_LIST2 <$TAGA_CONFIG_DIR/passwd.txt # < $TAGA_CONFIG_DIR/passwd.txt
+
+   if [ "$KILL_LIST2" ]; then
+    
+#      echo "sudo kill -9 $KILL_LIST2" # < $TAGA_CONFIG_DIR/passwd.txt 
+      sudo kill -9 $KILL_LIST2 # < $TAGA_CONFIG_DIR/passwd.txt 
+   fi
 
 done
 

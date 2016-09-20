@@ -80,7 +80,7 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
-echo 1a
+#echo 1a
 
 # dlm temp
 # Force checks to get the password entry out of the way...
@@ -106,7 +106,7 @@ let START_RX_STATS=$RX_STATS
 # dlm temp remove this if not necessary!!!
 #$TAGA_UTILS_DIR/resetInterface.sh
 
-echo 1b
+#echo 1b
 
 #########################################
 # Update the MASTER entry in the config
@@ -130,7 +130,7 @@ echo $ENVIRON_SIMULATION > /tmp/simulationFlag.txt
 # note, this may not be necessary and is candidate to investigate 
 source $TAGA_CONFIG_DIR/config
 
-echo 1c
+#echo 1c
 
 echo;echo
 if [ $TESTONLY -eq 1 ] ; then
@@ -382,7 +382,7 @@ do
    # archive directory
    outputDir=$OUTPUT_DIR/output_`date +%j%H%M%S` 
 
-   echo $0 : Creating Output Dir: $outputDir
+   echo `basename $0` : Creating Output Dir: $outputDir
    mkdir -p $outputDir
 
    # start the Simulation 
@@ -832,7 +832,7 @@ do
       let MBytes=$DELTA_RX_STATS*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS:      $DELTA_RX_STATS \($megabytePrint MB RX\)"
+      echo "TAGA:Iter:$iter DELTA_RX_STATS:      $DELTA_RX_STATS ($megabytePrint MB RX)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$DELTA_RX_STATS*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
@@ -896,27 +896,27 @@ do
       let MBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($megabytePrint MB RX per Iter\)
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per Iter)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1`.`echo $MBytes | cut -c2`
-      echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($megabytePrint MB RX per Iter\)
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per Iter)"
    elif [ $wordlen -eq 6 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-3`.`echo $KBytes | cut -c4`
-      echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
    elif [ $wordlen -eq 5 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-2`.`echo $KBytes | cut -c3-4`
-      echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
    elif [ $wordlen -eq 4 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
-      echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER \($kilobytePrint KB RX per Iter\)
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
    else
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER
    fi
