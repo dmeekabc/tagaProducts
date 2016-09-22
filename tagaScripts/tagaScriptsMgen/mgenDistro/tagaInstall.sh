@@ -113,6 +113,7 @@ do
      # execute the install script on the remote machines
      #ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaInstallDepends.sh 
      ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaDependsInstall.sh 
+     ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaPrepSudoers.sh 
 
    fi
 done

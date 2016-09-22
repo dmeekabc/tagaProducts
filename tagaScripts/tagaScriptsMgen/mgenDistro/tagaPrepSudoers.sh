@@ -72,7 +72,7 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 
 #if sudo cat /etc/sudoers.txt | grep iboaInstall ; then
 
-if sudo cat $SUDOERS_FILE | grep iboaInstallXXXXXXXXXXXXX ; then
+if sudo cat $SUDOERS_FILE | grep iboaInstall ; then
   echo iboaInstall already updated sudoers - exiting with no action
   # exit now
   exit
@@ -89,6 +89,7 @@ else
   echo "# iboaInstall auto update of sudoers file" >> $SUDOERS_FILE 
 
   commandList="/usr/sbin/tcpdump /usr/sbin/ifconfig /usr/bin/vi /usr/bin/ssh /usr/bin/scp /bin/kill /usr/bin/wireshark /sbin/reboot /bin/cat /usr/bin/apt-get"
+  commandList="/usr/bin/apt-get"
 
   for command in $commandList
   do
