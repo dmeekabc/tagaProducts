@@ -110,6 +110,9 @@ do
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
 
+     # send the tagaMini to the destination
+     scp -r tagaMini $MYLOGIN_ID@$target:/tmp # <$SCRIPTS_DIR/taga/passwd.txt
+
      # execute the install script on the remote machines
      #ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaInstallDepends.sh 
      ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaDependsInstall.sh 

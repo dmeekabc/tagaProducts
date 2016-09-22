@@ -82,14 +82,12 @@ else
 
 
   echo " " >> $SUDOERS_FILE 
-  echo " " >> $SUDOERS_FILE 
   echo "# iboaInstall auto update of sudoers file" >> $SUDOERS_FILE 
   echo " " >> $SUDOERS_FILE 
-  echo " " >> $SUDOERS_FILE 
-  echo "# iboaInstall auto update of sudoers file" >> $SUDOERS_FILE 
 
-  commandList="/usr/sbin/tcpdump /usr/sbin/ifconfig /usr/bin/vi /usr/bin/ssh /usr/bin/scp /bin/kill /usr/bin/wireshark /sbin/reboot /bin/cat /usr/bin/apt-get"
   commandList="/usr/bin/apt-get"
+
+  commandList="/bin/echo /usr/sbin/tcpdump /sbin/ifconfig /usr/bin/vi /usr/bin/ssh /usr/bin/scp /bin/kill /usr/bin/wireshark /sbin/reboot /bin/cat /usr/bin/apt-get"
 
   for command in $commandList
   do
