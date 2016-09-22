@@ -71,6 +71,7 @@ if [ $# -eq 0 ]; then
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
    SCP_SOURCE_STR="$0" # use this to synch this file only
+   SCP_SOURCE_STR="."          # use this to synch everything here and below
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
@@ -94,7 +95,7 @@ do
    MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
    MYDIR=`echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
 
-   if [ $target == $MYIP ]; then
+   if [ $target == XXXXX$MYIPXXXXX ]; then
      echo
      echo skipping self \($target\) ...
      echo
@@ -108,6 +109,10 @@ do
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
+
+     # execute the install script on the remote machines
+     #ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaInstallDepends.sh 
+     ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaDependsInstall.sh 
 
    fi
 done

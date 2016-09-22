@@ -61,17 +61,26 @@ InfoToPrint=" TAGA Dependencies will be installed. "
 #response=$?; if [ $response -ne 1 ]; then exit; fi
 
 echo Installing Open SSH Server....
+echo sudo apt-get install openssh-server
 sudo apt-get install openssh-server
 RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
 echo Installing MGEN ...
+echo sudo apt-get install mgen
 sudo apt-get install mgen
 RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
+echo Installing MGEN-DOC ...
+echo sudo apt-get install mgen-doc
+sudo apt-get install mgen-doc
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
+
 echo Installing Git Versioning System...
+echo sudo apt-get install git
 sudo apt-get install git
 RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
 echo Installing Python ...
+echo sudo apt-get install python
 sudo apt-get install python
 RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
