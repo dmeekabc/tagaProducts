@@ -32,6 +32,11 @@
 TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
 TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
 
+
+SUDOERS_FILE=/etc/sudoers
+SUDOERS_FILE=/tmp/sudoers.txt
+
+
 if [ $TAGA_FULL_INSTALL -eq 1 ]; then
    TAGA_DIR=~/scripts/taga
 else
@@ -65,73 +70,30 @@ $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
 
+#if sudo cat /etc/sudoers.txt | grep iboaInstall ; then
 
-
-
-echo $MYLOGIN_ID $MYIP PASSWD >> /tmp/sudoers.txt
-
-
-
-
-
-
-
-
-# exit now
-exit
-
-
-
-# Define SCP_SOURCE_STR here *** IF IT IS NOT PROVIDED as Param 1 Input ***
-if [ $# -eq 0 ]; then
-   # define the source string right here
-   # note, this applies if this script called with no params!!
-   SCP_SOURCE_STR="."          # use this to synch everything here and below
-   SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
-   SCP_SOURCE_STR="$0" # use this to synch this file only
-   SCP_SOURCE_STR="."          # use this to synch everything here and below
+if sudo cat $SUDOERS_FILE | grep iboaInstallXXXXXXXXXXXXX ; then
+  echo iboaInstall already updated sudoers - exiting with no action
+  # exit now
+  exit
 else
-   # use the input parameter if provided
-   SCP_SOURCE_STR=$1
+
+  echo iboaInstall updating sudoers file ...
+
+
+  echo " " >> $SUDOERS_FILE 
+  echo " " >> $SUDOERS_FILE 
+  echo "# iboaInstall auto update of sudoers file" >> $SUDOERS_FILE 
+  echo " " >> $SUDOERS_FILE 
+  echo " " >> $SUDOERS_FILE 
+  echo "# iboaInstall auto update of sudoers file" >> $SUDOERS_FILE 
+
+  commandList="/usr/sbin/tcpdump /usr/sbin/ifconfig /usr/bin/vi /usr/bin/ssh /usr/bin/scp /bin/kill /usr/bin/wireshark /sbin/reboot /bin/cat /usr/bin/apt-get"
+
+  for command in $commandList
+  do
+     echo $MYLOGIN_ID $MYIP = \(root\) NOPASSWD: $command >> $SUDOERS_FILE 
+  done
+
 fi
-
-# Support Alternate Target List as 2nd input param
-if [ $# -ge 2 ]; then
-  targetList=$2
-fi
-echo; echo targetList : $targetList
-
-for target in $targetList
-do
-
-   # determine LOGIN ID for each target
-   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # strip trailing blanks
-   MYLOGIN_ID=`echo $MYLOGIN_ID` 
-
-   MYDIR=`pwd`
-   MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   MYDIR=`echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
-
-   if [ $target == XXXXX$MYIPXXXXX ]; then
-     echo
-     echo skipping self \($target\) ...
-     echo
-     continue
-   else
-     echo
-     echo processing, synchronizing $target
-
-     # make the directory on remote (target) if it does not exist
-     ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
-
-     # send the files to the destination
-     scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
-
-     # execute the install script on the remote machines
-     #ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaInstallDepends.sh 
-     ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaDependsInstall.sh 
-
-   fi
-done
 
