@@ -1,3 +1,4 @@
+#!/bin/bash
 #######################################################################
 #
 # Copyright (c) IBOA Corp 2016
@@ -29,52 +30,67 @@
 #
 #######################################################################
 
-###################################################
-# set the net address part 
-###################################################
-NETADDRPART=10.0.0
-NETADDRPART=192.168.43
+TAGA_DIR=~/scripts/taga
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+source $TAGA_CONFIG_DIR/config
 
-###################################################
-# set the ALTERNATE net address part 
-###################################################
-NETADDRPART_ALT1=192.168.11
-NETADDRPART_ALT2=192.168.12
-NETADDRPART_ALT3=192.168.13
-NETADDRPART_ALT4=192.168.14
-NETADDRPART_ALT5=192.168.15
-NETADDRPART_ALT6=192.168.16
-NETADDRPART_ALT7=192.168.17
-NETADDRPART_ALT8=192.168.18
-NETADDRPART_ALT9=192.168.19
-NETADDRPART_ALT10=192.168.20
-NETADDRPART_ALT11=192.168.30
-NETADDRPART_ALT12=192.168.30
-NETADDRPART_ALT13=192.168.50
-NETADDRPART_ALT14=192.168.60
-NETADDRPART_ALT15=192.168.70
-NETADDRPART_ALT16=192.168.80
-NETADDRPART_ALT17=192.168.90
-NETADDRPART_ALT18=192.168.100
-NETADDRPART_ALT19=192.168.110
-NETADDRPART_ALT20=192.168.120
-NETADDRPART_ALT21=192.168.130
-NETADDRPART_ALT22=192.168.140
-NETADDRPART_ALT23=192.168.150
-NETADDRPART_ALT24=192.168.160
-NETADDRPART_ALT25=192.168.170
+CONFIRM_REQD=1
 
-###################################################
-# define the TARGET LIST
-###################################################
-TARGET_LIST="10.0.0.27"
-TARGET_LIST="192.168.43.124 192.168.43.157 192.168.43.208"
-TARGET_LIST="192.168.43.188"
+# list of things to strip
+STRIP_LIST=`cat $iboaUtilsDir/stripList.txt`
+ALIAS_FILE=$iboaUtilsDir/aliasList.txt
+ALIAS_STRIPPED_FILE=$iboaUtilsDir/aliasListStripped.txt
 
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
+echo;echo; echo StipList... `ls $iboaUtilsDir/stripList.txt 2>/dev/null`
 
-###################################################
-# output the TARGET LIST
-###################################################
-echo $TARGET_LIST 
+# validate input
+echo
+echo Keywords :: [ $STRIP_LIST ] 
+echo
+echo NOTE: The keywords above will be stripped from $ALIAS_FILE 
+echo and a new resultant file written to $ALIAS_STRIPPED_FILE
+$iboaUtilsDir/confirm.sh
+let response=$?
+if [ $response -eq 1 ]; then
+  echo; echo Confirmed, $0 continuing....; echo
+else
+  echo; echo Not Confirmed, $0 exiting with no action...; echo
+  exit
+fi
+
+##########################################################
+# note, prior to running this script, # run the following: 
+#
+#    alias > $TAGA_DIR/aliasList.txt
+##########################################################
+
+# if confirmation, required, get the confirmation
+
+if [ $CONFIRM_REQD -eq 1 ] ; then
+   # ensure proper setup
+   echo Please confirm that the following has been performed:
+   echo "alias > $ALIAS_FILE"
+   # issue confirmation prompt
+   $iboaUtilsDir/confirm.sh
+   # check the response
+   let response=$?
+   if [ $response -eq 1 ]; then
+     echo; echo Confirmed, $0 continuing....; echo
+   else
+     echo; echo Not Confirmed, $0 exiting with no action...; echo
+     exit
+   fi
+fi
+
+cat $ALIAS_FILE > $ALIAS_STRIPPED_FILE
+
+for item in $STRIP_LIST
+do
+   cat $ALIAS_STRIPPED_FILE | grep -i -v $item > /tmp/tmp.txt
+   cp /tmp/tmp.txt $ALIAS_STRIPPED_FILE
+done
+
+echo; echo Created: $ALIAS_STRIPPED_FILE ; echo
 

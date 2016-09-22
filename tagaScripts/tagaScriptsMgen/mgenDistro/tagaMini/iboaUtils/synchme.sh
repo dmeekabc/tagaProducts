@@ -29,14 +29,7 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
-TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
-
-if [ $TAGA_FULL_INSTALL -eq 1 ]; then
-   TAGA_DIR=~/scripts/taga
-else
-   TAGA_DIR=/tmp/tagaMini
-fi
+TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -47,7 +40,7 @@ if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
    echo
    echo Notice: A Param 2 optionalTargetList requires a Param 1 optionalFileList
    echo
-   echo Notice: If no Params are provided, the SCP_SOURCE_STR List embedded in this script will be used to all targets.
+   echo Notice: If no Param is provided, the SCP LIST embedded in this script will be used to all targets.
    echo
    exit
 fi
@@ -59,19 +52,17 @@ MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
-InfoToPrint=" $MYDIR will be installed and/or synchronized. "
+InfoToPrint=" $MYDIR will be synchronized. "
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
-# Define SCP_SOURCE_STR here *** IF IT IS NOT PROVIDED as Param 1 Input ***
+# Define SCP_SOURCE_STR here or from Param 1 Input
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
-   SCP_SOURCE_STR="$0" # use this to synch this file only
-   SCP_SOURCE_STR="."          # use this to synch everything here and below
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
@@ -95,7 +86,7 @@ do
    MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
    MYDIR=`echo $MYDIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
 
-   if [ $target == XXXXX$MYIPXXXXX ]; then
+   if [ $target == $MYIP ]; then
      echo
      echo skipping self \($target\) ...
      echo
@@ -109,14 +100,6 @@ do
 
      # send the files to the destination
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
-
-     # send the tagaMini to the destination
-     scp -r tagaMini $MYLOGIN_ID@$target:/tmp # <$SCRIPTS_DIR/taga/passwd.txt
-
-     # execute the install script on the remote machines
-     #ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaInstallDepends.sh 
-     ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaDependsInstall.sh 
-     ssh -l $MYLOGIN_ID $target /tmp/mgenDistro/tagaPrepSudoers.sh 
 
    fi
 done

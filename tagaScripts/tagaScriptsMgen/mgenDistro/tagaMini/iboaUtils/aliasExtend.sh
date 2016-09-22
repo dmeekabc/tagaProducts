@@ -1,3 +1,4 @@
+#!/bin/bash
 #######################################################################
 #
 # Copyright (c) IBOA Corp 2016
@@ -29,52 +30,49 @@
 #
 #######################################################################
 
-###################################################
-# set the net address part 
-###################################################
-NETADDRPART=10.0.0
-NETADDRPART=192.168.43
+TAGA_DIR=~/scripts/taga
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+source $TAGA_CONFIG_DIR/config
 
-###################################################
-# set the ALTERNATE net address part 
-###################################################
-NETADDRPART_ALT1=192.168.11
-NETADDRPART_ALT2=192.168.12
-NETADDRPART_ALT3=192.168.13
-NETADDRPART_ALT4=192.168.14
-NETADDRPART_ALT5=192.168.15
-NETADDRPART_ALT6=192.168.16
-NETADDRPART_ALT7=192.168.17
-NETADDRPART_ALT8=192.168.18
-NETADDRPART_ALT9=192.168.19
-NETADDRPART_ALT10=192.168.20
-NETADDRPART_ALT11=192.168.30
-NETADDRPART_ALT12=192.168.30
-NETADDRPART_ALT13=192.168.50
-NETADDRPART_ALT14=192.168.60
-NETADDRPART_ALT15=192.168.70
-NETADDRPART_ALT16=192.168.80
-NETADDRPART_ALT17=192.168.90
-NETADDRPART_ALT18=192.168.100
-NETADDRPART_ALT19=192.168.110
-NETADDRPART_ALT20=192.168.120
-NETADDRPART_ALT21=192.168.130
-NETADDRPART_ALT22=192.168.140
-NETADDRPART_ALT23=192.168.150
-NETADDRPART_ALT24=192.168.160
-NETADDRPART_ALT25=192.168.170
+ALIAS_FILE=$iboaUtilsDir/aliasExamples.txt
+#ALIAS_FILE=$iboaUtilsDir/aliasList.txt
 
-###################################################
-# define the TARGET LIST
-###################################################
-TARGET_LIST="10.0.0.27"
-TARGET_LIST="192.168.43.124 192.168.43.157 192.168.43.208"
-TARGET_LIST="192.168.43.188"
+# validate input
+if [ $# -eq 1 ]; then
+   ALIAS_FILE=$1
+   echo; echo $0 executing with the following param input... $1; echo
+   echo; echo $0 : $MYIP :  executing at `date`; echo
+else
+   echo; echo $0 executing with no param input...; echo
+fi
 
 
+##########################################################
+# note, prior to running this script, # run the following: 
+#
+#    alias > $TAGA_DIR/aliasList.txt
+##########################################################
 
-###################################################
-# output the TARGET LIST
-###################################################
-echo $TARGET_LIST 
+# if confirmation, required, get the confirmation
+
+#if [ $CONFIRM_REQD -eq 1 ] ; then
+if [ true ] ; then
+   # ensure proper setup
+   echo Please confirm that you would like to extend your aliases by sourcing the follwing file: 
+   echo "$ALIAS_FILE"
+   # issue confirmation prompt
+   $iboaUtilsDir/confirm.sh
+   # check the response
+   let response=$?
+   if [ $response -eq 1 ]; then
+     echo; echo Confirmed, $0 continuing....; echo
+   else
+     echo; echo Not Confirmed, $0 exiting with no action...; echo
+     exit
+   fi
+fi
+
+echo sourcing $ALIAS_FILE;echo
+source $ALIAS_FILE
+echo Done!;echo
 
