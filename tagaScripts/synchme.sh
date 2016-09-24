@@ -33,16 +33,22 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo ArgCount:$#
+let DEBUG=1
+let DEBUG=0
 
+# get the input
 PARAM1=$1
 PARAM2=$2
-echo PARAM1:$PARAM1
-echo PARAM2:$PARAM2
-sleep 2
 
-#exit
+# print the params if in debug mode
+if [ $DEBUG -eq 1 ]; then
+   echo ArgCount:$#
+   echo PARAM1:$PARAM1
+   echo PARAM2:$PARAM2
+   sleep 2
+fi
 
+# print the help info if help requested
 if [ $# -ge 1 ] ; then
 if [ $1 == -h ] || [ $1 == -help ] || [ $1 == --help ]; then
    echo
