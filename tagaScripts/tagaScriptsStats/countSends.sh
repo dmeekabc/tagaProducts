@@ -1,38 +1,17 @@
-#!/bin/bash
-#######################################################################
-#
-# Copyright (c) IBOA Corp 2016
-#
+####################################################
+# Copyright 2016 IBOA Corp
 # All Rights Reserved
-#                                                                     
-# Redistribution and use in source and binary forms, with or without  
-# modification, are permitted provided that the following conditions 
-# are met:                                                             
-# 1. Redistributions of source code must retain the above copyright    
-#    notice, this list of conditions and the following disclaimer.     
-# 2. Redistributions in binary form must reproduce the above           
-#    copyright notice, this list of conditions and the following       
-#    disclaimer in the documentation and/or other materials provided   
-#    with the distribution.                                            
-#                                                                      
-# THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS   
-# OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED    
-# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   
-# ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE     
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT    
-# OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR   
-# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF           
-# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT            
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE    
-# USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH     
-# DAMAGE.                                                              
-#
-#######################################################################
+#####################################################
 
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
+
+# If counts are disabled, exit now
+if [ $COUNTS_DISABLED -eq 1 ]; then
+   echo NOTICE: Counts are DISABLED, $0 exiting with no action!
+   exit
+fi
 
 # get the inputs
 outputDir=$1
@@ -194,7 +173,7 @@ fi
 echo; echo >> $TAGA_RUN_DIR/counts.txt
 
 # build up the buffer
-buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir/*$TEST_DESCRIPTION* | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
+buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=62
@@ -258,7 +237,7 @@ else
    let expectedCount=$expectedCount*$expectedCount2
 fi
 
-let numerator=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+let numerator=`cat $outputDir/* 2>/dev/null | wc -l`
 let numerator=$numerator*10000
 let denominator=$expectedCount
 let percent=$numerator/$denominator 2>/dev/null 
@@ -276,8 +255,8 @@ else
 fi
 
 # build up the buffer
-printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
-buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir/*$TEST_DESCRIPTION* | wc -l` Total Count:$printCount / $expectedCount exp msgs "
+printCount=`cat $outputDir/* 2>/dev/null | wc -l`
+buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=66
@@ -309,6 +288,8 @@ $tagaScriptsStatsDir/printSendersHeader.sh "SENDERS" $iter $startTime $startDTG
 ###################
 
 curcount="xxxx"
+
+let m=0 # index
 
 for target in $targetList
 do
@@ -489,6 +470,17 @@ do
 
   # append the cumulative row total to the row output
   row="$row $row_cumulative"
+
+  # increment the index
+  let m=$m+1
+  if [ $m -lt 10 ]; then
+    #mprint=0$m
+    mprint=" $m"
+  else
+    mprint=$m
+  fi 
+
+  row="$mprint. $row"
 
   echo "$row"
   echo "$row" >> $TAGA_RUN_DIR/counts.txt
