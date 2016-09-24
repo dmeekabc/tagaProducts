@@ -1,1 +1,1 @@
-alias trace='g; cd iboaUtils;  alias > aliasList.txt; ./aliasTrace.sh'
+
