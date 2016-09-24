@@ -902,9 +902,9 @@ VARIABLE_TEST="var_test.sh"
 ##############################################
 # static admin configs in the confiig_admin file
 ##############################################
-if [ -s $TAGA_CONFIG_DIR/config_admin ] ; then
-  #echo NOTICE: config is being extended by config_admin file
-  source $TAGA_CONFIG_DIR/config_admin
+if [ -s $TAGA_CONFIG_DIR/configAdmin ] ; then
+  #echo NOTICE: config is being extended by configAdmin file
+  source $TAGA_CONFIG_DIR/configAdmin
 fi
 
 ##############################################
