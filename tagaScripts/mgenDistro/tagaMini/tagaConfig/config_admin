@@ -1,0 +1,70 @@
+#####################################################
+# Copyright 2016 IBOA Corp
+# All Rights Reserved
+#####################################################
+
+# Use Camel Case for Dirs, this is matter of preference only 
+tagaDir=$TAGA_DIR
+tagaScriptsDir=$tagaDir/tagaScripts
+tagaConfigDir=$tagaDir/tagaConfig
+iboaUtilsDir=$tagaDir/iboaUtils
+
+touch $tagaConfigDir/hostList.txt
+touch $tagaConfigDir/hostList.sh
+
+# dlm temp, this may be needed, but currently causes endless loop
+#hostList=`$tagaConfigDir/hostList.sh`
+
+tagaScriptsMgenDir=$tagaScriptsDir/tagaScriptsMgen
+tagaScriptsRunDir=$tagaScriptsDir/tagaScriptsRun
+tagaScriptsSimDir=$tagaScriptsDir/tagaScriptsSim
+tagaScriptsStatsDir=$tagaScriptsDir/tagaScriptsStats
+tagaScriptsStopDir=$tagaScriptsDir/tagaScriptsStop
+tagaScriptsTcpdumpDir=$tagaScriptsDir/tagaScriptsTcpdump
+tagaScriptsTestDir=$tagaScriptsDir/tagaScriptsTest
+tagaScriptsTimerDir=$tagaScriptsDir/tagaScriptsTimer
+tagaScriptsUtilsDir=$tagaScriptsDir/tagaScriptsUtils
+
+# shorter variants
+tagaMgenDir=$tagaScriptsMgenDir
+tagaRunDir=$tagaScriptsRunDir
+tagaSimDir=$tagaScriptsSimDir
+tagaStatsDir=$tagaScriptsStatsDir
+tagaStopDir=$tagaScriptsStopDir
+tagaTcpdumpDir=$tagaScriptsTcpdumpDir
+tagaTestDir=$tagaScriptsTestDir
+tagaTimerDir=$tagaScriptsTimerDir
+tagaUtilsDir=$tagaScriptsUtilsDir
+
+# other variants
+TAGA_CONFIG_DIR=$tagaConfigDir
+TAGA_MGEN_DIR=$tagaScriptsMgenDir
+TAGA_UTILS_DIR=$tagaScriptsUtilsDir
+#TAGA_RUN_DIR=$tagaScriptsRunDir
+IBOA_UTILS_DIR=$iboaUtilsDir
+
+# vars that the coder/admin should set
+SCRIPT_HDR_PAD_LEN=34
+SCRIPT_HDR_PAD_LEN=34
+
+####################################################
+# Network Reset In Proress Flag File
+####################################################
+NET_RESET_IN_PROG_FLAG_FILE="/tmp/taga/data/tagaNetResetInProgress.dat"
+
+####################################################
+# Local Mode Flag File
+####################################################
+TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
+
+####################################################
+# Check Interface Log (Out) File
+####################################################
+CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
+
+
+##############################################
+# Status File and Test Description 
+##############################################
+STATUS_FILE="/tmp/taga_status.txt"
+TEST_DESCRIPTION="taga_anycast"

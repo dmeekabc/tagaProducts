@@ -32,9 +32,8 @@
 ####################################################
 # The root of the config
 ####################################################
-TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
-TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
+TAGA_DIR=/tmp/tagaMini # new sept 2016, /tmp/tagaMini version supported
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig 
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 
@@ -107,8 +106,8 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
 TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -929,4 +928,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.188
+MASTER=192.168.43.124

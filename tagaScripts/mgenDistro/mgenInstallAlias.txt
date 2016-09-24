@@ -1,0 +1,1 @@
+alias mgenInstall='gmgend; cp mgenDistro.tgz /tmp; cd /tmp; rm -rf mgenDistro; rm -rf tagaMini; tar zxvf mgenDistro.tgz; cd mgenDistro; cp -r tagaMini ..; source tagaInstallAlias.txt; tagaInstall'

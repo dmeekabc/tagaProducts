@@ -29,39 +29,25 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
+TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
+TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
+
+if [ $TAGA_FULL_INSTALL -eq 1 ]; then
+   TAGA_DIR=~/scripts/taga
+else
+   TAGA_DIR=/tmp/tagaMini
+fi
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let DEBUG=1
-let DEBUG=0
-
-# get the input
-PARAM1=$1
-PARAM2=$2
-
-# print the params if in debug mode
-if [ $DEBUG -eq 1 ]; then
-   echo ArgCount:$#
-   echo PARAM1:$PARAM1
-   echo PARAM2:$PARAM2
-   sleep 2
-fi
-
-# print the help info if help requested
 if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == -help ] || [ $1 == --help ]; then
-   echo
-   echo Usage: $0 -h \(this help text\)
-   echo Usage: $0 -help \(this help text\)
-   echo Usage: $0 --help \(this help text\)
+if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
    echo Usage: $0 [[optionalFileList] [optionalTargetList]]
-   echo
    echo 'Example: $0 ".bashrc.iboa .bashrc.iboa.user.1000" "192.168.43.124 192.168.43.208"'
    echo
    echo Notice: A Param 2 optionalTargetList requires a Param 1 optionalFileList
-   echo Notice: If no Param is provided, the SCP LIST embedded in this script will be used to all targets.
+   echo
+   echo Notice: If no Params are provided, the SCP_SOURCE_STR List embedded in this script will be used to all targets.
    echo
    exit
 fi
@@ -73,7 +59,7 @@ MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
-InfoToPrint=" $MYDIR $PARAM1 will be synchronized. "
+InfoToPrint=" $MYDIR will be installed and/or synchronized. "
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
@@ -85,7 +71,6 @@ if [ $# -eq 0 ]; then
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
    SCP_SOURCE_STR="$0" # use this to synch this file only
-   SCP_SOURCE_STR="synchme.sh synchBash.sh" # use this to synch this file only
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
