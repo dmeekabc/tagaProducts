@@ -1,0 +1,2 @@
+alias tagaInstall='echo This is the TAGA Install.; echo Running /tmp/mgenDistro/tagaInstall.sh; cd /tmp/mgenDistro; /tmp/mgenDistro/tagaInstall.sh'
+alias synchme=./synchme.sh

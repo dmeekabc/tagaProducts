@@ -6,7 +6,5 @@ tar zxvf mgenDistro.tgz
 cd mgenDistro
 cp -r tagaMini ..
 
-#source tagaInstallAlias.txt
-#tagaInstall
 ./tagaInstall.sh
 
