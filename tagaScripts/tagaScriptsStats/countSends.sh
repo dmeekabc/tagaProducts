@@ -255,8 +255,14 @@ else
 fi
 
 # build up the buffer
-printCount=`cat $outputDir/* 2>/dev/null | wc -l`
+printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
+
+let mynewpercent=$printCount*100
+let mynewpercent=$mynewpercent/$expectedCount
+#mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
+mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
+
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=66
@@ -273,7 +279,8 @@ do
   let i=$i-1
 done
 # add the percent at the end of the buffer
-buffer2="$buffer1 ($percent%)"
+#buffer2="$buffer1 ($percent%)"
+buffer2="$buffer1 ($mynewpercent%)"
 
 # write buffer line to output; write buffer line to counts.txt file
 echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
