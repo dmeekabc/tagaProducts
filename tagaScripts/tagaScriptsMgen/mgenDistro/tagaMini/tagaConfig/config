@@ -33,6 +33,7 @@
 # The root of the config
 ####################################################
 TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 

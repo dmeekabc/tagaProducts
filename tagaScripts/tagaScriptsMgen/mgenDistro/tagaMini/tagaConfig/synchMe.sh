@@ -30,6 +30,7 @@
 #
 #######################################################################
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
