@@ -33,7 +33,6 @@
 # The root of the config
 ####################################################
 TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
@@ -903,9 +902,9 @@ VARIABLE_TEST="var_test.sh"
 ##############################################
 # static admin configs in the confiig_admin file
 ##############################################
-if [ -s $TAGA_CONFIG_DIR/configAdmin ] ; then
-  #echo NOTICE: config is being extended by configAdmin file
-  source $TAGA_CONFIG_DIR/configAdmin
+if [ -s $TAGA_CONFIG_DIR/config_admin ] ; then
+  #echo NOTICE: config is being extended by config_admin file
+  source $TAGA_CONFIG_DIR/config_admin
 fi
 
 ##############################################

@@ -29,11 +29,7 @@
 #
 #######################################################################
 
-# NOTE: Much of the below is defined for future use.
-# NOTE: Most likely, this configAdmin file should never be changed.
- 
 # Use Camel Case for Dirs, this is matter of preference only 
-TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 tagaDir=$TAGA_DIR
 tagaScriptsDir=$tagaDir/tagaScripts
 tagaConfigDir=$tagaDir/tagaConfig
@@ -41,6 +37,9 @@ iboaUtilsDir=$tagaDir/iboaUtils
 
 touch $tagaConfigDir/hostList.txt
 touch $tagaConfigDir/hostList.sh
+
+# dlm temp, this may be needed, but currently causes endless loop
+#hostList=`$tagaConfigDir/hostList.sh`
 
 tagaScriptsMgenDir=$tagaScriptsDir/tagaScriptsMgen
 tagaScriptsRunDir=$tagaScriptsDir/tagaScriptsRun
@@ -67,6 +66,7 @@ tagaUtilsDir=$tagaScriptsUtilsDir
 TAGA_CONFIG_DIR=$tagaConfigDir
 TAGA_MGEN_DIR=$tagaScriptsMgenDir
 TAGA_UTILS_DIR=$tagaScriptsUtilsDir
+#TAGA_RUN_DIR=$tagaScriptsRunDir
 IBOA_UTILS_DIR=$iboaUtilsDir
 
 # vars that the coder/admin should set
@@ -87,6 +87,7 @@ TAGA_LOCAL_MODE_FLAG_FILE="/tmp/taga/data/tagaLocalModeInEffect.dat"
 # Check Interface Log (Out) File
 ####################################################
 CHECK_INTERFACE_LOG_FILE="/tmp/checkInterface.out"
+
 
 ##############################################
 # Status File and Test Description 
