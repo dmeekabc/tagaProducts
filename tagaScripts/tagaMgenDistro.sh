@@ -38,6 +38,7 @@ if [ -f  $FILE ] ; then
    cd /tmp
    tar zxvf $FILE
    cd mgenDistro
+   cp -r tagaMini /tmp
    pwd
    ls
    pwd
