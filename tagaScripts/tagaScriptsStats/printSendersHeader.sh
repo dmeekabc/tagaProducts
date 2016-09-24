@@ -24,7 +24,7 @@ echo >> $TAGA_RUN_DIR/counts.txt
 #echo `date` Iteration:$iter StartDTG: $startTime $startDTG $TESTTYPE >> $TAGA_RUN_DIR/counts.txt
 
 if [ $NARROW_DISPLAY -eq 1 ]; then
-  row="$1 TABLE         ------------------ RECEIVERS LIST ---------------------"
+  row="$1 TABLE         ------------------ RECEIVERS LIST --------------------"
 elif [ $WIDE_DISPLAY -eq 1 ]; then
   row="$1 TABLE         -----------------------------------------------------------------------------------------------------------------  RECEIVERS LIST -----------------------------------------------------------------------------------------------------------------------"
 else
