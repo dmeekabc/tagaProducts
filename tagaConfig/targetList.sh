@@ -29,14 +29,42 @@
 #
 #######################################################################
 
+#######################################################################
+# Automatic Network Identification and TAGA related configuration:
+#######################################################################
+# If we match a specific string, then use network accordingly,
+# otherwise, use the default
+#######################################################################
+
+NETADDR_STRING_TO_MATCH="10\\.0\\.0"
+
+if /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
+  # use alternate
+  let TAGA_TL_CONTEXT=1 # alternate
+else
+  # use default
+  let TAGA_TL_CONTEXT=0 # default
+fi
+
+
 ###################################################
 # set the net address part 
 ###################################################
-NETADDRPART=10.0.0
-NETADDRPART=192.168.43
+
+# set the NETWORK ADDRESS PART 
+# Note: First 3 Nibbles,this assumes 24-bit or higher netmask
+if [ $TAGA_TL_CONTEXT -eq 0 ]; then
+   # default
+   NETADDRPART=192.168.43
+else
+   # alternate
+   NETADDRPART=10.0.0
+fi
 
 ###################################################
-# set the ALTERNATE net address part 
+# set the ALTERNATE net address parts  
+# Note: All nodes in the TAGA scope (networks of interest)
+# must match the network address part above or an alternate below
 ###################################################
 NETADDRPART_ALT1=192.168.11
 NETADDRPART_ALT2=192.168.12
@@ -67,9 +95,14 @@ NETADDRPART_ALT25=192.168.170
 ###################################################
 # define the TARGET LIST
 ###################################################
-TARGET_LIST="10.0.0.27"
-TARGET_LIST="192.168.43.124 192.168.43.157 192.168.43.208"
 
+if [ $TAGA_TL_CONTEXT -eq 0 ]; then
+   # default
+   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.208"
+else
+   # alternate
+   TARGET_LIST="10.0.0.27"
+fi
 
 
 ###################################################
