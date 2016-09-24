@@ -220,7 +220,7 @@ else
    echo "alias run='echo This is a Test'"                                  >> $IBOA_USER_FILE
    echo "alias x='exit'"                                                   >> $IBOA_USER_FILE
    echo "alias g='TAGA_DIR=~/scripts/taga; cd \$TAGA_DIR'"                 >> $IBOA_USER_FILE
-   echo "alias trace='g; cd iboaUtils; alias > aliasList.txt; ./aliasTrace.sh'" >> $IBOA_USER_FILE
+   echo "alias trace='alias > ~/scripts/taga/iboaUtils/aliasList.txt; ~/scripts/taga/iboaUtils/aliasTrace.sh'" >> $IBOA_USER_FILE
    echo "alias trac='trace'"                                               >> $IBOA_USER_FILE
    echo "alias tra='trac'"                                                 >> $IBOA_USER_FILE
    echo "alias tr='tra'"                                                   >> $IBOA_USER_FILE

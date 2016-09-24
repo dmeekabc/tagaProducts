@@ -116,8 +116,10 @@ else
   do
     HOST=`cat $TAGA_CONFIG_DIR/hostsToIps.txt | grep $target\\\. | cut -d"." -f 5`
     SOURCE_FILE_TAG=$TEST_DESCRIPTION\_$HOST\_*$target\_
+    echo SOURCE_FILE_TAG:$SOURCE_FILE_TAG
     # get receivers only and only our target
     let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
+    echo target:targetReceivedCount:$target:$targetReceivedCount
     let grossReceivedCount=$grossReceivedCount+$targetReceivedCount
   done
 fi
@@ -257,12 +259,6 @@ fi
 # build up the buffer
 printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
-
-let mynewpercent=$printCount*100
-let mynewpercent=$mynewpercent/$expectedCount
-#mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
-mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
-
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=66
@@ -279,8 +275,7 @@ do
   let i=$i-1
 done
 # add the percent at the end of the buffer
-#buffer2="$buffer1 ($percent%)"
-buffer2="$buffer1 ($mynewpercent%)"
+buffer2="$buffer1 ($percent%)"
 
 # write buffer line to output; write buffer line to counts.txt file
 echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
