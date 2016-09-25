@@ -42,8 +42,14 @@ if [ -f  $FILE ] ; then
    pwd
    echo Running ./iboaMiniInstall.sh
    ./iboaMiniInstall.sh
+   echo
+   echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
+   echo -------------------------------------------------------------------------
    ls
+   echo IBOA/TAGA Scipts and Aliases are at the following:
+   echo -------------------------------------------------------------------------
    pwd
+   echo
 else
    echo $FILE Not Found!
 fi
