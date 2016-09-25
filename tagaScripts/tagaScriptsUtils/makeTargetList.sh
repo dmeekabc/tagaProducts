@@ -37,7 +37,7 @@ source $TAGA_CONFIG_DIR/config
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
 # provide the info to print into the confirmation request
-InfoToPrint="$0 This command will create and update the IBOA TAGA targetList.sh file."
+InfoToPrint="Notice: This command will create and update the IBOA TAGA targetList.sh file."
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
@@ -45,5 +45,27 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 
 # continue to execute the command
 echo $0 Proceeding.... at `date`; echo
+
+echo 1
+
+echo Enter an IP Address or \'d\' if done
+
+list="localhost"
+
+while read address
+do
+ # echo 2
+  if [ $address == 'd' ]; then
+     echo Done entering addressess... creating targetList.sh file
+     exit
+  else
+     echo address:$address
+     list="$list $address"
+     echo Current List:"$list"
+     echo Enter an IP Address
+  fi
+done
+
+echo 3
 
 
