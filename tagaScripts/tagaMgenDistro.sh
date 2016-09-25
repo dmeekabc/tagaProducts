@@ -48,11 +48,26 @@ if [ -f  $FILE ] ; then
    echo
    echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
    echo -------------------------------------------------------------------------
+
+   sleep 2
    ls
+   sleep 2
+ 
    echo IBOA/TAGA Scipts and Aliases are at the following:
    echo -------------------------------------------------------------------------
    pwd
+   sleep 2
    echo
+
+   echo Now Executing MCAST TEST \(LISTEN and SEND\) Commands
+   echo -------------------------------------------------------------------------
+   cd ~/tagaMini/mcastUtils
+   echo "./mcastSend.sh \& ./mcastListen.sh"
+   sleep 2
+   ./mcastSend.sh & ./mcastListen.sh
+
+
+
 else
    echo $FILE Not Found!
 fi
