@@ -3,3 +3,6 @@ alias aliaslist='aliasList '
 alias al=aliaslist
 alias unaliasAllAliases='for file in `echo \`aliaslist\``; do echo 1; echo $file; unalias $file; done'
 alias uaa=unaliasAllAliases
+alias gitclone='git clone -b branchIBOAProductsV4 https://github.com/dmeekabc/tagaProducts.git'
+alias gittaga='git clone -b branchIBOAProductsV4 https://github.com/dmeekabc/tagaProducts.git'
+
