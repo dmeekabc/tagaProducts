@@ -1,0 +1,1 @@
+alias mcastlisten='gmgen;mgen input script_mcast_rcvr.mgn & tcpdump -i wlan0 udp | grep 224'
