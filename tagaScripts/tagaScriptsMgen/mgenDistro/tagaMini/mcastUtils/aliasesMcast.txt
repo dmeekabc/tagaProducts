@@ -1,1 +1,5 @@
-alias mcastlisten='gmgen;mgen input script_mcast_rcvr.mgn & tcpdump -i wlan0 udp | grep 224'
+alias mcastListen='~/tagaMini/mcastUtils/mcastListen.sh'
+alias mcastSend='~/tagaMini/mcastUtils/mcastSend.sh'
+alias mcl=mcastListen
+alias mcs=mcastSend
+alias mcsw='while true; do echo; date; mcs ; sleep 1; done'
