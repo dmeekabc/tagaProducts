@@ -31,11 +31,13 @@
 #######################################################################
 TAGA_DIR=~/scripts/taga
 TAGA_DIR=~/tagaMini
-TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 if [ -f $TAGA_CONFIG_DIR/config ]; then
   echo sourcing $TAGA_CONFIG_DIR/config
   source $TAGA_CONFIG_DIR/config
+  # override the config for the path only
+  TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 else
   echo sourcing ./mgenConfig
   source ./mgenConfig

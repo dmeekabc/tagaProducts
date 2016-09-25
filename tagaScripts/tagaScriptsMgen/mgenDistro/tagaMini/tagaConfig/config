@@ -609,6 +609,7 @@ fi
 # automatatically generated configs
 ##############################################
 TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
