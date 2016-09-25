@@ -56,6 +56,7 @@ if [ -f  $FILE ] ; then
    ls
    sleep 2
  
+   echo
    echo IBOA/TAGA Scipts and Aliases are at the following:
    echo -------------------------------------------------------------------------
    pwd
