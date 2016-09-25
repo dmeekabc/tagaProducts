@@ -59,8 +59,12 @@ do
      echo Done entering addressess... creating targetList.sh file
      exit
   else
-     echo address:$address
-     list="$list $address"
+     if echo $address | grep \*\.\*\.\*\.\* ; then
+        echo valid address:$address
+        list="$list $address"
+     else
+        echo Not a valid address:$address
+     fi
      echo Current List:"$list"
      echo Enter an IP Address
   fi
