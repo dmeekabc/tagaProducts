@@ -1,3 +1,5 @@
-alias unaliasAllAliases='for file in `echo \`aliaslist\``; do echo 1; echo $file; unalias $file; done'
-alias aliaslist='aliasList '
 alias aliasList='alias | cut -c7- | cut -d= -f 1'
+alias aliaslist='aliasList '
+alias al=aliaslist
+alias unaliasAllAliases='for file in `echo \`aliaslist\``; do echo 1; echo $file; unalias $file; done'
+alias uaa=unaliasAllAliases
