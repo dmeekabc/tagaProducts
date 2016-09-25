@@ -48,6 +48,9 @@ echo $0 Proceeding.... at `date`; echo
 
 echo 1
 
+echo
+echo Current IP Address List : "$list"
+echo Enter an IP Address : Dotted Decimal Notation : a.b.c.d
 echo Enter an IP Address or \'d\' if done
 
 list="localhost"
@@ -59,14 +62,18 @@ do
      echo Done entering addressess... creating targetList.sh file
      exit
   else
-     if echo $address | grep \*\.\*\.\*\.\* ; then
-        echo valid address:$address
+     #if echo $address | grep \*\.\*\.\*\.\* ; then
+     if echo $address | grep [0-9]\.[0-9]\.[0-9]\.[0-9]; then
+        echo valid IP address : $address
         list="$list $address"
      else
-        echo Not a valid address:$address
+        echo Not a valid IP address : $address
      fi
-     echo Current List:"$list"
-     echo Enter an IP Address
+     echo Current IP Address List : "$list"
+     echo
+     echo Enter an IP Address : Dotted Decimal Notation : a.b.c.d
+     echo Enter an IP Address or \'d\' if done
+     echo
   fi
 done
 
