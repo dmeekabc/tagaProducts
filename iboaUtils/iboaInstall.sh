@@ -262,8 +262,10 @@ else
    # source the new ~/.bashrc file! 
     source ~/.bashrc file
 
+   # Since the source above does not effect outer shell...
+   # Inform the user that they should source ~/.bashrc
+   echo Please source ~/.bashrc file, e.g. [ source ~/.bashrc ]
+
 fi
 
-# Inform the user that they should source ~/.bashrc
-echo Please source ~/.bashrc file, e.g. [ source ~/.bashrc ]
 
