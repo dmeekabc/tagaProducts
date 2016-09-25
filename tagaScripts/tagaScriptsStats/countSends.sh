@@ -258,10 +258,14 @@ fi
 printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
 
-let mynewpercent=$printCount*100
-let mynewpercent=$mynewpercent/$expectedCount
-#mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
-mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
+if [ $printCount == $expectedCount ]; then
+  mynewpercent="100.00"
+else
+  let mynewpercent=$printCount*100
+  let mynewpercent=$mynewpercent/$expectedCount
+  #mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
+  mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
+fi
 
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
