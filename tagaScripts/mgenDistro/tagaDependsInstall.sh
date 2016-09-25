@@ -29,51 +29,49 @@
 # DAMAGE.                                                              
 #
 #######################################################################
+TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
+TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
 
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
-TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
+#if [ $TAGA_FULL_INSTALL -eq 1 ]; then
+#   TAGA_DIR=~/scripts/taga
+#else
+#   TAGA_DIR=/tmp/tagaMini
+#fi
+#TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+#source $TAGA_CONFIG_DIR/config
 
-ALIAS_FILE=$iboaUtilsDir/aliasExamples.txt
-#ALIAS_FILE=$iboaUtilsDir/aliasList.txt
-
-# validate input
-if [ $# -eq 1 ]; then
-   ALIAS_FILE=$1
-   echo; echo $0 executing with the following param input... $1; echo
-   echo; echo $0 : $MYIP :  executing at `date`; echo
-else
-   echo; echo $0 executing with no param input...; echo
+if [ $# -ge 1 ] ; then
+if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
+   echo Usage: $0 [[optionalList1] [optionalList2]]
+   echo 'Example: $0 ".bashrc.iboa .bashrc.iboa.user.1000" "192.168.43.124 192.168.43.208"'
+   echo
+   echo Notice: A Param 2 optionalList2 requires a Param 1 optionalList1
+   echo
+   echo Notice: If no Params are provided, the SCP_SOURCE_STR List embedded in this script will be used to all targets.
+   echo
+   exit
+fi
 fi
 
+# provide the info to print into the confirmation request
+InfoToPrint=" TAGA Dependencies will be installed. "
 
-##########################################################
-# note, prior to running this script, # run the following: 
-#
-#    alias > $TAGA_DIR/aliasList.txt
-##########################################################
+# issue confirmation prompt and check reponse
+#$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+#response=$?; if [ $response -ne 1 ]; then exit; fi
 
-# if confirmation, required, get the confirmation
+echo Installing Open SSH Server....
+sudo apt-get install openssh-server
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
-#if [ $CONFIRM_REQD -eq 1 ] ; then
-if [ true ] ; then
-   # ensure proper setup
-   echo Please confirm that you would like to extend your aliases by sourcing the follwing file: 
-   echo "$ALIAS_FILE"
-   # issue confirmation prompt
-   $iboaUtilsDir/confirm.sh
-   # check the response
-   let response=$?
-   if [ $response -eq 1 ]; then
-     echo; echo Confirmed, $0 continuing....; echo
-   else
-     echo; echo Not Confirmed, $0 exiting with no action...; echo
-     exit
-   fi
-fi
+echo Installing MGEN ...
+sudo apt-get install mgen
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
-echo sourcing $ALIAS_FILE;echo
-source $ALIAS_FILE
-echo Done!;echo
+echo Installing Git Versioning System...
+sudo apt-get install git
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
 
+echo Installing Python ...
+sudo apt-get install python
+RETCODE=$?;  echo; echo Return code from apt-get : $RETCODE; echo
