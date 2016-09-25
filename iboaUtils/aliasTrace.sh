@@ -124,14 +124,14 @@ do
       #aliasLast=$PAD::$aliasLast
    else
       echo
-      echo ================== End of Trace Summary ==================
+      echo =================== Trace Summary Begin =====================
       echo
       echo "alias '$1' traces to the following:" 
       echo
       #echo "       [  $aliasLast  ]        "
       echo "          $aliasLast           "
       echo
-      echo ==========================================================
+      echo =================== Trace Summary Complete ==================
    fi
 done
 
