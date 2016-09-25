@@ -29,53 +29,30 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=~/tagaMini
+TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
+if [ -f $TAGA_CONFIG_DIR/config ]; then
+  echo sourcing $TAGA_CONFIG_DIR/config
+  source $TAGA_CONFIG_DIR/config
+else
+  echo sourcing ./mgenConfig
+  source ./mgenConfig
+fi
 
-# Single Machine Commands
+# Configure the listener
+if [ $INTERFACE ] ; then
+  ITFC=$INTERFACE
+else
+  ITFC=wlan0
+fi
 
-MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
-MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
+# create the script from the template
+sed -e s/mcastgroup/$MYMCAST_ADDR/g \
+   $TAGA_MGEN_DIR/scriptMcastSender.mgn.template \
+   > $TAGA_MGEN_DIR/scriptMcastSender.mgn 
 
-# Taga:TODO: Add logic to check if this has been done
-
-# DO THIS ONE TIME ONLY ON SOURCE MACHINE AND ONLY IF NEEDED
-#   ssh-keygen
-
-######################################
-######################################
-######################################
-
-# DO THIS FOR EACH DEST MACHINE
-
-echo $targetList
-
-for target in $targetList
-do
-
-   TAGA_DIR=~/scripts/taga
-   TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-   source $TAGA_CONFIG_DIR/config
-
-   # determine LOGIN ID for each target
-   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
-   MYLOGIN_ID=`echo $MYLOGIN_ID` 
-   
-   TAGA_DIR=`echo $TAGA_DIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   TAGA_DIR=`echo $TAGA_DIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
-
-  ssh-copy-id $MYLOGIN_ID@$target
-
-  #let PREP_TCPDUMP_ENABLED=0
-  let PREP_TCPDUMP_ENABLED=1
-  
-  # prep tcpdump (TBD if this is needed)
-  if [ $PREP_TCPDUMP_ENABLED -eq 1 ]; then
-    ssh -l $MYLOGIN_ID $target $TAGA_DIR/tagaScripts/tagaScriptsUtils/prepTcpdump.sh
-  fi
-
-done
+# start the mcast sender 
+/usr/bin/mgen input $TAGA_MGEN_DIR/scriptMcastSender.mgn 
 

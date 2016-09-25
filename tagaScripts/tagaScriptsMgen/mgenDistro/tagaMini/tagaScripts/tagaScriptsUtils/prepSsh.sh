@@ -31,6 +31,7 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/tmp/tagaMini
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -56,6 +57,7 @@ for target in $targetList
 do
 
    TAGA_DIR=~/scripts/taga
+   TAGA_DIR=/tmp/tagaMini
    TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
    source $TAGA_CONFIG_DIR/config
 

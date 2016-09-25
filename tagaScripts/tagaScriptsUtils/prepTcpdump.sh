@@ -34,48 +34,17 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# Single Machine Commands
+# add a capture group and myself to it
+sudo groupadd mypcap
+sudo usermod -a -G mypcap $MYLOGIN_ID
 
-MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
-MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
+# next, change the group of tcpdump and set permissions
+sudo chgrp mypcap /usr/sbin/tcpdump
+sudo chmod 750 /usr/sbin/tcpdump
 
-# Taga:TODO: Add logic to check if this has been done
+# finally, use setcap to give tcpdump the reqd permissions
+sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 
-# DO THIS ONE TIME ONLY ON SOURCE MACHINE AND ONLY IF NEEDED
-#   ssh-keygen
-
-######################################
-######################################
-######################################
-
-# DO THIS FOR EACH DEST MACHINE
-
-echo $targetList
-
-for target in $targetList
-do
-
-   TAGA_DIR=~/scripts/taga
-   TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-   source $TAGA_CONFIG_DIR/config
-
-   # determine LOGIN ID for each target
-   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
-   MYLOGIN_ID=`echo $MYLOGIN_ID` 
-   
-   TAGA_DIR=`echo $TAGA_DIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   TAGA_DIR=`echo $TAGA_DIR | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
-
-  ssh-copy-id $MYLOGIN_ID@$target
-
-  #let PREP_TCPDUMP_ENABLED=0
-  let PREP_TCPDUMP_ENABLED=1
-  
-  # prep tcpdump (TBD if this is needed)
-  if [ $PREP_TCPDUMP_ENABLED -eq 1 ]; then
-    ssh -l $MYLOGIN_ID $target $TAGA_DIR/tagaScripts/tagaScriptsUtils/prepTcpdump.sh
-  fi
-
-done
+cd /usr/sbin
+sudo chmod 777 tcpdump
 
