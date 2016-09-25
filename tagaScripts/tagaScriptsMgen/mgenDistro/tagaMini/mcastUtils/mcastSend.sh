@@ -30,6 +30,8 @@
 #
 #######################################################################
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=~/tagaMini
+TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 if [ -f $TAGA_CONFIG_DIR/config ]; then
   echo sourcing $TAGA_CONFIG_DIR/config
@@ -48,9 +50,9 @@ fi
 
 # create the script from the template
 sed -e s/mcastgroup/$MYMCAST_ADDR/g \
-   $TAGA_MGEN_DIR/script_mcast_sndr.mgn.template \
-   > $TAGA_MGEN_DIR/script_mcast_sndr.mgn 
+   $TAGA_MGEN_DIR/scriptMcastSender.mgn.template \
+   > $TAGA_MGEN_DIR/scriptMcastSender.mgn 
 
 # start the mcast sender 
-/usr/bin/mgen input $TAGA_MGEN_DIR/script_mcast_sndr.mgn 
+/usr/bin/mgen input $TAGA_MGEN_DIR/scriptMcastSender.mgn 
 
