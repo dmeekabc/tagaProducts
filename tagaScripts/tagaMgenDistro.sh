@@ -63,7 +63,7 @@ if [ -f  $FILE ] ; then
    sleep 2
    echo
 
-   echo Now Executing MCAST TEST \(LISTEN and SEND\) Commands
+   echo "Now Executing MCAST TEST (LISTEN and SEND) Commands"
    echo -------------------------------------------------------------------------
    cd ~/tagaMini/mcastUtils
    echo "./mcastSend.sh \& ./mcastListen.sh"
