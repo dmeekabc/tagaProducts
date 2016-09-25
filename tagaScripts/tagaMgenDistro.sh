@@ -40,6 +40,9 @@ if [ -f  $FILE ] ; then
    cd mgenDistro
    cp -r tagaMini /tmp
    pwd
+   echo Running ./iboaConfigMiniInstall.sh
+   ./iboaConfigMiniInstall.sh
+   echo
    echo Running ./iboaMiniInstall.sh
    ./iboaMiniInstall.sh
    echo
