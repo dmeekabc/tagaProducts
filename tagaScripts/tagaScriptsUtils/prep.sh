@@ -74,7 +74,7 @@ do
   
   # prep tcpdump (TBD if this is needed)
   if [ $PREP_TCPDUMP_ENABLED -eq 1 ]; then
-    ssh -l $MYLOGIN_ID $target $TAGA_DIR/tagaScripts/tagaScriptsUtils/prep_tcpdump.sh
+    ssh -l $MYLOGIN_ID $target $TAGA_DIR/tagaScripts/tagaScriptsUtils/prepTcpdump.sh
   fi
 
 done
