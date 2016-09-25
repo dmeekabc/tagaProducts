@@ -30,30 +30,8 @@
 #
 #######################################################################
 
-FILE=tagaMgenDistro.tgz
-
-if [ -f  $FILE ] ; then
-   echo $FILE Found!
-   cp $FILE /tmp
-   cd /tmp
-   tar zxvf $FILE
-   cd mgenDistro
-   cp -r tagaMini /tmp
-   pwd
-   echo Running ./iboaMiniInstall.sh
-   ./iboaMiniInstall.sh
-   echo
-   echo Running ./mcastMiniInstall.sh
-   ./mcastMiniInstall.sh
-   echo
-   echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
-   echo -------------------------------------------------------------------------
-   ls
-   echo IBOA/TAGA Scipts and Aliases are at the following:
-   echo -------------------------------------------------------------------------
-   pwd
-   echo
-else
-   echo $FILE Not Found!
-fi
-
+cd /tmp/mgenDistro
+mkdir -p ~/tagaMini 
+cp -r tagaMini/mcastUtils ~/tagaMini 
+cd ~/tagaMini/mcastUtils
+./synchme.sh       
