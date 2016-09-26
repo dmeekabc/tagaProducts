@@ -128,7 +128,8 @@ if [ -f  $FILE ] ; then
       echo
       echo Notice: This install is *not* persistent.
       echo Notice: Run this $0 command with \'persist\' parameter for persistent install
-      echo "  e.g., $0 persist"
+      echo " e.g., "
+      echo " $0 persist"
       echo
       echo Notice: To test this temporary installation, try the following combined commands:
       echo " e.g., "
