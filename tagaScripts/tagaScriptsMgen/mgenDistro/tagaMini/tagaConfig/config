@@ -32,8 +32,20 @@
 ####################################################
 # The root of the config
 ####################################################
-TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
+
+# dlm temp, use tagaXXXXXXXX for testing , consider remove after test?? 
+# dlm temp, use tagaXXXXXXXX for testing , consider remove after test?? 
+
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
+
+# Set the TAGA CONFIG
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
@@ -608,8 +620,15 @@ fi
 ##############################################
 # automatatically generated configs
 ##############################################
-TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
+# Set the TAGA OUTPUT DIR
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
