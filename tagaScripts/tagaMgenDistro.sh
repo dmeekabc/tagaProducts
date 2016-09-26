@@ -40,6 +40,12 @@ if [ -f  $FILE ] ; then
    cd mgenDistro
    cp -r tagaMini /tmp
    pwd
+
+   # first, run the local (noSynchFlags) installs to get the vitals
+   ./tagaConfigMiniInstall.sh noSynchFlag
+   ./tagaUtilsInstall.sh noSynchFlag
+
+   # now run the remote install commands 
    echo Running ./tagaConfigMiniInstall.sh
    ./tagaConfigMiniInstall.sh
    echo
