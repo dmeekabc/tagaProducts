@@ -61,9 +61,11 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
-   SCP_SOURCE_STR="."          # use this to synch everything here and below
+   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
+   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
    SCP_SOURCE_STR="$0" # use this to synch this file only
+   SCP_SOURCE_STR="."          # use this to synch everything here and below
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
