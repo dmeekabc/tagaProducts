@@ -29,11 +29,19 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
-TAGA_DIR=~/tagaMini
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
+
+# Set the TAGA CONFIG and MGEN Dirs
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
+
 if [ -f $TAGA_CONFIG_DIR/config ]; then
   echo sourcing $TAGA_CONFIG_DIR/config
   source $TAGA_CONFIG_DIR/config
@@ -62,9 +70,11 @@ else
   GROUP_PREFIX=224
 fi
 
-echo $0: "MYMCAST_ADDR: $MYMCAST_ADDR"
-echo $0: "INTERFACE:    $INTERFACE"
-echo $0: "GROUP_PREFIX: $GROUP_PREFIX"
+echo
+echo $0: "MYMCAST_ADDR:        $MYMCAST_ADDR"
+echo $0: "LISTENING INTERFACE: $INTERFACE"
+echo $0: "GROUP_PREFIX:        $GROUP_PREFIX"
+echo
 
 
 # create the script from the template
