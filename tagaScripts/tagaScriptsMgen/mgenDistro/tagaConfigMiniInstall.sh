@@ -30,8 +30,18 @@
 #
 #######################################################################
 
+# install it locally
 cd /tmp/mgenDistro
 mkdir -p ~/tagaMini 
 cp -r tagaMini/tagaConfig ~/tagaMini 
-cd ~/tagaMini/tagaConfig
-./synchme.sh       
+
+# any input is a flag saying no synch!
+if [ $# -gt 0 ]; then
+   # flag indicating no synch
+   echo no synch > /dev/null
+else
+   # else no flag, synchme
+   cd ~/tagaMini/tagaConfig
+   ./synchme.sh       
+fi
+
