@@ -39,30 +39,8 @@ if [ -f  $FILE ] ; then
    tar zxvf $FILE
    cd mgenDistro
    cp -r tagaMini /tmp
-   pwd
 
-   # first, run the local (noSynchFlags) installs to get the vitals
-   ./tagaConfigMiniInstall.sh noSynchFlag
-   ./tagaUtilsInstall.sh noSynchFlag
-
-   # now run the remote install commands 
-   echo Running ./tagaConfigMiniInstall.sh
-   ./tagaConfigMiniInstall.sh
    echo
-   echo Running ./tagaUtilsInstall.sh
-   ./tagaUtilsInstall.sh
-   echo
-   echo Running ./iboaMiniInstall.sh
-   ./iboaMiniInstall.sh
-   echo
-   echo Running ./mcastMiniInstall.sh
-   ./mcastMiniInstall.sh
-   echo
-
-   #echo Running ./tagaUtilsMiniInstall.sh
-   #./tagaUtilsMiniInstall.sh
-   #echo
-
    echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
    echo -------------------------------------------------------------------------
 
@@ -77,16 +55,67 @@ if [ -f  $FILE ] ; then
    sleep 2
    echo
 
-   echo "Now Executing MCAST TEST (LISTEN and SEND) Commands"
-   echo -------------------------------------------------------------------------
-   cd ~/tagaMini/mcastUtils
-   echo "./mcastSend.sh & ./mcastListen.sh"
-   echo "Running MCASTSend & MCASTListen : ./mcastSend.sh & ./mcastListen.sh"
-   sleep 2
-   ./mcastSend.sh & ./mcastListen.sh
+   if [ $# -gt 0 ] && [ $1 == "persist" ]; then
+   
+      # persistent install!
 
+      # continue to execute the command
 
+      # first, run the local (noSynchFlags) installs to get the vitals
+      ./tagaConfigMiniInstall.sh noSynchFlag
+      ./tagaUtilsInstall.sh noSynchFlag
 
+      # now run the remote install commands 
+      echo Running ./tagaConfigMiniInstall.sh
+      ./tagaConfigMiniInstall.sh
+      echo
+      echo Running ./tagaUtilsInstall.sh
+      ./tagaUtilsInstall.sh
+      echo
+      echo Running ./iboaMiniInstall.sh
+      ./iboaMiniInstall.sh
+      echo
+      echo Running ./mcastMiniInstall.sh
+      ./mcastMiniInstall.sh
+      echo
+
+      #echo Running ./tagaUtilsMiniInstall.sh
+      #./tagaUtilsMiniInstall.sh
+      #echo
+
+      echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
+      echo -------------------------------------------------------------------------
+
+      sleep 2
+      ls
+      sleep 2
+ 
+      echo
+      echo IBOA/TAGA Scipts and Aliases are at the following:
+      echo -------------------------------------------------------------------------
+      pwd
+      sleep 2
+      echo
+
+      echo "Now Executing MCAST TEST (LISTEN and SEND) Commands"
+      echo -------------------------------------------------------------------------
+      cd ~/tagaMini/mcastUtils
+      echo
+      echo Persistent Mcast Install Directory : `pwd`
+      echo
+      echo "Running MCASTSend & MCASTListen : ./mcastSend.sh & ./mcastListen.sh"
+      echo "./mcastSend.sh & ./mcastListen.sh"
+      sleep 2
+      ./mcastSend.sh & ./mcastListen.sh
+      # end ifpersistent install
+   else
+      # not persistent install
+      echo
+      echo Notice: This install is *not* persistent.
+      echo Notice: Run this $0 command with 'persist' parameter for persistent install
+      echo
+      exit
+   fi # end if persistent install
 else
    echo $FILE Not Found!
 fi
