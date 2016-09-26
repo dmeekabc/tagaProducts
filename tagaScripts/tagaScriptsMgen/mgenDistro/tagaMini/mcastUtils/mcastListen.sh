@@ -30,6 +30,7 @@
 #
 #######################################################################
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/tmp/tagaMini
 TAGA_DIR=~/tagaMini
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
@@ -44,15 +45,16 @@ else
 fi
 
 # Configure the listener
+# Use the INTERFACE from the config or use default if none found
 if [ $INTERFACE ] ; then
   ITFC=$INTERFACE
 else
   ITFC=wlan0
 fi
 
+# Use the GROUP_PREFIX from the config or use default if none found
 GROUP_PREFIX=`echo $MYMCAST_ADDR | cut -d\. -f 1`
 GROUP_PREFIX=$MYMCAST_ADDR
-
 if [ $GROUP_PREFIX ]; then
   echo got it > /dev/null
 else
@@ -60,7 +62,9 @@ else
   GROUP_PREFIX=224
 fi
 
-echo $GROUP_PREFIX
+echo $0: "MYMCAST_ADDR: $MYMCAST_ADDR"
+echo $0: "INTERFACE:    $INTERFACE"
+echo $0: "GROUP_PREFIX: $GROUP_PREFIX"
 
 
 # create the script from the template
