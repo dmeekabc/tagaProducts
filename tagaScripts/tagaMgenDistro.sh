@@ -127,7 +127,12 @@ if [ -f  $FILE ] ; then
       # not persistent install
       echo
       echo Notice: This install is *not* persistent.
-      echo Notice: Run this $0 command with 'persist' parameter for persistent install
+      echo Notice: Run this $0 command with \'persist\' parameter for persistent install
+      echo "              eg. --> $0 persist"
+      echo
+      echo Notice: To test this temporary installation, try the following:
+      echo
+      echo "  e.g. --> /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
       echo
       exit
    fi # end if persistent install
