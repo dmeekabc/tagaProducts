@@ -29,17 +29,40 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=/tmp/tagaMini
+TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+let DEBUG=1
+let DEBUG=0
+
+# get the input
+PARAM1=$1
+PARAM2=$2
+
+# print the params if in debug mode
+if [ $DEBUG -eq 1 ]; then
+   echo ArgCount:$#
+   echo PARAM1:$PARAM1
+   echo PARAM2:$PARAM2
+   sleep 2
+fi
+
+# print the help info if help requested
 if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then
+
+# we suppress stderr due to extraneous wild-card (*) related warnings which may cause undue alarm 
+# this is with tradeoff of potentially hiding other errors which we will no longer see...
+if [ $1 == -h ] 2>/dev/null || [ $1 == -help ] 2>/dev/null || [ $1 == --help ] 2>/dev/null ; then
+   echo
+   echo Usage: $0 -h \(this help text\)
+   echo Usage: $0 -help \(this help text\)
+   echo Usage: $0 --help \(this help text\)
    echo Usage: $0 [[optionalFileList] [optionalTargetList]]
+   echo
    echo 'Example: $0 ".bashrc.iboa .bashrc.iboa.user.1000" "192.168.43.124 192.168.43.208"'
    echo
    echo Notice: A Param 2 optionalTargetList requires a Param 1 optionalFileList
-   echo
    echo Notice: If no Param is provided, the SCP LIST embedded in this script will be used to all targets.
    echo
    exit
@@ -52,7 +75,7 @@ MYDIR=`pwd`
 MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
-InfoToPrint=" $MYDIR will be synchronized. "
+InfoToPrint=" $MYDIR $PARAM1 will be synchronized. "
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
@@ -61,6 +84,7 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
+   # note: Taga convention is to include multiple assignments for ease of editing, bottom one wins
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
    SCP_SOURCE_STR="$0" # use this to synch this file only

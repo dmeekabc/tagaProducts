@@ -30,7 +30,6 @@
 #
 #######################################################################
 TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -51,7 +50,10 @@ fi
 
 # print the help info if help requested
 if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == -help ] || [ $1 == --help ]; then
+
+# we suppress stderr due to extraneous wild-card (*) related warnings which may cause undue alarm 
+# this is with tradeoff of potentially hiding other errors which we will no longer see...
+if [ $1 == -h ] 2>/dev/null || [ $1 == -help ] 2>/dev/null || [ $1 == --help ] 2>/dev/null ; then
    echo
    echo Usage: $0 -h \(this help text\)
    echo Usage: $0 -help \(this help text\)
@@ -82,13 +84,10 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
-   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
-   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
-   SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
-   SCP_SOURCE_STR="$0"         # use this to synch this file only
-   SCP_SOURCE_STR="synchme.sh synchBash.sh" # use this to synch these files only
-   SCP_SOURCE_STR="synchme.sh aliasesTagaUtils.txt" # use this to synch these files only
+   # note: Taga convention is to include multiple assignments for ease of editing, bottom one wins
    SCP_SOURCE_STR="."          # use this to synch everything here and below
+   SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
+   SCP_SOURCE_STR="$0" # use this to synch this file only
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1
