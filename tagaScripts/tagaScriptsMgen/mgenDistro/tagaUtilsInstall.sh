@@ -32,6 +32,6 @@
 
 cd /tmp/mgenDistro
 mkdir -p ~/tagaMini 
-cp -r tagaMini/tagaUtils ~/tagaMini 
-cd ~/tagaMini/tagaUtils
+cp -r tagaMini/tagaScripts/tagaScriptsUtils ~/tagaMini 
+cd ~/tagaMini/tagaScripts/tagaScriptsUtils
 ./synchme.sh       

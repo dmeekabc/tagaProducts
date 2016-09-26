@@ -43,15 +43,20 @@ if [ -f  $FILE ] ; then
    echo Running ./tagaConfigMiniInstall.sh
    ./tagaConfigMiniInstall.sh
    echo
+   echo Running ./tagaUtilsInstall.sh
+   ./tagaUtilsInstall.sh
+   echo
    echo Running ./iboaMiniInstall.sh
    ./iboaMiniInstall.sh
    echo
    echo Running ./mcastMiniInstall.sh
    ./mcastMiniInstall.sh
    echo
-   echo Running ./tagaUtilsMiniInstall.sh
-   ./tagaUtilsMiniInstall.sh
-   echo
+
+   #echo Running ./tagaUtilsMiniInstall.sh
+   #./tagaUtilsMiniInstall.sh
+   #echo
+
    echo IBOA/TAGA Scipts and Aliases are available in /tmp/mgenDistro as follows:
    echo -------------------------------------------------------------------------
 
