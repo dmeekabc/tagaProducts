@@ -33,7 +33,8 @@
 # install it locally
 cd /tmp/mgenDistro
 mkdir -p ~/tagaMini 
-cp -r tagaMini/tagaScripts/tagaScriptsUtils ~/tagaMini 
+mkdir -p ~/tagaMini/tagaScripts
+cp -r tagaMini/tagaScripts/tagaScriptsUtils ~/tagaMini/tagaScripts 
 
 # any input is a flag saying no synch!
 if [ $# -gt 0 ]; then
