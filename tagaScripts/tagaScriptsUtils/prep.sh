@@ -41,8 +41,12 @@ MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 
 # Taga:TODO: Add logic to check if this has been done
 
+# Call this script with a 'flag' parameter  to generate a key
 # DO THIS ONE TIME ONLY ON SOURCE MACHINE AND ONLY IF NEEDED
-#   ssh-keygen
+# any param is a flag indicating to generate a key before copying the id
+if [ $# -gt 0 ] ; then
+   ssh-keygen
+fi
 
 ######################################
 ######################################
