@@ -57,6 +57,7 @@ fi
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default
    NETADDRPART=192.168.1 # primary subnet (default)
+   NETADDRPART=192.168.43 # primary subnet (default)
 else
    # alternate
    NETADDRPART=10.0.0 # primary subnet (alternate)
@@ -78,6 +79,7 @@ NETADDRPART_ALT2=192.168.42 # secondary subnet
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default 192.168.1.x addresses
    TARGET_LIST="192.168.1.1 192.168.1.2"
+   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.157 192.168.43.208"
 else
    # alternate 10.0.0.x addresses
    TARGET_LIST="10.0.0.1 10.0.0.2"
