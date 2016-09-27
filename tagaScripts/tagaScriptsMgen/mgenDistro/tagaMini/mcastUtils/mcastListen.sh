@@ -108,9 +108,9 @@ let TCPDUMP_NUMERIC_DISPLAY=1
 # listen for multicast traffic per the ITFC and GROUP_PREFIIX settings
 if [ $TCPDUMP_NUMERIC_DISPLAY -eq 1 ]; then
    # listen with numeric option
-   tcpdump -n -i $ITFC udp | grep $GROUP_PREFIX
+   sudo tcpdump -n -i $ITFC udp | grep $GROUP_PREFIX
 else
    # listen without numeric option
-   tcpdump -i $ITFC udp | grep $GROUP_PREFIX
+   sudo tcpdump -i $ITFC udp | grep $GROUP_PREFIX
 fi
 
