@@ -28,9 +28,10 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-alias mcastListen='cd ~/tagaMini/mcastUtils; ./mcastListen.sh'
-alias mcastSend='cd ~/tagaMini/mcastUtils; ./mcastSend.sh'
+alias mcastListen='~/tagaMini/mcastUtils/mcastListen.sh'
+alias mcastSend='~/tagaMini/mcastUtils/mcastSend.sh'
 alias mcl='mcastListen'
 alias mcs='mcastSend'
+alias mcsw='while true; do echo; date; mcs ; sleep 1; done'
 alias mcastTest='mcl & mcs'
 alias mct='mcastTest'
