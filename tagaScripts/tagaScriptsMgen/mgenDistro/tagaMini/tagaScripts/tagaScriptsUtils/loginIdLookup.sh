@@ -29,7 +29,6 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-source $TAGA_CONFIG_DIR/config
 # Set the TAGA DIR BASE
 if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
   TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
