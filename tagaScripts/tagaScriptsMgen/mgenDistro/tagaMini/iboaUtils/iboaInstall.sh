@@ -29,7 +29,6 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-source $TAGA_CONFIG_DIR/config
 # Set the TAGA DIR BASE
 if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
   TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
@@ -230,6 +229,8 @@ else
    echo "alias run='echo This is a Test'"                                  >> $IBOA_USER_FILE
    echo "alias x='exit'"                                                   >> $IBOA_USER_FILE
    echo "alias g='TAGA_DIR=~/scripts/taga; cd \$TAGA_DIR'"                 >> $IBOA_USER_FILE
+   echo "alias gitclone='git clone https://github.com/dmeekabc/tagaProducts.git'" >> $IBOA_USER_FILE
+   echo "alias gettaga='git clone https://github.com/dmeekabc/tagaProducts.git'" >> $IBOA_USER_FILE
    echo "alias trace='alias > ~/scripts/taga/iboaUtils/aliasList.txt; ~/scripts/taga/iboaUtils/aliasTrace.sh'" >> $IBOA_USER_FILE
    echo "alias trac='trace'"                                               >> $IBOA_USER_FILE
    echo "alias tra='trac'"                                                 >> $IBOA_USER_FILE
