@@ -29,9 +29,16 @@
 #
 #######################################################################
 
-# TAGA MINI MULTICAST CONFIG
-# Note: This config is used ONLY if normal TAGA config is not found.
+# TAGA MINI MULTICAST CONFIG (BASIC)
 
+# Note: These basic configs may be overriden by other configuraion files
 MYMCAST_ADDR=224.1.2.3
 GROUP_PREFIX=224
+
+# TAGA MINI MULTICAST CONFIG (FORCE)
+
+# Note: These configs FORCE and will not be overriden by other configuraion files
+#       These should generally be commented out (unless force is needed)
+#MYMCAST_ADDR_FORCE=224.1.2.3
+#GROUP_PREFIX_FORCE=224
 

@@ -91,6 +91,9 @@ echo $0: "LISTENING INTERFACE: $INTERFACE"
 echo $0: "GROUP_PREFIX:        $GROUP_PREFIX"
 echo
 
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+
 # create the script from the template
 sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/scriptMcastReceiver.mgn.template \
    > $TAGA_MGEN_DIR/scriptMcastReceiver.mgn 

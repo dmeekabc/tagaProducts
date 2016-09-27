@@ -42,27 +42,45 @@ fi
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 
+# Use local mgenConfig as starting point, but override it below if configured elsewhere
+echo sourcing ./mcastConfig
+source ./mcastConfig
+
+# Use TAGA Config if found
 if [ -f $TAGA_CONFIG_DIR/config ]; then
   echo sourcing $TAGA_CONFIG_DIR/config
   source $TAGA_CONFIG_DIR/config
   # override the config for the path only
   TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
-else
-  echo sourcing ./mgenConfig
-  source ./mgenConfig
 fi
 
-# Configure the listener
+
+# Note: INTERFACE config is preserved to allow specification of the Sending INTERFACE in future
+
+# Use the INTERFACE from the config or use default if none found
+# Note: If loopback lo was found, use the default of wlan0
 if [ $INTERFACE ] ; then
-  ITFC=$INTERFACE
+  if [ $INTERFACE != "lo" ]; then
+     ITFC=$INTERFACE
+  else
+     ITFC=wlan0
+  fi
 else
   ITFC=wlan0
+fi
+
+# Finally, use forced params if provided
+if [ $MYMCAST_ADDR_FORCE ] ; then
+   MYMCAST_ADDR=$MYMCAST_ADDR_FORCE
 fi
 
 echo
 echo $0: "MYMCAST_ADDR:      $MYMCAST_ADDR"
 echo $0: "SENDING INTERFACE: Unspecified"
 echo
+
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
 
 # create the script from the template
 sed -e s/mcastgroup/$MYMCAST_ADDR/g \
