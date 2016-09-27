@@ -44,7 +44,7 @@ TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 
 # Use local mgenConfig as starting point, but override it below if configured elsewhere
 echo sourcing ./mcastConfig
-source ./mcastConfig
+source $TAGA_MGEN_DIR/mcastConfig
 
 # Use TAGA Config if found
 if [ -f $TAGA_CONFIG_DIR/config ]; then
