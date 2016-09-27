@@ -76,7 +76,7 @@ fi
 
 echo
 echo $0: "MYMCAST_ADDR:      $MYMCAST_ADDR"
-echo $0: "SENDING INTERFACE: Unspecified"
+echo $0: "SENDING INTERFACE: Unspecified (ok)"
 echo
 
 # Note: Additional Template-based configurations may be supported here in the future.
@@ -86,6 +86,10 @@ echo
 sed -e s/mcastgroup/$MYMCAST_ADDR/g \
    $TAGA_MGEN_DIR/scriptMcastSender.mgn.template \
    > $TAGA_MGEN_DIR/scriptMcastSender.mgn 
+
+echo
+echo "$0: MCAST Traffic to Group: $MYMCAST_ADDR will begin shortly..."
+echo
 
 # start the mcast sender 
 /usr/bin/mgen input $TAGA_MGEN_DIR/scriptMcastSender.mgn 
