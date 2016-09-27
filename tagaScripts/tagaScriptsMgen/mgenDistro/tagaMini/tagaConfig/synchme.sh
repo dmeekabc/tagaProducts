@@ -45,6 +45,10 @@ source $TAGA_CONFIG_DIR/config
 let DEBUG=1
 let DEBUG=0
 
+# Auto Confirm Response: Yes=1, No=0
+let AUTO_CONFIRM_RESPONSE=1 # yes (enable auto synch to other targets)
+let AUTO_CONFIRM_RESPONSE=0 # no (disable auto synch to other targets)
+
 # get the input
 PARAM1=$1
 PARAM2=$2
@@ -86,7 +90,11 @@ MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 # provide the info to print into the confirmation request
 InfoToPrint=" $MYDIR $PARAM1 will be synchronized. "
 # issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+if [ $AUTO_CONFIRM_RESPONSE -eq 1 ]; then
+   $tagaUtilsDir/confirm.sh $0 "$InfoToPrint" < /tmp/tagaMini/iboaUtils/confirm.txt
+else
+   $tagaUtilsDir/confirm.sh $0 "$InfoToPrint" < /tmp/tagaMini/iboaUtils/confirmNo.txt
+fi
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
 # Define SCP_SOURCE_STR here *** IF IT IS NOT PROVIDED as Param 1 Input ***
