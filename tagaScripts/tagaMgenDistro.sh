@@ -153,7 +153,6 @@ if [ -f  $FILE ] ; then
       echo
       echo "****************************** NOTICE **********************************"
       echo "  This installation is *not* persistent."
-      echo "  This installation is *not* persistent."
       echo "****************************** NOTICE **********************************"
       echo
       echo Notice: Run this $0 command with \'persist\' parameter for a persisten install.
@@ -173,6 +172,10 @@ if [ -f  $FILE ] ; then
       echo " e.g., "
       echo "  source /tmp/mgenDistro/aliasesMcast.txt"
       echo "  mct"
+      echo
+      echo "****************************** NOTICE **********************************"
+      echo "  This installation is *not* persistent."
+      echo "****************************** NOTICE **********************************"
       echo
       exit
    fi # end if persistent install
