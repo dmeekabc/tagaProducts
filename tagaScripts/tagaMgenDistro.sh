@@ -151,27 +151,28 @@ if [ -f  $FILE ] ; then
    else
       # not persistent install
       echo
+      echo "****************************** CMD INFO **********************************"
+      echo "  To test this temporary installation, run the following commands."
+      echo "****************************** CMD INFO **********************************"
+      echo
+      echo CMD INFO: To test this temporary installation, run the following send and
+      echo listen combined commands: e.g.,
+      echo
+      echo "$ /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
+      echo
+      echo CMD INFO: Alternately, source the aliasesMcast.txt file and run the multicast test \('mct'\) 
+      echo alias as follows: e.g.,
+      echo
+      echo "$ source /tmp/mgenDistro/aliasesMcast.txt"
+      echo "$ mct"
+      echo
       echo "****************************** NOTICE **********************************"
       echo "  This installation is *not* persistent."
       echo "****************************** NOTICE **********************************"
       echo
-      echo Notice: Run this $0 command with \'persist\' parameter for a persisten install.
+      echo CMD INFO: Run $0 with the \'persist\' parameter for a persisten install. e.g.,
       echo
-      echo " e.g., "
-      echo "  $0 persist"
-      echo
-      echo Notice: To test this temporary installation, run the following send and
-      echo listen combined commands:
-      echo
-      echo " e.g., "
-      echo "  /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
-      echo
-      echo Notice: Alternately, source the aliasesMcast.txt file and run the multicast
-      echo test \('mct'\) alias as follows:
-      echo
-      echo " e.g., "
-      echo "  source /tmp/mgenDistro/aliasesMcast.txt"
-      echo "  mct"
+      echo "$ $0 persist"
       echo
       echo "****************************** NOTICE **********************************"
       echo "  This installation is *not* persistent."
