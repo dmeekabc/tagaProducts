@@ -160,8 +160,8 @@ if [ -f  $FILE ] ; then
       echo
       echo "$ /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
       echo
-      echo CMD INFO: Alternately, source the aliasesMcast.txt file and run the multicast test \('mct'\) 
-      echo alias as follows: e.g.,
+      echo CMD INFO: Alternately, source the aliasesMcast.txt file and run the multicast 
+      echo test \('mct'\) alias as follows: e.g.,
       echo
       echo "$ source /tmp/mgenDistro/aliasesMcast.txt"
       echo "$ mct"
