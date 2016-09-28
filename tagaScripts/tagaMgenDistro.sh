@@ -56,6 +56,28 @@ if [ -f  $FILE ] ; then
    sleep 2
    echo
 
+   # check for mgen binary
+   if [ -f /usr/bin/mgen ]; then
+      # found
+      echo success, mgen is found at /usr/bin/mgen >/dev/null
+   else
+      # not found
+      echo
+      echo WARNING: /usr/bin/mgen was not found.
+      echo
+      echo NOTICE: You may choose to run one of the following based on your system/login info.
+      echo NOTICE: Consider running one of the following:
+      echo
+      echo "For Ubuntu:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/ubuntu/mgen /usr/bin"
+      echo "For Raspberry Pi:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/pi/mgen /usr/bin"
+      echo
+      echo Sleeping for 20 seconds...
+      sleep 20
+   fi
+
+
    if [ $# -gt 0 ] && [ $1 == "persist" ]; then
    
       # persistent install!
