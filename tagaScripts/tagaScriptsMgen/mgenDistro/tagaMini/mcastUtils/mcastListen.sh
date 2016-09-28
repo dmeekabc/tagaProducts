@@ -93,6 +93,18 @@ echo
 
 # Note: Additional Template-based configurations may be supported here in the future.
 # Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+  ## prep the mgen config 
+  #sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TEMPFILE  # create temp from template
+  #sed -e s/destport/$DESTPORT/g $TEMPFILE                           > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/sourceport/$SOURCEPORT/g $TEMP2FILE                      > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/count/$MSGCOUNT/g $TEMPFILE                              > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/rate/$MSGRATE/g $TEMP2FILE                               > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/proto/$mgen_proto/g $TEMPFILE                            > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
+
 
 # create the script from the template
 sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/scriptMcastReceiver.mgn.template \

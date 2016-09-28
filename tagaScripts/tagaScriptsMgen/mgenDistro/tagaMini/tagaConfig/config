@@ -45,6 +45,12 @@ else
   TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
 fi
 
+# dlm temp, move me to the config
+# dlm temp, move me to the config
+TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=1 # yes (enable  auto synch to other targets)
+TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=0 # no  (disable auto synch to other targets)
+TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=2 # neither, let the user decide and respond to the confirmation prompt
+
 # Set the TAGA CONFIG
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
