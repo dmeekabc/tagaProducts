@@ -172,7 +172,7 @@ if [ -f  $FILE ] ; then
       echo "  This installation is *not* persistent."
       echo "****************************** NOTICE **********************************"
       echo
-      echo CMD INFO: Run $0 with the \'persist\' parameter for a persisten install. e.g.,
+      echo CMD INFO: Run $0 with the \'persist\' parameter for a persistent install. e.g.,
       echo
       echo "$ $0 persist"
       echo
