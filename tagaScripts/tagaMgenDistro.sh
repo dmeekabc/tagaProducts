@@ -141,10 +141,13 @@ if [ -f  $FILE ] ; then
       echo Persistent Mcast Install Directory : `pwd`
       echo
       echo "Running MCASTSend & MCASTListen : ./mcastSend.sh & ./mcastListen.sh"
-      echo "./mcastSend.sh & ./mcastListen.sh"
-      sleep 2
+      echo "   ./mcastSend.sh & ./mcastListen.sh"
+
+      # Run it
       ./mcastSend.sh & ./mcastListen.sh
+
       # end ifpersistent install
+
    else
       # not persistent install
       echo
@@ -152,11 +155,16 @@ if [ -f  $FILE ] ; then
       echo
       echo Notice: Run this $0 command with \'persist\' parameter for persistent install
       echo " e.g., "
-      echo " $0 persist"
+      echo "    $0 persist"
       echo
       echo Notice: To test this temporary installation, try the following combined commands:
       echo " e.g., "
       echo " /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
+      echo
+      echo "Notice: Or alternatively, source the aliasesMcast.txt and run the multicastTest ('mct') alias"
+      echo " e.g., "
+      echo "    source /tmp/mgenDistro/aliasesMcast.txt"
+      echo "    mct"
       echo
       exit
    fi # end if persistent install
