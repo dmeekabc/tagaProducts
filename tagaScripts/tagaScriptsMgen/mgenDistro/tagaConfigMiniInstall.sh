@@ -30,47 +30,18 @@
 #
 #######################################################################
 
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
-TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
+# install it locally
+cd /tmp/mgenDistro
+mkdir -p ~/tagaMini 
+cp -r tagaMini/tagaConfig ~/tagaMini 
 
-PADVAR=";"
-PADVAR=";"
-PADVAR=":"
-PADVAR=" "
-PADVAR="x"
-PADVAR="."
-
-if [ $# -ne 2 ]; then
-   echo $0: Error, two params required!
-   echo "   required param 1: output param to be padded"
-   echo "   required param 2: size of output after padding"
-   echo Your Param Count: $#
-   if [ $# -eq 1 ] ; then
-      echo Your Param 1: $1
-   fi
-   echo
-   
-   exit 255
+# any input is a flag saying no synch!
+if [ $# -gt 0 ]; then
+   # flag indicating no synch
+   echo no synch > /dev/null
+else
+   # else no flag, synchme
+   cd ~/tagaMini/tagaConfig
+   ./synchme.sh       
 fi
-
-outputParam=$1
-printlen=$2
-
-buflen=`echo $outputParam | awk '{print length($0)}'`
-
-let padlen=$printlen-$buflen
-# add the padding
-let i=$padlen
-while [ $i -gt 0 ];
-do
-  outputParam="$outputParam$PADVAR"
-  let i=$i-1
-done
-
-echo $outputParam
-
-
-
 

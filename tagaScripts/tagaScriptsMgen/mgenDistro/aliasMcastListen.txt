@@ -1,1 +1,0 @@
-alias mcastlisten='gmgen;mgen input script_mcast_rcvr.mgn & tcpdump -i `myitfc` udp | grep 224'

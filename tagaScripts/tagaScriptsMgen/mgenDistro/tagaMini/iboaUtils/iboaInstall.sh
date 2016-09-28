@@ -29,11 +29,19 @@
 # DAMAGE.                                                              
 #
 #######################################################################
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
 
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
+# Set and Source the TAGA CONFIG Dir
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
+
 
 # install iboa if not already installed
 if cat ~/.bashrc | grep iboa | grep bashrc >/dev/null; then
@@ -221,6 +229,8 @@ else
    echo "alias run='echo This is a Test'"                                  >> $IBOA_USER_FILE
    echo "alias x='exit'"                                                   >> $IBOA_USER_FILE
    echo "alias g='TAGA_DIR=~/scripts/taga; cd \$TAGA_DIR'"                 >> $IBOA_USER_FILE
+   echo "alias gitclone='git clone https://github.com/dmeekabc/tagaProducts.git'" >> $IBOA_USER_FILE
+   echo "alias gettaga='git clone https://github.com/dmeekabc/tagaProducts.git'" >> $IBOA_USER_FILE
    echo "alias trace='alias > ~/scripts/taga/iboaUtils/aliasList.txt; ~/scripts/taga/iboaUtils/aliasTrace.sh'" >> $IBOA_USER_FILE
    echo "alias trac='trace'"                                               >> $IBOA_USER_FILE
    echo "alias tra='trac'"                                                 >> $IBOA_USER_FILE

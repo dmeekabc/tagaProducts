@@ -31,49 +31,52 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-ALIAS_FILE=$iboaUtilsDir/aliasExamples.txt
-#ALIAS_FILE=$iboaUtilsDir/aliasList.txt
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
-# validate input
-if [ $# -eq 1 ]; then
-   ALIAS_FILE=$1
-   echo; echo $0 executing with the following param input... $1; echo
-   echo; echo $0 : $MYIP :  executing at `date`; echo
-else
-   echo; echo $0 executing with no param input...; echo
-fi
+# provide the info to print into the confirmation request
+InfoToPrint="Notice: This command will create and update the IBOA TAGA targetList.sh file."
 
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
 
-##########################################################
-# note, prior to running this script, # run the following: 
-#
-#    alias > $TAGA_DIR/aliasList.txt
-##########################################################
+# continue to execute the command
+echo $0 Proceeding.... at `date`; echo
 
-# if confirmation, required, get the confirmation
+echo 1
 
-#if [ $CONFIRM_REQD -eq 1 ] ; then
-if [ true ] ; then
-   # ensure proper setup
-   echo Please confirm that you would like to extend your aliases by sourcing the follwing file: 
-   echo "$ALIAS_FILE"
-   # issue confirmation prompt
-   $iboaUtilsDir/confirm.sh
-   # check the response
-   let response=$?
-   if [ $response -eq 1 ]; then
-     echo; echo Confirmed, $0 continuing....; echo
-   else
-     echo; echo Not Confirmed, $0 exiting with no action...; echo
+echo
+echo Current IP Address List : "$list"
+echo Enter an IP Address : Dotted Decimal Notation : a.b.c.d
+echo Enter an IP Address or \'d\' if done
+
+list="localhost"
+
+while read address
+do
+ # echo 2
+  if [ $address == 'd' ]; then
+     echo Done entering addressess... creating targetList.sh file
      exit
-   fi
-fi
+  else
+     #if echo $address | grep \*\.\*\.\*\.\* ; then
+     if echo $address | grep [0-9]\.[0-9]\.[0-9]\.[0-9]; then
+        echo valid IP address : $address
+        list="$list $address"
+     else
+        echo Not a valid IP address : $address
+     fi
+     echo Current IP Address List : "$list"
+     echo
+     echo Enter an IP Address : Dotted Decimal Notation : a.b.c.d
+     echo Enter an IP Address or \'d\' if done
+     echo
+  fi
+done
 
-echo sourcing $ALIAS_FILE;echo
-source $ALIAS_FILE
-echo Done!;echo
+echo 3
+
 

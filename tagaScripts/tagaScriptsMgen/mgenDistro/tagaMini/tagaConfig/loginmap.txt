@@ -31,10 +31,9 @@
 
 # this file maps login identifiers to network addresses
 
-# most general configurations on top with specializiation below
+# please place the most general configurations on top with the specializiations below
 
-10.0.0:darrin
-192.168.43:darrin
+192.168.43:pi
 192.168.43.124:darrin
+192.168.43.157:darrin
 192.168.43.208:darrin
-192.168.43.228:darrin

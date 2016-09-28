@@ -50,7 +50,10 @@ fi
 
 # print the help info if help requested
 if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == -help ] || [ $1 == --help ]; then
+
+# we suppress stderr due to extraneous wild-card (*) related warnings which may cause undue alarm 
+# this is with tradeoff of potentially hiding other errors which we will no longer see...
+if [ $1 == -h ] 2>/dev/null || [ $1 == -help ] 2>/dev/null || [ $1 == --help ] 2>/dev/null ; then
    echo
    echo Usage: $0 -h \(this help text\)
    echo Usage: $0 -help \(this help text\)

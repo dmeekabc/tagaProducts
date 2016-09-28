@@ -32,26 +32,9 @@
 ####################################################
 # The root of the config
 ####################################################
-
-# dlm temp, use tagaXXXXXXXX for testing , consider remove after test?? 
-# dlm temp, use tagaXXXXXXXX for testing , consider remove after test?? 
-
-# Set the TAGA DIR BASE
-if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
-  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-elif [ -d ~/tagaMini ]; then
-  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
-else
-  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
-fi
-
-# dlm temp, move me to the config
-# dlm temp, move me to the config
-TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=1 # yes (enable  auto synch to other targets)
-TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=0 # no  (disable auto synch to other targets)
-TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE=2 # neither, let the user decide and respond to the confirmation prompt
-
-# Set the TAGA CONFIG
+TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
@@ -626,15 +609,8 @@ fi
 ##############################################
 # automatatically generated configs
 ##############################################
-# Set the TAGA DIR BASE
-if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
-  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
-elif [ -d ~/tagaMini ]; then
-  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
-else
-  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
-fi
-# Set the TAGA OUTPUT DIR
+TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+TAGA_DIR=/tmp/tagaMini # new sept 2016, tagaMini version
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016

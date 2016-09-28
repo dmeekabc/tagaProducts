@@ -29,13 +29,22 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=/tmp/tagaMini
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
+
+# Set and Source the TAGA CONFIG Dir
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 let DEBUG=1
 let DEBUG=0
+
 
 # get the input
 PARAM1=$1
@@ -51,7 +60,10 @@ fi
 
 # print the help info if help requested
 if [ $# -ge 1 ] ; then
-if [ $1 == -h ] || [ $1 == -help ] || [ $1 == --help ]; then
+
+# we suppress stderr due to extraneous wild-card (*) related warnings which may cause undue alarm 
+# this is with tradeoff of potentially hiding other errors which we will no longer see...
+if [ $1 == -h ] 2>/dev/null || [ $1 == -help ] 2>/dev/null || [ $1 == --help ] 2>/dev/null ; then
    echo
    echo Usage: $0 -h \(this help text\)
    echo Usage: $0 -help \(this help text\)
@@ -74,21 +86,29 @@ MYDIR=`echo $MYDIR | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
 
 # provide the info to print into the confirmation request
 InfoToPrint=" $MYDIR $PARAM1 will be synchronized. "
+
+
 # issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+if [ $TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE -eq 0 ]; then
+   # respond NO to confirmation prompt to user
+   $tagaUtilsDir/confirm.sh $0 "$InfoToPrint" < /tmp/tagaMini/iboaUtils/confirmNo.txt
+elif [ $TAGA_SYNCHME_AUTO_CONFIRM_RESPONSE -eq 1 ]; then
+   # respond YES to confirmation prompt to user
+   $tagaUtilsDir/confirm.sh $0 "$InfoToPrint" < /tmp/tagaMini/iboaUtils/confirm.txt
+else
+   # issue confirmation prompt to user
+   $tagaUtilsDir/confirm.sh $0 "$InfoToPrint" 
+fi
 response=$?; if [ $response -ne 1 ]; then exit; fi
 
 # Define SCP_SOURCE_STR here *** IF IT IS NOT PROVIDED as Param 1 Input ***
 if [ $# -eq 0 ]; then
    # define the source string right here
    # note, this applies if this script called with no params!!
-   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
-   # note, bottom assignment ONLY wins (iboa/taga scripting convention)
+   # note: Taga convention is to include multiple assignments for ease of editing, bottom one wins
    SCP_SOURCE_STR="."          # use this to synch everything here and below
    SCP_SOURCE_STR="synchme.sh" # use this to synch this file only
-   SCP_SOURCE_STR="$0"         # use this to synch this file only
-   SCP_SOURCE_STR="synchme.sh synchBash.sh" # use this to synch these files only
-   SCP_SOURCE_STR="synchme.sh aliasesMcast.txt mcast*" # use this to synch these files only
+   SCP_SOURCE_STR="$0" # use this to synch this file only
 else
    # use the input parameter if provided
    SCP_SOURCE_STR=$1

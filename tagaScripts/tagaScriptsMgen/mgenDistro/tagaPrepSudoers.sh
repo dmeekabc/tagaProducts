@@ -29,21 +29,22 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_FULL_INSTALL=1 # use this with FULL TAGA INSTALL
-TAGA_FULL_INSTALL=0 # use this with PARTIAL TAGA INSTALL
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
 
+# Set and Source the TAGA CONFIG Dir
+TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+source $TAGA_CONFIG_DIR/config
 
 SUDOERS_FILE=/etc/sudoers
 SUDOERS_FILE=/tmp/sudoers.txt
 
-
-if [ $TAGA_FULL_INSTALL -eq 1 ]; then
-   TAGA_DIR=~/scripts/taga
-else
-   TAGA_DIR=/tmp/tagaMini
-fi
-TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
 
 if [ $# -ge 1 ] ; then
 if [ $1 == -h ] || [ $1 == --help ] || [ $1 == -help ]; then

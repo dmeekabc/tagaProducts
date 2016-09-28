@@ -42,17 +42,54 @@ fi
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+caller=$1
+printInfo=$2
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
+#####################################################3
+# issuePrompt function
+#####################################################3
+function issuePrompt {
+echo
+echo Please Confirm to Proceed.
+echo
+echo Confirm? \(y/n\) \?
+echo
 
-# provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
+read input
 
-# issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
+#echo hi
+#echo $input                          
+#echo $input                          
+#echo $input                          
+#echo $input                          
+#echo hi
 
-# continue to execute the command
-echo $0 Proceeding.... at `date`; echo
+if [ $input == "y" ]; then
+  return 1 # confirmed
+else
+  return 2 # not confirmed
+fi
+}
 
+#####################################################3
+# Main
+#####################################################3
+
+# print the info
+echo
+echo $printInfo
+
+# issue the prompt
+issuePrompt
+
+# check the response
+let response=$?
+if [ $response -eq 1 ]; then
+  echo; echo Confirmed, $caller continuing....; echo
+else
+  echo; echo Not Confirmed, $caller exiting or returning with no action...; echo
+fi
+
+# return the response to the caller
+exit $response
 

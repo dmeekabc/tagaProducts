@@ -29,28 +29,47 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
-TAGA_DIR=~/tagaMini
-TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
+# Set the TAGA DIR BASE
+if [ -d ~/scripts/tagaXXXXXXXXXX ]; then
+  TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+elif [ -d ~/tagaMini ]; then
+  TAGA_DIR=~/tagaMini     # new sept 2016, tagaMini version
+else
+  TAGA_DIR=/tmp/tagaMini  # new sept 2016, tagaMini version
+fi
+
+# Set the TAGA CONFIG and MGEN Dirs
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
+TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
+
+# Use local mgenConfig as starting point, but override it below if configured elsewhere
+echo sourcing ./mcastConfig
+source $TAGA_MGEN_DIR/mcastConfig
+
+# Use TAGA Config if found
 if [ -f $TAGA_CONFIG_DIR/config ]; then
   echo sourcing $TAGA_CONFIG_DIR/config
   source $TAGA_CONFIG_DIR/config
-else
-  echo sourcing ./mgenConfig
-  source ./mgenConfig
+  # override the config for the path only
+  TAGA_MGEN_DIR=$TAGA_DIR/mcastUtils
 fi
 
 # Configure the listener
+# Use the INTERFACE from the config or use default if none found
+# Note: If loopback lo was found, use the default of wlan0
 if [ $INTERFACE ] ; then
-  ITFC=$INTERFACE
+  if [ $INTERFACE != "lo" ]; then
+     ITFC=$INTERFACE
+  else
+     ITFC=wlan0
+  fi
 else
   ITFC=wlan0
 fi
 
+# Use the GROUP_PREFIX from the config or use default if none found
 GROUP_PREFIX=`echo $MYMCAST_ADDR | cut -d\. -f 1`
 GROUP_PREFIX=$MYMCAST_ADDR
-
 if [ $GROUP_PREFIX ]; then
   echo got it > /dev/null
 else
@@ -58,7 +77,34 @@ else
   GROUP_PREFIX=224
 fi
 
-echo $GROUP_PREFIX
+# Finally, use forced params if provided
+if [ $MYMCAST_ADDR_FORCE ] ; then
+   MYMCAST_ADDR=$MYMCAST_ADDR_FORCE
+fi
+if [ $GROUP_PREFIX_FORCE ] ; then
+   GROUP_PREFIX=$GROUP_PREFIX_FORCE
+fi
+
+echo
+echo $0: "MYMCAST_ADDR:        $MYMCAST_ADDR"
+echo $0: "LISTENING INTERFACE: $INTERFACE"
+echo $0: "GROUP_PREFIX:        $GROUP_PREFIX"
+echo
+
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+# Note: Additional Template-based configurations may be supported here in the future.
+  ## prep the mgen config 
+  #sed -e s/destination/$target/g $TAGA_MGEN_DIR/script.mgn.template > $TEMPFILE  # create temp from template
+  #sed -e s/destport/$DESTPORT/g $TEMPFILE                           > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/sourceport/$SOURCEPORT/g $TEMP2FILE                      > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/count/$MSGCOUNT/g $TEMPFILE                              > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/rate/$MSGRATE/g $TEMP2FILE                               > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/proto/$mgen_proto/g $TEMPFILE                            > $TEMP2FILE # toggle temp/temp2
+  #sed -e s/interface/$INTERFACE/g $TEMP2FILE                        > $TEMPFILE  # toggle temp/temp2
+  #sed -e s/len/$MSGLEN/g $TEMPFILE                                  > $SCRIPTFILE       # finalize
+
 
 # create the script from the template
 sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/scriptMcastReceiver.mgn.template \
@@ -67,6 +113,16 @@ sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/scriptMcastReceiver.mgn.templ
 # start the mcast receiver in the backgrond (Join the Multicast Group)
 /usr/bin/mgen input $TAGA_MGEN_DIR/scriptMcastReceiver.mgn &
 
+# Listener Config
+let TCPDUMP_NUMERIC_DISPLAY=0
+let TCPDUMP_NUMERIC_DISPLAY=1
+
 # listen for multicast traffic per the ITFC and GROUP_PREFIIX settings
-tcpdump -i $ITFC udp | grep $GROUP_PREFIX
+if [ $TCPDUMP_NUMERIC_DISPLAY -eq 1 ]; then
+   # listen with numeric option
+   sudo tcpdump -n -i $ITFC udp | grep $GROUP_PREFIX
+else
+   # listen without numeric option
+   sudo tcpdump -i $ITFC udp | grep $GROUP_PREFIX
+fi
 
