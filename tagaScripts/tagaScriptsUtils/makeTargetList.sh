@@ -38,7 +38,6 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 
 # provide the info to print into the confirmation request
 InfoToPrint="Notice: This command will create and update the IBOA TAGA targetList.sh file."
-
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
 response=$?; if [ $response -ne 1 ]; then exit; fi
@@ -46,22 +45,25 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 # continue to execute the command
 echo $0 Proceeding.... at `date`; echo
 
-echo 1
-
 echo
 echo Current IP Address List : "$list"
-echo Enter an IP Address : Dotted Decimal Notation : a.b.c.d
-echo Enter an IP Address or \'d\' if done
+echo
+echo Enter an IP Address in Dotted Decimal Notation : a.b.c.d 
+echo "  Or Enter 'd' if done"
+echo
 
 list="localhost"
 
 while read address
 do
+  echo
  # echo 2
   if [ $address == 'd' ]; then
      echo Done entering addressess... creating targetList.sh file
-     exit
+     #exit
+     break
   else
+     echo
      #if echo $address | grep \*\.\*\.\*\.\* ; then
      if echo $address | grep [0-9]\.[0-9]\.[0-9]\.[0-9]; then
         echo valid IP address : $address
@@ -77,6 +79,15 @@ do
   fi
 done
 
-echo 3
+echo
+echo The new Target List is as follows:
+echo
+     echo "New List: << $list >>"
+
+# provide the info to print into the confirmation request
+InfoToPrint="Notice: If confirmed, the targetList.sh file will be updated to return the new list above:"
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
 
 

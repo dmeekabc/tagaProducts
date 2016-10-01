@@ -56,6 +56,30 @@ if [ -f  $FILE ] ; then
    sleep 2
    echo
 
+
+   # check for mgen binary
+   if [ -f /usr/bin/mgen ]; then
+      # found
+      echo success, mgen is found at /usr/bin/mgen >/dev/null
+   else
+      # not found
+      echo
+      echo WARNING: /usr/bin/mgen was not found.
+      echo
+      echo INFO: You may choose to run one of the following based on your system/login info.
+      echo INFO: Consider running one of the following:
+      echo
+      echo "For Ubuntu:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/ubuntu/mgen /usr/bin"
+      echo
+      echo "For Raspberry Pi:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/pi/mgen /usr/bin"
+      echo
+      echo Sleeping for 20 seconds...
+      sleep 20
+   fi
+
+
    if [ $# -gt 0 ] && [ $1 == "persist" ]; then
    
       # persistent install!
@@ -119,22 +143,62 @@ if [ -f  $FILE ] ; then
       echo Persistent Mcast Install Directory : `pwd`
       echo
       echo "Running MCASTSend & MCASTListen : ./mcastSend.sh & ./mcastListen.sh"
-      echo "./mcastSend.sh & ./mcastListen.sh"
-      sleep 2
+      echo "   ./mcastSend.sh & ./mcastListen.sh"
+
+      # Run it
       ./mcastSend.sh & ./mcastListen.sh
+
       # end ifpersistent install
+
    else
       # not persistent install
       echo
-      echo Notice: This install is *not* persistent.
+      echo "****************************** CMD INFO **********************************"
+      echo "  To test this temporary installation, run the following commands."
+      echo "****************************** CMD INFO **********************************"
       echo
-      echo Notice: Run this $0 command with \'persist\' parameter for persistent install
-      echo " e.g., "
-      echo " $0 persist"
+      echo CMD INFO: To test this temporary installation, run the following send and
+      echo listen combined commands: e.g.,
       echo
-      echo Notice: To test this temporary installation, try the following combined commands:
-      echo " e.g., "
-      echo " /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
+      echo "$ /tmp/tagaMini/mcastUtils/mcastSend.sh & /tmp/tagaMini/mcastUtils/mcastListen.sh"
+      echo
+      echo CMD INFO: Alternately, source the aliasesMcast.txt file and run the multicast 
+      echo test \('mct'\) alias as follows: e.g.,
+      echo
+      echo "$ source /tmp/mgenDistro/aliasesMcast.txt"
+      echo "$ mct"
+      echo
+      echo "****************************** NOTICE **********************************"
+      echo "  This installation is *not* persistent."
+      echo "****************************** NOTICE **********************************"
+      echo
+      echo CMD INFO: Run $0 with the \'persist\' parameter for a persistent install. e.g.,
+      echo
+      echo "$ $0 persist"
+      echo
+      echo "****************************** NOTICE **********************************"
+      echo "  This installation is *not* persistent."
+      echo "****************************** NOTICE **********************************"
+
+   # check AGAIN for mgen binary
+   if [ -f /usr/bin/mgen ]; then
+      # found
+      echo success, mgen is found at /usr/bin/mgen >/dev/null
+   else
+      # not found
+      echo
+      echo WARNING: /usr/bin/mgen was not found.
+      echo
+      echo INFO: You may choose to run one of the following based on your system/login info.
+      echo INFO: Consider running one of the following:
+      echo
+      echo "For Ubuntu:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/ubuntu/mgen /usr/bin"
+      echo
+      echo "For Raspberry Pi:"
+      echo  "$ sudo cp /tmp/tagaMini/mcastUtils/bin/pi/mgen /usr/bin"
+      echo
+   fi
       echo
       exit
    fi # end if persistent install

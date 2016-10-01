@@ -58,6 +58,12 @@ if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default
    NETADDRPART=192.168.1 # primary subnet (default)
    NETADDRPART=192.168.43 # primary subnet (default)
+
+# Note: New for tagaMini, do not use for normal taga 
+# Note: First 2 Nibbles,this assumes 16-bit or larger netmask
+# Note: New for tagaMini, do not use for normal taga which requires 3 nibbles
+   NETADDRPART=192.168 # primary subnet (default)
+
 else
    # alternate
    NETADDRPART=10.0.0 # primary subnet (alternate)
