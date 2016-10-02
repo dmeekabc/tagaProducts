@@ -36,7 +36,7 @@
 # otherwise, use the default
 #######################################################################
 
-NETADDR_STRING_TO_MATCH="10\\.0\\.0"
+NETADDR_STRING_TO_MATCH="192\\.168\\.43"
 
 if /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
   # use alternate
@@ -55,10 +55,10 @@ fi
 # Note: First 3 Nibbles,this assumes 24-bit or higher netmask
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default
-   NETADDRPART=192.168.43
+   NETADDRPART=192.168.41
 else
    # alternate
-   NETADDRPART=10.0.0
+   NETADDRPART=192.168.43
 fi
 
 ###################################################
@@ -98,10 +98,10 @@ NETADDRPART_ALT25=192.168.170
 
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default
-   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.208"
+   TARGET_LIST="192.168.41.221 "
 else
    # alternate
-   TARGET_LIST="10.0.0.20 10.0.0.22 10.0.0.27"
+   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.208"
 fi
 
 
