@@ -251,9 +251,9 @@ else
    echo "################################################################" >> $IBOA_SYSTEM_FILE
    echo "alias testiboa='echo This is a Test'"                             >> $IBOA_SYSTEM_FILE
 
-   # order below matters!  current policy, let user override group and let system have final say
-   echo source $IBOA_GROUP_FILE  >> $IBOA_FILE
+   # order below matters!  current policy, system overrides group overrides user
    echo source $IBOA_USER_FILE   >> $IBOA_FILE
+   echo source $IBOA_GROUP_FILE  >> $IBOA_FILE
    echo source $IBOA_SYSTEM_FILE >> $IBOA_FILE
 
    # install iboa
