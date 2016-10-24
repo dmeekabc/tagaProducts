@@ -56,7 +56,7 @@ do
 
    identy=$HOME/.ssh/id_rsa
    state=`ssh -i $identy -l $MYLOGIN_ID $target cat /var/opt/taga/run/tagaState.dat`
-   tmp=`echo "\`./iboaPaddedEcho.sh $target 16\`: $state"`
+   tmp=`echo "\`/home/darrin/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state"`
    eval "mytarget$i=$tmp"
 
 done
