@@ -33,9 +33,18 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-VERBOSE=0
 VERBOSE=1
+VERBOSE=0
 
+echo `date` : TAGA Timer-based Monitor ...
+echo
+clear
+echo
+echo
+echo `date` : TAGA Timer-based Monitor -- Starting...
+
+while true
+do 
 #output=""
 
 let i=0
@@ -56,9 +65,18 @@ do
 
    identy=$HOME/.ssh/id_rsa
    state=`ssh -i $identy -l $MYLOGIN_ID $target cat /var/opt/taga/run/tagaState.dat`
+
    #tmp=`echo "\`/home/darrin/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state"`
    #tmp=`echo \`/home/darrin/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state`
-   tmp=`echo \`$HOME/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state`
+   #tmp="echo blue"
+#   param1=`echo \`$HOME/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state`
+#   echo param1:$param1
+#   exit
+#   param1="blue"
+   #tmp=`echo \`./iboaPaddedEcho.sh $target 16\`:\`./iboaPaddedEcho.sh $param1 5\`:`
+
+   tmp=`echo \`./iboaPaddedEcho.sh $target 16\`:\`./iboaPaddedEcho.sh $state 5\`:`
+
    eval "mytarget$i=$tmp"
 
 done
@@ -154,4 +172,4 @@ do
 done
 
 
-
+done
