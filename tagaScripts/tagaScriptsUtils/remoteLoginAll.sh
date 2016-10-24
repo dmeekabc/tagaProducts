@@ -54,7 +54,7 @@ do
      echo
      echo Remotely logging into $target vis SSH ...
      echo
-     ssh -l $MYLOGIN_ID $target
+     ssh -X -l $MYLOGIN_ID $target
      echo
      echo Exited Remote log into $target vis SSH ...
      echo

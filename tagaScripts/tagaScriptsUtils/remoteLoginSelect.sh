@@ -57,7 +57,7 @@ do
    response=$?; if [ $response -ne 1 ]; then echo Skpipping!; continue; fi
 
    echo Remotely logging into $target vis SSH ...
-   ssh -l $MYLOGIN_ID $target
+   ssh -X -l $MYLOGIN_ID $target
 done
 echo
 
