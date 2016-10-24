@@ -40,12 +40,10 @@ echo `date` : TAGA Timer-based Monitor ...
 echo
 clear
 echo
-echo
 echo `date` : TAGA Timer-based Monitor -- Starting...
 
 while true
 do 
-#output=""
 
 let i=0
 let j=0
@@ -62,21 +60,9 @@ do
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
    MYLOGIN_ID=`echo $MYLOGIN_ID`  # strip trailing blanks
-
    identy=$HOME/.ssh/id_rsa
    state=`ssh -i $identy -l $MYLOGIN_ID $target cat /var/opt/taga/run/tagaState.dat`
-
-   #tmp=`echo "\`/home/darrin/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state"`
-   #tmp=`echo \`/home/darrin/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state`
-   #tmp="echo blue"
-#   param1=`echo \`$HOME/scripts/taga/iboaUtils/iboaPaddedEcho.sh $target 16\`: $state`
-#   echo param1:$param1
-#   exit
-#   param1="blue"
-   #tmp=`echo \`./iboaPaddedEcho.sh $target 16\`:\`./iboaPaddedEcho.sh $param1 5\`:`
-
    tmp=`echo \`./iboaPaddedEcho.sh $target 16\`:\`./iboaPaddedEcho.sh $state 5\`:`
-
    eval "mytarget$i=$tmp"
 
 done
