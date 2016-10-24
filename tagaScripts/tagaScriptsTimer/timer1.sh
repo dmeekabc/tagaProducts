@@ -95,11 +95,11 @@ start=`date -Ins`;                      end=`date -Ins`; echo $start $end; ./tim
 start=`date -Ins`;                      end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 start=`date -Ins`;                      end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 
-#exit  # 900 usec on average (implies 900 msec to invoke the date cmd and implies 700 usec for sleep cmd context switch?)
+#exit  # 900 usec on average (implies 900 usec to invoke the date cmd and implies 700 usec for sleep cmd context switch?)
 
 start=`date -Ins`;  echo 12345;                    end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 start=`date -Ins`;  echo 12345;                    end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 start=`date -Ins`;  echo 12345;                    end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 start=`date -Ins`;  echo 12345;                    end=`date -Ins`; echo $start $end; ./timeDeltaCalc.sh $start $end
 
-exit  # 900 usec on average (implies 900 msec to invoke the date cmd and implies negligible usec for echo -cmd context?)
+exit  # 900 usec on average (implies 900 usec to invoke the date cmd and implies negligible usec for echo -cmd context?)
