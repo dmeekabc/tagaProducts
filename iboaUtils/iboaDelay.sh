@@ -12,7 +12,7 @@ let DELAY=$1
 #echo
 #date
 
-while [ $DELAY -ge 0 ]; 
+while [ $DELAY -ge 1 ]; 
 do
 
    # if we have a modulus param, only print on the modulus
