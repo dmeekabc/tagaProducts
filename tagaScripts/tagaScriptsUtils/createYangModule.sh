@@ -29,22 +29,30 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+############################################################
+# Primary Module Directory and Template File Configuration
+# Note: Ensure these are properly set for your system
+############################################################
+TEMPLATE_TOKEN=taga
+MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
+SOURCE_DIR=~/yangModules
+
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-if [ -f /usr/share/yumapro/modules/taga/$1.yang ] ; then
+if [ -f $MODULE_DIR/$1.yang ] ; then
   echo
-  echo $1.yang already exists! ... exiting with no action!
+  echo $MODULE_DIIR/$1.yang already exists! ... exiting with no action!
   echo
   exit
 fi
 
 # provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
+InfoToPrint="$MODULE_DIR/$1.yang will be created, source files generated, and objects built."
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
@@ -54,16 +62,17 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 echo $0 Proceeding.... at `date`; echo
 
 # get the parameter input
-NEWYANGMODULE=$1
+NEWYANGMODULETOKEN=$1
+newyangmodule=$NEWYANGMODULETOKEN
 
-newyangmodule=$NEWYANGMODULE
-cd /usr/share/yumapro/modules/taga
-cp taga.yang $newyangmodule.yang
-cat $newyangmodule.yang | sed -e s/taga/$newyangmodule/g > /tmp/$newyangmodule.yang
+cd $MODULE_DIR
+cp $TEMPLATE_FILE $newyangmodule.yang
+cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
 cp /tmp/$newyangmodule.yang .
-cd
-mkdir yangModules 2>/dev/null
-cd yangModules
+
+mkdir -p $SOURCE_DIR 2>/dev/null
+cd $SOURCE_DIR
+
 make_sil_dir_pro $newyangmodule
 ret=$?
 if [ $ret -eq 0 ] ; then
@@ -77,13 +86,14 @@ else
    echo
    exit
 fi
+
 cd $newyangmodule/src
 sudo make
 sudo make install
 
 ls -lrt `pwd`
 echo
-echo New Yang Module is found at: /usr/share/yumapro/modules/taga/$1.yang
+echo New Yang Module is found at: $MODULE_DIR/$1.yang
 echo New Yang Source Files are in: `pwd`
 echo
 
