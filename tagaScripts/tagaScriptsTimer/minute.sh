@@ -57,9 +57,12 @@ do
    if echo `date +%N` | grep ^0 ; then
       date +%N
       echo
+      date
+      echo
       exit
    fi
    fi
    done
    fi
 done
+
