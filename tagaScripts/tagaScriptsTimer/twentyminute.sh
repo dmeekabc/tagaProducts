@@ -46,8 +46,8 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 
 while true
 do 
-   # first, ensure we hit the end of a ten minute period
-   if date | cut -d: -f 2 | cut -c1-2 | grep ^.9 ; then
+   # first, ensure we hit the end of an appropriate time frame
+   if date | cut -d: -f 2 | cut -c1-2 | grep -e ^19 -e ^39 -e ^59 ; then
    while true
    do
    # next, ensure we hit the end of a minute 
