@@ -46,9 +46,15 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 
 while true
 do 
+
+   # first, ensure we hit the end of a second 
+   if echo `date +%N` | grep ^9 >/dev/null ; then
+   # next, look for the beginning of the next second...
    if echo `date +%N` | grep ^0 ; then
       date +%N
       echo
       exit
    fi
+   fi
+
 done
