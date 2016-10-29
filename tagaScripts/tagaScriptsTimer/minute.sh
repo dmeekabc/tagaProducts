@@ -55,9 +55,8 @@ do
    if echo `date +%N` | grep ^9 >/dev/null ; then
    # next, look for the beginning of the next second...
    if echo `date +%N` | grep ^0 ; then
-      date +%N
-      echo
-      date
+      #date +%N
+      date -Ins
       echo
       exit
    fi
