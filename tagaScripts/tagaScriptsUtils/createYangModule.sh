@@ -41,12 +41,13 @@ TEMPLATE_TOKEN=taga
 MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
 TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
 SOURCE_DIR=~/yangModules
+SOURCE_DIR=~/
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
 if [ -f $MODULE_DIR/$1.yang ] ; then
   echo
-  echo $MODULE_DIIR/$1.yang already exists! ... exiting with no action!
+  echo $MODULE_DIR/$1.yang already exists! ... exiting with no action!
   echo
   exit
 fi
@@ -81,7 +82,7 @@ if [ $ret -eq 0 ] ; then
 else
    echo
    echo make_sil_dir_pro return:$ret >/dev/null
-   echo Hint - Check for pre-existence of ~/yangModules/$1 directory ...
+   echo Hint - Check for pre-existence of $SOURCE_DIR/$1 directory ...
    echo ERROR - Yang Module Source Directory NOT SUCCESSFULLY CREATED - exiting
    echo
    exit
