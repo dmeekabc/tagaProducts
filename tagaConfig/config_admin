@@ -9,6 +9,8 @@ tagaScriptsDir=$tagaDir/tagaScripts
 tagaConfigDir=$tagaDir/tagaConfig
 iboaUtilsDir=$tagaDir/iboaUtils
 
+# dlm temp, added oct 2016
+sudo chmod 777 $tagaConfigDir/hostList.txt
 touch $tagaConfigDir/hostList.txt
 touch $tagaConfigDir/hostList.sh
 

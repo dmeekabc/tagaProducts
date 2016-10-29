@@ -36,11 +36,19 @@
 # otherwise, use the default
 #######################################################################
 
-NETADDR_STRING_TO_MATCH="10\\.0\\.0"
+# default ................. 10.0.0
+# first alternate ......... 192.168.41
+# second alternate ........ 192.168.43
+
+NETADDR_STRING_TO_MATCH="192\\.168\\.41"
+NETADDR_STRING_TO_MATCH2="192\\.168\\.43"
 
 if /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
-  # use alternate
+  # use first alternate
   let TAGA_TL_CONTEXT=1 # alternate
+elif /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH2 >/dev/null; then
+  # use second alternate
+  let TAGA_TL_CONTEXT=2 # alternate
 else
   # use default
   let TAGA_TL_CONTEXT=0 # default
@@ -53,11 +61,14 @@ fi
 
 # set the NETWORK ADDRESS PART 
 # Note: First 3 Nibbles,this assumes 24-bit or higher netmask
-if [ $TAGA_TL_CONTEXT -eq 0 ]; then
-   # default
+if [ $TAGA_TL_CONTEXT -eq 1 ]; then
+   # first alternate
+   NETADDRPART=192.168.41
+elif [ $TAGA_TL_CONTEXT -eq 2 ]; then
+   # second alternate
    NETADDRPART=192.168.43
 else
-   # alternate
+   # default
    NETADDRPART=10.0.0
 fi
 
@@ -96,12 +107,17 @@ NETADDRPART_ALT25=192.168.170
 # define the TARGET LIST
 ###################################################
 
-if [ $TAGA_TL_CONTEXT -eq 0 ]; then
+if [ $TAGA_TL_CONTEXT -eq 1 ]; then
    # default
-   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.208"
-else
+   TARGET_LIST="192.168.41.221 "
+elif [ $TAGA_TL_CONTEXT -eq 2 ]; then
    # alternate
-   TARGET_LIST="10.0.0.20 10.0.0.22 10.0.0.27"
+   TARGET_LIST="192.168.43.40 192.168.43.124 192.168.43.146 192.168.43.157 192.168.43.208"
+   TARGET_LIST="192.168.43.40 192.168.43.124 192.168.43.146 "
+   TARGET_LIST="192.168.43.40 192.168.43.124 "
+   TARGET_LIST="192.168.43.40 192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.225"
+else
+   TARGET_LIST="10.0.0.20 10.0.0.22"
 fi
 
 

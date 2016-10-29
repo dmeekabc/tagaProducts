@@ -34,10 +34,9 @@
 #######################################################################
 # If we match a specific string, then use network accordingly,
 # otherwise, use the default
-# Note: This assumes 24-bit or larger netmask
 #######################################################################
 
-NETADDR_STRING_TO_MATCH="10\\.0\\.0"
+NETADDR_STRING_TO_MATCH="192\\.168\\.43"
 
 if /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
   # use alternate
@@ -53,42 +52,56 @@ fi
 ###################################################
 
 # set the NETWORK ADDRESS PART 
-# Note: First 3 Nibbles,this assumes 24-bit or larger netmask
+# Note: First 3 Nibbles,this assumes 24-bit or higher netmask
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
    # default
-   NETADDRPART=192.168.1 # primary subnet (default)
-   NETADDRPART=192.168.43 # primary subnet (default)
-
-# Note: New for tagaMini, do not use for normal taga 
-# Note: First 2 Nibbles,this assumes 16-bit or larger netmask
-# Note: New for tagaMini, do not use for normal taga which requires 3 nibbles
-   NETADDRPART=192.168 # primary subnet (default)
-
+   NETADDRPART=192.168.41
 else
    # alternate
-   NETADDRPART=10.0.0 # primary subnet (alternate)
+   NETADDRPART=192.168.43
 fi
 
 ###################################################
 # set the ALTERNATE net address parts  
-# Note: All nodes in the TAGA scope (net/subnets of interest)
+# Note: All nodes in the TAGA scope (networks of interest)
 # must match the network address part above or an alternate below
-# Note: This assumes 24-bit or larger netmask
 ###################################################
-NETADDRPART_ALT1=192.168.41 # secondary subnet
-NETADDRPART_ALT2=192.168.42 # secondary subnet
+NETADDRPART_ALT1=192.168.11
+NETADDRPART_ALT2=192.168.12
+NETADDRPART_ALT3=192.168.13
+NETADDRPART_ALT4=192.168.14
+NETADDRPART_ALT5=192.168.15
+NETADDRPART_ALT6=192.168.16
+NETADDRPART_ALT7=192.168.17
+NETADDRPART_ALT8=192.168.18
+NETADDRPART_ALT9=192.168.19
+NETADDRPART_ALT10=192.168.20
+NETADDRPART_ALT11=192.168.30
+NETADDRPART_ALT12=192.168.30
+NETADDRPART_ALT13=192.168.50
+NETADDRPART_ALT14=192.168.60
+NETADDRPART_ALT15=192.168.70
+NETADDRPART_ALT16=192.168.80
+NETADDRPART_ALT17=192.168.90
+NETADDRPART_ALT18=192.168.100
+NETADDRPART_ALT19=192.168.110
+NETADDRPART_ALT20=192.168.120
+NETADDRPART_ALT21=192.168.130
+NETADDRPART_ALT22=192.168.140
+NETADDRPART_ALT23=192.168.150
+NETADDRPART_ALT24=192.168.160
+NETADDRPART_ALT25=192.168.170
 
 ###################################################
 # define the TARGET LIST
 ###################################################
 
 if [ $TAGA_TL_CONTEXT -eq 0 ]; then
-   # default 192.168.1.x addresses
-   TARGET_LIST="192.168.1.1 192.168.1.2"
-   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.157 192.168.43.208"
+   # default
+   TARGET_LIST="192.168.41.221 "
 else
-   # alternate 10.0.0.x addresses
-   TARGET_LIST="10.0.0.1 10.0.0.2"
+   # alternate
+   TARGET_LIST="192.168.43.124 192.168.43.146 192.168.43.147 192.168.43.157 192.168.43.208"
 fi
 
 

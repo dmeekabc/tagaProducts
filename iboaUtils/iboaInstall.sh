@@ -40,8 +40,8 @@ if cat ~/.bashrc | grep iboa | grep bashrc >/dev/null; then
 else
 
    # define the iboa env var file names for system, group, and user
-   IBOA_FILE=~/.bashrc.iboa
-   IBOA_USER_FILE=~/.bashrc.iboa.user.`id -u`
+   IBOA_FILE=$HOME/.bashrc.iboa
+   IBOA_USER_FILE=$HOME/.bashrc.iboa.user.`id -u`
    IBOA_GROUP_FILE=/usr/share/.bashrc.iboa.group.`id -g`
    IBOA_SYSTEM_FILE=/usr/share/.bashrc.iboa.system
 
@@ -251,9 +251,9 @@ else
    echo "################################################################" >> $IBOA_SYSTEM_FILE
    echo "alias testiboa='echo This is a Test'"                             >> $IBOA_SYSTEM_FILE
 
-   # order below matters!  current policy, let user override group and let system have final say
-   echo source $IBOA_GROUP_FILE  >> $IBOA_FILE
+   # order below matters!  current policy, system overrides group overrides user
    echo source $IBOA_USER_FILE   >> $IBOA_FILE
+   echo source $IBOA_GROUP_FILE  >> $IBOA_FILE
    echo source $IBOA_SYSTEM_FILE >> $IBOA_FILE
 
    # install iboa

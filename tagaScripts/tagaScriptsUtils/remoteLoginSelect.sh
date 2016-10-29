@@ -39,7 +39,7 @@ do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
+   # strip trailing blanks ...
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    echo
@@ -57,7 +57,7 @@ do
    response=$?; if [ $response -ne 1 ]; then echo Skpipping!; continue; fi
 
    echo Remotely logging into $target vis SSH ...
-   ssh -l $MYLOGIN_ID $target
+   ssh -X -l $MYLOGIN_ID $target
 done
 echo
 

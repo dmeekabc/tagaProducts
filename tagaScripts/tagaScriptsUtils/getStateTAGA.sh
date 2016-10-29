@@ -29,46 +29,21 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
-MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
-
 for target in $targetList
 do
-   TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-   source $TAGA_CONFIG_DIR/config
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # strip trailing blanks ...
-   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+   MYLOGIN_ID=`echo $MYLOGIN_ID`  # strip trailing blanks
 
-   remotetagaScriptsUtilsDir=`echo $tagaScriptsUtilsDir | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   remotetagaScriptsUtilsDir=`echo $remotetagaScriptsUtilsDir | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+   identy=$HOME/.ssh/id_rsa
+   state=`ssh -i $identy -l $MYLOGIN_ID $target cat /var/opt/taga/run/tagaState.dat`
 
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
-      # do not use ssh if target == MYIP and local mode flag set
-      if [ $target == $MYIP ]; then
-        echo processing, cleaning $target
-        $tagaScriptsUtilsDir/managedExecute.sh "$tagaScriptsUtilsDir/clean.sh"
-      else
-        echo processing, cleaning $target
-        echo "ssh -l $MYLOGIN_ID $target $remotetagaScriptsUtilsDir/clean.sh" > /tmp/managedExecuteScript.sh
-        chmod 755 /tmp/managedExecuteScript.sh
-        $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedExecuteScript.sh
-        #ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
-      fi
-   else
-        echo processing, cleaning $target
-        echo "ssh -l $MYLOGIN_ID $target $remotetagaScriptsUtilsDir/clean.sh" > /tmp/managedExecuteScript.sh
-        chmod 755 /tmp/managedExecuteScript.sh
-        $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedExecuteScript.sh
-        #$tagaScriptsUtilsDir/managedExecute.sh "ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh"
-        #ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
-   fi
+   echo "`./iboaPaddedEcho.sh $target 16`: $state"
+
 done
 

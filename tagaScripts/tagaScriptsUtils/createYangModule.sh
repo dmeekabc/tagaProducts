@@ -29,46 +29,72 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
-MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
+############################################################
+# Primary Module Directory and Template File Configuration
+# Note: Ensure these are properly set for your system
+############################################################
+TEMPLATE_TOKEN=taga
+MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
+SOURCE_DIR=~/yangModules
+SOURCE_DIR=~/
 
-for target in $targetList
-do
-   TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-   source $TAGA_CONFIG_DIR/config
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
-   # determine LOGIN ID for each target
-   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # strip trailing blanks ...
-   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+if [ -f $MODULE_DIR/$1.yang ] ; then
+  echo
+  echo $MODULE_DIR/$1.yang already exists! ... exiting with no action!
+  echo
+  exit
+fi
 
-   remotetagaScriptsUtilsDir=`echo $tagaScriptsUtilsDir | sed -e s/$MYLOCALLOGIN_ID/MYLOGIN_ID/g`
-   remotetagaScriptsUtilsDir=`echo $remotetagaScriptsUtilsDir | sed -e s/MYLOGIN_ID/$MYLOGIN_ID/g`
+# provide the info to print into the confirmation request
+InfoToPrint="$MODULE_DIR/$1.yang will be created, source files generated, and objects built."
 
-   if cat $TAGA_LOCAL_MODE_FLAG_FILE 2>/dev/null | grep 1 >/dev/null ; then
-      # do not use ssh if target == MYIP and local mode flag set
-      if [ $target == $MYIP ]; then
-        echo processing, cleaning $target
-        $tagaScriptsUtilsDir/managedExecute.sh "$tagaScriptsUtilsDir/clean.sh"
-      else
-        echo processing, cleaning $target
-        echo "ssh -l $MYLOGIN_ID $target $remotetagaScriptsUtilsDir/clean.sh" > /tmp/managedExecuteScript.sh
-        chmod 755 /tmp/managedExecuteScript.sh
-        $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedExecuteScript.sh
-        #ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
-      fi
-   else
-        echo processing, cleaning $target
-        echo "ssh -l $MYLOGIN_ID $target $remotetagaScriptsUtilsDir/clean.sh" > /tmp/managedExecuteScript.sh
-        chmod 755 /tmp/managedExecuteScript.sh
-        $tagaScriptsUtilsDir/managedExecute.sh /tmp/managedExecuteScript.sh
-        #$tagaScriptsUtilsDir/managedExecute.sh "ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh"
-        #ssh -l $MYLOGIN_ID $target $tagaScriptsUtilsDir/clean.sh
-   fi
-done
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
+
+# continue to execute the command
+echo $0 Proceeding.... at `date`; echo
+
+# get the parameter input
+NEWYANGMODULETOKEN=$1
+newyangmodule=$NEWYANGMODULETOKEN
+
+cd $MODULE_DIR
+cp $TEMPLATE_FILE $newyangmodule.yang
+cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
+cp /tmp/$newyangmodule.yang .
+
+mkdir -p $SOURCE_DIR 2>/dev/null
+cd $SOURCE_DIR
+
+make_sil_dir_pro $newyangmodule
+ret=$?
+if [ $ret -eq 0 ] ; then
+   echo make_sil_dir_pro return:$ret >/dev/null
+   echo Yang Module Source Directory SUCCESSFULLY CREATED - building $1 ...
+else
+   echo
+   echo make_sil_dir_pro return:$ret >/dev/null
+   echo Hint - Check for pre-existence of $SOURCE_DIR/$1 directory ...
+   echo ERROR - Yang Module Source Directory NOT SUCCESSFULLY CREATED - exiting
+   echo
+   exit
+fi
+
+cd $newyangmodule/src
+sudo make
+sudo make install
+
+ls -lrt `pwd`
+echo
+echo New Yang Module is found at: $MODULE_DIR/$1.yang
+echo New Yang Source Files are in: `pwd`
+echo
 

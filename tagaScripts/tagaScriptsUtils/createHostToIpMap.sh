@@ -39,11 +39,14 @@ source $TAGA_CONFIG_DIR/config
 ##################################################################
 
 # start with fresh file
+sudo chmod 777 $TAGA_CONFIG_DIR/hostsToIps.txt 2>/dev/null
+sudo chmod 777 $TAGA_CONFIG_DIR/hostList.txt 2>/dev/null
 rm $TAGA_CONFIG_DIR/hostsToIps.txt 2>/dev/null
 rm $TAGA_CONFIG_DIR/hostList.txt 2>/dev/null
 
 if [ $REGEN_SHRARED_IP_FILE -eq 1 ] ; then
    # we will regen this file so clear it now
+   sudo chmod 777 $TAGA_CONFIG_DIR/hostsToSharedIps.txt 2>/dev/null
    rm $TAGA_CONFIG_DIR/hostsToSharedIps.txt 2>/dev/null
 fi
 
@@ -54,7 +57,7 @@ for target in $targetList
 do
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-   # dlm temp , I have no clue why this is needed but it is...
+   # strip trailing blanks ...
    MYLOGIN_ID=`echo $MYLOGIN_ID` 
 
    if echo $BLACKLIST | grep $target >/dev/null ; then
