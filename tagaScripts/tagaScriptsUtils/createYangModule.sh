@@ -65,6 +65,18 @@ cd
 mkdir yangModules 2>/dev/null
 cd yangModules
 make_sil_dir_pro $newyangmodule
+ret=$?
+if [ $ret -eq 0 ] ; then
+   echo make_sil_dir_pro return:$ret >/dev/null
+   echo Yang Module Source Directory SUCCESSFULLY CREATED - building $1 ...
+else
+   echo
+   echo make_sil_dir_pro return:$ret >/dev/null
+   echo Hint - Check for pre-existence of ~/yangModules/$1 directory ...
+   echo ERROR - Yang Module Source Directory NOT SUCCESSFULLY CREATED - exiting
+   echo
+   exit
+fi
 cd $newyangmodule/src
 sudo make
 sudo make install
