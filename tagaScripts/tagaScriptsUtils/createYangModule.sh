@@ -37,11 +37,21 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=taga
+TEMPLATE_TOKEN=jtmnm  # token to use as clone source
+TEMPLATE_TOKEN=taga   # token to use as clone source
 MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
 TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
 SOURCE_DIR=~/yangModules
 SOURCE_DIR=~/
+
+
+########################
+# Sensitive Info Section (Sanitize before distributing)
+########################
+SERVER=YourServerGoesHere
+USER=YourUserIdGoesHere
+PASSWORD=YourPasswordGoesHere
+
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -98,3 +108,12 @@ echo New Yang Module is found at: $MODULE_DIR/$1.yang
 echo New Yang Source Files are in: `pwd`
 echo
 
+sleep 1
+
+# Okay, Now Load it!
+echo Loading new yang module into running system/server
+yangScript=/tmp/yangcli-pro-createModule.script
+echo "connect --server=$SERVER --user=$USER --password=$PASSWORD"  > $yangScript
+echo "load $1"                                                    >> $yangScript
+echo "quit"                                                       >> $yangScript
+yangcli-pro --run-script                                             $yangScript
