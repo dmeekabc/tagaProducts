@@ -39,7 +39,9 @@ source $TAGA_CONFIG_DIR/config
 ############################################################
 TEMPLATE_TOKEN=jtmnm  # token to use as clone source
 TEMPLATE_TOKEN=taga   # token to use as clone source
+TEMPLATE_TOKEN=jta   # token to use as clone source
 MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
+MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
 TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
 SOURCE_DIR=~/yangModules
 SOURCE_DIR=~/
@@ -48,9 +50,9 @@ SOURCE_DIR=~/
 ########################
 # Sensitive Info Section (Sanitize before distributing)
 ########################
-SERVER=YourServerGoesHere
-USER=YourUserIdGoesHere
-PASSWORD=YourPasswordGoesHere
+SERVER=yangapi-dev 
+USER=pi 
+PASSWORD=raspberry
 
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
@@ -77,9 +79,9 @@ NEWYANGMODULETOKEN=$1
 newyangmodule=$NEWYANGMODULETOKEN
 
 cd $MODULE_DIR
-cp $TEMPLATE_FILE $newyangmodule.yang
+sudo cp $TEMPLATE_FILE $newyangmodule.yang
 cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
-cp /tmp/$newyangmodule.yang .
+sudo cp /tmp/$newyangmodule.yang .
 
 mkdir -p $SOURCE_DIR 2>/dev/null
 cd $SOURCE_DIR
