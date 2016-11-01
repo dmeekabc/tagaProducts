@@ -53,6 +53,14 @@ SERVER=yangapi-dev
 USER=pi 
 PASSWORD=raspberry
 
+# Verify we have a module name to work with
+if [ $# -lt 1 ] ; then
+   echo
+   echo $0: Error: Parameter \(New Module Name\) Required, Exiting with no action.
+   echo
+   exit
+fi
+
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
