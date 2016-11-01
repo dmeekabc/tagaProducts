@@ -37,11 +37,10 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=jtmnm  # token to use as clone source
 TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=jta   # token to use as clone source
+TEMPLATE_TOKEN=tagax   # token to use as clone source
+MODULE_DIR=/usr/share/yumapro/modules/xxx
 MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
-MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
 TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
 SOURCE_DIR=~/yangModules
 SOURCE_DIR=~/
