@@ -36,6 +36,7 @@ source $TAGA_CONFIG_DIR/config
 
 # How often to check for specific anomalies? (i.e. MOD_VAL)
 MOD_VAL=2
+MOD_VAL=3
 
 # basic sanity check, to ensure password updated etc
 ./basicSanityCheck.sh
@@ -57,6 +58,12 @@ let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
    echo Loop Count: $i : Checking for specific anomalies...
    echo
+elif [ $MOD_CHECK_VAL -eq 1 ] ; then
+   echo Loop Count: $i : Probing Wireless Interfaces ...
+   echo
+else
+   echo Loop Count: $i : Probing Normal...
+   echo
 fi
 
 # target loop
@@ -66,6 +73,7 @@ do
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
 
+   # Check for specific anomalies on MOD+0 counts
    if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
       #echo i:$i Mod value: $MOD_VAL 
@@ -89,6 +97,14 @@ do
       # go to next target
       continue
 
+   fi
+
+   # Check Wireless Interfaces on MOD+1 counts
+   if [ $MOD_CHECK_VAL -eq 1 ] ; then
+      ./probeWireless.sh
+      # go to next iteration
+      break
+      #continue
    fi
 
    if echo $BLACKLIST | grep $target ; then
