@@ -66,7 +66,14 @@ do
    fi
 done
 
-if [ $percentUsage -ge $ALARM_THRESHOLD ]; then
+# oddly enough, here, a percentUsage == 0 actually indicates 100% usage
+if [ $percentUsage -eq 0 ]; then
+   echo
+   echo "'****** ******' ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
+   echo "'****** ******' ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
+   echo "'****** ******' ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
+   exit 1
+elif [ $percentUsage -ge $ALARM_THRESHOLD ]; then
    echo
    echo "'****** ******' ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
    echo "'****** ******' ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
