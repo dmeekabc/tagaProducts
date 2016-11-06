@@ -74,27 +74,35 @@ if [ $percentUsage -eq 0 ]; then
    echo "###### ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
    echo
    exit 1
-elif [ $percentUsage -ge $ALARM_THRESHOLD ]; then
+elif [ $percentUsage -gt $ALARM_THRESHOLD ]; then
    echo
-   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
+#   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
+#   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
+#   echo "###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
+#   echo '###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######'
+#   echo '###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######'
+#   echo '###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######'
+   echo \#\#\#\#\#\# \#\#\#\#\#\# ALARM!!: Disk Usage \($percentUsage%\) exceeds ALARM_THRESHOLD \($ALARM_THRESHOLD%\) \#\#\#\#\#\# \#\#\#\#\#\#
+   echo \#\#\#\#\#\# \#\#\#\#\#\# ALARM!!: Disk Usage \($percentUsage%\) exceeds ALARM_THRESHOLD \($ALARM_THRESHOLD%\) \#\#\#\#\#\# \#\#\#\#\#\#
+   echo \#\#\#\#\#\# \#\#\#\#\#\# ALARM!!: Disk Usage \($percentUsage%\) exceeds ALARM_THRESHOLD \($ALARM_THRESHOLD%\) \#\#\#\#\#\# \#\#\#\#\#\#
+#   echo ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######
+#   echo ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######
+#   echo
+   exit 1
+elif [ $percentUsage -gt $MAJOR_THRESHOLD ]; then
+   echo
+   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
+   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
+   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
    echo
    exit 1
-elif [ $percentUsage -ge $MAJOR_THRESHOLD ]; then
-   echo
-   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo
-   exit 1
-elif [ $percentUsage -ge $MINOR_THRESHOLD ]; then
+elif [ $percentUsage -gt $MINOR_THRESHOLD ]; then
    echo
    echo "###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD%) ###### ######"
    echo
    exit 1
 else
    echo
-   echo INFO: Disk Usage \($percentUsage%\) is below MINOR_THRESHOLD \($MINOR_THRESHOLD%\) \(Normal\)
+   echo INFO: Disk Usage \($percentUsage%\) is below Minor_Threshold \($MINOR_THRESHOLD%\) \(Normal\)
    exit 0
 fi
