@@ -88,27 +88,27 @@ let linkQuality=$linkQualityString
 # oddly enough, here, a linkQuality == 0 actually indicates 100% usage
 if [ $linkQuality -eq 0 ]; then
    echo
-   echo "'****** ******' ALARM!!: Link Quality (100%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality (100%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality (100%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality (100) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality (100) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality (100) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
    exit 1
 elif [ $linkQuality -le $ALARM_THRESHOLD ]; then
    echo
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
    exit 1
 elif [ $linkQuality -le $MAJOR_THRESHOLD ]; then
    echo
-   echo "'****** ******' WARNING: Link Quality ($linkQuality%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) '****** ******'"
-   echo "'****** ******' WARNING: Link Quality ($linkQuality%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
    exit 1
 elif [ $linkQuality -le $MINOR_THRESHOLD ]; then
    echo
-   echo "'****** ******' WARNING: Link Quality ($linkQuality%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) '****** ******'"
    exit 1
 else
    echo
-   echo INFO: Link Quality \($linkQuality%\) is below MINOR_THRESHOLD \($MINOR_THRESHOLD%\) \(Normal\)
+   echo INFO: Link Quality \($linkQuality\) is below MINOR_THRESHOLD \($MINOR_THRESHOLD%\) \(Normal\)
    exit 0
 fi
