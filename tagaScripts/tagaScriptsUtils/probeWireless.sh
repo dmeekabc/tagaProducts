@@ -42,6 +42,8 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
+echo
+
 for target in $targetList
 do
     # determine LOGIN ID for each target
@@ -54,14 +56,40 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
-      echo; echo `date` : probing $target
-      echo
-      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality`
+#      echo; echo `date` : probing $target
+#      echo
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality`
+      continue
       echo
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
    fi
 done
+
+echo
+
+for target in $targetList
+do
+    # determine LOGIN ID for each target
+    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+    # strip trailing blanks
+    MYLOGIN_ID=`echo $MYLOGIN_ID` 
+    WIRELESS_INTERFACE=`ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr | grep ^wl | cut -d" " -f 1`
+    #echo $WIRELESS_INTERFACE
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+#      echo; echo `date` : probing $target
+#      echo
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Frequency`
+      continue
+      echo
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
+   fi
+done
+
 echo
 
 for target in $targetList
@@ -77,8 +105,8 @@ do
       continue
    else
       echo; echo `date` : probing $target
-      echo
-      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Frequency`
+      #echo
+      #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Frequency`
       echo
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
