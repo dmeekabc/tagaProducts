@@ -60,11 +60,13 @@ do
    fi
 done
 
-THRESHOLD=80
+THRESHOLD=90
 if [ $percentUsage -gt $THRESHOLD ]; then
+   echo
    echo WARNING: Disk Usage \($percentUsage\) exceeds THRESHOLD \($THRESHOLD\)
    exit 1
 else
+   echo
    echo INFO: Disk Usage \($percentUsage\) is below THRESHOLD \($THRESHOLD\)
    exit 0
 fi

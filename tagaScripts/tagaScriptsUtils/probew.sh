@@ -35,7 +35,7 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # How often to check for specific anomalies? (i.e. MOD_VAL)
-MOD_VAL=10
+MOD_VAL=2
 
 # basic sanity check, to ensure password updated etc
 ./basicSanityCheck.sh
@@ -55,7 +55,8 @@ echo;date;echo
 
 let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
-   echo Loop Count: $i ... this iteration is checking for specific anomalies... 
+   echo Loop Count: $i : Checking for specific anomalies...
+   echo
 fi
 
 # target loop
@@ -66,7 +67,14 @@ do
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
 
    if [ $MOD_CHECK_VAL -eq 0 ] ; then
+
       #echo i:$i Mod value: $MOD_VAL 
+
+      # check disk usage
+#      echo $target: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkDisk.sh'`
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkDisk.sh'`
+
+      # check interface activity
       iptablewarn=`ssh -l $MYLOGIN_ID $target sudo /sbin/iptables --list | grep DROP | cut -c1-4`
       if [ $iptablewarn ] ; then
          echo
@@ -77,6 +85,10 @@ do
          echo NOTE: You may use the \'iptdpu\' command on $target to UNSET DROP Rules.
          echo
       fi
+
+      # go to next target
+      continue
+
    fi
 
    if echo $BLACKLIST | grep $target ; then
