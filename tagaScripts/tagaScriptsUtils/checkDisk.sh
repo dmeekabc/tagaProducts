@@ -41,6 +41,9 @@ let ALARM_THRESHOLD=95
 let MINOR_THRESHOLD=88
 let MAJOR_THRESHOLD=90
 let ALARM_THRESHOLD=92
+let MINOR_THRESHOLD=94
+let MAJOR_THRESHOLD=96
+let ALARM_THRESHOLD=98
 
 # Get the disk usage
 diskPercentUsageString=`df . | grep dev`
