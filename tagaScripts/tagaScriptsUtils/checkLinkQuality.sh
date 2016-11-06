@@ -50,7 +50,7 @@ let ALARM_THRESHOLD=40
 #################################################
 
 # Get the link quality
-linkQualityString=`iwconfig 2>/dev/null | grep Quality | cut -d= -f2 | cut -c1-2`
+linkQualityString=`/sbin/iwconfig 2>/dev/null | grep Quality | cut -d= -f2 | cut -c1-2`
 
 let linkQuality=$linkQualityString
 
@@ -84,18 +84,18 @@ let linkQuality=$linkQualityString
 
 if [ $linkQuality -le $ALARM_THRESHOLD ]; then
    echo
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is above ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is above ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
-   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is above ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
    exit 1
 elif [ $linkQuality -le $MAJOR_THRESHOLD ]; then
    echo
-   echo "'****** ******' WARNING: Link Quality ($linkQuality) is above MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
-   echo "'****** ******' WARNING: Link Quality ($linkQuality) is above MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) '****** ******'"
    exit 1
 elif [ $linkQuality -le $MINOR_THRESHOLD ]; then
    echo
-   echo "'****** ******' WARNING: Link Quality ($linkQuality) is above MINOR_THRESHOLD ($MINOR_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Link Quality ($linkQuality) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) '****** ******'"
    exit 1
 else
    echo
