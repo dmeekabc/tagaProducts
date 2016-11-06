@@ -34,9 +34,31 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let percentUsage=`df . | grep dev | cut -c47-48`
+diskPercentUsageString=`df . | grep dev`
 
-echo $percentUsage
+stringLength=`echo $diskPercentUsageString | wc -c`
+
+#echo $stringLength
+
+let i=0
+let percentUsage=0
+
+# find the % character within the diskPercentUsageString and
+# use the preceding two characters as our percentUsage value.
+while [ $i -lt $stringLength ]
+do
+   let i=$i+1
+   charToExamine=`echo $diskPercentUsageString | cut -c$i `
+   #echo charToExamine:$charToExamine
+   if [ $charToExamine == '%' ] 2>/dev/null; then
+      #echo found:$i
+      let startindex=$i-2
+      let stopindex=$i-1
+      let percentUsage=`echo $diskPercentUsageString | cut -c$startindex-$stopindex`
+      #echo percentUsage:$percentUsage
+      break
+   fi
+done
 
 THRESHOLD=80
 if [ $percentUsage -gt $THRESHOLD ]; then
