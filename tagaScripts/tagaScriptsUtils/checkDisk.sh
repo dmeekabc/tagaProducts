@@ -34,14 +34,17 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# Set Threshold Constats/Values
+MINOR_THRESHOLD=80
+MAJOR_THRESHOLD=90
+ALARM_THRESHOLD=95
+
+# Get the disk usage
 diskPercentUsageString=`df . | grep dev`
-
-stringLength=`echo $diskPercentUsageString | wc -c`
-
-#echo $stringLength
 
 let i=0
 let percentUsage=0
+let stringLength=`echo $diskPercentUsageString | wc -c`
 
 # find the % character within the diskPercentUsageString and
 # use the preceding two characters as our percentUsage value.
@@ -60,17 +63,23 @@ do
    fi
 done
 
-THRESHOLD=90
-if [ $percentUsage -gt $THRESHOLD ]; then
+if [ $percentUsage -gt $ALARM_THRESHOLD ]; then
    echo
-   #echo WARNING: Disk Usage \($percentUsage\) exceeds THRESHOLD \($THRESHOLD\) 
-   #echo \*\*\*\*\*\* \*\*\*\*\*\* WARNING: Disk Usage \($percentUsage\) exceeds THRESHOLD \($THRESHOLD\) \*\*\*\*\*\* \*\*\*\*\*\*
-   #echo "****** ****** WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) ****** ******"
-   #echo "\*\*\*\*\*\* \*\*\*\*\*\* WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) \*\*\*\*\*\* \*\*\*\*\*\*"
-   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   exit 1
+elif [ $percentUsage -gt $MAJOR__THRESHOLD ]; then
+   echo
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds MAJOR__THRESHOLD ($MAJOR__THRESHOLD) '****** ******'"
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds MAJOR__THRESHOLD ($MAJOR__THRESHOLD) '****** ******'"
+   exit 1
+elif [ $percentUsage -gt $MINOR_THRESHOLD ]; then
+   echo
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD) '****** ******'"
    exit 1
 else
    echo
-   echo INFO: Disk Usage \($percentUsage\) is below THRESHOLD \($THRESHOLD\)
+   echo INFO: Disk Usage \($percentUsage\) is below MINOR_THRESHOLD \($MINOR_THRESHOLD\) \(Normal\)
    exit 0
 fi
