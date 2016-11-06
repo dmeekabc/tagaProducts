@@ -44,6 +44,10 @@ let MINOR_THRESHOLD=50
 let MAJOR_THRESHOLD=40
 let ALARM_THRESHOLD=30
 
+let MINOR_THRESHOLD=40
+let MAJOR_THRESHOLD=30
+let ALARM_THRESHOLD=25
+
 
 #################################################
 # Get the Value of Interest
