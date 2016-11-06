@@ -38,6 +38,9 @@ source $TAGA_CONFIG_DIR/config
 let MINOR_THRESHOLD=80
 let MAJOR_THRESHOLD=90
 let ALARM_THRESHOLD=95
+let MINOR_THRESHOLD=88
+let MAJOR_THRESHOLD=90
+let ALARM_THRESHOLD=92
 
 # Get the disk usage
 diskPercentUsageString=`df . | grep dev`
@@ -65,9 +68,9 @@ done
 
 if [ $percentUsage -ge $ALARM_THRESHOLD ]; then
    echo
-   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
-   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
-   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
+   echo "'****** ******' ALARM!!: Disk Usage ($percentUsage) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD) '****** ******'"
    exit 1
 elif [ $percentUsage -ge $MAJOR_THRESHOLD ]; then
    echo
