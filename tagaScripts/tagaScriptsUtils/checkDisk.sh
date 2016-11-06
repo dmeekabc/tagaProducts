@@ -63,7 +63,11 @@ done
 THRESHOLD=90
 if [ $percentUsage -gt $THRESHOLD ]; then
    echo
-   echo "****** ****** WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) ****** ******"
+   #echo WARNING: Disk Usage \($percentUsage\) exceeds THRESHOLD \($THRESHOLD\) 
+   #echo \*\*\*\*\*\* \*\*\*\*\*\* WARNING: Disk Usage \($percentUsage\) exceeds THRESHOLD \($THRESHOLD\) \*\*\*\*\*\* \*\*\*\*\*\*
+   #echo "****** ****** WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) ****** ******"
+   #echo "\*\*\*\*\*\* \*\*\*\*\*\* WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) \*\*\*\*\*\* \*\*\*\*\*\*"
+   echo "'****** ******' WARNING: Disk Usage ($percentUsage) exceeds THRESHOLD ($THRESHOLD) '****** ******'"
    exit 1
 else
    echo
