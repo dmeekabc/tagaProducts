@@ -44,6 +44,11 @@ fi
 
 echo
 
+let aggregate=0
+let average=0
+let delta=0
+let i=0
+
 for target in $targetList
 do
     # determine LOGIN ID for each target
@@ -59,12 +64,22 @@ do
 #      echo; echo `date` : probing $target
 #      echo
       echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality`
+
+      let delta=`ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality | cut -d= -f 2 | cut -c1-2`
+#      echo delta:$delta
+      let aggregate=$aggregate+$delta
+#      echo aggregate:$aggregate
+      let i=$i+1
+      let average=$aggregate/$i
+#      echo average:$average
       continue
       echo
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
    fi
 done
+
+echo ; echo Average Link Quality=$average/70
 
 echo
 
