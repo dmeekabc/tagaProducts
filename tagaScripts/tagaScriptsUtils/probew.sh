@@ -37,6 +37,7 @@ source $TAGA_CONFIG_DIR/config
 # How often to check for specific anomalies? (i.e. MOD_VAL)
 MOD_VAL=2
 MOD_VAL=3
+MOD_VAL=4
 
 # basic sanity check, to ensure password updated etc
 ./basicSanityCheck.sh
@@ -73,6 +74,8 @@ do
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
 
+
+
    # Check for specific anomalies on MOD+0 counts
    if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
@@ -99,13 +102,52 @@ do
 
    fi
 
-   # Check Wireless Interfaces on MOD+1 counts
+
+
+
+
+   # Check for specific anomalies on MOD+1 counts
    if [ $MOD_CHECK_VAL -eq 1 ] ; then
+
+      #echo i:$i Mod value: $MOD_VAL 
+
+      # check disk usage
+#      echo $target: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkDisk.sh'`
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkLinkQuality.sh'`
+
+      # check interface activity
+      iptablewarn=`ssh -l $MYLOGIN_ID $target sudo /sbin/iptables --list | grep DROP | cut -c1-4`
+      if [ $iptablewarn ] ; then
+         echo
+         echo WARNING: $target has iptables DROP Rules SET!!
+         echo WARNING: $target has iptables DROP Rules SET!!
+         echo WARNING: $target has iptables DROP Rules SET!!
+         echo NOTE: You may use the \'iptdpu\' command on $target to UNSET DROP Rules.
+         echo NOTE: You may use the \'iptdpu\' command on $target to UNSET DROP Rules.
+         echo
+      fi
+
+      # go to next target
+      continue
+
+   fi
+
+
+
+
+
+   # Check Wireless Interfaces on MOD+2 counts
+   if [ $MOD_CHECK_VAL -eq 2 ] ; then
       ./probeWireless.sh
       # go to next iteration
       break
       #continue
    fi
+
+
+   ##########
+   # All other counts
+   ##########
 
    if echo $BLACKLIST | grep $target ; then
       echo The $target is in the black list, skipping...
@@ -118,6 +160,7 @@ do
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    fi
+
 
    # end of target loop
 done
