@@ -79,9 +79,11 @@ do
    fi
 done
 
-echo ; echo Average Link Quality=$average/70
-
+echo 
+echo `./iboaPaddedEcho.sh Average 15`: 'Link Quality='$average/70 
+#echo Average Link Quality=$average/70
 echo
+
 
 for target in $targetList
 do
