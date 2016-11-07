@@ -72,6 +72,9 @@ do
 
 echo;date;echo
 
+# Resource the configuraion in case it changed 
+source $TAGA_CONFIG_DIR/config
+
 let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
