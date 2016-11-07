@@ -53,6 +53,14 @@ let i=0
 while true
 do
 
+# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
+# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
+# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
+echo `date` > /tmp/probew.out
+echo `date` > /tmp/tagaInfo.log
+echo `date` > /tmp/tagaWarn.log
+echo `date` > /tmp/tagaAlarm.log
+
 echo;date;echo
 
 let MOD_CHECK_VAL=$i%$MOD_VAL
