@@ -53,26 +53,34 @@ let i=0
 while true
 do
 
-# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
-# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
-# Reinit the files so /tmp doesn't grow to large; dlm temp, this is master only, need remote same
-echo `date` > /tmp/probew.out
-echo `date` > /tmp/tagaInfo.log
-echo `date` > /tmp/tagaWarn.log
-echo `date` > /tmp/tagaAlarm.log
+
+# Reinit the files so /tmp doesn't grow too large
+# Reinit the files so /tmp doesn't grow too large
+#echo `date` > /tmp/probew.out
+#echo `date` > /tmp/tagaInfo.log
+#echo `date` > /tmp/tagaWarn.log
+#echo `date` > /tmp/tagaAlarm.log
 
 echo;date;echo
 
 let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
-   echo Loop Count: $i : Checking for specific anomalies...
-   echo
+   # Reinit the /tmp/tagaXXX.log files
+   # Reinit the files so /tmp doesn't grow too large
+   echo Loop Count: $i : Reinitializing /tmp/tagaXXX.log files...; echo
+   #echo; echo Reinitializing /tmp/tagaXXX.log files...; echo
+   for target in $targetList
+   do
+         # determine LOGIN ID for each target
+         MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+         # Reinit the /tmp/tagaXXX.log files
+         ssh -l $MYLOGIN_ID $target /home/$MYLOGIN_ID/scripts/taga/tagaScripts/tagaScriptsUtils/probewHelp.sh
+   done
+   echo Loop Count: $i : Checking for specific anomalies...; echo
 elif [ $MOD_CHECK_VAL -eq 1 ] ; then
-   echo Loop Count: $i : Probing Wireless Interfaces ...
-   echo
+   echo Loop Count: $i : Probing Wireless Interfaces ...; echo
 else
-   echo Loop Count: $i : Probing Normal...
-   echo
+   echo Loop Count: $i : Probing Normal...; echo
 fi
 
 # target loop
@@ -82,15 +90,12 @@ do
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
 
-
-
    # Check for specific anomalies on MOD+0 counts
    if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
       #echo i:$i Mod value: $MOD_VAL 
 
       # check disk usage
-#      echo $target: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkDisk.sh'`
       echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkDisk.sh'`
 
       # check interface activity
