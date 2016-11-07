@@ -78,7 +78,7 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
    do
          # determine LOGIN ID for each target
          MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaAlarm.log`
+         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaAlarm.log | grep -i alarm`
    done
 
    # Print Warnings Next...
@@ -87,7 +87,7 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
    do
          # determine LOGIN ID for each target
          MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaWarn.log`
+         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaWarn.log | grep -i warn`
    done
 
    # Reinit the /tmp/tagaXXX.log files
