@@ -39,6 +39,9 @@ MOD_VAL=2
 MOD_VAL=3
 MOD_VAL=4
 
+VERBOSE=1
+VERBOSE=0
+
 # basic sanity check, to ensure password updated etc
 ./basicSanityCheck.sh
 if [ $? -eq 255 ]; then
@@ -76,29 +79,40 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
    echo Loop Count: $i : Active Alarms in Network Follow...; echo
    for target in $targetList
    do
-         # determine LOGIN ID for each target
-         MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaAlarm.log | grep -i alarm`
+      # determine LOGIN ID for each target
+      MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+      echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaAlarm.log | grep -i alarm`
    done
 
    # Print Warnings Next...
    echo Loop Count: $i : Active Warnings in Network Follow...; echo
    for target in $targetList
    do
+      # determine LOGIN ID for each target
+      MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+      echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaWarn.log | grep -i warn`
+   done
+
+   if [ $VERBOSE -eq 1 ]; then
+      # Print Infos Next...
+      echo Loop Count: $i : Active Information Messages in Network Follow...; echo
+      for target in $targetList
+      do
          # determine LOGIN ID for each target
          MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaWarn.log | grep -i warn`
-   done
+         echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaInfo.log | grep -i info`
+      done
+   fi
 
    # Reinit the /tmp/tagaXXX.log files
    # Reinit the files so /tmp doesn't grow too large
    echo Loop Count: $i : Reinitializing /tmp/tagaXXX.log files...; echo
    for target in $targetList
    do
-         # determine LOGIN ID for each target
-         MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-         # Reinit the /tmp/tagaXXX.log files
-         ssh -l $MYLOGIN_ID $target /home/$MYLOGIN_ID/scripts/taga/tagaScripts/tagaScriptsUtils/probewHelp.sh
+      # determine LOGIN ID for each target
+      MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+      # Reinit the /tmp/tagaXXX.log files
+      ssh -l $MYLOGIN_ID $target /home/$MYLOGIN_ID/scripts/taga/tagaScripts/tagaScriptsUtils/probewHelp.sh
    done
 
    echo Loop Count: $i : Checking for specific anomalies...; echo
