@@ -76,32 +76,36 @@ let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
    # Print Alarms First....
-   echo Loop Count: $i : Active Alarms in Network Follow...; echo
+   echo ---------------------------------------------------------------------
+   echo; echo Loop Count: $i : Active Alarms in Network Follow...; echo
    for target in $targetList
    do
       # determine LOGIN ID for each target
       MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
       echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaAlarm.log | grep -i alarm`
    done
+   echo ---------------------------------------------------------------------
 
    # Print Warnings Next...
-   echo Loop Count: $i : Active Warnings in Network Follow...; echo
+   echo; echo Loop Count: $i : Active Warnings in Network Follow...; echo
    for target in $targetList
    do
       # determine LOGIN ID for each target
       MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
       echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaWarn.log | grep -i warn`
    done
+   echo ---------------------------------------------------------------------
 
    if [ $VERBOSE -eq 1 ]; then
       # Print Infos Next...
-      echo Loop Count: $i : Active Information Messages in Network Follow...; echo
+      echo; echo Loop Count: $i : Active Information Messages in Network Follow...; echo
       for target in $targetList
       do
          # determine LOGIN ID for each target
          MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
          echo $target : `ssh -l $MYLOGIN_ID $target cat /tmp/tagaInfo.log | grep -i info`
       done
+      echo ---------------------------------------------------------------------
    fi
 
    # Reinit the /tmp/tagaXXX.log files
