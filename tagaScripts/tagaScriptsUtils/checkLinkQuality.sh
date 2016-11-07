@@ -88,25 +88,28 @@ let linkQuality=$linkQualityString
 
 if [ $linkQuality -lt $ALARM_THRESHOLD ]; then
    echo
-   echo "###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
-   echo "###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
-   echo "###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Link Quality ($linkQuality) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $linkQuality -lt $MAJOR_THRESHOLD ]; then
    echo
-   echo "###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
-   echo "###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
-   echo "###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Link Quality ($linkQuality) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $linkQuality -lt $MINOR_THRESHOLD ]; then
    echo
-   echo "###### ###### WARNING: Link Quality ($linkQuality) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Link Quality ($linkQuality) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Link Quality ($linkQuality) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 else
    echo
-   echo INFO: Link Quality \($linkQuality\) is above Minor_Threshold \($MINOR_THRESHOLD\) \(Normal\)
+   echo `date`: INFO: Link Quality \($linkQuality\) is above Minor_Threshold \($MINOR_THRESHOLD\) \(Normal\)
+   echo `date`: INFO: Link Quality \($linkQuality\) is above Minor_Threshold \($MINOR_THRESHOLD\) \(Normal\) >> /tmp/tagaInfo.log
    exit 0
 fi
