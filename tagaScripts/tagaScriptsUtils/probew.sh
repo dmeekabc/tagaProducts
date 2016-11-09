@@ -38,6 +38,7 @@ source $TAGA_CONFIG_DIR/config
 MOD_VAL=2
 MOD_VAL=3
 MOD_VAL=4
+MOD_VAL=5
 
 VERBOSE=1
 VERBOSE=0
@@ -162,12 +163,29 @@ do
 
    fi
 
+   # Check for specific anomalies on MOD+1 counts
+   if [ $MOD_CHECK_VAL -eq 1 ] ; then
 
+      # check memory usage
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkMemory.sh'`
 
-
+      # go to next target
+      continue
+   fi
 
    # Check for specific anomalies on MOD+1 counts
    if [ $MOD_CHECK_VAL -eq 1 ] ; then
+
+      # check cpu idle time
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target '$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/checkCpuIdle.sh'`
+
+      # go to next target
+      continue
+   fi
+
+
+   # Check for specific anomalies on MOD+1 counts
+   if [ $MOD_CHECK_VAL -eq 2 ] ; then
 
       #echo i:$i Mod value: $MOD_VAL 
 
@@ -197,7 +215,7 @@ do
 
 
    # Check Wireless Interfaces on MOD+2 counts
-   if [ $MOD_CHECK_VAL -eq 2 ] ; then
+   if [ $MOD_CHECK_VAL -eq 3 ] ; then
       ./probeWireless.sh
       # go to next iteration
       break
