@@ -212,8 +212,7 @@ module tlm {
                }
                enum error {
                   description
-                    "The tlm service was disabled or
-                     the tlm service is broken.";
+                    "An error occurred during tlm processing.";
                }
             }
         }
