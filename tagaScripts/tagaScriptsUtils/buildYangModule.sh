@@ -52,6 +52,11 @@ SOURCE_DIR=~/
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+# get the parameter input if provided
+if [ $# -ge 1 ]; then
+   TEMPLATE_TOKEN=$1
+fi
+
 # provide the info to print into the confirmation request
 InfoToPrint="$MODULE_DIR/$1.yang will be used to generate or regenerate source code at the following location: $HOME/$TEMPLATE_TOKEN. Files at this location will be deleted if they exist. The $TEMPLATE_TOKEN module will be built and installed. Please RENAME FILES IF NECESSARY to avoid permanent deletion."
 
