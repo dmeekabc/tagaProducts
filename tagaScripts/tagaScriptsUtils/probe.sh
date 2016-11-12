@@ -42,12 +42,19 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
+
+while true
+do
+
+# counter
+let i=0
+
+# target loop
 for target in $targetList
 do
 
    # determine LOGIN ID for each target
    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
-
 
    if echo $BLACKLIST | grep $target ; then
       echo The $target is in the black list, skipping...
@@ -60,5 +67,17 @@ do
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    fi
+
+   let i=$i+1
+
+   # If we have a flag parameter and have looped once, then exit now!!
+   # If we have a flag parameter and have looped once, then exit now!!
+
+   if [ $# -gt 0 ] && [ $i -gt 0 ]; then
+      # any param is a flag indicating to run one time only
+      exit
+   fi
+
 done
 echo
+done

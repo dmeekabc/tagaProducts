@@ -71,11 +71,11 @@ do
 
    if [ $input -eq 1 ] ; then
       echo Commmand Choice $input proceeding...
-      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh singleLoopflag
 
    elif [ $input -eq 2 ] ; then
       echo Commmand Choice $input proceeding...
-      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh flag
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh singleLoopflag
    else
       echo Invalid Commmand Input \($input\) , no action taken!
    fi
