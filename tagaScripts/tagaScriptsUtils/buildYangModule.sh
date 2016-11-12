@@ -37,13 +37,11 @@ source $TAGA_CONFIG_DIR/config
 # Sensitive Info Section (Sanitize before distributing)
 ########################
 COMMAND=xxxxxx
-COMMAND=make_sil_dir_pro
 
 ############################################################
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=jtmnm  # token to use as clone source
 TEMPLATE_TOKEN=taga   # token to use as clone source
 TEMPLATE_TOKEN=tlm   # token to use as clone source
 MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
