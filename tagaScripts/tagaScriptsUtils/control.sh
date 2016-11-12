@@ -62,8 +62,9 @@ do
    echo -------------------------------------------------------------------------------
    echo
    echo Command Options:
-   echo " 1. Probe Network Brief"    
-   echo " 2. Probe Network Verbose"    
+   echo " 1. Network Ping"    
+   echo " 2. Network Probe - Brief"    
+   echo " 3. Network Probe - Verbose"    
    echo
    echo "Please Enter Command Choice (1|2):"
 
@@ -71,9 +72,13 @@ do
 
    if [ $input -eq 1 ] ; then
       echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/pingNet.sh singleLoopflag
+
+   elif [ $input -eq 2] ; then
+      echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh singleLoopflag
 
-   elif [ $input -eq 2 ] ; then
+   elif [ $input -eq 3 ] ; then
       echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh singleLoopflag
    else
