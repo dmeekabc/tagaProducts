@@ -79,9 +79,10 @@ source $TAGA_CONFIG_DIR/config
 let MOD_CHECK_VAL=$i%$MOD_VAL
 if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
+   if [ $i -gt 0 ] ; then
    # Print Alarms First....
    echo ---------------------------------------------------------------------
-   echo; echo Loop Count: $i : Active Alarms in Network Follow...; echo
+   echo; echo Probe Count: $i : Active Alarms in Network Follow...; echo
    for target in $targetList
    do
       # determine LOGIN ID for each target
@@ -91,7 +92,7 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
    echo ---------------------------------------------------------------------
 
    # Print Warnings Next...
-   echo; echo Loop Count: $i : Active Warnings in Network Follow...; echo
+   echo; echo Probe Count: $i : Active Warnings in Network Follow...; echo
    for target in $targetList
    do
       # determine LOGIN ID for each target
@@ -102,7 +103,7 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
 
    if [ $VERBOSE -eq 1 ]; then
       # Print Infos Next...
-      echo; echo Loop Count: $i : Active Information Messages in Network Follow...; echo
+      echo; echo Probe Count: $i : Active Information Messages in Network Follow...; echo
       for target in $targetList
       do
          # determine LOGIN ID for each target
@@ -111,10 +112,21 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
       done
       echo ---------------------------------------------------------------------
    fi
+   fi
+
+
+   # If we have a flag parameter and have looped once, then exit now!!
+   # If we have a flag parameter and have looped once, then exit now!!
+
+   if [ $# -gt 0 ] && [ $i -gt 0 ]; then
+      # any param is a flag indicating to run one time only
+      exit
+   fi
+
 
    # Reinit the /tmp/tagaXXX.log files
    # Reinit the files so /tmp doesn't grow too large
-   echo Loop Count: $i : Reinitializing /tmp/tagaXXX.log files...; echo
+   echo Probe Count: $i : Reinitializing /tmp/tagaXXX.log files...; echo
    for target in $targetList
    do
       # determine LOGIN ID for each target
@@ -123,12 +135,12 @@ if [ $MOD_CHECK_VAL -eq 0 ] ; then
       ssh -l $MYLOGIN_ID $target /home/$MYLOGIN_ID/scripts/taga/tagaScripts/tagaScriptsUtils/probewHelp.sh
    done
 
-   echo Loop Count: $i : Checking for specific anomalies...; echo
+   echo Probe Count: $i : Checking for specific anomalies...; echo
 
 elif [ $MOD_CHECK_VAL -eq 1 ] ; then
-   echo Loop Count: $i : Probing Wireless Interfaces ...; echo
+   echo Probe Count: $i : Probing Wireless Interfaces ...; echo
 else
-   echo Loop Count: $i : Probing Normal...; echo
+   echo Probe Count: $i : Standard/Brief Probe...; echo
 fi
 
 # target loop
@@ -247,4 +259,7 @@ echo
 # increment the outer loop counter
 let i=$i+1
 # end of outer loop
+
 done
+
+
