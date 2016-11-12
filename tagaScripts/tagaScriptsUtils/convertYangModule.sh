@@ -34,6 +34,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+CONVERT_FROM_SOURCE=tlm
+
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
 if [ $# -eq 1 ] ; then
@@ -45,7 +47,7 @@ else
 fi
 
 # provide the info to print into the confirmation request
-InfoToPrint="$DIRECTORY_TO_CONVERT will be regenerated from $HOME/tagax/src"
+InfoToPrint="$DIRECTORY_TO_CONVERT will be regenerated from $HOME/$CONVERT_FROM_SOURCE/src"
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
@@ -59,16 +61,16 @@ echo $0 Proceeding.... at `date`; echo
 
 cd $DIRECTORY_TO_CONVERT
 
-cat ~/tagax/src/tagax.c | sed -e s/tagax/$MODULE_TO_CONVERT/g       \
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.c | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g       \
   > $MODULE_TO_CONVERT.c
 
-cat ~/tagax/src/tagax.h | sed -e s/tagax/$MODULE_TO_CONVERT/g       \
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.h | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g       \
   > $MODULE_TO_CONVERT.h
 
-cat ~/tagax/src/tagax.c.start | sed -e s/tagax/$MODULE_TO_CONVERT/g \
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.c.start | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g \
   > $MODULE_TO_CONVERT.c.start
 
-cat ~/tagax/src/tagax.h.start | sed -e s/tagax/$MODULE_TO_CONVERT/g \
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.h.start | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g \
   > $MODULE_TO_CONVERT.h.start
 
 
