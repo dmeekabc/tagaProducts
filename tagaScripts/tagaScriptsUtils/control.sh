@@ -71,9 +71,11 @@ do
 
    if [ $input -eq 1 ] ; then
       echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh
 
    elif [ $input -eq 2 ] ; then
       echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh flag
    else
       echo Invalid Commmand Input \($input\) , no action taken!
    fi
