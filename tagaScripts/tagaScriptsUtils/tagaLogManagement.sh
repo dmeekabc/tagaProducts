@@ -34,7 +34,7 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-ARCHIVE=$HOME/scripts/taga/archive/*
+ARCHIVE=$HOME/scripts/taga/archive
 
 currentSeconds=`date +%s`
 maxLogDurationString=`$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/yangUtils/getTlmMaxLogDuration.sh`
@@ -47,7 +47,7 @@ echo currentSeconds:$currentSeconds maxSeconds:$maxDurationSeconds
 let cutoff=$currentSeconds-$maxDurationSeconds
 echo cutoff:$cutoff
 echo
-for file in $ARCHIVE
+for file in $ARCHIVE/output*
 do
    if [ $file ] ; then
       echo
