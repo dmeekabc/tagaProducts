@@ -50,12 +50,12 @@ while True:
         time.sleep(2)
 
         subprocess.call("date", shell=True)
-        command="/home/pi/scripts/taga/tagaScripts/tagaLogManagement/tlm_daemon_agent.sh"
+        command="/home/pi/scripts/taga/tagaScripts/tagaScriptsLogMgt/tlm_daemon_agent.sh"
         command = command + " "
         command = command + str(count)
         subprocess.call(command, shell=True)
 
-        command="/home/pi/scripts/taga/tagaScripts/tagaLogManagement/tlm_daemon.sh"
+        command="/home/pi/scripts/taga/tagaScripts/tagaScriptsLogMgt/tlm_daemon.sh"
         command = command + " "
         command = command + str(count)
         subprocess.call(command, shell=True)
