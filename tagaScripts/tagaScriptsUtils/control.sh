@@ -66,7 +66,7 @@ do
    echo " 2. Network Probe - Brief"    
    echo " 3. Network Probe - Verbose"    
    echo
-   echo "Please Enter Command Choice (1|2):"
+   echo "Please Enter Command Choice (1|2|3) or '0' to Exit:"
 
    read input
 
@@ -74,13 +74,18 @@ do
       echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/pingNet.sh singleLoopflag
 
-   elif [ $input -eq 2] ; then
+   elif [ $input -eq 2 ] ; then
       echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh singleLoopflag
 
    elif [ $input -eq 3 ] ; then
       echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh singleLoopflag
+
+   elif [ $input -eq 0 ] ; then
+      echo Exiting...
+      exit
+
    else
       echo Invalid Commmand Input \($input\) , no action taken!
    fi
