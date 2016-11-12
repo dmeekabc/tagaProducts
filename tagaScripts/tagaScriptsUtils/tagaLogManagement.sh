@@ -50,7 +50,6 @@ echo
 for file in $ARCHIVE/output*
 do
    if [ $file ] ; then
-      echo
       #echo $file
       let secondsString=`echo $file | cut -d_ -f 3`
       #echo secondsString:$secondsString
@@ -58,7 +57,7 @@ do
          echo $file exceeds max log duration, moving to /tmp to be deleted on reboot
          mv $file /tmp
       else
-         echo $file does not exceed max log duration, no action on $file by log manager at this time.
+         echo $file within max log duration, no action 
       fi
    fi
 done
