@@ -620,8 +620,10 @@ fi
 ##############################################
 # automatatically generated configs
 ##############################################
-TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
-TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+#dlm temp, below 2 lines removed 12 nov 2016
+#TAGA_DIR=~/scripts/taga # new mar 2016, relocateable
+#TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
+
 OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
@@ -1081,4 +1083,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.41
+MASTER=192.168.43.27
