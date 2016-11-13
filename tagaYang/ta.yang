@@ -1,0 +1,293 @@
+/********************************************************************
+ *
+ * Copyright (c) IBOA Corp 2016
+ *
+ * All Rights Reserved
+ *                                                                     
+ * Redistribution and use in source and binary forms, with or without  
+ * modification, are permitted provided that the following conditions 
+ * are met:                                                             
+ * 1. Redistributions of source code must retain the above copyright    
+ *    notice, this list of conditions and the following disclaimer.     
+ * 2. Redistributions in binary form must reproduce the above           
+ *    copyright notice, this list of conditions and the following       
+ *    disclaimer in the documentation and/or other materials provided   
+ *    with the distribution.                                            
+ *                                                                      
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS   
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED    
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE     
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT    
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR   
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF           
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT            
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE    
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH     
+ * DAMAGE.                                                              
+ *
+ ********************************************************************/
+module ta {
+
+    namespace "http://iboa.us/ns/ta";
+
+    prefix "ta";
+
+    organization "IBOA Corp";
+
+    contact "Darrin L. Meek <info@iboa.us>"; 
+
+    description
+        "YANG module for IBOA Test Auto Generation and Analysis (TAGA) Log Management (LM) (TLM).";
+
+    revision 2016-11-12 {
+        description "Nov 2016 Updates to the Initial Version of the TAGA Log Management (TLM) Module.";
+    }
+
+    identity ta-type {
+        description
+          "Base for all ta types.";
+    }
+
+    identity ta-type-log {
+        description
+          "TLM Log File Type .";
+        base ta:ta-type;
+    }
+
+    identity ta-type-dat {
+        description
+          "TLM Dat File Type .";
+        base ta:ta-type;
+    }
+
+    identity ta-type-out {
+        description
+          "TLM OUT File Type .";
+        base ta:ta-type;
+    }
+
+    identity ta-type-txt {
+        description
+          "TLM TXT File Type .";
+        base ta:ta-type;
+    }
+
+    identity ta-type1 {
+        description
+          "TAGA Type 1.";
+        base ta:ta-type;
+    }
+
+    identity ta-type2 {
+        description
+          "TAGA Type 2.";
+        base ta:ta-type;
+    }
+
+    identity ta-type3 {
+        description
+          "TAGA Type 3.";
+    }
+
+    identity ta-type4 {
+        description
+          "TAGA Type 4.";
+    }
+
+
+    identity ta-test-type {
+        description
+          "Base for all ta test types.";
+    }
+
+    identity udp-unicast {
+        description
+          "TAGA Test Type 1 (UDP Unicast).";
+        base ta:ta-test-type;
+    }
+
+    identity udp-multicast {
+        description
+          "TAGA Test Type 2 (UDP Multicast).";
+        base ta:ta-test-type;
+    }
+
+    identity tcp-unicast {
+        description
+          "TAGA Test Type 3 (TCP Unicast).";
+        base ta:ta-test-type;
+    }
+
+    identity simulation-only {
+        description
+          "TAGA Test Type 4 (Simulation Only).  Traffic is not generated";
+        base ta:ta-test-type;
+    }
+
+    typedef DisplayString {
+        description
+          "YANG version of the SMIv2 DisplayString TEXTUAL-CONVENTION.";
+        reference "RFC 2579, section 2.";
+        type string {
+            length "0 .. 255";
+        }
+    }
+
+    container ta {
+        presence
+          "Indicates the ta service is available";
+
+        description
+          "Top-level container for all ta database objects.";
+
+        leaf taPurgeMode {
+           description
+             "Indicates the TLM purge mode.";
+           type enumeration {
+               enum time-based {
+                  description
+                    "The purge mode is based on time.";
+               }
+               enum size-based {
+                  description
+                    "The purge mode is based on size.";
+               }
+               enum space-based {
+                  description
+                    "The purge mode is based on space.";
+               }
+               enum hybrid-based {
+                  description
+                    "The purge mode is based on a hybrid of time, size, and space.";
+               }
+            }
+        }
+
+        leaf taServiceEnabled {
+           type boolean;
+           default false;
+           description 
+              "Flag indicating whether or not the TlM Service is enabled.";
+        }
+
+        leaf maxLogDurationMinutes {
+           type uint32 {
+           range "1 .. 1000000";
+           }
+           default 10000;
+           description
+           "The max duration, in minutes, to maintain logs in the log archive.";
+        }
+
+        leaf maxDuration {
+           type uint32 {
+           range "1 .. 1000000";
+           }
+           default 10000;
+           description
+           "The max duration, in minutes, to maintain logs in the log archive.";
+        }
+
+        leaf taService {
+            type DisplayString;
+            config false;
+            mandatory true;
+            description 
+              "The name of the ta service.";
+        }
+ 
+        leaf taServiceVersionNumber {
+            type DisplayString;
+            config false;
+            mandatory true;
+            description
+              "The name of the ta service's version.";
+        }
+
+        leaf taServiceStatus {
+            type enumeration {
+                enum enabled {
+                  value 1;
+                  description
+                    "The ta service is enabled.";
+                }
+                enum disabled {
+                  value 2;
+                  description
+                    "The ta service is disabled.";
+                }
+            }
+            config false;
+            mandatory true;
+            description
+              "This variable indicates the current state (enabled or disabled) of the ta service.";
+        }
+    }
+
+    rpc run-ta {
+        description
+          "Invoke the ta service.
+           The taOperational notification is sent when the ta is operational, 
+           i.e. after sourcing the ta configuration.  An 'already-running' error is 
+           returned if ta is already operational.  A 'resource-denied' error is 
+           returned if the ta service is disabled.";
+        input {
+            leaf taLevel {
+                type uint32 {
+                    range "1 .. 10";
+                }
+                default 5;
+                description
+                  "This variable controls the level of ta system interaction. It should
+                   be on a scale of 1 to 10 with 1 least interactive (essentially inert).";
+            }
+            leaf taTestType {
+                type identityref {
+                    base ta:ta-test-type;
+                }
+                default ta:udp-unicast;
+                description
+                  "This is the type of test that is being run. 
+                   This may impact duration of the test.";
+            }
+        }
+    }
+
+    rpc stop-ta {
+        description
+          "Stop running ta, if it is running.
+           A 'resource-denied' error is returned 
+           if the ta service is disabled.";
+    }
+
+    notification taOperational {
+        description
+          "Indicates that the ta in operational.";
+
+
+        leaf taStatus {
+           description
+             "Indicates the current ta status";
+           type enumeration {
+               enum operational {
+                  description
+                    "The ta is operational .";
+               }
+               enum autodisabled {
+                  description
+                    "The ta was autodisabled.";
+               }
+               enum cancelled {
+                  description
+                    "The ta was cancelled.";
+               }
+               enum error {
+                  description
+                    "An error occurred during ta processing.";
+               }
+            }
+        }
+    }
+}
