@@ -49,7 +49,6 @@ do
 
    # Okay, do the output here!
    clear
-   sleep 1
 
    # issue the header display
    echo
@@ -91,5 +90,9 @@ do
    fi
 
    sleep 5
+
+   # Okay, do the output here!
+   clear
+   sleep 1
 
 done
