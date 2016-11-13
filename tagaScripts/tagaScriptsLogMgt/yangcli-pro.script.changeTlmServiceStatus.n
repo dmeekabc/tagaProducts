@@ -1,0 +1,6 @@
+connect --server=TARGET --user=pi --password=raspberry
+replace target=/tlm/tlmServiceStatus value=NEW_TlM_SERVICE_STATUS
+commit
+quit
+
+

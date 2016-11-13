@@ -61,7 +61,7 @@ fi
 
 
 
-myState=`cat /var/opt/jtmnm/run/jteState.dat`
+myState=`cat /var/opt/taga/run/tagaState.dat`
 echo myState: $myState
 echo AUDITOR: $AUDITOR
 echo MYIP: $MYIP

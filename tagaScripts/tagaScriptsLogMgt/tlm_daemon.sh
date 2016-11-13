@@ -59,8 +59,11 @@ fi
 /usr/bin/sudo /bin/echo `date` : iter:$iteration  >>  /tmp/tlm_daemon_fix.log
 
 
+TLM_AUDIT_ENABLED=0
+TLM_AUDIT_ENABLED=1
 
-myState=`cat /var/opt/jtmnm/run/jteState.dat`
+
+myState=`cat /var/opt/taga/run/tagaState.dat`
 echo myState: $myState
 echo AUDITOR: $AUDITOR
 echo MYIP: $MYIP
