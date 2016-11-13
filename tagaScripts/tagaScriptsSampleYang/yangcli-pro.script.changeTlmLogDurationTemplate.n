@@ -1,0 +1,6 @@
+connect --server=TARGET --user=pi --password=raspberry
+replace target=/tlm/maxLogDurationMinutes value=NEW_MAX_LOG_DURATION
+commit
+quit
+
+
