@@ -79,7 +79,7 @@ newyangmodule=$NEWYANGMODULETOKEN
 cd $MODULE_DIR
 sudo cp $TEMPLATE_FILE $newyangmodule.yang
 cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
-cp /tmp/$newyangmodule.yang .
+sudo cp /tmp/$newyangmodule.yang .
 
 mkdir -p $SOURCE_DIR 2>/dev/null
 cd $SOURCE_DIR
