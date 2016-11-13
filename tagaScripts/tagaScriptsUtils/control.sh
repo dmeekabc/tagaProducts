@@ -69,6 +69,7 @@ do
 
    read input
 
+   if [ $input ] ; then
    if [ $input -eq 1 ] ; then
       echo Commmand Choice $input proceeding...
       $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/pingNet.sh singleLoopflag
@@ -87,9 +88,16 @@ do
 
    else
       echo Invalid Commmand Input \($input\) , no action taken!
+      sleep 1
+      continue
+   fi
+   else
+      echo No input provided, no action taken!
+      sleep 1
+      continue
    fi
 
-   sleep 5
+   sleep 2
 
    # Okay, do the output here!
    clear
