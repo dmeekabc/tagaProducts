@@ -37,10 +37,10 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
+TEMPLATE_TOKEN=jtmnm  # token to use as clone source
 TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=tagax   # token to use as clone source
-MODULE_DIR=/usr/share/yumapro/modules/xxx
-MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
+TEMPLATE_TOKEN=tlm   # token to use as clone source
+MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
 TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
 SOURCE_DIR=~/yangModules
 SOURCE_DIR=~/
@@ -52,15 +52,6 @@ SOURCE_DIR=~/
 SERVER=yangapi-dev 
 USER=pi 
 PASSWORD=raspberry
-
-# Verify we have a module name to work with
-if [ $# -lt 1 ] ; then
-   echo
-   echo $0: Error: Parameter \(New Module Name\) Required, Exiting with no action.
-   echo
-   exit
-fi
-
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -88,7 +79,7 @@ newyangmodule=$NEWYANGMODULETOKEN
 cd $MODULE_DIR
 sudo cp $TEMPLATE_FILE $newyangmodule.yang
 cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
-sudo cp /tmp/$newyangmodule.yang .
+cp /tmp/$newyangmodule.yang .
 
 mkdir -p $SOURCE_DIR 2>/dev/null
 cd $SOURCE_DIR
