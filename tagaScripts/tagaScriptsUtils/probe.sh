@@ -69,6 +69,8 @@ do
    fi
 
    let i=$i+1
+done
+echo
 
    # If we have a flag parameter and have looped once, then exit now!!
    # If we have a flag parameter and have looped once, then exit now!!
@@ -78,6 +80,4 @@ do
       exit
    fi
 
-done
-echo
 done
