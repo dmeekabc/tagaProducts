@@ -42,57 +42,91 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
+echo
+
+let aggregate=0
+let average=0
+let delta=0
+let i=0
+
 for target in $targetList
 do
-
     # determine LOGIN ID for each target
     MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
     # strip trailing blanks
     MYLOGIN_ID=`echo $MYLOGIN_ID` 
-
-    #WIRELESS_INTERFACE="wlan0"
-
     WIRELESS_INTERFACE=`ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr | grep ^wl | cut -d" " -f 1`
-
     #echo $WIRELESS_INTERFACE
-    #continue
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+#      echo; echo `date` : probing $target
+#      echo
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality`
+
+      let delta=`ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Quality | cut -d= -f 2 | cut -c1-2`
+#      echo delta:$delta
+      let aggregate=$aggregate+$delta
+#      echo aggregate:$aggregate
+      let i=$i+1
+      let average=$aggregate/$i
+#      echo average:$average
+      continue
+      echo
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
+   fi
+done
+
+echo 
+echo `./iboaPaddedEcho.sh Average 15`: 'Link Quality='$average/70 
+#echo Average Link Quality=$average/70
+echo
 
 
+for target in $targetList
+do
+    # determine LOGIN ID for each target
+    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+    # strip trailing blanks
+    MYLOGIN_ID=`echo $MYLOGIN_ID` 
+    WIRELESS_INTERFACE=`ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr | grep ^wl | cut -d" " -f 1`
+    #echo $WIRELESS_INTERFACE
+   if echo $BLACKLIST | grep $target ; then
+      echo The $target is in the black list, skipping...
+      continue
+   else
+#      echo; echo `date` : probing $target
+#      echo
+      echo `./iboaPaddedEcho.sh $target 15`: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Frequency`
+      continue
+      echo
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
+      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
+   fi
+done
+
+echo
+
+for target in $targetList
+do
+    # determine LOGIN ID for each target
+    MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+    # strip trailing blanks
+    MYLOGIN_ID=`echo $MYLOGIN_ID` 
+    WIRELESS_INTERFACE=`ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr | grep ^wl | cut -d" " -f 1`
+    #echo $WIRELESS_INTERFACE
    if echo $BLACKLIST | grep $target ; then
       echo The $target is in the black list, skipping...
       continue
    else
       echo; echo `date` : probing $target
+      #echo
+      #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE | grep Frequency`
+      echo
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig $WIRELESS_INTERFACE `
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw $WIRELESS_INTERFACE info`
-
-      #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig wlan0`
-      #echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw wlan0 info`
-
-      # echo DateBefore: $target: `ssh -l $MYLOGIN_ID $target date`
-#      echo $target: `ssh -l $MYLOGIN_ID $target sudo /bin/date 072912202016`
-      # echo $target: `ssh -l $MYLOGIN_ID $target sudo /bin/date 092215252016`
-      # echo DateAfter: $target: `ssh -l $MYLOGIN_ID $target date`
-     # echo `basename $0` processing $target .......
-  #    echo $target: `ssh -l $MYLOGIN_ID $target hostname`
-  #    echo $target: `ssh -l $MYLOGIN_ID $target date`
-
-  #    echo $target: `ssh -l $MYLOGIN_ID $target cat /tmp/normRozn*.log | grep Server | grep id`
-
-#      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iwconfig wlan1 `
-#      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw wlan1 info `
-#      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/iw list`
-#      echo
-#      echo
-#      echo $target: `ssh -l $MYLOGIN_ID $target traceroute 192.168.41.221`
-#      echo
-#      echo
-#      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ip route`
-#      echo $target: `ssh -l $MYLOGIN_ID $target /sbin/route`
-  #    echo $target: `ssh -l $MYLOGIN_ID $target uptime`
-#      echo $target: `ssh -l $MYLOGIN_ID $target ps -ef | grep mgen`
-#      echo $target: `ssh -l $MYLOGIN_ID $target ps -ef | grep netconf`
-  #    echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    fi
 done
 echo

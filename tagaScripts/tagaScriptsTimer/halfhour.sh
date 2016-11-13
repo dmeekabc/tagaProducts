@@ -30,29 +30,45 @@
 #
 #######################################################################
 
+# NOTE: This command is known to be resource intenstive, do not use in production
+
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
-NETADDR=$1
+# provide the info to print into the confirmation request
+#InfoToPrint="$0 Put Your Info To Print Here. $0 "
+# issue confirmation prompt and check reponse
+#$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+#response=$?; if [ $response -ne 1 ]; then exit; fi
+# continue to execute the command
+#echo $0 Proceeding.... at `date`; echo
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
-
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
-
+while true
+do 
+   # first, ensure we hit the end of an appropriate time frame
+   if date | cut -d: -f 2 | cut -c1-2 | grep -e ^29 -e ^59 ; then
+   while true
+   do
+   # next, ensure we hit the end of a minute 
+   if date | cut -d: -f 3 | cut -c1-2 | grep ^59 ; then
+   # next, ensure we hit the end of a second 
+   while true
+   do 
+   if echo `date +%N` | grep ^9 >/dev/null ; then
+   # next, look for the beginning of the next second...
+   if echo `date +%N` | grep ^0 ; then
+      #date +%N
+      date -Ins
+      echo
+      exit
+   fi
+   fi
+   done
+   fi
+   done
+   fi
+done
 

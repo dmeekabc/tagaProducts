@@ -34,25 +34,45 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
+MAX_WAIT_LOOPS=1000000
+MAX_WAIT_LOOPS=10
 
-NETADDR=$1
+#####################################################3
+# issuePrompt function
+#####################################################3
+function issuePrompt {
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+cd $HOME/scripts/taga/tagaScripts/tagaScriptsUtils
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
+let counter=0
+retCode=1
+
+while [ $retCode -ne 0 ] 
+do
+   echo `date` : Press \<Enter\> Key to Proceed...
+   ./managedExecute.sh -t 1 ./readInput.sh 2> /dev/null
+   retCode=$?
+#   echo $retCode
+   if [ $retCode -eq 0 ] ; then
+      echo done waiting >dev/null
+      break
+   else
+      echo still waiting >/dev/null
+      let counter=$counter+1
+      if [ $counter -ge $MAX_WAIT_LOOPS ] ; then
+         echo; echo Max Wait Time Exceeded, Proceeding ...; echo
+         break
+      fi
+   fi
+done
+
+}
+
+#####################################################3
+# Main
+#####################################################3
+
+# issue the prompt
+issuePrompt
 
 

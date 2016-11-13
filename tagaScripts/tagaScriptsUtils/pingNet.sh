@@ -34,25 +34,33 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
+PING_COUNT=2
+SLEEP_TIME=1
+SLEEP_TIME=0
 
-NETADDR=$1
+echo; echo $0 : $MYIP :  executing at `date`
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+while true
+do
+   # get the config in case it has changed
+   source $TAGA_CONFIG_DIR/config
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
+   for target in $targetList
+   do
+      echo
+      sudo ping -c $PING_COUNT $target
+      sleep $SLEEP_TIME
+   done
 
+
+   # If we have a flag parameter and have looped once, then exit now!!
+   # If we have a flag parameter and have looped once, then exit now!!
+
+   if [ $# -gt 0 ] ; then
+      # any param is a flag indicating to run one time only
+      exit
+   fi
+
+
+done
 

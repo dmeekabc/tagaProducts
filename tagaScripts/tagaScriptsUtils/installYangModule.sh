@@ -37,33 +37,38 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=jtmnm  # token to use as clone source
-TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=tlm   # token to use as clone source
-MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
-TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
-SOURCE_DIR=~/yangModules
 SOURCE_DIR=~/
-
 
 ########################
 # Sensitive Info Section (Sanitize before distributing)
 ########################
-SERVER=yangapi-dev 
-USER=pi 
-PASSWORD=raspberry
+SERVER=YourServerNameGoesHere
+USER=YourUserIdGoesHere
+PASSWORD=YourPasswordGoesHere
+
+# Verify we have a module name to work with
+if [ $# -lt 1 ] ; then
+   echo
+   echo $0: Error: Parameter \(New Module Name\) Required, Exiting with no action.
+   echo
+   exit
+fi
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-if [ -f $MODULE_DIR/$1.yang ] ; then
+if [ -f $SOURCE_DIR/$1/src/Makefile ] ; then
   echo
-  echo $MODULE_DIR/$1.yang already exists! ... exiting with no action!
+  echo $SOURCE_DIR/$1/src/Makefile exists ... continuing...
+  echo
+else
+  echo
+  echo $SOURCE_DIR/$1/src/Makefile does not exist! ... exiting with no action...
   echo
   exit
 fi
 
 # provide the info to print into the confirmation request
-InfoToPrint="$MODULE_DIR/$1.yang will be created, source files generated, and objects built."
+InfoToPrint="$SOURCE_DIR/$1/src will be built, installed, and loaded into the running server"
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
@@ -73,38 +78,21 @@ response=$?; if [ $response -ne 1 ]; then exit; fi
 echo $0 Proceeding.... at `date`; echo
 
 # get the parameter input
-NEWYANGMODULETOKEN=$1
-newyangmodule=$NEWYANGMODULETOKEN
+YANGMODULE=$1
+yangmodule=$YANGMODULE
 
-cd $MODULE_DIR
-sudo cp $TEMPLATE_FILE $newyangmodule.yang
-cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
-cp /tmp/$newyangmodule.yang .
+cd $SOURCE_DIR/$1/src
 
-mkdir -p $SOURCE_DIR 2>/dev/null
-cd $SOURCE_DIR
-
-make_sil_dir_pro $newyangmodule
-ret=$?
-if [ $ret -eq 0 ] ; then
-   echo make_sil_dir_pro return:$ret >/dev/null
-   echo Yang Module Source Directory SUCCESSFULLY CREATED - building $1 ...
-else
-   echo
-   echo make_sil_dir_pro return:$ret >/dev/null
-   echo Hint - Check for pre-existence of $SOURCE_DIR/$1 directory ...
-   echo ERROR - Yang Module Source Directory NOT SUCCESSFULLY CREATED - exiting
-   echo
-   exit
-fi
-
-cd $newyangmodule/src
+sudo make clean
+echo make clean ret: $?
 sudo make
+echo make ret: $?
 sudo make install
+echo make install ret: $?
 
 ls -lrt `pwd`
 echo
-echo New Yang Module is found at: $MODULE_DIR/$1.yang
+echo Newly Built Yang Module is found at: $SOURCE_DIR/$1/src
 echo New Yang Source Files are in: `pwd`
 echo
 
@@ -112,7 +100,7 @@ sleep 1
 
 # Okay, Now Load it!
 echo Loading new yang module into running system/server
-yangScript=/tmp/yangcli-pro-createModule.script
+yangScript=/tmp/yangcli-pro-loadModule.script
 echo "connect --server=$SERVER --user=$USER --password=$PASSWORD"  > $yangScript
 echo "load $1"                                                    >> $yangScript
 echo "quit"                                                       >> $yangScript

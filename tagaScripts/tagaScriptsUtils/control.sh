@@ -32,27 +32,75 @@
 
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
-source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
-NETADDR=$1
+while true
+do
+   # get the config
+   source $TAGA_CONFIG_DIR/config
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+   echo
+   echo Getting Modes from Database...
+   echo
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
+   messageTransferMode="TagaMessageTransferMode"
+   fileTransferMode="TagaFileTransferMode"
 
+   # Okay, do the output here!
+   clear
 
+   # issue the header display
+   echo
+   echo -------------------------------------------------------------------------------
+   echo TAGA Control : `date`
+   echo -------------------------------------------------------------------------------
+   echo Message-Transfer-Mode: $messageTransferMode
+   echo File-Transfer-Mode...: $fileTransferMode 
+   echo Network Context......: $TAGA_CONTEXT 
+   echo -------------------------------------------------------------------------------
+   echo
+   echo Command Options:
+   echo " 1. Network Ping"    
+   echo " 2. Network Probe - Brief"    
+   echo " 3. Network Probe - Verbose"    
+   echo
+   echo "Please Enter Command Choice (1|2|3) or '0' to Exit:"
+
+   read input
+
+   if [ $input ] ; then
+   if [ $input -eq 1 ] ; then
+      echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/pingNet.sh singleLoopflag
+
+   elif [ $input -eq 2 ] ; then
+      echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probe.sh singleLoopflag
+
+   elif [ $input -eq 3 ] ; then
+      echo Commmand Choice $input proceeding...
+      $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/probew.sh singleLoopflag
+
+   elif [ $input -eq 0 ] ; then
+      echo Exiting...
+      exit
+
+   else
+      echo Invalid Commmand Input \($input\) , no action taken!
+      sleep 1
+      continue
+   fi
+   else
+      echo No input provided, no action taken!
+      sleep 1
+      continue
+   fi
+
+   sleep 2
+
+   # Okay, do the output here!
+   clear
+   sleep 1
+
+done

@@ -34,25 +34,47 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
+CONVERT_FROM_SOURCE=tlm
+
+echo; echo $0 : $MYIP :  executing at `date`; echo
+
+if [ $# -eq 1 ] ; then
+   MODULE_TO_CONVERT=$1
+   DIRECTORY_TO_CONVERT=$HOME/$MODULE_TO_CONVERT/src
 else
-   let PING_SUDO_REQD=0 # Other systems
+   echo Error: Single param \(module to convert\) is required, exiting...
+   exit
 fi
 
-NETADDR=$1
+# provide the info to print into the confirmation request
+InfoToPrint="$DIRECTORY_TO_CONVERT will be regenerated from $HOME/$CONVERT_FROM_SOURCE/src"
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
+# continue to execute the command
+echo $0 Proceeding.... at `date`; echo
 
+#### Remote the old module directory if it existed
+######cd; rm -rf $MODULE_TO_CONVERT
+
+cd $DIRECTORY_TO_CONVERT
+
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.c | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g       \
+  > $MODULE_TO_CONVERT.c
+
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.h | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g       \
+  > $MODULE_TO_CONVERT.h
+
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.c.start | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g \
+  > $MODULE_TO_CONVERT.c.start
+
+cat ~/$CONVERT_FROM_SOURCE/src/$CONVERT_FROM_SOURCE.h.start | sed -e s/$CONVERT_FROM_SOURCE/$MODULE_TO_CONVERT/g \
+  > $MODULE_TO_CONVERT.h.start
+
+
+sudo make clean
+sudo make 
+sudo make install
 

@@ -34,25 +34,33 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
+ARCHIVE=$HOME/scripts/taga/archive
 
-NETADDR=$1
+currentSeconds=`date +%s`
+maxLogDurationString=`$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/yangUtils/getTlmMaxLogDuration.sh`
+maxDurationMinutes=`echo $maxLogDurationString | cut -d" " -f 2`
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+echo
+echo currentSeconds:$currentSeconds maxMinutes:$maxDurationMinutes
+let maxDurationSeconds=$maxDurationMinutes*60
+echo currentSeconds:$currentSeconds maxSeconds:$maxDurationSeconds
+let cutoff=$currentSeconds-$maxDurationSeconds
+echo cutoff:$cutoff
+echo
+for file in $ARCHIVE/output*
+do
+   if [ $file ] ; then
+      #echo $file
+      let secondsString=`echo $file | cut -d_ -f 3`
+      #echo secondsString:$secondsString
+      if [ $secondsString -le $cutoff ]; then
+         echo $file exceeds max log duration, moving to /tmp to be deleted on reboot
+         mv $file /tmp
+      else
+         echo $file within max log duration, no action 
+      fi
+   fi
+done
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
 
 

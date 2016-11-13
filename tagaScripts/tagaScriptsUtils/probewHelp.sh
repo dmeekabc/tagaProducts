@@ -34,25 +34,10 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
-fi
-
-NETADDR=$1
-
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
-
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
-
-
+# Reinit the files so /tmp doesn't grow too large
+# Reinit the files so /tmp doesn't grow too large
+# Reinit the files so /tmp doesn't grow too large
+echo `date` > /tmp/probew.out
+echo `date` > /tmp/tagaInfo.log
+echo `date` > /tmp/tagaWarn.log
+echo `date` > /tmp/tagaAlarm.log

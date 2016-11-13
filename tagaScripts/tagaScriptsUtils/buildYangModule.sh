@@ -29,30 +29,63 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-# PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
-   let PING_SUDO_REQD=1 # Rasperry Pi systems
-else
-   let PING_SUDO_REQD=0 # Other systems
+########################
+# Sensitive Info Section (Sanitize before distributing)
+########################
+COMMAND=xxxxxx
+
+############################################################
+# Primary Module Directory and Template File Configuration
+# Note: Ensure these are properly set for your system
+############################################################
+TEMPLATE_TOKEN=taga   # token to use as clone source
+TEMPLATE_TOKEN=tlm   # token to use as clone source
+MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
+SOURCE_DIR=~/yangModules
+SOURCE_DIR=~/
+
+echo; echo $0 : $MYIP :  executing at `date`; echo
+
+# get the parameter input if provided
+if [ $# -ge 1 ]; then
+   TEMPLATE_TOKEN=$1
 fi
 
-NETADDR=$1
+# provide the info to print into the confirmation request
+InfoToPrint="$MODULE_DIR/$1.yang will be used to generate or regenerate source code at the following location: $HOME/$TEMPLATE_TOKEN. Files at this location will be deleted if they exist. The $TEMPLATE_TOKEN module will be built and installed. Please RENAME FILES IF NECESSARY to avoid permanent deletion."
 
-if [ $PING_SUDO_REQD -eq 1 ]; then
-  sudo ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-else
-  ping -W 1 -c 1 $NETADDR < $TAGA_CONFIG_DIR/passwd.txt
-fi 
+# issue confirmation prompt and check reponse
+$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
+response=$?; if [ $response -ne 1 ]; then exit; fi
 
-if [ $? -eq 0 ]; then
-   echo $NETADDR >> /tmp/probe2Found.out
-else
-   echo $NETADDR >> /tmp/probe2Notfound.out
-fi
+# continue to execute the command
+echo $0 Proceeding.... at `date`; echo
+
+
+#############################3
+# DO IT
+#############################3
+
+# change to home
+cd
+
+# Remote the Old Token-based Directory
+rm -rf $TEMPLATE_TOKEN
+
+# Auto-generate source from token module
+$COMMAND $TEMPLATE_TOKEN
+
+# Change to the newly generated source
+cd $TEMPLATE_TOKEN/src
+
+# Make it and Install it (e.g. Build on Steroids)
+sudo make clean
+sudo make
+sudo make install
 
 

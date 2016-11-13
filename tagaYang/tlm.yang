@@ -1,0 +1,293 @@
+/********************************************************************
+ *
+ * Copyright (c) IBOA Corp 2016
+ *
+ * All Rights Reserved
+ *                                                                     
+ * Redistribution and use in source and binary forms, with or without  
+ * modification, are permitted provided that the following conditions 
+ * are met:                                                             
+ * 1. Redistributions of source code must retain the above copyright    
+ *    notice, this list of conditions and the following disclaimer.     
+ * 2. Redistributions in binary form must reproduce the above           
+ *    copyright notice, this list of conditions and the following       
+ *    disclaimer in the documentation and/or other materials provided   
+ *    with the distribution.                                            
+ *                                                                      
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS   
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED    
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE     
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT    
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR   
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF           
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT            
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE    
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH     
+ * DAMAGE.                                                              
+ *
+ ********************************************************************/
+module tlm {
+
+    namespace "http://iboa.us/ns/tlm";
+
+    prefix "tlm";
+
+    organization "IBOA Corp";
+
+    contact "Darrin L. Meek <info@iboa.us>"; 
+
+    description
+        "YANG module for IBOA Test Auto Generation and Analysis (TAGA) Log Management (LM) (TLM).";
+
+    revision 2016-11-12 {
+        description "Nov 2016 Updates to the Initial Version of the TAGA Log Management (TLM) Module.";
+    }
+
+    identity tlm-type {
+        description
+          "Base for all tlm types.";
+    }
+
+    identity tlm-type-log {
+        description
+          "TLM Log File Type .";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type-dat {
+        description
+          "TLM Dat File Type .";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type-out {
+        description
+          "TLM OUT File Type .";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type-txt {
+        description
+          "TLM TXT File Type .";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type1 {
+        description
+          "TAGA Type 1.";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type2 {
+        description
+          "TAGA Type 2.";
+        base tlm:tlm-type;
+    }
+
+    identity tlm-type3 {
+        description
+          "TAGA Type 3.";
+    }
+
+    identity tlm-type4 {
+        description
+          "TAGA Type 4.";
+    }
+
+
+    identity tlm-test-type {
+        description
+          "Base for all tlm test types.";
+    }
+
+    identity udp-unicast {
+        description
+          "TAGA Test Type 1 (UDP Unicast).";
+        base tlm:tlm-test-type;
+    }
+
+    identity udp-multicast {
+        description
+          "TAGA Test Type 2 (UDP Multicast).";
+        base tlm:tlm-test-type;
+    }
+
+    identity tcp-unicast {
+        description
+          "TAGA Test Type 3 (TCP Unicast).";
+        base tlm:tlm-test-type;
+    }
+
+    identity simulation-only {
+        description
+          "TAGA Test Type 4 (Simulation Only).  Traffic is not generated";
+        base tlm:tlm-test-type;
+    }
+
+    typedef DisplayString {
+        description
+          "YANG version of the SMIv2 DisplayString TEXTUAL-CONVENTION.";
+        reference "RFC 2579, section 2.";
+        type string {
+            length "0 .. 255";
+        }
+    }
+
+    container tlm {
+        presence
+          "Indicates the tlm service is available";
+
+        description
+          "Top-level container for all tlm database objects.";
+
+        leaf tlmPurgeMode {
+           description
+             "Indicates the TLM purge mode.";
+           type enumeration {
+               enum time-based {
+                  description
+                    "The purge mode is based on time.";
+               }
+               enum size-based {
+                  description
+                    "The purge mode is based on size.";
+               }
+               enum space-based {
+                  description
+                    "The purge mode is based on space.";
+               }
+               enum hybrid-based {
+                  description
+                    "The purge mode is based on a hybrid of time, size, and space.";
+               }
+            }
+        }
+
+        leaf tlmServiceEnabled {
+           type boolean;
+           default false;
+           description 
+              "Flag indicating whether or not the TlM Service is enabled.";
+        }
+
+        leaf maxLogDurationMinutes {
+           type uint32 {
+           range "1 .. 1000000";
+           }
+           default 10000;
+           description
+           "The max duration, in minutes, to maintain logs in the log archive.";
+        }
+
+        leaf maxDuration {
+           type uint32 {
+           range "1 .. 1000000";
+           }
+           default 10000;
+           description
+           "The max duration, in minutes, to maintain logs in the log archive.";
+        }
+
+        leaf tlmService {
+            type DisplayString;
+            config false;
+            mandatory true;
+            description 
+              "The name of the tlm service.";
+        }
+ 
+        leaf tlmServiceVersionNumber {
+            type DisplayString;
+            config false;
+            mandatory true;
+            description
+              "The name of the tlm service's version.";
+        }
+
+        leaf tlmServiceStatus {
+            type enumeration {
+                enum enabled {
+                  value 1;
+                  description
+                    "The tlm service is enabled.";
+                }
+                enum disabled {
+                  value 2;
+                  description
+                    "The tlm service is disabled.";
+                }
+            }
+            config false;
+            mandatory true;
+            description
+              "This variable indicates the current state (enabled or disabled) of the tlm service.";
+        }
+    }
+
+    rpc run-tlm {
+        description
+          "Invoke the tlm service.
+           The tlmOperational notification is sent when the tlm is operational, 
+           i.e. after sourcing the tlm configuration.  An 'already-running' error is 
+           returned if tlm is already operational.  A 'resource-denied' error is 
+           returned if the tlm service is disabled.";
+        input {
+            leaf tlmLevel {
+                type uint32 {
+                    range "1 .. 10";
+                }
+                default 5;
+                description
+                  "This variable controls the level of tlm system interaction. It should
+                   be on a scale of 1 to 10 with 1 least interactive (essentially inert).";
+            }
+            leaf tlmTestType {
+                type identityref {
+                    base tlm:tlm-test-type;
+                }
+                default tlm:udp-unicast;
+                description
+                  "This is the type of test that is being run. 
+                   This may impact duration of the test.";
+            }
+        }
+    }
+
+    rpc stop-tlm {
+        description
+          "Stop running tlm, if it is running.
+           A 'resource-denied' error is returned 
+           if the tlm service is disabled.";
+    }
+
+    notification tlmOperational {
+        description
+          "Indicates that the tlm in operational.";
+
+
+        leaf tlmStatus {
+           description
+             "Indicates the current tlm status";
+           type enumeration {
+               enum operational {
+                  description
+                    "The tlm is operational .";
+               }
+               enum autodisabled {
+                  description
+                    "The tlm was autodisabled.";
+               }
+               enum cancelled {
+                  description
+                    "The tlm was cancelled.";
+               }
+               enum error {
+                  description
+                    "An error occurred during tlm processing.";
+               }
+            }
+        }
+    }
+}
