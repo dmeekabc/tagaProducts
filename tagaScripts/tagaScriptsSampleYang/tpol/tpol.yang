@@ -142,6 +142,67 @@ module tpol {
         description
           "Top-level container for all tpol database objects.";
 
+
+
+        leaf tpolCommandMode {
+           description
+             "Indicates the TPOL Command mode.";
+           type enumeration {
+               enum immediate {
+                  description
+                    "The commands are immediate.";
+               }
+               enum expedited {
+                  description
+                    "The commands are expedited.";
+               }
+               enum max-reliable {
+                  description
+                    "The commands are sent with maximum reliability.";
+               }
+               enum network-friendly {
+                  description
+                    "The commands are sent in a network friendly manner.";
+               }
+               enum hybrid {
+                  description
+                    "The commands are sent via a hybrid policy.";
+               }
+            }
+
+
+
+        leaf tpolCommandReplyMode {
+           description
+             "Indicates the TPOL Command Reply mode.";
+           type enumeration {
+               enum immediate {
+                  description
+                    "The command replies are immediate.";
+               }
+               enum expedited {
+                  description
+                    "The command replies are expedited.";
+               }
+               enum max-reliable {
+                  description
+                    "The command replies are sent with maximum reliability.";
+               }
+               enum network-friendly {
+                  description
+                    "The command replies are sent in a network friendly manner.";
+               }
+               enum hybrid {
+                  description
+                    "The command replies are sent via a hybrid policy.";
+               }
+            }
+        }
+
+
+
+
+
         leaf tpolPurgeMode {
            description
              "Indicates the TPOL purge mode.";
