@@ -143,6 +143,34 @@ module tpol {
           "Top-level container for all tpol database objects.";
 
 
+        leaf tpolMessageDeliveryMode {
+           description
+             "Indicates the TPOL Message Delivery mode.";
+           type enumeration {
+               enum immediate {
+                  description
+                    "The Messages are immediate.";
+               }
+               enum expedited {
+                  description
+                    "The Messages are expedited.";
+               }
+               enum max-reliable {
+                  description
+                    "The Messages are sent with maximum reliability.";
+               }
+               enum network-friendly {
+                  description
+                    "The Messages are sent in a network friendly manner.";
+               }
+               enum hybrid {
+                  description
+                    "The Messages are sent via a hybrid policy.";
+               }
+            }
+        }
+
+
 
         leaf tpolCommandMode {
            description
@@ -169,6 +197,7 @@ module tpol {
                     "The commands are sent via a hybrid policy.";
                }
             }
+        }
 
 
 
@@ -198,7 +227,6 @@ module tpol {
                }
             }
         }
-
 
 
 
