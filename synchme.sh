@@ -124,6 +124,8 @@ do
      ssh -l $MYLOGIN_ID $target mkdir -p $MYDIR
 
      # send the files to the destination
+     mkdir -p ~/synchmeSave 
+     cp -r $SCP_SOURCE_STR ~/synchmeSave
      scp -r $SCP_SOURCE_STR $MYLOGIN_ID@$target:$MYDIR # <$SCRIPTS_DIR/taga/passwd.txt
 
    fi
