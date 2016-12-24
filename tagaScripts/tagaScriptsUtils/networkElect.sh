@@ -332,6 +332,21 @@ function re-election-new {
    $tagaUtilsDir/iboaDelay.sh $randomDelay
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    # if we get here, we are either going to be the new manager or we are in an extreme tie condition
     # dlm temp, well testing tells us this is normal so let's add a filter
 
@@ -357,6 +372,7 @@ function re-election-new {
             if [ $compareValue -lt $myValue ] ; then
                # I relinquish
                echo I relinquish
+               let MANAGER_FLAG=0 # should already be 0 but just in case...
                return 0
             else
                # I do not relinquish, yet at least...
@@ -375,6 +391,15 @@ function re-election-new {
       sleep 1
 
    done
+
+
+
+
+
+
+
+
+
 
    # dlm temp, for now, just claim to be a candidate and even manager!
    # dlm temp, for now, just claim to be a candidate and even manager!
@@ -633,6 +658,75 @@ fi
 } # end function re-election
 
 
+function relinquish {
+
+   if [ $MYIP != $preferredManager ]; then
+
+   # I am not the preferred manager, I need to make sure I should remain as manager
+
+   PREFERRED_MANAGER_FILE=$ANNOUNCE_FILE_BASE.$preferredManager
+   if [ -f $PREFERRED_MANAGER_FILE ]; then 
+      echo $MYIP : Preferred Manager is advertising, I am relinquishing as manager!
+      let MANAGER_FLAG=0
+      return 0
+   fi 
+
+   # j loop not needed 
+   for j in 1 #2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            \
+            #2#1 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   \
+            #41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
+   do
+
+      # look for ties and do tie breaker, if we lose, we return without declaring via the manager flag
+
+      echo $j: Relinquish Section
+       
+      for target in $myNetworkList
+      do
+         echo $j: Relinquish Section : checking manager from target:$target
+         ls $ANNOUNCE_FILE_ALL 
+         if ls $ANNOUNCE_FILE_ALL | grep $target ; then
+            # compare $target to $MYIP
+            echo compare target:$target to myip:$MYIP
+            compareValue=`echo $target | cut -d\. -f 4`
+            myValue=`echo $MYIP | cut -d\. -f 4`
+            echo comparing compareValue:$compareValue to myValue:$myValue
+
+            if [ $compareValue -lt $myValue ] ; then
+               # I relinquish
+               echo I relinquish
+               let MANAGER_FLAG=0
+               return 0
+            else
+               # I do not relinquish, yet at least...
+               echo I do not relinquish, yet at least...
+            fi 
+         fi
+
+         # dlm temp, this is not needed here...
+         ### we have not yet re-linquished, send out an advertisement that we are candidate to manage
+         ##echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+         ### do this in the background so we don't get hung up!
+         ##sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         ##sleep 1
+
+      done
+
+      # dlm temp, this is not needed here...
+      ### sleep 1
+
+   done
+
+   else
+      echo I am preferred manager, no need to reqlinquish to anybody
+   fi  # end if not preferred manager
+
+} # end function relinquish
+
+
+
+
+
 
 
 function doManager {
@@ -713,6 +807,9 @@ function doManager {
       let MANAGER_FLAG=0
    fi 
    fi
+
+
+   relinquish
 
    return 0
 }
