@@ -334,25 +334,12 @@ function re-election-new {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
    # if we get here, we are either going to be the new manager or we are in an extreme tie condition
     # dlm temp, well testing tells us this is normal so let's add a filter
 
-   for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            \
-            21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   \
-            41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
+   for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20          #  \
+         #   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 #  \
+         #   41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
    do
       # look for ties and do tie breaker, if we lose, we return without declaring via the manager flag
 
@@ -388,17 +375,57 @@ function re-election-new {
          scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
 
+
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+
+         identy=/home/pi/.ssh/id_rsa
+
+         if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
+
+         sudo touch $ANNOUNCE_FILE
+         sudo touch $ANNOUNCE_CANDIDATE_FILE
+         sudo chmod 777 $ANNOUNCE_FILE
+         sudo chmod 777 $ANNOUNCE_CANDIDATE_FILE
+
+         # dlm temp, inner loop is overkill
+         #for target in $myNetworkList
+         #do
+
+            if [ $DEBUG -eq 1 ] ;then
+              echo Distributing $ANNOUNCE_FILE 
+            fi
+            loginId=`$tagaUtilsDir/myLoginId.sh $target`
+            # do this in the background so we don't get hung up
+            echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+            echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+            # do this in the background so we don't get hung up
+               identy=/home/pi/.ssh/id_rsa
+            sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+            scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+               sleep 1
+
+         # dlm temp, inner loop is overkill
+         #done
+
+         fi
+
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+
       done
 
       sleep 1
 
    done
-
-
-
-
-
-
 
 
 
