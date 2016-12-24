@@ -38,6 +38,23 @@ source /home/pi/scripts/taga/tagaConfig/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+
+#####################################################################
+# Election Process Description
+#####################################################################
+#
+# Bully Algorithm, the preferred node bullies itself to manager
+#   - if the preferred node is unavailable, other nodes elect based on lowest ip
+#   - if the preferred node comes avaialable, it takes over as manager
+#        - note: this can clearly have undesirable 'bouncing/thrashing' effect
+#                effect if the  preferred node is unstable or in/out of range.
+#
+#####################################################################
+# Election Process Description
+#####################################################################
+
+
+
 ######################################################################
 # ENABLE or DISABLE the various managers (bottom of each one wins)
 ######################################################################
@@ -570,11 +587,23 @@ do
       elif [ $retCode -eq 1 ]; then
          echo Multiple Managers Verified
          echo Enter Re-election process now!
+
+         # call initial election to allow bully algorithm to function
+         # in the event the IP addresses (provides our identity process) appear after init
+         election
+         # if we stil have no manager, do the re-election , note this is temporary until bully comes back
          re-election
+
       else
          echo No Manager Verified
          echo Enter Re-election process now!
+
+         # call initial election to allow bully algorithm to function
+         # in the event the IP addresses (provides our identity process) appear after init
+         election
+         # if we stil have no manager, do the re-election , note this is temporary until bully comes back
          re-election
+
       fi
    fi
 
