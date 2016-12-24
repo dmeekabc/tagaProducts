@@ -58,8 +58,8 @@ let DEBUG=1
 let DEBUG=0
 
 # first let's build up our sub-network list...
-# NOTE: This assumes 24 bit sumbask!!
-# NOTE: This assumes 24 bit sumbask!!
+# NOTE: This assumes 24 bit netmask!!
+# NOTE: This assumes 24 bit netmask!!
 for target in $targetList
 do
    compareNetId=`echo $target | cut -d\. -f 3`
