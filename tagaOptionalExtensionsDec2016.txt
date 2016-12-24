@@ -46,30 +46,6 @@ Changes not staged for commit:
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
 
-	counts.txt
-	iboaUtils/aliasList.txt
-	tagaChangesDec2016.txt
-	tagaConfig/.targetList.sh.swm
-	tagaConfig/.targetList.sh.swn
-	tagaConfig/.targetList.sh.swo
-	tagaConfig/1
-	tagaConfig/config.10nov2016
-	tagaConfig/config.15dec
-	tagaConfig/loginmap.txt.16nov2016
-	tagaConfig/targetList
-	tagaConfig/targetList.NO_SRW
-	tagaConfig/targetList.sh.1
-	tagaConfig/targetList.sh.2
-	tagaConfig/targetList.sh.21oct2016
-	tagaConfig/targetList.sh.3.2
-	tagaConfig/targetList.sh.44.74
-	tagaConfig/targetList.sh.HOSTS
-	tagaConfig/targetList.sh.NO_SRW
-	tagaConfig/targetList.sh.SRW
-	tagaConfig/targetList.sh.oct2016
-	tagaConfig/targetList.sh.save
-	tagaConfig/targetList.sh.save21nov2016
-	tagaConfig/targetList.sh.tmp
 	tagaScripts/tagaScriptsLogMgt/changeTlmServiceEnabled.sh
 	tagaScripts/tagaScriptsLogMgt/getTlmServiceEnabled.sh
 	tagaScripts/tagaScriptsLogMgt/yangcli-pro.script.changeTlmServiceEnabled.n
@@ -89,18 +65,9 @@ Untracked files:
 	tagaScripts/tagaScriptsTimer/tenminute.sh.8dec
 	tagaScripts/tagaScriptsTimer/twentyminute.sh.8dec
 	tagaScripts/tagaScriptsTimer/twominute.sh
-	tagaScripts/tagaScriptsUtils/.a.sh.swp
-	tagaScripts/tagaScriptsUtils/.energizePIMTables.sh.swo
-	tagaScripts/tagaScriptsUtils/.energizePIMTables.sh.swp
-	tagaScripts/tagaScriptsUtils/.proceedManaged.sh.swp
-	tagaScripts/tagaScriptsUtils/.reaParse.sh.swp
-	tagaScripts/tagaScriptsUtils/.synchme.sh.swp
-	tagaScripts/tagaScriptsUtils/1
-	tagaScripts/tagaScriptsUtils/ENTITY-SENSOR-MIB/
 	tagaScripts/tagaScriptsUtils/cancelTimeBasedOperation.sh
 	tagaScripts/tagaScriptsUtils/cancelTimeBasedTrigger.sh
 	tagaScripts/tagaScriptsUtils/changeModelContext.sh
-	tagaScripts/tagaScriptsUtils/checkMemory.sh.save
 	tagaScripts/tagaScriptsUtils/confirmYes.txt
 	tagaScripts/tagaScriptsUtils/context.txt
 	tagaScripts/tagaScriptsUtils/contextChange.sh
@@ -112,74 +79,40 @@ Untracked files:
 	tagaScripts/tagaScriptsUtils/demobde.txt
 	tagaScripts/tagaScriptsUtils/demobn1.txt
 	tagaScripts/tagaScriptsUtils/dynamicVarExample.sh
-	tagaScripts/tagaScriptsUtils/energizePIMTables.sh
-	tagaScripts/tagaScriptsUtils/energizePIMTables.sh.1
-	tagaScripts/tagaScriptsUtils/energizePIMTables.sh.2
 	tagaScripts/tagaScriptsUtils/getAutoConfirm.sh
-	tagaScripts/tagaScriptsUtils/gvineEnable.sh
 	tagaScripts/tagaScriptsUtils/iboaDelay.sh
 	tagaScripts/tagaScriptsUtils/ipmrw.sh
-	tagaScripts/tagaScriptsUtils/jtlm.yang
-	tagaScripts/tagaScriptsUtils/jtrtr-csco.yang
-	tagaScripts/tagaScriptsUtils/jtw/
 	tagaScripts/tagaScriptsUtils/nano.sh
 	tagaScripts/tagaScriptsUtils/networkElect.sh
-	tagaScripts/tagaScriptsUtils/networkElect.sh.23decPM
-	tagaScripts/tagaScriptsUtils/networkElect.sh.23decSave
-	tagaScripts/tagaScriptsUtils/networkElectAudit.sh
-	tagaScripts/tagaScriptsUtils/networkIntrusionMon.sh
-	tagaScripts/tagaScriptsUtils/pingSrw.sh
 	tagaScripts/tagaScriptsUtils/prepRoot.sh
 	tagaScripts/tagaScriptsUtils/prepRootAll.sh
 	tagaScripts/tagaScriptsUtils/probeCheckFile.sh
 	tagaScripts/tagaScriptsUtils/probeCheckManagers.sh
 	tagaScripts/tagaScriptsUtils/probeCheckProcess.sh
-	tagaScripts/tagaScriptsUtils/probeCheckProcessTri.sh
 	tagaScripts/tagaScriptsUtils/probeCheckTMPDirFile.sh
 	tagaScripts/tagaScriptsUtils/probeClearLinkDrops.sh
 	tagaScripts/tagaScriptsUtils/probeCopyFile.sh
 	tagaScripts/tagaScriptsUtils/probeCreateDir.sh
 	tagaScripts/tagaScriptsUtils/probeCreateFile.sh
 	tagaScripts/tagaScriptsUtils/probeGateways.sh
-	tagaScripts/tagaScriptsUtils/probeGvineEnable.sh
 	tagaScripts/tagaScriptsUtils/probeHosts.sh
 	tagaScripts/tagaScriptsUtils/probeKillProcess.sh
 	tagaScripts/tagaScriptsUtils/probeMoveFile.sh
 	tagaScripts/tagaScriptsUtils/probeNetconf.sh
 	tagaScripts/tagaScriptsUtils/probeNtp.sh
 	tagaScripts/tagaScriptsUtils/probeRunProcess.sh
-	tagaScripts/tagaScriptsUtils/probeRunProcessRaj.sh
-	tagaScripts/tagaScriptsUtils/probeRunProcessSimulateNetSplit.sh
-	tagaScripts/tagaScriptsUtils/probeRunProcessTri.sh
 	tagaScripts/tagaScriptsUtils/probeSetDate.sh
 	tagaScripts/tagaScriptsUtils/probeSetDateW.sh
 	tagaScripts/tagaScriptsUtils/probeSetLinkDrops.sh
-	tagaScripts/tagaScriptsUtils/probeSrw.sh
 	tagaScripts/tagaScriptsUtils/probeUntarFile.sh
-	tagaScripts/tagaScriptsUtils/probegvine.sh
-	tagaScripts/tagaScriptsUtils/probegvine2.sh
-	tagaScripts/tagaScriptsUtils/probetri.sh
 	tagaScripts/tagaScriptsUtils/probew.sh.save
 	tagaScripts/tagaScriptsUtils/proceed.sh
 	tagaScripts/tagaScriptsUtils/putAutoConfirm.sh
-	tagaScripts/tagaScriptsUtils/reaParse.sh
-	tagaScripts/tagaScriptsUtils/reaParse.sh.save
-	tagaScripts/tagaScriptsUtils/reaParse.sh.tmp
-	tagaScripts/tagaScriptsUtils/reaParse2.sh
 	tagaScripts/tagaScriptsUtils/readInput.sh
 	tagaScripts/tagaScriptsUtils/receiverLoop.sh
 	tagaScripts/tagaScriptsUtils/senderLoop.sh
-	tagaScripts/tagaScriptsUtils/simulateOutOfRangeOneMinute.sh
-	tagaScripts/tagaScriptsUtils/srwmap.sh
 	tagaScripts/tagaScriptsUtils/synchTargetList.sh
-	tagaScripts/tagaScriptsUtils/synchTargetList.sh.broke
-	tagaScripts/tagaScriptsUtils/synchTargetList.sh.save
-	tagaScripts/tagaScriptsUtils/synchTargetList_.sh
 	tagaScripts/tagaScriptsUtils/taga.yang
-	tagaScripts/tagaScriptsUtils/targetList.sh
-	tagaScripts/tagaScriptsUtils/tmp.sh
 	tagaScripts/tagaScriptsUtils/verifyNet.sh
-	tagaScripts/tagaScriptsUtils/verifySrw.sh
 	tagaScripts/tagaScriptsUtils/yangUtils/
 
-no changes added to commit (use "git add" and/or "git commit -a")
