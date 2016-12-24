@@ -383,7 +383,9 @@ function re-election-new {
          # we have not yet re-linquished, send out an advertisement that we are candidate to manage
          echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
+         identy=/home/pi/.ssh/id_rsa
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
 
       done
@@ -435,7 +437,9 @@ function re-election-new {
       echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
 
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -451,9 +455,12 @@ function re-election-new {
       echo sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -468,7 +475,9 @@ function re-election-new {
       # do this in the background so we don't get hung up
       echo sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -759,7 +768,9 @@ function doManager {
       # do this in the background so we don't get hung up
       echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -776,9 +787,12 @@ function doManager {
       echo sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
          sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -792,7 +806,9 @@ function doManager {
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
+         identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
+      scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
