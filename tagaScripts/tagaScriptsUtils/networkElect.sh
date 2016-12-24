@@ -51,16 +51,17 @@ ECHELON_MANAGER_ENABLED=0
 AREA_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=0
 
-
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+
+ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
+ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
 
 ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
 ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
 
 ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
 ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
-
 
 function election {
 source /home/pi/scripts/taga/tagaConfig/config
@@ -81,8 +82,8 @@ let DEBUG=1
 let DEBUG=0
 
 # first let's build up our sub-network list...
-# NOTE: This assumes 24 bit sumbask!!
-# NOTE: This assumes 24 bit sumbask!!
+# NOTE: This assumes 24 bit netmask!!
+# NOTE: This assumes 24 bit netmask!!
 for target in $targetList
 do
    compareNetId=`echo $target | cut -d\. -f 3`
@@ -92,14 +93,16 @@ do
    fi
    if [ $compareNetId == $myNetId ] ; then
       myNetworkList="$myNetworkList $target"
+      myEchelonNetworkList="$myEchelonNetworkList $target"
       myEchelonAreaNetworkList="$myEchelonAreaNetworkList $target"
       myAreaNetworkList="$myAreaNetworkList $target"
    fi
 done
 
 echo $MYIP : myNetworkList:$myNetworkList
-echo $MYIP : myAreaNetworkList:$myAreaNetworkList
+echo $MYIP : myEchelonNetworkList:$myEchelonAreaNetworkList
 echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
+echo $MYIP : myAreaNetworkList:$myAreaNetworkList
 
 if echo $ECHELON4_LIST | grep $MYIP ; then 
   echo I am a candidate for network manager for network:$myNetId within echelon 4
@@ -111,6 +114,7 @@ if echo $ECHELON4_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=4
          myEchelonList=$ECHELON4_LIST
+         myEchelonAreaList=$ECHELON4_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 4
               echo $MYIP : I am Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
@@ -133,6 +137,7 @@ elif echo $ECHELON3_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=3
          myEchelonList=$ECHELON3_LIST
+         myEchelonAreaList=$ECHELON3_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 3
               echo $MYIP : I am Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
@@ -155,6 +160,7 @@ elif echo $ECHELON2_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=2
          myEchelonList=$ECHELON2_LIST
+         myEchelonAreaList=$ECHELON2_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 2
               echo $MYIP : I am Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
@@ -177,6 +183,7 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=1
          myEchelonList=$ECHELON1_LIST
+         myEchelonAreaList=$ECHELON1_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 1
               echo $MYIP : I am Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
@@ -203,6 +210,7 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=TAGAXXX-1
          myEchelonList=$TAGAXXX_LIST_ACTIVE
+         myEchelonAreaList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
               echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
@@ -232,8 +240,6 @@ fi
 } # end function election
 
 
-
-
 # dlm temp, currently election and re-election are identical but that is expected to change
 # dlm temp, currently election and re-election are identical but that is expected to change
 
@@ -241,10 +247,11 @@ function re-election {
 source /home/pi/scripts/taga/tagaConfig/config
 myNetId=`echo $MYIP | cut -d\. -f 3`
 
+myNetworkList=""
 myEchelonManager="tbd"
 myEchelon="tbd"
 myEchelonList="tbd"
-myNetworkList=""
+myEchelonAreaList="tbd"
 myEchelonAreaNetworkList=""
 myAreaNetworkList=""
 
@@ -256,8 +263,8 @@ let DEBUG=1
 let DEBUG=0
 
 # first let's build up our sub-network list...
-# NOTE: This assumes 24 bit sumbask!!
-# NOTE: This assumes 24 bit sumbask!!
+# NOTE: This assumes 24 bit netmask!!
+# NOTE: This assumes 24 bit netmask!!
 for target in $targetList
 do
    compareNetId=`echo $target | cut -d\. -f 3`
@@ -286,6 +293,7 @@ if echo $ECHELON4_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=4
          myEchelonList=$ECHELON4_LIST
+         myEchelonAreaList=$ECHELON4_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 4
               echo $MYIP : I am Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
@@ -308,6 +316,7 @@ elif echo $ECHELON3_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=3
          myEchelonList=$ECHELON3_LIST
+         myEchelonAreaList=$ECHELON3_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 3
               echo $MYIP : I am Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
@@ -330,6 +339,7 @@ elif echo $ECHELON2_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=2
          myEchelonList=$ECHELON2_LIST
+         myEchelonAreaList=$ECHELON2_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 2
               echo $MYIP : I am Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
@@ -352,6 +362,7 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=1
          myEchelonList=$ECHELON1_LIST
+         myEchelonAreaList=$ECHELON1_LIST
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon 1
               echo $MYIP : I am Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
@@ -378,6 +389,7 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
          myEchelonManager=$ip
          myEchelon=TAGAXXX-1
          myEchelonList=$TAGAXXX_LIST_ACTIVE
+         myEchelonAreaList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
               echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
               echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
@@ -413,12 +425,17 @@ function doManager {
    echo `date` : doManager
    touch $ANNOUNCE_FILE 
    touch $ANNOUNCE_AREA_FILE 
+   touch $ANNOUNCE_ECHELON_FILE 
    touch $ANNOUNCE_ECHELONAREA_FILE 
+
    sudo chmod 777 $ANNOUNCE_FILE 
-   sudo chmod 777 $ANNOUNCE_AREA_FILE 
+   sudo chmod 777 $ANNOUNCE_ECHELON_FILE 
    sudo chmod 777 $ANNOUNCE_ECHELONAREA_FILE 
-   echo $MYIP : myEchelonList:$myEchelonList
+   sudo chmod 777 $ANNOUNCE_AREA_FILE 
+
    echo $MYIP : myNetworkList:$myNetworkList
+   echo $MYIP : myEchelonList:$myEchelonList
+   echo $MYIP : myEchelonAreaList:$myEchelonList
    echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
    echo $MYIP : myAreaNetworkList:$myAreaNetworkList
 
@@ -440,10 +457,13 @@ function doManager {
    for target in $myEchelonAreaNetworkList
    do
       if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_ECHELON_FILE 
         echo Distributing $ANNOUNCE_ECHELONAREA_FILE 
       fi
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
+      echo sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
    done
    fi
@@ -515,7 +535,15 @@ do
 
    # resource the config
    source /home/pi/scripts/taga/tagaConfig/config
+
    ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
+   ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+   ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
+   ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
+   ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
+   ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
+   ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
+   ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
    if  [ $MANAGER_FLAG -eq 1 ] ; then
       doManager
