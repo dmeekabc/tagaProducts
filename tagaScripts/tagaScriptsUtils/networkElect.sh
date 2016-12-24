@@ -40,6 +40,11 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
 
+ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
+ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
+
+ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
+ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
 function election {
 source /home/pi/scripts/taga/tagaConfig/config
@@ -49,6 +54,8 @@ myEchelonManager="tbd"
 myEchelon="tbd"
 myEchelonList="tbd"
 myNetworkList=""
+myEchelonAreaNetworkList=""
+myAreaNetworkList=""
 
 echo myNetId:$myNetId
 
@@ -58,8 +65,8 @@ let DEBUG=1
 let DEBUG=0
 
 # first let's build up our sub-network list...
-# NOTE: This assumes 24 bit netmask!!
-# NOTE: This assumes 24 bit netmask!!
+# NOTE: This assumes 24 bit sumbask!!
+# NOTE: This assumes 24 bit sumbask!!
 for target in $targetList
 do
    compareNetId=`echo $target | cut -d\. -f 3`
@@ -69,10 +76,14 @@ do
    fi
    if [ $compareNetId == $myNetId ] ; then
       myNetworkList="$myNetworkList $target"
+      myEchelonAreaNetworkList="$myEchelonAreaNetworkList $target"
+      myAreaNetworkList="$myAreaNetworkList $target"
    fi
 done
 
 echo $MYIP : myNetworkList:$myNetworkList
+echo $MYIP : myAreaNetworkList:$myAreaNetworkList
+echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
 
 if echo $ECHELON4_LIST | grep $MYIP ; then 
   echo I am a candidate for network manager for network:$myNetId within echelon 4
@@ -162,37 +173,39 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          break
       fi
   done
-elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then 
-  # Special Handing for TAGAXXX
-  echo I am a candidate for network manager for network:$myNetId within echelon TAGAXXX-1
-  # Special Handing for TAGAXXX
-  for ip in `echo $TAGAXXX_LIST_ACTIVE`
+elif echo $SRW_LIST_ACTIVE | grep $MYIP ; then 
+  # Special Handing for SRW
+  echo I am a candidate for network manager for network:$myNetId within echelon SRW-1
+  # Special Handing for SRW
+  for ip in `echo $SRW_LIST_ACTIVE`
   do
       echo $ip
-      # Special Handing for TAGAXXX (break after first ip checked)
+      # Special Handing for SRW (break after first ip checked)
       #compareNetId=`echo $ip | cut -d\. -f 3`
-      # Special Handing for TAGAXXX (break after first ip checked)
+      # Special Handing for SRW (break after first ip checked)
       #if [ $compareNetId == $myNetId ] ; then
          myEchelonManager=$ip
-         myEchelon=TAGAXXX-1
-         myEchelonList=$TAGAXXX_LIST_ACTIVE
+         myEchelon=SRW-1
+         myEchelonList=$SRW_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
-              echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
+              echo I am the network manager for network:$myNetId within echelon SRW-1
+              echo $MYIP : I am Manager of Echelon SRW-1 > /tmp/networkElectEchelonSRW-1.dat
               let MANAGER_FLAG=1
-              # Special Handing for TAGAXXX
-              myNetworkList=$TAGAXXX_LIST_ACTIVE
+              # Special Handing for SRW
+              myNetworkList=$SRW_LIST_ACTIVE
+              myAreaNetworkList=$SRW_LIST_ACTIVE
+              myEchelonAreaNetworkList=$SRW_LIST_ACTIVE
          else
-              echo I am not the network manager for network:$myNetId within echelon TAGAXXX-1
-              sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
+              echo I am not the network manager for network:$myNetId within echelon SRW-1
+              sudo rm /tmp/networkElectEchelonSRW-1.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
          break
-      # Special Handing for TAGAXXX (break after first ip checked)
+      # Special Handing for SRW (break after first ip checked)
       #fi
 
-      #### Special Handing for TAGAXXX (break after first ip checked)
-      #### Special Handing for TAGAXXX (break after first ip checked)
+      #### Special Handing for SRW (break after first ip checked)
+      #### Special Handing for SRW (break after first ip checked)
       ####break
 
   done
@@ -205,17 +218,37 @@ fi
 function doManager {
    echo `date` : doManager
    touch $ANNOUNCE_FILE 
+   touch $ANNOUNCE_AREA_FILE 
+   touch $ANNOUNCE_ECHELONAREA_FILE 
    sudo chmod 777 $ANNOUNCE_FILE 
+   sudo chmod 777 $ANNOUNCE_AREA_FILE 
+   sudo chmod 777 $ANNOUNCE_ECHELONAREA_FILE 
    echo $MYIP : myEchelonList:$myEchelonList
    echo $MYIP : myNetworkList:$myNetworkList
+   echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
+   echo $MYIP : myAreaNetworkList:$myAreaNetworkList
 
    identy=/home/pi/.ssh/id_rsa
 
-   #for target in $myEchelonList
    for target in $myNetworkList
    do
-      echo sudo scp -i $identy $ANNOUNCE_FILE  pi@$target:/tmp
-      sudo scp -i $identy $ANNOUNCE_FILE  pi@$target:/tmp
+      loginId=`$tagaUtilsDir/myLoginId.sh`
+      echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+   done
+
+   for target in $myEchelonAreaNetworkList
+   do
+      loginId=`$tagaUtilsDir/myLoginId.sh`
+      echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
+   done
+
+   for target in $myAreaNetworkList
+   do
+      loginId=`$tagaUtilsDir/myLoginId.sh`
+      echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
    done
 
    return 0
@@ -229,6 +262,7 @@ function verifyManager {
 
    # delete old files
    rm $ANNOUNCE_FILE_ALL 2>/dev/null
+   rm $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
 
    #sleep $MANAGER_AUDIT_INTERVAL
    $tagaUtilsDir/iboaDelay.sh $MANAGER_AUDIT_INTERVAL
