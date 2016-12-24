@@ -189,39 +189,39 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          break
       fi
   done
-elif echo $SRW_LIST_ACTIVE | grep $MYIP ; then 
-  # Special Handing for SRW
-  echo I am a candidate for network manager for network:$myNetId within echelon SRW-1
-  # Special Handing for SRW
-  for ip in `echo $SRW_LIST_ACTIVE`
+elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then 
+  # Special Handing for TAGAXXX
+  echo I am a candidate for network manager for network:$myNetId within echelon TAGAXXX-1
+  # Special Handing for TAGAXXX
+  for ip in `echo $TAGAXXX_LIST_ACTIVE`
   do
       echo $ip
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #compareNetId=`echo $ip | cut -d\. -f 3`
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #if [ $compareNetId == $myNetId ] ; then
          myEchelonManager=$ip
-         myEchelon=SRW-1
-         myEchelonList=$SRW_LIST_ACTIVE
+         myEchelon=TAGAXXX-1
+         myEchelonList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon SRW-1
-              echo $MYIP : I am Manager of Echelon SRW-1 > /tmp/networkElectEchelonSRW-1.dat
+              echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
+              echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
               let MANAGER_FLAG=1
-              # Special Handing for SRW
-              myNetworkList=$SRW_LIST_ACTIVE
-              myAreaNetworkList=$SRW_LIST_ACTIVE
-              myEchelonAreaNetworkList=$SRW_LIST_ACTIVE
+              # Special Handing for TAGAXXX
+              myNetworkList=$TAGAXXX_LIST_ACTIVE
+              myAreaNetworkList=$TAGAXXX_LIST_ACTIVE
+              myEchelonAreaNetworkList=$TAGAXXX_LIST_ACTIVE
          else
-              echo I am not the network manager for network:$myNetId within echelon SRW-1
-              sudo rm /tmp/networkElectEchelonSRW-1.dat 2>/dev/null
+              echo I am not the network manager for network:$myNetId within echelon TAGAXXX-1
+              sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
          break
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #fi
 
-      #### Special Handing for SRW (break after first ip checked)
-      #### Special Handing for SRW (break after first ip checked)
+      #### Special Handing for TAGAXXX (break after first ip checked)
+      #### Special Handing for TAGAXXX (break after first ip checked)
       ####break
 
   done
@@ -364,39 +364,39 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          break
       fi
   done
-elif echo $SRW_LIST_ACTIVE | grep $MYIP ; then 
-  # Special Handing for SRW
-  echo I am a candidate for network manager for network:$myNetId within echelon SRW-1
-  # Special Handing for SRW
-  for ip in `echo $SRW_LIST_ACTIVE`
+elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then 
+  # Special Handing for TAGAXXX
+  echo I am a candidate for network manager for network:$myNetId within echelon TAGAXXX-1
+  # Special Handing for TAGAXXX
+  for ip in `echo $TAGAXXX_LIST_ACTIVE`
   do
       echo $ip
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #compareNetId=`echo $ip | cut -d\. -f 3`
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #if [ $compareNetId == $myNetId ] ; then
          myEchelonManager=$ip
-         myEchelon=SRW-1
-         myEchelonList=$SRW_LIST_ACTIVE
+         myEchelon=TAGAXXX-1
+         myEchelonList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon SRW-1
-              echo $MYIP : I am Manager of Echelon SRW-1 > /tmp/networkElectEchelonSRW-1.dat
+              echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
+              echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
               let MANAGER_FLAG=1
-              # Special Handing for SRW
-              myNetworkList=$SRW_LIST_ACTIVE
-              myAreaNetworkList=$SRW_LIST_ACTIVE
-              myEchelonAreaNetworkList=$SRW_LIST_ACTIVE
+              # Special Handing for TAGAXXX
+              myNetworkList=$TAGAXXX_LIST_ACTIVE
+              myAreaNetworkList=$TAGAXXX_LIST_ACTIVE
+              myEchelonAreaNetworkList=$TAGAXXX_LIST_ACTIVE
          else
-              echo I am not the network manager for network:$myNetId within echelon SRW-1
-              sudo rm /tmp/networkElectEchelonSRW-1.dat 2>/dev/null
+              echo I am not the network manager for network:$myNetId within echelon TAGAXXX-1
+              sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
          break
-      # Special Handing for SRW (break after first ip checked)
+      # Special Handing for TAGAXXX (break after first ip checked)
       #fi
 
-      #### Special Handing for SRW (break after first ip checked)
-      #### Special Handing for SRW (break after first ip checked)
+      #### Special Handing for TAGAXXX (break after first ip checked)
+      #### Special Handing for TAGAXXX (break after first ip checked)
       ####break
 
   done
