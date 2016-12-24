@@ -51,15 +51,19 @@ ECHELON_MANAGER_ENABLED=0
 AREA_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=0
 
+ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
 
+ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
 ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
 ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
 
+ANNOUNCE_ECHELONAREA_CANDIDATE_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP.candidate
 ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
 ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
 
+ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
 ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
 ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
@@ -536,12 +540,16 @@ do
    # resource the config
    source /home/pi/scripts/taga/tagaConfig/config
 
+   ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
    ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
    ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+   ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
    ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
    ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
+   ANNOUNCE_ECHELONAREA_CANDIDATE_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP.candidate
    ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
    ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
+   ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
    ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
    ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
