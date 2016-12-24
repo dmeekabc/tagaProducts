@@ -71,6 +71,7 @@ AREA_MANAGER_ENABLED=0
 ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+ANNOUNCE_FILE_BASE="/tmp/managerAnnouncement.dat."
 
 ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
 ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
@@ -94,6 +95,8 @@ myEchelonList="tbd"
 myNetworkList=""
 myEchelonAreaNetworkList=""
 myAreaNetworkList=""
+
+preferredManager=""
 
 echo myNetId:$myNetId
 
@@ -145,6 +148,7 @@ if echo $ECHELON4_LIST | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelon4.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
+         preferredManager=$ip
          break
       fi
   done
@@ -168,6 +172,7 @@ elif echo $ECHELON3_LIST | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelon3.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
+         preferredManager=$ip
          break
       fi
   done
@@ -191,6 +196,7 @@ elif echo $ECHELON2_LIST | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelon2.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
+         preferredManager=$ip
          break
       fi
   done
@@ -214,6 +220,7 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelon1.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
+         preferredManager=$ip
          break
       fi
   done
@@ -245,6 +252,7 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
          echo the network manager for my network is $ip
+         preferredManager=$ip
          break
       # Special Handing for TAGAXXX (break after first ip checked)
       #fi
@@ -634,6 +642,17 @@ function doManager {
       echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
    done
+   fi
+
+   # dlm temp, note this is bully algorithm 
+   # dlm temp, exit if I am not the preferred manager and the preferred manager is advertising
+
+   PREFERRED_MANAGER_FILE=$ANNOUNCE_FILE_BASE.$preferredManager
+   if [ $MYIP != $preferredManager ]; then
+   if [ -f $PREFERRED_MANAGER_FILE ]; then 
+      echo $MYIP : Preferred Manager is advertising, I am relinquishing management duties!
+      let MANAGER_FLAG=0
+   fi 
    fi
 
    return 0
