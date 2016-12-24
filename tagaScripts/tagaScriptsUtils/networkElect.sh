@@ -264,18 +264,20 @@ fi
 # dlm temp, currently election and re-election are identical but that is expected to change
 # dlm temp, currently election and re-election are identical but that is expected to change
 
-function re-election {
+function re-election-new {
 
    echo `date` : $MYIP : Re-election in process!
    source /home/pi/scripts/taga/tagaConfig/config
    myNetId=`echo $MYIP | cut -d\. -f 3`
 
-   for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            \
-            21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   \
-            41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60   
+   for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            #\
+
+            #21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   #\
+            #41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
+
    do
       echo `date` : $i of 60: re-election in process
-      sleep 2
+      sleep 1
 
       rm $ANNOUNCE_FILE_ALL 2>/dev/null
       let retCode=$?
@@ -307,10 +309,26 @@ function re-election {
 
    done
 
+
+   # OKAY, now do a RANDOM DELAY, first one out wins!!!
+   # OKAY, now do a RANDOM DELAY, first one out wins!!!
+   # OKAY, now do a RANDOM DELAY, first one out wins!!!
+
+   # dlm temp, note, this leaves a small window of ties, which we must add post-processing to identify and resolve that case
+   # dlm temp, note, this leaves a small window of ties, which we must add post-processing to identify and resolve that case
+   # dlm temp, note, this leaves a small window of ties, which we must add post-processing to identify and resolve that case
+   # dlm temp, note, this leaves a small window of ties, which we must add post-processing to identify and resolve that case
+
+   randomDelay=`$tagaUtilsDir/iboaRandom.sh`
+   echo Random Delay: $randomDelay
+
+   $tagaUtilsDir/iboaDelay.sh $randomDelay
+
+
    # if we get here, we are either going to be the new manager or we are in an extreme tie condition
 
-   # dlm temp, for now, just claim to be a candidate!
-   # dlm temp, for now, just claim to be a candidate!
+   # dlm temp, for now, just claim to be a candidate and even manager!
+   # dlm temp, for now, just claim to be a candidate and even manager!
 
    # create the candidate file
    touch $ANNOUNCE_CANDIDATE_FILE 
@@ -371,6 +389,11 @@ function re-election {
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp
    done
    fi
+
+
+   # dlm temp , this is key!!
+   # dlm temp , this is key!!
+   let MANAGER_FLAG=1
 
 
 } # end function re-election-new
@@ -613,11 +636,6 @@ function doManager {
    done
    fi
 
-
-
-
-
-
    return 0
 }
 
@@ -639,7 +657,7 @@ function verifyManager {
    for target in $targetList
    do
    if [ -f $ANNOUNCE_FILE ] ; then
-      echo Info: File $ANNOUNCE_FILE Exists!
+      echo Info: File $ANNOUNCE_FILE.$target Exists!
       let managerCount=$managerCount+1
       echo managerCount:$managerCount
    fi 
