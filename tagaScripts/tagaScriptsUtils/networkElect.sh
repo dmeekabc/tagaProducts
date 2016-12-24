@@ -368,6 +368,7 @@ function re-election-new {
          echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
 
       done
 
@@ -410,6 +411,7 @@ function re-election-new {
 
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
@@ -425,7 +427,9 @@ function re-election-new {
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
@@ -440,6 +444,7 @@ function re-election-new {
       echo sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
@@ -661,6 +666,7 @@ function doManager {
       echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
@@ -677,7 +683,9 @@ function doManager {
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
+         sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
@@ -691,6 +699,7 @@ function doManager {
       echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
+         sleep 1
    done
    fi
 
