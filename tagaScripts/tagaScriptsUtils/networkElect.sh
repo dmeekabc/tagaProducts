@@ -279,7 +279,6 @@ function re-election-new {
    myNetId=`echo $MYIP | cut -d\. -f 3`
 
    for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            #\
-
             #21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   #\
             #41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
 
@@ -334,6 +333,38 @@ function re-election-new {
 
 
    # if we get here, we are either going to be the new manager or we are in an extreme tie condition
+    # dlm temp, well testing tells us this is normal so let's add a filter
+
+   for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            #\
+            #21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   #\
+            #41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
+   do
+      # look for ties and do tie breaker, if we lose, we return without declaring via the manager flag
+
+      echo $j: TieBreaker Section
+       
+      for target in $myNetworkList
+      do
+         echo $j: TieBreaker Section : checking manager from target:$target
+         ls $ANNOUNCE_FILE_ALL 
+         if ls $ANNOUNCE_FILE_ALL | grep $target ; then
+            # compare $target to $MYIP
+            echo compare target:$target to myip:$MYIP
+            compareValue=`echo $target | cut -d\. -f 4`
+            myValue=`echo $MYIP | cut -d\. -f 4`
+            echo comparing compareVale;$compareValue to myValue:$myValue
+
+            if [ $compareValue -lt $myValue ] ; then
+               # I relinquish
+               echo I relinquish
+               return 0
+            else
+               # I do not relinquish, yet at least...
+               echo I do not relinquish, yet at least...
+            fi 
+         fi
+      done
+   done
 
    # dlm temp, for now, just claim to be a candidate and even manager!
    # dlm temp, for now, just claim to be a candidate and even manager!
