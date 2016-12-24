@@ -61,6 +61,7 @@ ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
 ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
 ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
+
 function election {
 source /home/pi/scripts/taga/tagaConfig/config
 myNetId=`echo $MYIP | cut -d\. -f 3`
@@ -230,6 +231,184 @@ fi
 
 } # end function election
 
+
+
+
+# dlm temp, currently election and re-election are identical but that is expected to change
+# dlm temp, currently election and re-election are identical but that is expected to change
+
+function re-election {
+source /home/pi/scripts/taga/tagaConfig/config
+myNetId=`echo $MYIP | cut -d\. -f 3`
+
+myEchelonManager="tbd"
+myEchelon="tbd"
+myEchelonList="tbd"
+myNetworkList=""
+myEchelonAreaNetworkList=""
+myAreaNetworkList=""
+
+echo myNetId:$myNetId
+
+let MANAGER_FLAG=0
+
+let DEBUG=1
+let DEBUG=0
+
+# first let's build up our sub-network list...
+# NOTE: This assumes 24 bit sumbask!!
+# NOTE: This assumes 24 bit sumbask!!
+for target in $targetList
+do
+   compareNetId=`echo $target | cut -d\. -f 3`
+   if [ $DEBUG -eq 1 ] ;then
+     echo $target
+     echo comparing $compareNetId $myNetId
+   fi
+   if [ $compareNetId == $myNetId ] ; then
+      myNetworkList="$myNetworkList $target"
+      myEchelonAreaNetworkList="$myEchelonAreaNetworkList $target"
+      myAreaNetworkList="$myAreaNetworkList $target"
+   fi
+done
+
+echo $MYIP : myNetworkList:$myNetworkList
+echo $MYIP : myAreaNetworkList:$myAreaNetworkList
+echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
+
+if echo $ECHELON4_LIST | grep $MYIP ; then 
+  echo I am a candidate for network manager for network:$myNetId within echelon 4
+  for ip in `echo $ECHELON4_LIST`
+  do
+      echo $ip
+      compareNetId=`echo $ip | cut -d\. -f 3`
+      if [ $compareNetId == $myNetId ] ; then
+         myEchelonManager=$ip
+         myEchelon=4
+         myEchelonList=$ECHELON4_LIST
+         if [ $ip == $MYIP ] ; then
+              echo I am the network manager for network:$myNetId within echelon 4
+              echo $MYIP : I am Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
+              let MANAGER_FLAG=1
+         else
+              echo I am not the network manager for network:$myNetId within echelon 4
+              sudo rm /tmp/networkElectEchelon4.dat 2>/dev/null
+         fi
+         echo the network manager for my network is $ip
+         break
+      fi
+  done
+elif echo $ECHELON3_LIST | grep $MYIP ; then 
+  echo I am a candidate for network manager for network:$myNetId within echelon 3
+  for ip in `echo $ECHELON3_LIST`
+  do
+      echo $ip
+      compareNetId=`echo $ip | cut -d\. -f 3`
+      if [ $compareNetId == $myNetId ] ; then
+         myEchelonManager=$ip
+         myEchelon=3
+         myEchelonList=$ECHELON3_LIST
+         if [ $ip == $MYIP ] ; then
+              echo I am the network manager for network:$myNetId within echelon 3
+              echo $MYIP : I am Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
+              let MANAGER_FLAG=1
+         else
+              echo I am not the network manager for network:$myNetId within echelon 3
+              sudo rm /tmp/networkElectEchelon3.dat 2>/dev/null
+         fi
+         echo the network manager for my network is $ip
+         break
+      fi
+  done
+elif echo $ECHELON2_LIST | grep $MYIP ; then 
+  echo I am a candidate for network manager for network:$myNetId within echelon 2
+  for ip in `echo $ECHELON2_LIST`
+  do
+      echo $ip
+      compareNetId=`echo $ip | cut -d\. -f 3`
+      if [ $compareNetId == $myNetId ] ; then
+         myEchelonManager=$ip
+         myEchelon=2
+         myEchelonList=$ECHELON2_LIST
+         if [ $ip == $MYIP ] ; then
+              echo I am the network manager for network:$myNetId within echelon 2
+              echo $MYIP : I am Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
+              let MANAGER_FLAG=1
+         else
+              echo I am not the network manager for network:$myNetId within echelon 2
+              sudo rm /tmp/networkElectEchelon2.dat 2>/dev/null
+         fi
+         echo the network manager for my network is $ip
+         break
+      fi
+  done
+elif echo $ECHELON1_LIST | grep $MYIP ; then 
+  echo I am a candidate for network manager for network:$myNetId within echelon 1
+  for ip in `echo $ECHELON1_LIST`
+  do
+      echo $ip
+      compareNetId=`echo $ip | cut -d\. -f 3`
+      if [ $compareNetId == $myNetId ] ; then
+         myEchelonManager=$ip
+         myEchelon=1
+         myEchelonList=$ECHELON1_LIST
+         if [ $ip == $MYIP ] ; then
+              echo I am the network manager for network:$myNetId within echelon 1
+              echo $MYIP : I am Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
+              let MANAGER_FLAG=1
+         else
+              echo I am not the network manager for network:$myNetId within echelon 1
+              sudo rm /tmp/networkElectEchelon1.dat 2>/dev/null
+         fi
+         echo the network manager for my network is $ip
+         break
+      fi
+  done
+elif echo $SRW_LIST_ACTIVE | grep $MYIP ; then 
+  # Special Handing for SRW
+  echo I am a candidate for network manager for network:$myNetId within echelon SRW-1
+  # Special Handing for SRW
+  for ip in `echo $SRW_LIST_ACTIVE`
+  do
+      echo $ip
+      # Special Handing for SRW (break after first ip checked)
+      #compareNetId=`echo $ip | cut -d\. -f 3`
+      # Special Handing for SRW (break after first ip checked)
+      #if [ $compareNetId == $myNetId ] ; then
+         myEchelonManager=$ip
+         myEchelon=SRW-1
+         myEchelonList=$SRW_LIST_ACTIVE
+         if [ $ip == $MYIP ] ; then
+              echo I am the network manager for network:$myNetId within echelon SRW-1
+              echo $MYIP : I am Manager of Echelon SRW-1 > /tmp/networkElectEchelonSRW-1.dat
+              let MANAGER_FLAG=1
+              # Special Handing for SRW
+              myNetworkList=$SRW_LIST_ACTIVE
+              myAreaNetworkList=$SRW_LIST_ACTIVE
+              myEchelonAreaNetworkList=$SRW_LIST_ACTIVE
+         else
+              echo I am not the network manager for network:$myNetId within echelon SRW-1
+              sudo rm /tmp/networkElectEchelonSRW-1.dat 2>/dev/null
+         fi
+         echo the network manager for my network is $ip
+         break
+      # Special Handing for SRW (break after first ip checked)
+      #fi
+
+      #### Special Handing for SRW (break after first ip checked)
+      #### Special Handing for SRW (break after first ip checked)
+      ####break
+
+  done
+else
+  echo I am not a candidate for network manager 
+fi
+
+} # end function re-election
+
+
+
+
 function doManager {
    echo `date` : doManager
    touch $ANNOUNCE_FILE 
@@ -355,11 +534,11 @@ do
       elif [ $retCode -eq 1 ]; then
          echo Multiple Managers Verified
          echo Enter Re-election process now!
-         election
+         re-election
       else
          echo No Manager Verified
          echo Enter Re-election process now!
-         election
+         re-election
       fi
    fi
 
