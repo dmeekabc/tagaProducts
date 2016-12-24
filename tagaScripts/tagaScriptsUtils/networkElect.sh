@@ -265,6 +265,118 @@ fi
 # dlm temp, currently election and re-election are identical but that is expected to change
 
 function re-election {
+
+   echo `date` : $MYIP : Re-election in process!
+   source /home/pi/scripts/taga/tagaConfig/config
+   myNetId=`echo $MYIP | cut -d\. -f 3`
+
+   for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            \
+            21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   \
+            41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60   \
+   do
+      echo `date` : $i of 60: re-election in process
+      sleep 2
+
+      rm $ANNOUNCE_FILE_ALL 2>/dev/null
+      let retCode=$?
+      if [ $retCode -eq 0 ]; then
+         # Somebody else has claimed manager or candidacy so let's abort!
+         return
+      fi
+
+      rm $ANNOUNCE_ECHELON_FILE_ALL 2>/dev/null
+      let retCode=$?
+      if [ $retCode -eq 0 ]; then
+         # Somebody else has claimed manager or candidacy so let's abort!
+         return
+      fi
+
+      rm $ANNOUNCE_ECHELONAREA_FILE_ALL 2>/dev/null
+      let retCode=$?
+      if [ $retCode -eq 0 ]; then
+         # Somebody else has claimed manager or candidacy so let's abort!
+         return
+      fi
+
+      rm $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
+      let retCode=$?
+      if [ $retCode -eq 0 ]; then
+         # Somebody else has claimed manager or candidacy so let's abort!
+         return
+      fi
+
+   done
+
+   # if we get here, we are either going to be the new manager or we are in an extreme tie condition
+
+   # dlm temp, for now, just claim to be a candidate!
+   # dlm temp, for now, just claim to be a candidate!
+
+   # create the candidate file
+   touch $ANNOUNCE_CANDIDATE_FILE 
+   touch $ANNOUNCE_AREA_CANDIDATE_FILE 
+   touch $ANNOUNCE_ECHELON_CANDIDATE_FILE 
+   touch $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE 
+
+   chmod 777 $ANNOUNCE_CANDIDATE_FILE 
+   chmod 777 $ANNOUNCE_AREA_CANDIDATE_FILE 
+   chmod 777 $ANNOUNCE_ECHELON_CANDIDATE_FILE 
+   chmod 777 $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE 
+
+   # distribute the candidate file
+
+   echo $MYIP : myNetworkList:$myNetworkList
+   echo $MYIP : myEchelonList:$myEchelonList
+   echo $MYIP : myEchelonAreaList:$myEchelonList
+   echo $MYIP : myEchelonAreaNetworkList:$myEchelonAreaNetworkList
+   echo $MYIP : myAreaNetworkList:$myAreaNetworkList
+
+   identy=/home/pi/.ssh/id_rsa
+
+   if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
+   for target in $myNetworkList
+   do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_CANDIDATE_FILE 
+      fi
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
+      echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+   done
+   fi
+
+   if [ $ECHELON_MANAGER_ENABLED -eq 1 ] ; then
+   for target in $myEchelonAreaNetworkList
+   do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_ECHELON_CANDIDATE_FILE 
+        echo Distributing $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE 
+      fi
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
+      echo sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
+      echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp
+   done
+   fi
+
+   if [ $AREA_MANAGER_ENABLED -eq 1 ] ; then
+   for target in $myAreaNetworkList
+   do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_AREA_CANDIDATE_FILE 
+      fi
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
+      echo sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp
+      sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp
+   done
+   fi
+
+
+} # end function re-election-new
+
+
+function re-election {
 source /home/pi/scripts/taga/tagaConfig/config
 myNetId=`echo $MYIP | cut -d\. -f 3`
 
@@ -501,6 +613,11 @@ function doManager {
    done
    fi
 
+
+
+
+
+
    return 0
 }
 
@@ -511,8 +628,10 @@ function verifyManager {
    let managerCount=0
 
    # delete old files
-   rm $ANNOUNCE_FILE_ALL 2>/dev/null
-   rm $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
+   rm $ANNOUNCE_FILE_ALL               2>/dev/null
+   rm $ANNOUNCE_ECHELON_FILE_ALL       2>/dev/null
+   rm $ANNOUNCE_ECHELONAREA_FILE_ALL   2>/dev/null
+   rm $ANNOUNCE_AREA_FILE_ALL          2>/dev/null
 
    #sleep $MANAGER_AUDIT_INTERVAL
    $tagaUtilsDir/iboaDelay.sh $MANAGER_AUDIT_INTERVAL
@@ -560,15 +679,25 @@ do
    ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
    ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
    ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+
    ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
    ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
    ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
+
    ANNOUNCE_ECHELONAREA_CANDIDATE_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP.candidate
    ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
    ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
+
    ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
    ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
    ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
+
+
+   # dlm temp find me
+   #rm $ANNOUNCE_FILE_ALL
+   #rm $ANNOUNCE_ECHELON_FILE_ALL
+   #rm $ANNOUNCE_ECHELONAREA_FILE_ALL
+   #rm $ANNOUNCE_AREA_FILE_ALL
 
    if  [ $MANAGER_FLAG -eq 1 ] ; then
       doManager
@@ -592,7 +721,8 @@ do
          # in the event the IP addresses (provides our identity process) appear after init
          election
          # if we stil have no manager, do the re-election , note this is temporary until bully comes back
-         re-election
+         #re-election
+         re-election-new
 
       else
          echo No Manager Verified
@@ -602,7 +732,8 @@ do
          # in the event the IP addresses (provides our identity process) appear after init
          election
          # if we stil have no manager, do the re-election , note this is temporary until bully comes back
-         re-election
+         #re-election
+         re-election-new
 
       fi
    fi
