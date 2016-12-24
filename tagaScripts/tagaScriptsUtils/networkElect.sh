@@ -38,12 +38,18 @@ source /home/pi/scripts/taga/tagaConfig/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-#######################################
-# ENABLE or DISABLE the various managers
-#######################################
+######################################################################
+# ENABLE or DISABLE the various managers (bottom of each one wins)
+######################################################################
+
+NETWORK_MANAGER_ENABLED=0
 NETWORK_MANAGER_ENABLED=1
+
 ECHELON_MANAGER_ENABLED=1
+ECHELON_MANAGER_ENABLED=0
+
 AREA_MANAGER_ENABLED=1
+AREA_MANAGER_ENABLED=0
 
 
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
