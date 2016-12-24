@@ -352,7 +352,7 @@ function re-election-new {
             echo compare target:$target to myip:$MYIP
             compareValue=`echo $target | cut -d\. -f 4`
             myValue=`echo $MYIP | cut -d\. -f 4`
-            echo comparing compareVale;$compareValue to myValue:$myValue
+            echo comparing compareValue:$compareValue to myValue:$myValue
 
             if [ $compareValue -lt $myValue ] ; then
                # I relinquish
