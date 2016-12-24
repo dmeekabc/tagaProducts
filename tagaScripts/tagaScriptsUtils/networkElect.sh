@@ -31,11 +31,20 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 #source $TAGA_CONFIG_DIR/config
 source /home/pi/scripts/taga/tagaConfig/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
+
+#######################################
+# ENABLE or DISABLE the various managers
+#######################################
+NETWORK_MANAGER_ENABLED=1
+ECHELON_MANAGER_ENABLED=1
+AREA_MANAGER_ENABLED=1
+
 
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
@@ -230,26 +239,41 @@ function doManager {
 
    identy=/home/pi/.ssh/id_rsa
 
+   if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
    for target in $myNetworkList
    do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_FILE 
+      fi
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
    done
+   fi
 
+   if [ $ECHELON_MANAGER_ENABLED -eq 1 ] ; then
    for target in $myEchelonAreaNetworkList
    do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_ECHELONAREA_FILE 
+      fi
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
    done
+   fi
 
+   if [ $AREA_MANAGER_ENABLED -eq 1 ] ; then
    for target in $myAreaNetworkList
    do
+      if [ $DEBUG -eq 1 ] ;then
+        echo Distributing $ANNOUNCE_AREA_FILE 
+      fi
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
    done
+   fi
 
    return 0
 }
