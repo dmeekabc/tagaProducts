@@ -232,21 +232,21 @@ function doManager {
 
    for target in $myNetworkList
    do
-      loginId=`$tagaUtilsDir/myLoginId.sh`
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
    done
 
    for target in $myEchelonAreaNetworkList
    do
-      loginId=`$tagaUtilsDir/myLoginId.sh`
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp
    done
 
    for target in $myAreaNetworkList
    do
-      loginId=`$tagaUtilsDir/myLoginId.sh`
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
       echo sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
    done
