@@ -140,14 +140,14 @@ if echo $ECHELON4_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON4_LIST
          myEchelonAreaList=$ECHELON4_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 4
-              echo $MYIP : I am Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 4
+              echo $MYIP : I am preferred Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 4
+              echo I am not the preferred network manager for network:$myNetId within echelon 4
               sudo rm /tmp/networkElectEchelon4.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          preferredManager=$ip
          break
       fi
@@ -164,14 +164,14 @@ elif echo $ECHELON3_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON3_LIST
          myEchelonAreaList=$ECHELON3_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 3
-              echo $MYIP : I am Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 3
+              echo $MYIP : I am preferred Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 3
+              echo I am not the preferred network manager for network:$myNetId within echelon 3
               sudo rm /tmp/networkElectEchelon3.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          preferredManager=$ip
          break
       fi
@@ -188,14 +188,14 @@ elif echo $ECHELON2_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON2_LIST
          myEchelonAreaList=$ECHELON2_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 2
-              echo $MYIP : I am Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 2
+              echo $MYIP : I am preferred Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 2
+              echo I am not the preferred network manager for network:$myNetId within echelon 2
               sudo rm /tmp/networkElectEchelon2.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          preferredManager=$ip
          break
       fi
@@ -212,14 +212,14 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON1_LIST
          myEchelonAreaList=$ECHELON1_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 1
-              echo $MYIP : I am Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 1
+              echo $MYIP : I am preferred Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 1
+              echo I am not the preferred network manager for network:$myNetId within echelon 1
               sudo rm /tmp/networkElectEchelon1.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          preferredManager=$ip
          break
       fi
@@ -240,18 +240,18 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
          myEchelonList=$TAGAXXX_LIST_ACTIVE
          myEchelonAreaList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
-              echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
+              echo I am the preferred network manager for network:$myNetId within echelon TAGAXXX-1
+              echo $MYIP : I am preferred Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
               let MANAGER_FLAG=1
               # Special Handing for TAGAXXX
               myNetworkList=$TAGAXXX_LIST_ACTIVE
               myAreaNetworkList=$TAGAXXX_LIST_ACTIVE
               myEchelonAreaNetworkList=$TAGAXXX_LIST_ACTIVE
          else
-              echo I am not the network manager for network:$myNetId within echelon TAGAXXX-1
+              echo I am not the preferred network manager for network:$myNetId within echelon TAGAXXX-1
               sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          preferredManager=$ip
          break
       # Special Handing for TAGAXXX (break after first ip checked)
@@ -278,18 +278,20 @@ function re-election-new {
    source /home/pi/scripts/taga/tagaConfig/config
    myNetId=`echo $MYIP | cut -d\. -f 3`
 
-   for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20            #\
+   for i in 1 2 3 4 5 6 7 8 9 10 # 11 12 13 14 15 16 17 18 19 20            #\
             #21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40   #\
             #41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
 
    do
-      echo `date` : $i of 60: re-election in process
+      echo `date` : $i of 10: re-election in process
+      #echo `date` : $i of 20: re-election in process
       sleep 1
 
       rm $ANNOUNCE_FILE_ALL 2>/dev/null
       let retCode=$?
       if [ $retCode -eq 0 ]; then
          # Somebody else has claimed manager or candidacy so let's abort!
+         echo Pre-existing Manager or Candidate Detected, exiting re-election...
          return
       fi
 
@@ -297,6 +299,7 @@ function re-election-new {
       let retCode=$?
       if [ $retCode -eq 0 ]; then
          # Somebody else has claimed manager or candidacy so let's abort!
+         echo Pre-existing Echelon Manager or Candidate Detected, exiting re-election...
          return
       fi
 
@@ -304,6 +307,7 @@ function re-election-new {
       let retCode=$?
       if [ $retCode -eq 0 ]; then
          # Somebody else has claimed manager or candidacy so let's abort!
+         echo Pre-existing EchelonArea Manager or Candidate Detected, exiting re-election...
          return
       fi
 
@@ -311,6 +315,7 @@ function re-election-new {
       let retCode=$?
       if [ $retCode -eq 0 ]; then
          # Somebody else has claimed manager or candidacy so let's abort!
+         echo Pre-existing Area Manager or Candidate Detected, exiting re-election...
          return
       fi
 
@@ -327,17 +332,15 @@ function re-election-new {
    # dlm temp, note, this leaves a small window of ties, which we must add post-processing to identify and resolve that case
 
    randomDelay=`$tagaUtilsDir/iboaRandom.sh`
-   echo Random Delay: $randomDelay
 
+   #randomDelay=$randomDelay*5
+
+   echo Random Delay: $randomDelay
    $tagaUtilsDir/iboaDelay.sh $randomDelay
 
+   # we get here quite normally, tie breaker rules apply
 
-
-
-   # if we get here, we are either going to be the new manager or we are in an extreme tie condition
-    # dlm temp, well testing tells us this is normal so let's add a filter
-
-   for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20          #  \
+   for j in 1 2 3 4 5 6 7 8 9 10 ## 11 12 13 14 15 16 17 18 19 20          #  \
          #   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 #  \
          #   41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
    do
@@ -570,14 +573,14 @@ if echo $ECHELON4_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON4_LIST
          myEchelonAreaList=$ECHELON4_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 4
-              echo $MYIP : I am Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 4
+              echo $MYIP : I am preferred Manager of Echelon 4 > /tmp/networkElectEchelon4.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 4
+              echo I am not the preferred network manager for network:$myNetId within echelon 4
               sudo rm /tmp/networkElectEchelon4.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          break
       fi
   done
@@ -593,14 +596,14 @@ elif echo $ECHELON3_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON3_LIST
          myEchelonAreaList=$ECHELON3_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 3
-              echo $MYIP : I am Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 3
+              echo $MYIP : I am preferred Manager of Echelon 3 > /tmp/networkElectEchelon3.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 3
+              echo I am not the preferred network manager for network:$myNetId within echelon 3
               sudo rm /tmp/networkElectEchelon3.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          break
       fi
   done
@@ -616,14 +619,14 @@ elif echo $ECHELON2_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON2_LIST
          myEchelonAreaList=$ECHELON2_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 2
-              echo $MYIP : I am Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 2
+              echo $MYIP : I am preferred Manager of Echelon 2 > /tmp/networkElectEchelon2.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 2
+              echo I am not the preferred network manager for network:$myNetId within echelon 2
               sudo rm /tmp/networkElectEchelon2.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          break
       fi
   done
@@ -639,14 +642,14 @@ elif echo $ECHELON1_LIST | grep $MYIP ; then
          myEchelonList=$ECHELON1_LIST
          myEchelonAreaList=$ECHELON1_LIST
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon 1
-              echo $MYIP : I am Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
+              echo I am the preferred network manager for network:$myNetId within echelon 1
+              echo $MYIP : I am preferred Manager of Echelon 1 > /tmp/networkElectEchelon1.dat
               let MANAGER_FLAG=1
          else
-              echo I am not the network manager for network:$myNetId within echelon 1
+              echo I am not the preferred network manager for network:$myNetId within echelon 1
               sudo rm /tmp/networkElectEchelon1.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          break
       fi
   done
@@ -666,18 +669,18 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
          myEchelonList=$TAGAXXX_LIST_ACTIVE
          myEchelonAreaList=$TAGAXXX_LIST_ACTIVE
          if [ $ip == $MYIP ] ; then
-              echo I am the network manager for network:$myNetId within echelon TAGAXXX-1
-              echo $MYIP : I am Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
+              echo I am the preferred network manager for network:$myNetId within echelon TAGAXXX-1
+              echo $MYIP : I am preferred Manager of Echelon TAGAXXX-1 > /tmp/networkElectEchelonTAGAXXX-1.dat
               let MANAGER_FLAG=1
               # Special Handing for TAGAXXX
               myNetworkList=$TAGAXXX_LIST_ACTIVE
               myAreaNetworkList=$TAGAXXX_LIST_ACTIVE
               myEchelonAreaNetworkList=$TAGAXXX_LIST_ACTIVE
          else
-              echo I am not the network manager for network:$myNetId within echelon TAGAXXX-1
+              echo I am not the preferred network manager for network:$myNetId within echelon TAGAXXX-1
               sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
-         echo the network manager for my network is $ip
+         echo the preferred network manager for my network is $ip
          break
       # Special Handing for TAGAXXX (break after first ip checked)
       #fi
