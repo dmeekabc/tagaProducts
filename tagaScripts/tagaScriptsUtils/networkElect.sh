@@ -342,7 +342,7 @@ function re-election-new {
 
    # we get here quite normally, tie breaker rules apply
 
-   for j in 1 2 3 4 5 6 7 8 9 10 ## 11 12 13 14 15 16 17 18 19 20          #  \
+   for j in 1 2 3 4 5 #6 7 8 9 10 ## 11 12 13 14 15 16 17 18 19 20          #  \
          #   21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 #  \
          #   41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60  # 
    do
@@ -357,14 +357,15 @@ function re-election-new {
          if ls $ANNOUNCE_FILE_ALL | grep $target ; then
             # compare $target to $MYIP
             echo compare target:$target to myip:$MYIP
-            compareValue=`echo $target | cut -d\. -f 4`
-            myValue=`echo $MYIP | cut -d\. -f 4`
+            let compareValue=`echo $target | cut -d\. -f 4`
+            let myValue=`echo $MYIP | cut -d\. -f 4`
+
             echo comparing compareValue:$compareValue to myValue:$myValue
 
             # if other candidate is preferred manager or wins tie breaker, I relinquish
             # if other candidate is preferred manager or wins tie breaker, I relinquish
 
-            if [ $target == $preferredManager ] ||  $compareValue -lt $myValue ] ; then
+            if [ $target == $preferredManager ] ||  [ $compareValue -lt $myValue ] ; then
                # I relinquish
                echo I relinquish
                let MANAGER_FLAG=0 # should already be 0 but just in case...
@@ -380,7 +381,7 @@ function re-election-new {
          # do this in the background so we don't get hung up!
          identy=/home/pi/.ssh/id_rsa
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-         scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
 
 
@@ -414,8 +415,8 @@ function re-election-new {
                identy=/home/pi/.ssh/id_rsa
             sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-            scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
-            scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+            #scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
                sleep 1
 
          # dlm temp, inner loop is overkill
@@ -474,7 +475,7 @@ function re-election-new {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -492,10 +493,10 @@ function re-election-new {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -512,7 +513,7 @@ function re-election-new {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -813,7 +814,7 @@ function doManager {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -832,10 +833,10 @@ function doManager {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
          sleep 1
       sudo scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_ECHELONAREA_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
@@ -851,7 +852,7 @@ function doManager {
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
-      scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
          sleep 1
    done
    fi
