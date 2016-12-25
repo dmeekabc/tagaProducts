@@ -38,7 +38,6 @@ source /home/pi/scripts/taga/tagaConfig/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-
 #####################################################################
 # Election Process Description - Begin
 #####################################################################
