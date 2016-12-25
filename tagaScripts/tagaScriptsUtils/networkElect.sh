@@ -956,8 +956,8 @@ do
       # Verify manager still exists or promote myself
       echo; date
       echo;echo
-      echo My Echelon:$myEchelon : My Echelon Manager:$myEchelonManager 
-      echo Verifying My Echelon Manager is Healthy: $myEchelonManager
+      echo My Echelon:$myEchelon : My Preferred Echelon Manager:$myEchelonManager 
+      echo "Verifying My A Manager (Preferred Echelon Manager $myEchelonManager) (or Other Elected Manager) is Healthy"
       #verifyManager $myEchelonManager
       verifyManager 
       let retCode=$?
