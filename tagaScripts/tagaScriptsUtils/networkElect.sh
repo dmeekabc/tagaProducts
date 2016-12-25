@@ -354,7 +354,7 @@ function re-election-new {
       for target in $myNetworkList
       do
          echo $j: TieBreaker Section : checking manager from target:$target
-         ls $ANNOUNCE_FILE_ALL 
+         ls -l $ANNOUNCE_FILE_ALL 
          if ls $ANNOUNCE_FILE_ALL | grep $target ; then
             # compare $target to $MYIP
             echo compare target:$target to myip:$MYIP
@@ -758,7 +758,7 @@ function relinquish {
       for target in $myNetworkList
       do
          echo $j: Relinquish Section : checking manager from target:$target
-         ls $ANNOUNCE_FILE_ALL 
+         ls -l $ANNOUNCE_FILE_ALL 
          if ls $ANNOUNCE_FILE_ALL | grep $target ; then
             # compare $target to $MYIP
             echo compare target:$target to myip:$MYIP
@@ -766,7 +766,8 @@ function relinquish {
             myValue=`echo $MYIP | cut -d\. -f 4`
             echo comparing compareValue:$compareValue to myValue:$myValue
 
-            if [ $compareValue -lt $myValue ] ; then
+            //if [ $compareValue -lt $myValue ] ; then
+            if [ $target == $preferredManager ] ||  [ $compareValue -lt $myValue ] ; then
                # I relinquish
                echo I relinquish
                let MANAGER_FLAG=0
