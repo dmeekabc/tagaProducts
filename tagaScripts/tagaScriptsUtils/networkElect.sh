@@ -35,6 +35,7 @@ TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 #source $TAGA_CONFIG_DIR/config
 source /home/pi/scripts/taga/tagaConfig/config
+netCheckSum=`sum $tagaUtilsDir/targetList.sh`
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -68,8 +69,10 @@ ECHELON_MANAGER_ENABLED=0
 AREA_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=0
 
+
 ANNOUNCE_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidateComplete
 ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
+ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
 ANNOUNCE_FILE_BASE="/tmp/managerAnnouncement.dat."
@@ -401,6 +404,7 @@ function re-election-new {
          if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
 
          sudo touch $ANNOUNCE_FILE
+         sudo touch $ANNOUNCE_FILE_NET_CHECKSUM
          sudo touch $ANNOUNCE_CANDIDATE_FILE
          sudo chmod 777 $ANNOUNCE_FILE
          sudo chmod 777 $ANNOUNCE_CANDIDATE_FILE
@@ -411,14 +415,17 @@ function re-election-new {
 
             if [ $DEBUG -eq 1 ] ;then
               echo Distributing $ANNOUNCE_FILE 
+              echo Distributing $ANNOUNCE_FILE_NET_CHECKSUM 
             fi
             loginId=`$tagaUtilsDir/myLoginId.sh $target`
             # do this in the background so we don't get hung up
             echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+            echo sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
             # do this in the background so we don't get hung up
                identy=/home/pi/.ssh/id_rsa
             sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
             #scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
             #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
@@ -808,11 +815,13 @@ function relinquish {
 function doManager {
    echo `date` : doManager
    touch $ANNOUNCE_FILE 
+   touch $ANNOUNCE_FILE_NET_CHECKSUM 
    touch $ANNOUNCE_AREA_FILE 
    touch $ANNOUNCE_ECHELON_FILE 
    touch $ANNOUNCE_ECHELONAREA_FILE 
 
    sudo chmod 777 $ANNOUNCE_FILE 
+   sudo chmod 777 $ANNOUNCE_FILE_NET_CHECKSUM 
    sudo chmod 777 $ANNOUNCE_ECHELON_FILE 
    sudo chmod 777 $ANNOUNCE_ECHELONAREA_FILE 
    sudo chmod 777 $ANNOUNCE_AREA_FILE 
@@ -830,13 +839,16 @@ function doManager {
    do
       if [ $DEBUG -eq 1 ] ;then
         echo Distributing $ANNOUNCE_FILE 
+        echo Distributing $ANNOUNCE_FILE_NET_CHECKSUM 
       fi
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
       # do this in the background so we don't get hung up
       echo sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+      echo sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
          identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+      sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
       #scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
          sleep 1
    done
@@ -904,9 +916,11 @@ function verifyManager {
 
    # delete old files
    rm $ANNOUNCE_FILE_ALL               2>/dev/null
+   rm $ANNOUNCE_FILE_ALL               2>/dev/null
    rm $ANNOUNCE_ECHELON_FILE_ALL       2>/dev/null
    rm $ANNOUNCE_ECHELONAREA_FILE_ALL   2>/dev/null
    rm $ANNOUNCE_AREA_FILE_ALL          2>/dev/null
+
 
    #sleep $MANAGER_AUDIT_INTERVAL
    $tagaUtilsDir/iboaDelay.sh $MANAGER_AUDIT_INTERVAL
@@ -950,9 +964,11 @@ do
 
    # resource the config
    source /home/pi/scripts/taga/tagaConfig/config
+   netCheckSum=`sum $tagaUtilsDir/targetList.sh`
 
    ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
    ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
+   ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
    ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
 
    ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
