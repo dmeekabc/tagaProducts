@@ -35,7 +35,7 @@ TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 #source $TAGA_CONFIG_DIR/config
 source /home/pi/scripts/taga/tagaConfig/config
-netCheckSum=`sum $tagaUtilsDir/targetList.sh`
+netCheckSum=`sum $tagaConfigDir/targetList.sh | cut -c1-5`
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -964,7 +964,7 @@ do
 
    # resource the config
    source /home/pi/scripts/taga/tagaConfig/config
-   netCheckSum=`sum $tagaUtilsDir/targetList.sh`
+   netCheckSum=`sum $tagaConfigDir/targetList.sh | cut -c1-5`
 
    ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
    ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
