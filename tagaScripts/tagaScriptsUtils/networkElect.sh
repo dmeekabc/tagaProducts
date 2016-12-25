@@ -766,7 +766,7 @@ function relinquish {
             myValue=`echo $MYIP | cut -d\. -f 4`
             echo comparing compareValue:$compareValue to myValue:$myValue
 
-            //if [ $compareValue -lt $myValue ] ; then
+            #if [ $compareValue -lt $myValue ] ; then
             if [ $target == $preferredManager ] ||  [ $compareValue -lt $myValue ] ; then
                # I relinquish
                echo I relinquish
