@@ -40,7 +40,7 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 
 
 #####################################################################
-# Election Process Description
+# Election Process Description - Begin
 #####################################################################
 #
 # Bully Algorithm, the preferred node bullies itself to manager
@@ -48,11 +48,12 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 #   - if the preferred node comes avaialable, it takes over as manager
 #        - note: this can clearly have undesirable 'bouncing/thrashing' effect
 #                effect if the  preferred node is unstable or in/out of range.
+#        - note: clever selection of preferred node and/or dummy node usage
+#                can reduce or mitigate such instability.
 #
 #####################################################################
-# Election Process Description
+# Election Process Description - End
 #####################################################################
-
 
 
 ######################################################################
@@ -86,6 +87,7 @@ ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
 ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 
 function election {
+
 source /home/pi/scripts/taga/tagaConfig/config
 myNetId=`echo $MYIP | cut -d\. -f 3`
 
@@ -359,7 +361,10 @@ function re-election-new {
             myValue=`echo $MYIP | cut -d\. -f 4`
             echo comparing compareValue:$compareValue to myValue:$myValue
 
-            if [ $compareValue -lt $myValue ] ; then
+            # if other candidate is preferred manager or wins tie breaker, I relinquish
+            # if other candidate is preferred manager or wins tie breaker, I relinquish
+
+            if [ $target == $preferredManager ] ||  $compareValue -lt $myValue ] ; then
                # I relinquish
                echo I relinquish
                let MANAGER_FLAG=0 # should already be 0 but just in case...
@@ -699,6 +704,17 @@ fi
 
 function relinquish {
 
+   # re-set our election context in case the configuration has changed
+   # i.e. make sure we are still the preferred manager or otherwise
+
+  # dlm temp new 25 dec
+  ###############3
+   # dlm temp, this is getting ugly, consider these two lines hard
+   # dlm temp, this is getting ugly, consider these two lines hard
+   election
+   let MANAGER_FLAG=1 # set this flag again since it may have been cleared
+  ###############3
+
    if [ $MYIP != $preferredManager ]; then
 
    # I am not the preferred manager, I need to make sure I should remain as manager
@@ -761,9 +777,6 @@ function relinquish {
    fi  # end if not preferred manager
 
 } # end function relinquish
-
-
-
 
 
 
@@ -854,7 +867,6 @@ function doManager {
    fi 
    fi
 
-
    relinquish
 
    return 0
@@ -930,7 +942,6 @@ do
    ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
    ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
    ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
-
 
    # dlm temp find me
    #rm $ANNOUNCE_FILE_ALL
