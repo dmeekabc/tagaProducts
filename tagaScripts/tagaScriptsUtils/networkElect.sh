@@ -69,6 +69,7 @@ ECHELON_MANAGER_ENABLED=0
 AREA_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=0
 
+ANNOUNCE_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidateComplete
 ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
 ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
 ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
@@ -523,11 +524,23 @@ function re-election-new {
    done
    fi
 
-
    # dlm temp , this is key!!
    # dlm temp , this is key!!
    let MANAGER_FLAG=1
-
+    # dlm temp new 25 dec
+   touch $ANNOUNCE_CANDIDATE_COMPLETE_FILE
+   sudo chmod 777 $ANNOUNCE_CANDIDATE_COMPLETE_FILE
+   identy=/home/pi/.ssh/id_rsa
+   for target in $myNetworkList
+   do
+      loginId=`$tagaUtilsDir/myLoginId.sh $target`
+      # send a candidate complete indicator
+      echo sudo scp -i $identy $ANNOUNCE_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp
+      # do this in the background so we don't get hung up!
+      sudo scp -i $identy $ANNOUNCE_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
+      #scp -i $identy $ANNOUNCE_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
+      sleep 1
+   done
 
 } # end function re-election-new
 
