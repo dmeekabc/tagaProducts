@@ -369,6 +369,11 @@ function re-election-new {
                # I relinquish
                echo I relinquish
                let MANAGER_FLAG=0 # should already be 0 but just in case...
+               # dlm temp new 25 dec
+               # delete my announcement files
+               rm $ANNOUNCE_FILE $ANNOUNCE_AREA_FILE $ANNOUNCE_ECHELON_FILE $ANNOUNCE_ECHELONAREA_FILE
+               rm $ANNOUNCE_CANDIDATE_FILE $ANNOUNCE_AREA_CANDIDATE_FILE $ANNOUNCE_ECHELON_CANDIDATE_FILE \
+                    $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE
                return 0
             else
                # I do not relinquish, yet at least...
@@ -752,6 +757,11 @@ function relinquish {
                # I relinquish
                echo I relinquish
                let MANAGER_FLAG=0
+               # dlm temp new 25 dec
+               # delete my announcement files
+               rm $ANNOUNCE_FILE $ANNOUNCE_AREA_FILE $ANNOUNCE_ECHELON_FILE $ANNOUNCE_ECHELONAREA_FILE
+               rm $ANNOUNCE_CANDIDATE_FILE $ANNOUNCE_AREA_CANDIDATE_FILE $ANNOUNCE_ECHELON_CANDIDATE_FILE \
+                    $ANNOUNCE_ECHELONAREA_CANDIDATE_FILE
                return 0
             else
                # I do not relinquish, yet at least...
