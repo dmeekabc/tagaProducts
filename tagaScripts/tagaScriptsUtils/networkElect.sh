@@ -60,11 +60,11 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 #####################################################################
 #
 #  Version 1: IBOA Dec 2016 
-#    commit aebfe22775d546d83a1c01208ac7bb10924d23a9
-#    Author: Darrin Meek <darrinmeek@aol.com>
-#    Date:   Sun Dec 25 20:59:07 2016 +0000
-#       December 2016 updates
-#       INITIAL VERSION: 
+#       INITIAL IBOA TAGA TAGAXXX VERSION: 
+#       GitHub December 2016 updates
+#       commit aebfe22775d546d83a1c01208ac7bb10924d23a9
+#       Author: Darrin Meek <darrinmeek@aol.com>
+#       Date:   Sun Dec 25 20:59:07 2016 +0000
 #       NETWORK, ECHELON, AREA, ECHELONAREA ELECTION TYPES
 #       Network type complete, other types placeholders only
 #
