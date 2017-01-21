@@ -55,6 +55,29 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # Election Process Description - End
 #####################################################################
 
+#####################################################################
+# Version Info
+#####################################################################
+#
+#
+#  Version 1: IBOA Dec 2016 
+#    commit aebfe22775d546d83a1c01208ac7bb10924d23a9
+#    Author: Darrin Meek <darrinmeek@aol.com>
+#    Date:   Sun Dec 25 20:59:07 2016 +0000
+#       December 2016 updates
+#       INITIAL VERSION: 
+#       NETWORK, ECHELON, AREA, ECHELONAREA ELECTION TYPES
+#       Network type complete, other types placeholders only
+#
+#  Version 1a: DMeek and Tri Pham Jan 2017
+#       Echelon Type Implemented and Functional
+#       Code Improvements per Tri Pham recommendations and implementation
+#       EchelonArea Type Removed, Area Type Placeholder only
+#
+#  Version 1b: IBOA Jan 2017
+#       Area Type Implemented and Functional
+#
+#
 
 ######################################################################
 # ENABLE or DISABLE the various managers (bottom of each one wins)
