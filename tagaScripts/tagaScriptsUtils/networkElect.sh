@@ -39,6 +39,16 @@ netCheckSum=`sum $tagaConfigDir/targetList.sh | cut -c1-5`
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+# dlm temp, consider if we should call relinquish more often to be more responsive
+# dlm temp, consider if we should call relinquish more often to be more responsive
+# dlm temp, consider if we should call relinquish more often to be more responsive
+# dlm temp, consider if we should call relinquish more often to be more responsive
+
+# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
+# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
+# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
+# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
+
 #####################################################################
 # Election Process Description - Begin
 #####################################################################
@@ -95,12 +105,19 @@ ECHELON_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=1
 AREA_MANAGER_ENABLED=0
 
-ANNOUNCE_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidateComplete
-ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
-ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
-ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
-ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
-ANNOUNCE_FILE_BASE="/tmp/managerAnnouncement.dat."
+##ANNOUNCE_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidateComplete
+##ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
+##ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
+##ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
+##ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+##ANNOUNCE_FILE_BASE="/tmp/managerAnnouncement.dat."
+
+ANNOUNCE_NETWORK_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidateComplete
+ANNOUNCE_NETWORK_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
+ANNOUNCE_NETWORK_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
+ANNOUNCE_NETWORK_FILE=/tmp/managerAnnouncement.dat.$MYIP
+ANNOUNCE_NETWORK_FILE_ALL=/tmp/managerAnnouncement.dat.*
+ANNOUNCE_NETWORK_FILE_BASE="/tmp/managerAnnouncement.dat."
 
 ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidateComplete
 ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
@@ -116,6 +133,7 @@ ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
 ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
 ANNOUNCE_AREA_FILE_BASE="/tmp/managerAnnouncementArea.dat."
 
+
 let MANAGER_FLAG=0
 let ECHELON_MANAGER_FLAG=0
 let AREA_MANAGER_FLAG=0
@@ -130,9 +148,53 @@ myNetworkList=""
 myEchelonList="" 
 myAreaList=""
 
-preferredManager="tbd"
+preferredNetworkManager="tbd"
 preferredEchelonManager="tbd"
 preferredAreaManager="tbd"
+
+##############################################
+# Election Context Configurations
+##############################################
+
+function networkContext {
+   # Network Context
+   ANNOUNCE_CANDIDATE_COMPLETE_FILE=$ANNOUNCE_NETWORK_CANDIDATE_COMPLETE_FILE
+   ANNOUNCE_CANDIDATE_FILE=$ANNOUNCE_NETWORK_CANDIDATE_FILE
+   ANNOUNCE_FILE_NET_CHECKSUM=$ANNOUNCE_NETWORK_FILE_NET_CHECKSUM
+   ANNOUNCE_FILE=$ANNOUNCE_NETWORK_FILE
+   ANNOUNCE_FILE_ALL=$ANNOUNCE_NETWORK_FILE_ALL
+   ANNOUNCE_FILE_BASE=$ANNOUNCE_NETWORK_FILE_BASE
+   context=network
+   contextList=$myNetworkList
+   preferredManager=$preferredNetworkManager
+}
+
+function echelonContext {
+   # Echelon Context
+   ANNOUNCE_CANDIDATE_COMPLETE_FILE=$ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE
+   ANNOUNCE_CANDIDATE_FILE=$ANNOUNCE_ECHELON_CANDIDATE_FILE
+   ANNOUNCE_FILE_NET_CHECKSUM=$ANNOUNCE_ECHELON_FILE_NET_CHECKSUM
+   ANNOUNCE_FILE=$ANNOUNCE_ECHELON_FILE
+   ANNOUNCE_FILE_ALL=$ANNOUNCE_ECHELON_FILE_ALL
+   ANNOUNCE_FILE_BASE=$ANNOUNCE_ECHELON_FILE_BASE
+   context=echelon
+   contextList=$myEchelonList
+   preferredManager=$preferredEchelonManager
+}
+
+function areaContext {
+   # Area Context
+   ANNOUNCE_CANDIDATE_COMPLETE_FILE=$ANNOUNCE_AREA_CANDIDATE_COMPLETE_FILE
+   ANNOUNCE_CANDIDATE_FILE=$ANNOUNCE_AREA_CANDIDATE_FILE
+   ANNOUNCE_FILE_NET_CHECKSUM=$ANNOUNCE_AREA_FILE_NET_CHECKSUM
+   ANNOUNCE_FILE=$ANNOUNCE_AREA_FILE
+   ANNOUNCE_FILE_ALL=$ANNOUNCE_AREA_FILE_ALL
+   ANNOUNCE_FILE_BASE=$ANNOUNCE_AREA_FILE_BASE
+   context=area
+   contextList=$myAreaList
+   preferredManager=$preferredAreaManager
+}
+
 
 ##############################################
 # Function Election
@@ -140,10 +202,10 @@ preferredAreaManager="tbd"
 
 function election {
 
-   # reinit these each time election function is called so they don't grow forever
-   myNetworkList=""
-   myEchelonList="" 
-   myAreaList=""
+# reinit these each time election function is called so they don't grow forever
+myNetworkList=""
+myEchelonList="" 
+myAreaList=""
 
 source /home/pi/scripts/taga/tagaConfig/config
 
@@ -253,7 +315,7 @@ if echo $myEchelonList | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelon.dat 2>/dev/null
          fi
          echo the preferred network manager for my network is $ip
-         preferredManager=$ip
+         preferredNetworkManager=$ip
          break
       fi
   done
@@ -305,7 +367,7 @@ elif echo $TAGAXXX_LIST_ACTIVE | grep $MYIP ; then
               sudo rm /tmp/networkElectEchelonTAGAXXX-1.dat 2>/dev/null
          fi
          echo the preferred network manager for my network is $ip
-         preferredManager=$ip
+         preferredNetworkManager=$ip
          #preferredEchelonManager=$ip
          break
       # Special Handing for TAGAXXX (break after first ip checked)
@@ -321,6 +383,123 @@ else
 fi
 
 } # end function election
+
+
+
+
+function electionLoopFunction {
+
+      let j=$1
+
+      ##############################
+      # Election Loop
+      ##############################
+
+      #for target in $myNetworkList
+      for target in $contextList
+      do
+         echo $j: TieBreaker Section : checking $context manager from target:$target
+         ls -l $ANNOUNCE_FILE_ALL 
+         if ls $ANNOUNCE_FILE_ALL | grep $target ; then
+            # compare $target to $MYIP
+            echo compare target:$target to myip:$MYIP
+            let compareValue=`echo $target | cut -d\. -f 4`
+            let myValue=`echo $MYIP | cut -d\. -f 4`
+
+            echo comparing compareValue:$compareValue to myValue:$myValue
+
+            # if other candidate is preferred manager or wins tie breaker, I relinquish
+            # if other candidate is preferred manager or wins tie breaker, I relinquish
+
+            if [ $target == $preferredManager ] ||  [ $compareValue -lt $myValue ] ; then
+               # I relinquish
+               echo I relinquish $context manager
+               let MANAGER_FLAG=0 # should already be 0 but just in case...
+               # dlm temp new 25 dec
+               # delete my announcement files
+               rm $ANNOUNCE_FILE $ANNOUNCE_AREA_FILE 
+               rm $ANNOUNCE_CANDIDATE_FILE $ANNOUNCE_AREA_CANDIDATE_FILE 
+               return 2
+            else
+               # I do not relinquish $context mgt, yet at least...
+               echo I do not relinquish $context mgt, yet at least...
+            fi 
+
+         fi
+
+         # Network Manager Block
+         # we have not yet re-linquished, send out an advertisement that we are candidate to manage
+         echo 111 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+         # do this in the background so we don't get hung up!
+         identy=/home/pi/.ssh/id_rsa
+         sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+         sleep 1
+
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+         # dlm temp force this here
+
+         identy=/home/pi/.ssh/id_rsa
+
+         if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
+
+         #Network Management Block
+         sudo touch $ANNOUNCE_FILE
+         sudo touch $ANNOUNCE_FILE_NET_CHECKSUM
+         sudo touch $ANNOUNCE_CANDIDATE_FILE
+         sudo chmod 777 $ANNOUNCE_FILE
+         sudo chmod 777 $ANNOUNCE_FILE_NET_CHECKSUM
+         sudo chmod 777 $ANNOUNCE_CANDIDATE_FILE
+
+         # dlm temp, inner loop is overkill
+         #for target in $myNetworkList
+         #do
+
+            if [ $DEBUG -eq 1 ] ;then
+              #Network Management Block
+              echo Distributing $ANNOUNCE_FILE 
+              echo Distributing $ANNOUNCE_FILE_NET_CHECKSUM 
+            fi
+
+            loginId=`$tagaUtilsDir/myLoginId.sh $target`
+
+            # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
+            # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
+            # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
+            #Network Management Block
+            # do this in the background so we don't get hung up
+            echo 2222 sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
+            echo 3333 sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
+            echo 4444 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+            # do this in the background so we don't get hung up
+            identy=/home/pi/.ssh/id_rsa
+            sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+            sleep 1
+
+         # dlm temp, inner loop is overkill
+         #done
+
+         fi
+
+      done # end of electionLoopfunction loop
+
+      # dlm temp, this may or may not be needed here
+      sleep 1
+
+
+}
+
+
+
+# dlm tmep, this is being phased out, in preference to electionLoopFunction above
+# dlm tmep, this is being phased out, in preference to electionLoopFunction above
+# dlm tmep, this is being phased out, in preference to electionLoopFunction above
+# dlm tmep, this is being phased out, in preference to electionLoopFunction above
+# dlm tmep, this is being phased out, in preference to electionLoopFunction above
 
 
 function networkLoopFunction {
@@ -422,8 +601,14 @@ function networkLoopFunction {
 
       done # end of network list loop
 
+      # dlm temp, this may or may not be needed here
+      sleep 1
 
 }
+
+
+
+
 
 
 function echelonLoopFunction {
@@ -524,6 +709,9 @@ function echelonLoopFunction {
          fi
 
       done # end of echelon list loop
+
+      # dlm temp, this may or may not be needed here
+      sleep 1
 
 }
 
@@ -656,7 +844,14 @@ function re-election {
       ##############################
 
       if [ $NETWORK_MANAGER_ENABLED -eq 1 ] && [ $networkManagerFound == "false" ] ; then  
-         networkLoopFunction $j
+
+         # Set Network Context and call Election Loop function 
+         # Set Network Context and call Election Loop function 
+
+         networkContext
+         electionLoopFunction $j
+         #networkLoopFunction $j
+
          let retCode=$?
          if [ $retCode -eq 2 ] ; then
             networkManagerFound="true"
@@ -873,8 +1068,8 @@ function relinquish {
                break
                #return 0
             else
-               # I do not relinquish, yet at least...
-               echo I do not relinquish, yet at least...
+               # I do not relinquish net mgt , yet at least...
+               echo I do not relinquish net mgt, yet at least...
             fi 
          fi
 
@@ -940,8 +1135,8 @@ function relinquish {
                break
                #return 0
             else
-               # I do not relinquish, yet at least...
-               echo I do not relinquish, yet at least...
+               # I do not relinquish echelon mgt, yet at least...
+               echo I do not relinquish echelon mgt, yet at least...
             fi 
          fi
       done
@@ -972,8 +1167,8 @@ function doManager {
    # network manager block
    if [ $MANAGER_FLAG -eq 1 ] ; then
       touch          $ANNOUNCE_FILE 
-      touch          $ANNOUNCE_FILE_NET_CHECKSUM 
       sudo chmod 777 $ANNOUNCE_FILE 
+      touch          $ANNOUNCE_FILE_NET_CHECKSUM 
       sudo chmod 777 $ANNOUNCE_FILE_NET_CHECKSUM 
    fi
 
@@ -981,6 +1176,8 @@ function doManager {
    if [ $ECHELON_MANAGER_FLAG -eq 1 ] ; then
       touch          $ANNOUNCE_ECHELON_FILE 
       sudo chmod 777 $ANNOUNCE_ECHELON_FILE 
+      touch          $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM 
+      sudo chmod 777 $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM 
    fi
 
    # future...
@@ -1078,6 +1275,11 @@ function doManager {
       echo $MYIP : Preferred Echelon Manager is advertising, I am relinquishing management duties!
       echo $MYIP : Preferred Echelon Manager \($preferredEchelonManager\) is advertising, I am relinquishing as manager!
       let ECHELON_MANAGER_FLAG=0
+
+      # dlm temp, consider if we should return here since we have relinquished, why call relinquish?
+      # dlm temp, consider if we should return here since we have relinquished, why call relinquish?
+      # dlm temp, consider if we should return here since we have relinquished, why call relinquish?
+
    fi 
    fi
 
@@ -1098,9 +1300,23 @@ function verifyManager {
 
    # delete old files
    rm $ANNOUNCE_FILE_ALL               2>/dev/null
+   rm $ANNOUNCE_NETWORK_FILE_ALL       2>/dev/null
    rm $ANNOUNCE_ECHELON_FILE_ALL       2>/dev/null
-   rm $ANNOUNCE_ECHELONAREA_FILE_ALL   2>/dev/null
    rm $ANNOUNCE_AREA_FILE_ALL          2>/dev/null
+
+   echo Contents:
+   echo Contents:
+   echo Contents:
+   echo Contents:
+   echo Contents:
+   echo
+   ls /tmp/*Ann*
+   echo
+   echo End Contents
+   echo End Contents
+   echo End Contents
+   echo End Contents
+   echo End Contents
 
    #sleep $MANAGER_AUDIT_INTERVAL
    $tagaUtilsDir/iboaDelay.sh $MANAGER_AUDIT_INTERVAL
@@ -1164,25 +1380,31 @@ do
    source /home/pi/scripts/taga/tagaConfig/config
    netCheckSum=`sum $tagaConfigDir/targetList.sh | cut -c1-5`
 
-   ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
-   ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
-   ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
-   ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+# dlm temp, change 21 jan 2017, this should not be needed here, except the checksum files which change
 
-   ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
-   ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
+   ANNOUNCE_NETWORK_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
    ANNOUNCE_ECHELON_FILE_NET_CHECKSUM=/tmp/managerAnnouncementEchelon.dat.$MYIP.$netCheckSum
-   ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
-
-   ANNOUNCE_ECHELONAREA_CANDIDATE_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP.candidate
-   ANNOUNCE_ECHELONAREA_FILE=/tmp/managerAnnouncementEchelonArea.dat.$MYIP
-   ANNOUNCE_ECHELONAREA_FILE_NET_CHECKSUM=/tmp/managerAnnouncementEchelonArea.dat.$MYIP.$netCheckSum
-   ANNOUNCE_ECHELONAREA_FILE_ALL=/tmp/managerAnnouncementEchelonArea.dat.*
-
-   ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
-   ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
    ANNOUNCE_AREA_FILE_NET_CHECKSUM=/tmp/managerAnnouncementArea.dat.$MYIP.$netCheckSum
-   ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
+
+   # Config Updated, Re-configure to Network Context
+   networkContext
+
+
+#   ANNOUNCE_CANDIDATE_FILE=/tmp/managerAnnouncement.dat.$MYIP.candidate
+#   ANNOUNCE_FILE=/tmp/managerAnnouncement.dat.$MYIP
+#   ANNOUNCE_FILE_NET_CHECKSUM=/tmp/managerAnnouncement.dat.$MYIP.$netCheckSum
+#   ANNOUNCE_FILE_ALL=/tmp/managerAnnouncement.dat.*
+#
+#   ANNOUNCE_ECHELON_CANDIDATE_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP.candidate
+#   ANNOUNCE_ECHELON_FILE=/tmp/managerAnnouncementEchelon.dat.$MYIP
+#   ANNOUNCE_ECHELON_FILE_NET_CHECKSUM=/tmp/managerAnnouncementEchelon.dat.$MYIP.$netCheckSum
+#   ANNOUNCE_ECHELON_FILE_ALL=/tmp/managerAnnouncementEchelon.dat.*
+#
+#   ANNOUNCE_AREA_CANDIDATE_FILE=/tmp/managerAnnouncementArea.dat.$MYIP.candidate
+#   ANNOUNCE_AREA_FILE=/tmp/managerAnnouncementArea.dat.$MYIP
+#   ANNOUNCE_AREA_FILE_NET_CHECKSUM=/tmp/managerAnnouncementArea.dat.$MYIP.$netCheckSum
+#   ANNOUNCE_AREA_FILE_ALL=/tmp/managerAnnouncementArea.dat.*
+#
 
 
    if  [ $MANAGER_FLAG -eq 1 ] || [ $ECHELON_MANAGER_FLAG -eq 1 ] ; then
@@ -1267,9 +1489,17 @@ done
 
 #let ELECT_TYPE=$1
 
-# Do the initial election
+# dlm temp new 21 jan 2017 
+# set network context ... dlm temp, this may or may not be needed here...
+networkContext
+
+# Do the initial election, note this also reads configuration and populates globals
 election
+
+# set network context based on the updated configuration 
+networkContext
 
 # Maintain the election
 maintain
+
 
