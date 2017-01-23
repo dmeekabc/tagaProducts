@@ -75,7 +75,33 @@ TAGA_CONTROLLER_MANAGER_ECHELON=""
 TAGA_CONTROLLER_MANAGER_ATAGA=""
 
 
+function networkContext {
+   MGR_TAG=$MGR_TAG_NETWORK
+   SED_TAG=$SED_TAG_NETWORK
+   TAGA_TAG=$TAGA_TAG_NETWORK
+
+} # end function networkContext
+
+function echelonContext  {
+   MGR_TAG=$MGR_TAG_ECHELON
+   SED_TAG=$SED_TAG_ECHELON
+   TAGA_TAG=$TAGA_TAG_ECHELON
+
+} # end function  echelonContext
+
+function areaContext {
+   MGR_TAG=$MGR_TAG_AREA
+   SED_TAG=$SED_TAG_AREA
+   TAGA_TAG=$TAGA_TAG_AREA
+
+} # end function areaContext
+
 function selectManager {
+
+   echo
+   echo Notice: selectManager function called for: $1
+   echo
+   sleep 5
 
    echo TAGA Controller Manager Selection In process...
    echo Candidates Follow:
@@ -131,12 +157,11 @@ function selectManager {
       echo ----------------------
    fi 
    echo Audit IS DONE Being In Progress >> /tmp/${DAEMON}_audit.log
-fi
 
 
 ADDR_PART=`echo $FINAL_SELECTION | sed -e s/${SED_TAG}//g` # strip tag part 
-TAGA_CONTROLLER_MANAGER="{TAGA_}${ADDR_PART}_TAGA"
-TAGA_CONTROLLER_MANAGER="${ADDR_PART}_TAGA"
+#TAGA_CONTROLLER_MANAGER="{TAGA_}${ADDR_PART}_TAGA"
+#TAGA_CONTROLLER_MANAGER="${ADDR_PART}_TAGA"
 TAGA_CONTROLLER_MANAGER="${TAGA_TAG}${ADDR_PART}"
 
 echo FINAL_SELECTION:$FINAL_SELECTION
@@ -154,6 +179,10 @@ fi
 
 } # end function selectManager
 
+
+#######################################################
+# MAIN
+#######################################################
 
 #######################################################
 # Selection Method - Bottom One wins (Name or Time)
@@ -222,24 +251,28 @@ fi
 
 if [ $auditEnabled -eq 1 ]; then
    echo Audit In Progress >> /tmp/${DAEMON}_audit.log
-#   $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/tagaLogManagement.sh >> /tmp/${DAEMON}_audit.log
+   #   $HOME/scripts/taga/tagaScripts/tagaScriptsUtils/tagaLogManagement.sh >> /tmp/${DAEMON}_audit.log
 else
    echo Audit IS In Progress >> /tmp/${DAEMON}_audit.log
-#   /home/pi/scripts/taga/tagaScripts/tagaScriptsUtils/tagaLogManagement.sh >> /tmp/${DAEMON}_audit.log
+   #   /home/pi/scripts/taga/tagaScripts/tagaScriptsUtils/tagaLogManagement.sh >> /tmp/${DAEMON}_audit.log
 
+   ########################################################################
+   # Main Audit Function - selectManager for Network, Echeclon, and Area 
+   ########################################################################
+   for managerType in network echelon area
+   do
+      if [ $managerType == "network" ]; then
+         networkContext
+      elif [ $managerType == "echelon" ]; then
+         echelonContext
+      elif [ $managerType == "area" ]; then
+         areaContext
+      else
+         echo Anomaly should not get here!  Invalid manager Type!
+      fi
 
-# Main Audit Function - is selectManager
+      # Do it - Select the Manager
+      selectManager $managerType
 
-selectManager
-
-
-
-
-
-
-
-
-
-
-
-
+   done
+fi
