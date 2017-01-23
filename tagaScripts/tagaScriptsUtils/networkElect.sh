@@ -41,13 +41,9 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 
 # dlm temp, consider if we should call relinquish more often to be more responsive
 # dlm temp, consider if we should call relinquish more often to be more responsive
-# dlm temp, consider if we should call relinquish more often to be more responsive
-# dlm temp, consider if we should call relinquish more often to be more responsive
 
-# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
-# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
-# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
-# dlm temp, note that the 20 and 60 seconds blocks both kick in before election so undesirable non-responsive impact
+# dlm temp, note that the 20, 40 and 60 seconds blocks all kick in before election so undesirable non-responsive impact
+# dlm temp, note that the 20, 40 and 60 seconds blocks all kick in before election so undesirable non-responsive impact
 
 #####################################################################
 # Election Process Description - Begin
@@ -69,8 +65,10 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # Version Info
 #####################################################################
 #
-#  Version 1: IBOA Dec 2016 
-#       INITIAL IBOA TAGA TAGAXXX VERSION: 
+#  Version 1:  IBOA Dec 2016 
+#       INITIAL IBOA TAGA TAGAXXX VERSION 1 
+#  Version 1a: IBOA Dec 2016 
+#       INITIAL IBOA TAGA TAGAXXX VERSION 1a 
 #       GitHub December 2016 updates
 #       commit aebfe22775d546d83a1c01208ac7bb10924d23a9
 #       Author: Darrin Meek <darrinmeek@aol.com>
@@ -78,13 +76,17 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 #       NETWORK, ECHELON, AREA, ECHELONAREA ELECTION TYPES
 #       Network type complete, other types placeholders only
 #
-#  Version 1a: DMeek and Tri Pham Jan 2017
+#  Version 1b: Customer Site: DMeek and Tri Pham thru 20 Jan 2017
 #       Echelon Type Implemented and Functional
 #       Code Improvements per Tri Pham recommendations and implementation
 #       EchelonArea Type Removed, Area Type Placeholder only
 #
-#  Version 1b: IBOA Jan 2017
+#  Version 1c: IBOA Site: thru 22 Jan 2017
+#       UPDATED IBOA TAGA TAGAXXX VERSION 1c 
 #       Area Type Implemented and Functional
+#
+#  Version 1d: Customer Site: DMeek and Tri Pham thru 23 Jan 2017
+#       Code Improvements per Tri Pham recommendations and implementations
 #
 #
 #####################################################################
@@ -133,6 +135,9 @@ ANNOUNCE_AREA_FILE_BASE="/tmp/managerAnnouncementArea.dat."
 # Other Global Variables
 ###############################################################
 
+# SSH Login Identity is 'Pi'
+identy=/home/pi/.ssh/id_rsa
+
 let MANAGER_FLAG=0
 let NETWORK_MANAGER_FLAG=0
 let ECHELON_MANAGER_FLAG=0
@@ -140,6 +145,8 @@ let AREA_MANAGER_FLAG=0
 
 let DEBUG=0
 let DEBUG=1
+let DEBUGMAX=1
+let DEBUGMAX=0
 
 myNetId=""
 myEchelon="tbd"
@@ -180,6 +187,7 @@ function networkContext {
    contextList=$myNetworkList
    preferredManager=$preferredNetworkManager
    MANAGER_FLAG=$NETWORK_MANAGER_FLAG
+   MANAGER_ENABLED=$NETWORK_MANAGER_ENABLED
 }
 
 function echelonContext {
@@ -195,6 +203,7 @@ function echelonContext {
    contextList=$myEchelonList
    preferredManager=$preferredEchelonManager
    MANAGER_FLAG=$ECHELON_MANAGER_FLAG
+   MANAGER_ENABLED=$ECHELON_MANAGER_ENABLED
 }
 
 function areaContext {
@@ -210,6 +219,7 @@ function areaContext {
    contextList=$myAreaList
    preferredManager=$preferredAreaManager
    MANAGER_FLAG=$AREA_MANAGER_FLAG
+   MANAGER_ENABLED=$AREA_MANAGER_ENABLED
 }
 
 
@@ -501,24 +511,21 @@ function electionLoopFunction {
                # I relinquish
                echo I relinquish $context manager
                let MANAGER_FLAG=0 # should already be 0 but just in case...
-               let NETWORK_MANAGER_FLAG=0 # should already be 0 but just in case...
-
-               let MANAGER_FLAG=0
-               #let NETWORK_MANAGER_FLAG=0
+               #let NETWORK_MANAGER_FLAG=0 # should already be 0 but just in case...
                if [ $electionContext == "network" ]; then
-                  let NETWORK_MANAGER_FLAG=0
+                  let NETWORK_MANAGER_FLAG=0 # should already be 0 but just in case...
                elif [ $electionContext == "echelon" ]; then
-                  let ECHELON_MANAGER_FLAG=0
+                  let ECHELON_MANAGER_FLAG=0 # should already be 0 but just in case...
                elif [ $electionContext == "area" ]; then
-                  let AREA_MANAGER_FLAG=0
+                  let AREA_MANAGER_FLAG=0 # should already be 0 but just in case...
                else
                   echo Anomaly, unknown electionContext,should not get here!
                fi
-
                # dlm temp new 25 dec
                # delete my announcement files
-               rm $ANNOUNCE_FILE $ANNOUNCE_AREA_FILE 
-               rm $ANNOUNCE_CANDIDATE_FILE $ANNOUNCE_AREA_CANDIDATE_FILE 
+               networkIntrusionAudit
+               rm $ANNOUNCE_FILE 
+               rm $ANNOUNCE_CANDIDATE_FILE 
                return 2
             else
                # I do not relinquish $context mgt, yet at least...
@@ -527,38 +534,23 @@ function electionLoopFunction {
 
          fi
 
-         # Network Manager Block
          # we have not yet re-linquished, send out an advertisement that we are candidate to manage
          echo 111 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
-         identy=/home/pi/.ssh/id_rsa
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-         #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
 
-         # dlm temp force this here
-         # dlm temp force this here
-         # dlm temp force this here
-         # dlm temp force this here
+         #if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
+         if [ $MANAGER_ENABLED -eq 1 ] ; then
 
-         identy=/home/pi/.ssh/id_rsa
-
-         if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
-
-         #Network Management Block
-         sudo touch $ANNOUNCE_FILE
-         sudo touch $ANNOUNCE_FILE_NET_CHECKSUM
-         sudo touch $ANNOUNCE_CANDIDATE_FILE
-         sudo chmod 777 $ANNOUNCE_FILE
-         sudo chmod 777 $ANNOUNCE_FILE_NET_CHECKSUM
-         sudo chmod 777 $ANNOUNCE_CANDIDATE_FILE
-
-         # dlm temp, inner loop is overkill
-         #for target in $myNetworkList
-         #do
+            sudo touch $ANNOUNCE_FILE
+            sudo touch $ANNOUNCE_FILE_NET_CHECKSUM
+            sudo touch $ANNOUNCE_CANDIDATE_FILE
+            sudo chmod 777 $ANNOUNCE_FILE
+            sudo chmod 777 $ANNOUNCE_FILE_NET_CHECKSUM
+            sudo chmod 777 $ANNOUNCE_CANDIDATE_FILE
 
             if [ $DEBUG -eq 1 ] ;then
-              #Network Management Block
               echo Distributing $ANNOUNCE_FILE 
               echo Distributing $ANNOUNCE_FILE_NET_CHECKSUM 
             fi
@@ -567,22 +559,16 @@ function electionLoopFunction {
 
             # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
             # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
-            # dlm temp, we probably need to wrap this and all such instances with FLAG CHECK
-            #Network Management Block
+
             # do this in the background so we don't get hung up
             echo 2222 sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
             echo 3333 sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 4444 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
             # do this in the background so we don't get hung up
-            identy=/home/pi/.ssh/id_rsa
             sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
             sleep 1
-
-         # dlm temp, inner loop is overkill
-         #done
-
          fi
 
       done # end of electionLoopfunction loop
@@ -631,8 +617,9 @@ function networkLoopFunction {
                let NETWORK_MANAGER_FLAG=0 # should already be 0 but just in case...
                # dlm temp new 25 dec
                # delete my announcement files
-               rm $ANNOUNCE_FILE $ANNOUNCE_AREA_FILE 
-               rm $ANNOUNCE_CANDIDATE_FILE $ANNOUNCE_AREA_CANDIDATE_FILE 
+               networkIntrusionAudit
+               rm $ANNOUNCE_FILE # $ANNOUNCE_AREA_FILE 
+               rm $ANNOUNCE_CANDIDATE_FILE # $ANNOUNCE_AREA_CANDIDATE_FILE 
                return 2
             else
                # I do not relinquish network mgt, yet at least...
@@ -645,7 +632,6 @@ function networkLoopFunction {
          # we have not yet re-linquished, send out an advertisement that we are candidate to manage
          echo 111 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
-         identy=/home/pi/.ssh/id_rsa
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
@@ -654,8 +640,6 @@ function networkLoopFunction {
          # dlm temp force this here
          # dlm temp force this here
          # dlm temp force this here
-
-         identy=/home/pi/.ssh/id_rsa
 
          if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
 
@@ -688,7 +672,6 @@ function networkLoopFunction {
             echo 3333 sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 4444 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
             # do this in the background so we don't get hung up
-            identy=/home/pi/.ssh/id_rsa
             sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
@@ -739,6 +722,7 @@ function echelonLoopFunction {
                let ECHELON_MANAGER_FLAG=0 # should already be 0 but just in case...
                # dlm temp new 25 dec
                # delete my announcement files
+               networkIntrusionAudit
                rm $ANNOUNCE_ECHELON_FILE 
                rm $ANNOUNCE_ECHELON_CANDIDATE_FILE 
                return 2
@@ -755,7 +739,6 @@ function echelonLoopFunction {
          # we have not yet re-linquished, send out an advertisement that we are candidate to manage
          echo 666 sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
-         identy=/home/pi/.ssh/id_rsa
          sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
          #scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
          sleep 1
@@ -764,8 +747,6 @@ function echelonLoopFunction {
          # dlm temp force this here
          # dlm temp force this here
          # dlm temp force this here
-
-         identy=/home/pi/.ssh/id_rsa
 
          if [ $ECHELON_MANAGER_ENABLED -eq 1 ] ; then
 
@@ -798,7 +779,6 @@ function echelonLoopFunction {
             echo 888 sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 999 sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
             # do this in the background so we don't get hung up
-            identy=/home/pi/.ssh/id_rsa
             sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
             sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
@@ -867,8 +847,21 @@ function re-election {
    for i in {1..20}
    do
       echo `date` : $i of 20: network manager re-election in process
+
+      # Add DEBUG Output if enabled
+      if [ $DEBUGMAX -eq 1 ] ;then
+         echo
+         echo AAAAA----------------------------AAAAAA
+         echo Checking List of: $ANNOUNCE_FILE_ALL 
+         echo List:
+         ls $ANNOUNCE_FILE_ALL 2>/dev/null
+         echo List End
+         echo AAAAA----------------------------AAAAAA
+      fi
+
       sleep 1
 
+      networkIntrusionAudit
       rm $ANNOUNCE_FILE_ALL 2>/dev/null
       let retCode=$?
       if [ $retCode -eq 0 ]; then
@@ -896,8 +889,21 @@ function re-election {
    do
      
       echo `date` : $i of 40: echelon manager re-election in process
+
+      # Add DEBUG Output if enabled
+      if [ $DEBUGMAX -eq 1 ] ;then
+         echo
+         echo BBBBB----------------------------BBBBB
+         echo Checking List of: $ANNOUNCE_ECHELON_FILE_ALL 
+         echo List:
+         ls $ANNOUNCE_ECHELON_FILE_ALL 2>/dev/null
+         echo List End
+         echo BBBBB----------------------------BBBBB
+      fi
+
       sleep 1
 
+      networkIntrusionAudit
       rm $ANNOUNCE_ECHELON_FILE_ALL 2>/dev/null
       let retCode=$?
       if [ $retCode -eq 0 ]; then
@@ -925,8 +931,21 @@ function re-election {
    do
      
       echo `date` : $i of 60: area manager re-election in process
+
+      # Add DEBUG Output if enabled
+      if [ $DEBUGMAX -eq 1 ] ;then
+         echo
+         echo CCCCC----------------------------CCCCC
+         echo Checking List of: $ANNOUNCE_AREA_FILE_ALL 
+         echo List:
+         ls $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
+         echo List End
+         echo CCCCC----------------------------CCCCC
+      fi
+
       sleep 1
 
+      networkIntrusionAudit
       rm $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
       let retCode=$?
       if [ $retCode -eq 0 ]; then
@@ -941,6 +960,10 @@ function re-election {
          areaManagerFound="true"
          break
          #return
+      else
+         if [ $DEBUGMAX -eq 1 ] ;then
+            echo retCode:$retCode
+         fi
       fi
    done
 
@@ -963,25 +986,6 @@ function re-election {
    #################################################################
    # If we get here, we have at least one election process to proceed with
    #################################################################
-
-   # dlm temp stub this out for now
-   #for i in {1..10}
-   #do
-   #   rm $ANNOUNCE_AREA_FILE_ALL 2>/dev/null
-   #   let retCode=$?
-   #   if [ $retCode -eq 0 ]; then
-   #      # Somebody else has claimed manager or candidacy so let's abort!
-   #      echo Pre-existing Area Manager or Candidate Detected, exiting re-election...
-   #      areaManagerFound="true"
-   #      break
-   #      #return
-   #   fi
-   # 
-   #  done
-
-   #################################################################
-   # If we get here, we have at least one election process to proceed with
-   #################################################################
    # OKAY, now do a RANDOM DELAY, first one out wins!!!
    # dlm temp, note, this leaves a small window of ties, which we must 
    # add post-processing to identify and resolve that case
@@ -989,9 +993,11 @@ function re-election {
    #########################3
    # Random Delay    
    #########################3
-   randomDelay=`$tagaUtilsDir/iboaRandom.sh`
+   let randomDelay=`$tagaUtilsDir/iboaRandom_.sh`
    echo Random Delay: $randomDelay
-   $tagaUtilsDir/iboaDelay.sh $randomDelay
+   if [ $randomDelay -gt 0 ]  &&  [ $randomDelay -lt 100 ] ; then
+      $tagaUtilsDir/iboaDelay.sh $randomDelay
+   fi
 
    #########################3
    # Tie Breaker Section
@@ -1081,8 +1087,6 @@ function re-election {
    # we are candidate for network mgr or echeclon mgr or area mgr or some combination thereof...
    # we are candidate for network mgr or echeclon mgr or area mgr or some combination thereof...
 
-   identy=/home/pi/.ssh/id_rsa
-
    # dlm temp, notice, replace three blocks below with Context Block Loop 
    # dlm temp, notice, replace three blocks below with Context Block Loop 
    # dlm temp, notice, replace three blocks below with Context Block Loop 
@@ -1126,7 +1130,6 @@ function re-election {
    # Network Manager Block
    touch $ANNOUNCE_CANDIDATE_COMPLETE_FILE
    sudo chmod 777 $ANNOUNCE_CANDIDATE_COMPLETE_FILE
-   identy=/home/pi/.ssh/id_rsa
    for target in $myNetworkList
    do
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
@@ -1180,7 +1183,6 @@ function re-election {
    # Echelon Manager Block
    touch $ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE
    sudo chmod 777 $ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE
-   identy=/home/pi/.ssh/id_rsa
    for target in $myEchelonList
    do
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
@@ -1230,7 +1232,6 @@ function re-election {
    # Area Manager Block
    touch $ANNOUNCE_AREA_CANDIDATE_COMPLETE_FILE
    sudo chmod 777 $ANNOUNCE_AREA_CANDIDATE_COMPLETE_FILE
-   identy=/home/pi/.ssh/id_rsa
    for target in $myAreaList
    do
       loginId=`$tagaUtilsDir/myLoginId.sh $target`
@@ -1351,6 +1352,7 @@ function relinquish {
 
                # dlm temp new 25 dec
                # delete my announcement files
+               networkIntrusionAudit
                rm $ANNOUNCE_FILE 
                rm $ANNOUNCE_CANDIDATE_FILE 
                break
@@ -1423,6 +1425,7 @@ function relinquish {
 #               let NETWORK_MANAGER_FLAG=0
 #               # dlm temp new 25 dec
 #               # delete my announcement files
+#               networkIntrusionAudit
 #               rm $ANNOUNCE_FILE 
 #               rm $ANNOUNCE_CANDIDATE_FILE 
 #               break
@@ -1579,8 +1582,6 @@ function doManager {
    echo $MYIP : myEchelonList:$myEchelonList          > /tmp/myEchelonList.dat
    echo $MYIP : myAreaList:$myAreaList                > /tmp/myAreaList.dat
 
-   identy=/home/pi/.ssh/id_rsa
-
    echo MANAGER_FLAG:$MANAGER_FLAG
    echo NETWORK_MANAGER_FLAG:$NETWORK_MANAGER_FLAG
    echo ECHELON_MANAGER_FLAG:$ECHELON_MANAGER_FLAG
@@ -1599,7 +1600,6 @@ function doManager {
       echo DDD sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       echo EEE sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
-      #identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
       sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
       sleep 1
@@ -1618,7 +1618,6 @@ function doManager {
       echo FFF sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp
       echo GGG sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
-      #identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
       sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
       sleep 1
@@ -1637,7 +1636,6 @@ function doManager {
       echo JJJ sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       echo KKK sudo scp -i $identy $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp
       # do this in the background so we don't get hung up
-      identy=/home/pi/.ssh/id_rsa
       sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
       sudo scp -i $identy $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
       sleep 1
@@ -1704,11 +1702,19 @@ function verifyManager {
    echo `date` : verifyManager
 
    let retCode=0
-   #Tri..we might need to add echelon manager count variable.
    let managerCount=0
    #let networkManagerCount=0
    let echelonManagerCount=0
    let areaManagerCount=0
+
+   echo -----------------------------------
+   echo Contents Last Iteration End:
+   ls /tmp/*Ann*                      2>/dev/null
+   echo End Contents Last Iteration End
+   echo
+
+   # Audit for intruders
+   networkIntrusionAudit
 
    # delete old files
    rm $ANNOUNCE_FILE_ALL               2>/dev/null
@@ -1716,15 +1722,10 @@ function verifyManager {
    rm $ANNOUNCE_ECHELON_FILE_ALL       2>/dev/null
    rm $ANNOUNCE_AREA_FILE_ALL          2>/dev/null
 
-   echo Contents:
-   echo Contents:
-   echo Contents:
-   echo
-   ls /tmp/*Ann*
-   echo
-   echo End Contents
-   echo End Contents
-   echo End Contents
+   echo Contents This Iteration Start:
+   ls /tmp/*Ann*                       2>/dev/null
+   echo End Contents This Iteration Start 
+   echo -----------------------------------
 
    #sleep $MANAGER_AUDIT_INTERVAL
    $tagaUtilsDir/iboaDelay.sh $MANAGER_AUDIT_INTERVAL
@@ -1956,6 +1957,33 @@ done
 
 } # end function maintain
 
+
+function networkIntrusionAudit {
+   #echo Network Checksum: $netCheckSum
+   # find other announcement files with checksums and look for discrepancies
+   for file in `ls /tmp/managerAnnouncement* 2>/dev/null`
+   do
+      #echo checking $file
+      checkSumCompare=`echo $file | cut -d\. -f 7`
+      #echo $checkSumCompare
+      if [ $checkSumCompare -gt 1 ] 2>/dev/null ; then
+         #echo here1
+         # we have a checksum to compare
+         if [ $netCheckSum -eq $checkSumCompare ] ; then
+             echo Okay same network as mine >/dev/null
+         else
+             echo ##### ALARM:   Intrusion Network Detected #####
+             echo ##### WARNING: Intrusion Network Detected #####
+             echo ourNetCheckSum: $netCheckSum  intrusionNetCheckSum: $checkSumCompare 
+             echo ##### WARNING: Intrusion Network Detected #####
+             echo ##### ALARM:   Intrusion Network Detected #####
+             echo ##### WARNING: Removing Intrusion File: $file #####
+             rm $file
+         fi
+      fi
+      #echo here2
+   done
+} # end function networkIntrusionAudit
 
 ##################################
 # MAIN
