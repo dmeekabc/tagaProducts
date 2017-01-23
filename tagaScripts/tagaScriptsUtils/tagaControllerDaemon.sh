@@ -42,37 +42,37 @@ DAEMON=taga-controller
 
 MGR_TAG=/tmp/managerAnnouncement.dat
 MGR_TAG_NETWORK=/tmp/managerAnnouncement.dat
-MGR_TAGA_ECHELON=/tmp/managerAnnouncementEchelon.dat
-MGR_TAGA_ATAGA=/tmp/managerAnnouncementArea.dat
+MGR_TAG_ECHELON=/tmp/managerAnnouncementEchelon.dat
+MGR_TAG_AREA=/tmp/managerAnnouncementArea.dat
 
 TAGA_TAG=/tmp/reaController.dat
 
 TAGA_TAG=/tmp/tagaController.dat
 TAGA_TAG_NETWORK=/tmp/tagaController.dat
 TAGA_TAG_ECHELON=/tmp/tagaControllerEchelon.dat
-TAGA_TAG_ATAGA=/tmp/tagaControllerArea.dat
+TAGA_TAG_AREA=/tmp/tagaControllerArea.dat
 
 TAGA_MGR_TAG=/tmp/managerAnnouncement.dat
 TAGA_MGR_TAG_NETWORK=/tmp/managerAnnouncement.dat
 TAGA_MGR_TAG_ECHELON=/tmp/managerAnnouncementEcheon.dat
-TAGA_MGR_TAG_ATAGA=/tmp/managerAnnouncementArea.dat
+TAGA_MGR_TAG_AREA=/tmp/managerAnnouncementArea.dat
 
 SED_TAG="\/tmp\/managerAnnouncement\.dat\."
 SED_TAG_NETWORK="\/tmp\/managerAnnouncement\.dat\."
 SED_TAG_ECHELON="\/tmp\/managerAnnouncementEchelon\.dat\."
-SED_TAG_ATAGA="\/tmp\/managerAnnouncementArea\.dat\."
+SED_TAG_AREA="\/tmp\/managerAnnouncementArea\.dat\."
 
 FINAL_SELECTION=""
 FINAL_SELECTION_NETWORK=""
 FINAL_SELECTION_ECHELON=""
-FINAL_SELECTION_ATAGA=""
+FINAL_SELECTION_AREA=""
 
 TAGA_CONTROLLER_MANAGER=""
 
 TAGA_CONTROLLER_MANAGER=""
 TAGA_CONTROLLER_MANAGER_NETWORK=""
 TAGA_CONTROLLER_MANAGER_ECHELON=""
-TAGA_CONTROLLER_MANAGER_ATAGA=""
+TAGA_CONTROLLER_MANAGER_AREA=""
 
 
 function networkContext {
@@ -183,6 +183,9 @@ fi
 #######################################################
 # MAIN
 #######################################################
+
+cd /tmp
+
 
 #######################################################
 # Selection Method - Bottom One wins (Name or Time)
