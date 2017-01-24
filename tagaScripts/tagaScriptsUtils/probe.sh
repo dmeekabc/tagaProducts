@@ -34,6 +34,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+echo
+
 # basic sanity check, to ensure password updated etc
 ./basicSanityCheck.sh
 if [ $? -eq 255 ]; then
@@ -60,7 +62,7 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
-      echo; echo `date` : probing $target
+      echo `date` : probing $target
      # echo `basename $0` processing $target .......
       echo $target: `ssh -l $MYLOGIN_ID $target hostname`
       echo $target: `ssh -l $MYLOGIN_ID $target date`
@@ -69,7 +71,11 @@ do
    fi
 
    let i=$i+1
+
+   echo
+
 done
+
 echo
 
    # If we have a flag parameter and have looped once, then exit now!!
