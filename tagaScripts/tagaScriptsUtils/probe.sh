@@ -62,10 +62,12 @@ do
       echo The $target is in the black list, skipping...
       continue
    else
+
+      process_count=`ssh -l $MYLOGIN_ID $target ps -ef | wc -l`
+
       echo `date` : probing $target
-     # echo `basename $0` processing $target .......
       echo $target: `ssh -l $MYLOGIN_ID $target hostname`
-      echo $target: `ssh -l $MYLOGIN_ID $target date`
+      echo $target: `ssh -l $MYLOGIN_ID $target date` : processCount:$process_count
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
    fi
