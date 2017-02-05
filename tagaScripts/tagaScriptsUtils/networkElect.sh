@@ -538,7 +538,7 @@ function electionLoopFunction {
          echo 111 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
          # do this in the background so we don't get hung up!
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-         sleep 1
+         #sleep 1
 
          #if [ $NETWORK_MANAGER_ENABLED -eq 1 ] ; then
          if [ $MANAGER_ENABLED -eq 1 ] ; then
@@ -564,17 +564,20 @@ function electionLoopFunction {
             echo 2222 sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
             echo 3333 sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 4444 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+
             # do this in the background so we don't get hung up
-            sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-            sleep 1
+            #sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_FILE $ANNOUNCE_FILE_NET_CHECKSUM $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+
+            #sleep 1
          fi
 
       done # end of electionLoopfunction loop
 
       # dlm temp, this may or may not be needed here
-      sleep 1
+      #sleep 1
 
 
 }
@@ -634,7 +637,7 @@ function networkLoopFunction {
          # do this in the background so we don't get hung up!
          sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
          #scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-         sleep 1
+         #sleep 1
 
          # dlm temp force this here
          # dlm temp force this here
@@ -671,11 +674,14 @@ function networkLoopFunction {
             echo 2222 sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
             echo 3333 sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 4444 sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp
+
             # do this in the background so we don't get hung up
-            sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-            sleep 1
+            #sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_FILE $ANNOUNCE_FILE_NET_CHECKSUM $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
+
+            #sleep 1
 
          # dlm temp, inner loop is overkill
          #done
@@ -685,7 +691,7 @@ function networkLoopFunction {
       done # end of network list loop
 
       # dlm temp, this may or may not be needed here
-      sleep 1
+      #sleep 1
 
 }
 
@@ -741,7 +747,7 @@ function echelonLoopFunction {
          # do this in the background so we don't get hung up!
          sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
          #scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
-         sleep 1
+         #sleep 1
          fi
 
          # dlm temp force this here
@@ -778,11 +784,14 @@ function echelonLoopFunction {
             echo 777 sudo scp -i $identy $ANNOUNCE_ECHELON__FILE  $loginId@$target:/tmp
             echo 888 sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp
             echo 999 sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp
+
             # do this in the background so we don't get hung up
-            sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-            sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
-            sleep 1
+            #sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+            #sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
+            sudo scp -i $identy $ANNOUNCE_ECHELON_FILE $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
+
+            #sleep 1
             fi
 
          # dlm temp, inner loop is overkill
@@ -793,7 +802,7 @@ function echelonLoopFunction {
       done # end of echelon list loop
 
       # dlm temp, this may or may not be needed here
-      sleep 1
+      #sleep 1
 
 }
 
@@ -1022,7 +1031,7 @@ function re-election {
             networkManagerFound="true"
          fi
       fi
-      sleep 1
+      #sleep 1
    done  # end of j loop
 
    ##############################
@@ -1037,7 +1046,7 @@ function re-election {
             echelonManagerFound="true"
          fi
       fi
-      sleep 1
+      #sleep 1
    done  # end of j loop
 
    ##############################
@@ -1057,7 +1066,7 @@ function re-election {
             areaManagerFound="true"
          fi
       fi
-      sleep 1
+      #sleep 1
    done  # end of j loop
 
    # Okay, let's reset to network context (the default)
@@ -1115,7 +1124,7 @@ function re-election {
 
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_CANDIDATE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
 
    # dlm temp , this is key!!
@@ -1138,7 +1147,7 @@ function re-election {
       # do this in the background so we don't get hung up!
       sudo scp -i $identy $ANNOUNCE_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
       #scp -i $identy $ANNOUNCE_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
    fi # end of network manager enabled block
 
@@ -1169,7 +1178,7 @@ function re-election {
 
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
 
    # dlm temp , this is key!!
@@ -1191,7 +1200,7 @@ function re-election {
       # do this in the background so we don't get hung up!
       sudo scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
       #scp -i $identy $ANNOUNCE_ECHELON_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
    fi # end of ECHELON_MANAGER_ENABLED filter
 
@@ -1218,7 +1227,7 @@ function re-election {
 
       # do this in the background so we don't get hung up
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
 
    # dlm temp , this is key!!
@@ -1240,7 +1249,7 @@ function re-election {
       # do this in the background so we don't get hung up!
       sudo scp -i $identy $ANNOUNCE_AREA_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
       #scp -i $identy $ANNOUNCE_AREA_CANDIDATE_COMPLETE_FILE  $loginId@$target:/tmp &
-      sleep 1
+      #sleep 1
    done
    fi # end of AREA_MANAGER_ENABLED filter
 
@@ -1542,9 +1551,11 @@ function relinquish {
 } # end function relinquish
 
 
-
-
 function doManager {
+
+   # Manager Delay is half of the Other guy's delay
+   let MANAGER_DELAY=$MANAGER_AUDIT_INTERVAL/2
+   $tagaUtilsDir/iboaDelay.sh $MANAGER_DELAY
 
    echo `date` : doManager
 
@@ -1599,10 +1610,13 @@ function doManager {
       # do this in the background so we don't get hung up
       echo DDD sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp
       echo EEE sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp
+
       # do this in the background so we don't get hung up
-      sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
-      sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-      sleep 1
+      #sudo scp -i $identy $ANNOUNCE_FILE  $loginId@$target:/tmp &
+      #sudo scp -i $identy $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+      sudo scp -i $identy $ANNOUNCE_FILE $ANNOUNCE_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+
+      #sleep 1
    done
    fi
 
@@ -1617,10 +1631,13 @@ function doManager {
       # do this in the background so we don't get hung up
       echo FFF sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp
       echo GGG sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp
+
       # do this in the background so we don't get hung up
-      sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
-      sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-      sleep 1
+      #sudo scp -i $identy $ANNOUNCE_ECHELON_FILE  $loginId@$target:/tmp &
+      #sudo scp -i $identy $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+      sudo scp -i $identy $ANNOUNCE_ECHELON_FILE $ANNOUNCE_ECHELON_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+
+      #sleep 1
    done
    fi
 
@@ -1635,10 +1652,13 @@ function doManager {
       # do this in the background so we don't get hung up
       echo JJJ sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp
       echo KKK sudo scp -i $identy $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp
+
       # do this in the background so we don't get hung up
-      sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
-      sudo scp -i $identy $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
-      sleep 1
+      #sudo scp -i $identy $ANNOUNCE_AREA_FILE  $loginId@$target:/tmp &
+      #sudo scp -i $identy $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+      sudo scp -i $identy $ANNOUNCE_AREA_FILE $ANNOUNCE_AREA_FILE_NET_CHECKSUM  $loginId@$target:/tmp &
+
+      #sleep 1
    done
    fi
 
