@@ -34,10 +34,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo
-
 # basic sanity check, to ensure password updated etc
-./basicSanityCheck.sh
+$tagaUtilsDir/basicSanityCheck.sh
 if [ $? -eq 255 ]; then
   echo Basic Sanith Check Failed - see warning above - $0 Exiting...
   echo
@@ -45,8 +43,8 @@ if [ $? -eq 255 ]; then
 fi
 
 
-while true
-do
+#while true
+#do
 
 # counter
 let i=0
@@ -63,10 +61,11 @@ do
       continue
    else
 
+      xxx_name=`cat /etc/hosts | grep $target | cut -d" " -f 2`
       process_count=`ssh -l $MYLOGIN_ID $target ps -ef | wc -l`
 
-      echo `date` : probing $target
-      echo $target: `ssh -l $MYLOGIN_ID $target hostname`
+      echo; echo `date` : probing $target
+      echo $target: `ssh -l $MYLOGIN_ID $target hostname` : $xxx_name 
       echo $target: `ssh -l $MYLOGIN_ID $target date` : processCount:$process_count
       echo $target: `ssh -l $MYLOGIN_ID $target uptime`
       echo $target: `ssh -l $MYLOGIN_ID $target /sbin/ifconfig | grep HWaddr`
@@ -74,18 +73,13 @@ do
 
    let i=$i+1
 
-   echo
-
 done
-
 echo
+echo
+echo  Command Complete, pausing for 5 secs...
+echo
+sleep 5
 
-   # If we have a flag parameter and have looped once, then exit now!!
-   # If we have a flag parameter and have looped once, then exit now!!
 
-   if [ $# -gt 0 ] && [ $i -gt 0 ]; then
-      # any param is a flag indicating to run one time only
-      exit
-   fi
 
-done
+#done
