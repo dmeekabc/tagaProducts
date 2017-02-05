@@ -46,8 +46,26 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # continue to execute the command
 #echo $0 Proceeding.... at `date`; echo
 
+FILE1=/tmp/cancelTimeBasedTrigger.txt
+FILE2=/tmp/cancelTimeBasedOperation.txt
+rm $FILE1  2>/dev/null
+rm $FILE2  2>/dev/null
+
 while true
 do 
+
+  #  backdoor mechanism to cancel the time-based trigger (proceed immediately) or time-based operation (cancel)
+  if [ -f $FILE1 ]; then
+     rm $FILE1 
+     exit 1
+  elif [ -f $FILE2 ]; then
+     rm $FILE2
+     exit 2
+  fi 
+
+  echo 1: `date`
+   # first, ensure we hit the end of a ten minute period
+  echo 1: `date`
    # first, ensure we hit the end of a minute 
    #if `echo date | cut -d: -f 3 | cut -c1-2` | grep ^59 >/dev/null; then
    if date | cut -d: -f 3 | cut -c1-2 | grep ^59 ; then
@@ -65,5 +83,6 @@ do
    fi
    done
    fi
+   sleep 0.5
 done
 

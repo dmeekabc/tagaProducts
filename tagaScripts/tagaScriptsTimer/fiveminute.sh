@@ -32,6 +32,7 @@
 
 # NOTE: This command is known to be resource intenstive, do not use in production
 
+
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
@@ -53,6 +54,7 @@ rm $FILE2  2>/dev/null
 
 while true
 do 
+
   source $TAGA_CONFIG_DIR/config
 
   #  backdoor mechanism to cancel the time-based trigger (proceed immediately) or time-based operation (cancel)
@@ -65,9 +67,8 @@ do
   fi 
 
   echo 1: `date`
-
-   # first, ensure we hit the end of an appropriate time frame
-   if date | cut -d: -f 2 | cut -c1-2 | grep -e ^29 -e ^59 ; then
+   # first, ensure we hit the end of a five minute period
+   if date | cut -d: -f 2 | cut -c1-2 | grep ^.9 || date | cut -d: -f 2 | cut -c1-2 | grep ^.4 ; then
    while true
    do
   echo 2: `date`
@@ -76,6 +77,7 @@ do
    # next, ensure we hit the end of a second 
    while true
    do 
+  echo 3
    if echo `date +%N` | grep ^9 >/dev/null ; then
    # next, look for the beginning of the next second...
    if echo `date +%N` | grep ^0 ; then
@@ -87,10 +89,13 @@ do
    fi
    done
    fi
+   sleep 0.5
    done
    fi
+   sleep 1
 done
 
-# Note, we should never get here but just in case...
 
+# Note, we should never get here but just in case...
 exit 0
+
