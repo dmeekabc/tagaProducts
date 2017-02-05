@@ -94,3 +94,9 @@ do
 
 done
 
+sleep 5
+echo
+echo  Command Complete, pausing for 5 secs...
+echo
+sleep 5
+
