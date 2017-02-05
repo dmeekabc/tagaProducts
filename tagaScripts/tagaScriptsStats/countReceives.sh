@@ -289,7 +289,7 @@ do
     elif [ $WIDE_DISPLAY -eq 1 ]; then
       let modVal=$rownodeCount%50
     else
-      let modVal=$rownodeCount%20
+      let modVal=$rownodeCount%25
     fi
 
     if  [ $modVal -eq 0 ]; then
@@ -306,10 +306,14 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+    let ROW_SIZE=64
+    let ROW_SIZE=66
   elif [ $WIDE_DISPLAY -eq 1 ]; then
     let ROW_SIZE=166
   else
     let ROW_SIZE=118
+    let ROW_SIZE=138
+    let ROW_SIZE=142
   fi
 
   #let ROW_SIZE=58
@@ -399,20 +403,38 @@ do
 done
 
 
+#if [ $NARROW_DISPLAY -eq 1 ]; then
+#  let ROW_SIZE=48
+#  let ROW_SIZE=49
+#elif [ $WIDE_DISPLAY -eq 1 ]; then
+#  let ROW_SIZE=48
+#  let ROW_SIZE=49
+#else
+#  let ROW_SIZE=48
+#  let ROW_SIZE=49
+#  let ROW_SIZE=49
+##fi
+
+
 if [ $NARROW_DISPLAY -eq 1 ]; then
-  let ROW_SIZE=48
-  let ROW_SIZE=49
+   let ROW_SIZE=66
+   let ROW_SIZE=64
 elif [ $WIDE_DISPLAY -eq 1 ]; then
-  let ROW_SIZE=48
-  let ROW_SIZE=49
+   let ROW_SIZE=166
 else
-  let ROW_SIZE=48
-  let ROW_SIZE=49
+   let ROW_SIZE=118
+   let ROW_SIZE=138
+   let ROW_SIZE=142
 fi
 
 
 let rowlen=`echo $column_cumulative | awk '{print length($0)}'`
+# account for the "Receivers Total" label in the character count
+let rowlen=$rowlen+15
 let padlen=$ROW_SIZE-$rowlen
+
+echo rowlen:$rowlen
+echo padlen:$padlen
 
 # add the padding
 let i=$padlen
