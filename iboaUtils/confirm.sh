@@ -47,12 +47,12 @@ function issuePrompt {
    echo Confirm? \(y/n\) \?
    echo
 
-   autoConfirm=`/opt/jtmnm/scripts/utils/getAutoConfirm.sh | cut -d: -f 2`
+   autoConfirm=`/opt/tagaxxx/scripts/utils/getAutoConfirm.sh | cut -d: -f 2`
 
    if [ $autoConfirm -eq 1 ] ; then 
       echo Auto-confirmed
       return 1 # confirmed
-   elif [ -f /tmp/jtmnm_confirm.txt ] ; then 
+   elif [ -f /tmp/tagaxxx_confirm.txt ] ; then 
       echo Auto-confirmed
       return 1 # confirmed
    else
