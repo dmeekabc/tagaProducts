@@ -35,7 +35,8 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 # PIs required sudo to do ping
-if echo $PILIST | grep $MYIP >/dev/null; then
+MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
+if echo $MYLOGIN_ID | grep pi >/dev/null; then
    let PING_SUDO_REQD=1 # Rasperry Pi systems
 else
    let PING_SUDO_REQD=0 # Other systems
