@@ -34,11 +34,17 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#dlmtemp changed 3 jan 2017 due to some strange error
+targetList=$targetListBottomUp
+targetList=$TARGET_LIST_BOTTOM_UP
+
 echo
-echo WARNING: This command will reboot all nodes in the network including the following: `echo $targetList`
+echo WARNING: This command will reboot all nodes in the network including the following: $targetList
 
 # issue confirmation prompt
-$iboaUtilsDir/confirm.sh
+#$iboaUtilsDir/confirm.sh
+$tagaUtilsDir/confirm.sh
+
 
 let response=$?
 if [ $response -eq 1 ]; then

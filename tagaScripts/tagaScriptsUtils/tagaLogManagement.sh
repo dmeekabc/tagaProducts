@@ -30,14 +30,15 @@
 #
 #######################################################################
 
-TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-ARCHIVE=$HOME/scripts/taga/archive
+ARCHIVE=/home/pi/scripts/taga/archive
 
+echo Retrieving Max Log Duration from Database...
 currentSeconds=`date +%s`
-maxLogDurationString=`$HOME/scripts/taga/tagaScripts/tagaScriptsUtils/yangUtils/getTlmMaxLogDuration.sh`
+maxLogDurationString=`/home/pi/scripts/taga/tagaScripts/tagaScriptsUtils/yangUtils/getTlmMaxLogDuration.sh`
 maxDurationMinutes=`echo $maxLogDurationString | cut -d" " -f 2`
 
 echo
