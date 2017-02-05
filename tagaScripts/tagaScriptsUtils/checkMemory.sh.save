@@ -36,74 +36,47 @@ source $TAGA_CONFIG_DIR/config
 
 # Set Threshold Constats/Values
 
-let MINOR_THRESHOLD=50
-let MAJOR_THRESHOLD=40
-let ALARM_THRESHOLD=30
-
-let MINOR_THRESHOLD=70
-let MAJOR_THRESHOLD=60
-let ALARM_THRESHOLD=30
+let MINOR_THRESHOLD=500000
+let MAJOR_THRESHOLD=400000
+let ALARM_THRESHOLD=300000
 
 
 #################################################
 # Get the Value of Interest
 #################################################
 
-# Get the cpu idle time
-let cpuIdleTime=`vmstat | tail -n 1 | awk '{print $4}'`
-let cpuIdleTime=`top -n 1 | grep Cpu > /tmp/cpu.out;cat /tmp/cpu.out | cut -d[ -f 19 | cut -d" " -f 2 | cut -d\. -f 1`
-#echo $cpuIdleTime
-#exit
-
-#let i=0
-#let cpuIdleTime=0
-#let stringLength=`echo $cpuIdleTimeString | wc -c`
-#
-## find the % character within the cpuIdleTimeString and
-## use the preceding two characters as our cpuIdleTime value.
-#while [ $i -lt $stringLength ]
-#do
-#   let i=$i+1
-#   charToExamine=`echo $cpuIdleTimeString | cut -c$i `
-#   #echo charToExamine:$charToExamine
-#   if [ $charToExamine == '%' ] 2>/dev/null; then
-#      #echo found:$i
-#      let startindex=$i-2
-#      let stopindex=$i-1
-#      let cpuIdleTime=`echo $cpuIdleTimeString | cut -c$startindex-$stopindex`
-#      #echo cpuIdleTime:$cpuIdleTime
-#      break
-#   fi
-#done
-#
-#
+# Get the free memory 
+let freeMemory=`vmstat | tail -n 1 | awk '{print $4}'`
+#echo $freeMemory
 
 #################################################
 # DO IT, Check for Warning and Alarm Conditions
 #################################################
 
-
-if [ $cpuIdleTime -lt $ALARM_THRESHOLD ]; then
+if [ $freeMemory -lt $ALARM_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######"
-   echo "`date`: ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
-   echo
-   exit 1
-elif [ $cpuIdleTime -lt $MAJOR_THRESHOLD ]; then
-   echo
-   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######"
-   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
-elif [ $cpuIdleTime -lt $MINOR_THRESHOLD ]; then
+elif [ $freeMemory -lt $MAJOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######"
-   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######" >> /tmp/tagaWarn.log
+   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
+   echo
+   exit 1
+elif [ $freeMemory -lt $MINOR_THRESHOLD ]; then
+   echo
+   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######"
+   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 else
    echo
-   echo `date`: INFO: Cpu Idle Time \($cpuIdleTime%\) is above Minor_Threshold \($MINOR_THRESHOLD%\) \(Normal\)
-   echo `date`: INFO: Cpu Idle Time \($cpuIdleTime%\) is above Minor_Threshold \($MINOR_THRESHOLD%\) \(Normal\) >> /tmp/tagaInfo.log
+   echo `date`: INFO: Free Memory \($freeMemory\) is above Minor_Threshold \($MINOR_THRESHOLD\) \(Normal\)
+   echo `date`: INFO: Free Memory \($freeMemory\) is above Minor_Threshold \($MINOR_THRESHOLD\) \(Normal\) >> /tmp/tagaInfo.log
    exit 0
 fi

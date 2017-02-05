@@ -36,9 +36,9 @@ source $TAGA_CONFIG_DIR/config
 
 # Set Threshold Constats/Values
 
-let MINOR_THRESHOLD=500000
-let MAJOR_THRESHOLD=400000
-let ALARM_THRESHOLD=300000
+let MINOR_THRESHOLD=300000
+let MAJOR_THRESHOLD=200000
+let ALARM_THRESHOLD=100000
 
 
 #################################################
@@ -55,23 +55,20 @@ let freeMemory=`vmstat | tail -n 1 | awk '{print $4}'`
 
 if [ $freeMemory -lt $ALARM_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ######"
+   echo "`date`: ###### ALARM!!: Free Memory ($freeMemory) is below ALARM_THRESHOLD ($ALARM_THRESHOLD) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $freeMemory -lt $MAJOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ######"
+   echo "`date`: ###### WARNING: Free Memory ($freeMemory) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $freeMemory -lt $MINOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######"
-   echo "`date`: ###### ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ###### ######" >> /tmp/tagaWarn.log
+   echo "`date`: ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ######"
+   echo "`date`: ###### WARNING: Free Memory ($freeMemory) is below MINOR_THRESHOLD ($MINOR_THRESHOLD) ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 else
