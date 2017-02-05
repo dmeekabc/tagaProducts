@@ -73,6 +73,7 @@ TAGA_ADMIN_STATS_REMOTE=1
 # MANAGER AUDIT INTERVAL
 ################################
 let MANAGER_AUDIT_INTERVAL=30
+let MANAGER_AUDIT_INTERVAL=40
 
 # dlm temp new jul 2016
 INTERFACE_SPECIFIED_SOURCE=1
@@ -269,6 +270,7 @@ MSGCOUNT=20
 MSGCOUNT=100
 MSGCOUNT=50
 MSGCOUNT=10
+MSGCOUNT=2
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -304,10 +306,10 @@ MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=4   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
 
 # try to disable traffic (MSGCOUNT == 0 does not work!)
 #MSGRATE=0.0 #MSGCOUNT=0
@@ -499,14 +501,18 @@ if [ $TAGA_CONFIG_DIR ] ; then
 else
   TAGA_CONFIG_DIR=`pwd`
 fi 
+
 targetList=`$TAGA_CONFIG_DIR/targetList.sh`
+targetListBottomUp=`echo $TARGET_LIST_BOTTOM_UP`
+#echo targetListBottomUp:$targetListBottomUp
+
 source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 
 ##############################################
 # manually generated configs
 ##############################################
 
-SERVER_INIT_DELAY=20
+SERVER_INIT_DELAY=2 # Local RunLoop.sh Delay
 SERVER_INIT_DELAY=4
 SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=15
@@ -515,11 +521,19 @@ SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=5
 SERVER_INIT_DELAY=10
 SERVER_INIT_DELAY=20
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+SERVER_INIT_DELAY=30
+SERVER_INIT_DELAY=60
+SERVER_INIT_DELAY=30
+SERVER_INIT_DELAY=40
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5   # Remote Node Delay
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+20
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+20
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+30
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
 
 
 # end of iteration delay 
@@ -567,18 +581,14 @@ MCAST_NON_RECEIVER_FILTER_LIST=$MCAST_SENDER_FILTER_LIST
 MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
 MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
 
+#echo MCAST_SENDER_FILTER_LIST: $MCAST_SENDER_FILTER_LIST
+#exit
+
 ########################################################
 
 # Ports
 SOURCEPORT=8880
 PORTBASE=7770
-
-# Narrow display is 10 nodes, wide display is 20 nodes
-# Note: For Middle display set wide==0 and narrow==0
-WIDE_DISPLAY=1
-WIDE_DISPLAY=0
-NARROW_DISPLAY=0
-NARROW_DISPLAY=1
 
 #NORMAL_DISPLAY=0
 #NORMAL_DISPLAY=1
@@ -948,6 +958,7 @@ done
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
+SRW_TARGET_COUNT=`echo $SRW_LIST_ACTIVE | wc -w`  # same as targetCount below
 #targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
 
 # Other (One) Target Config
@@ -1104,9 +1115,29 @@ if [ -s $TAGA_CONFIG_DIR/config_overrides ] ; then
   source $TAGA_CONFIG_DIR/config_overrides
 fi
 
+############
+# DISPLAY: Narrow display is up to 10 nodes, wide display is over 25 nodes
+# Note: For Middle display set wide==0 and narrow==0
+############
+
+if [ $TARGET_COUNT -gt 25 ] ; then
+   ############ WIDE ############
+   WIDE_DISPLAY=1
+   NARROW_DISPLAY=0
+elif [ $TARGET_COUNT -gt 10 ] ; then
+   ############ MIDDLE ############
+   WIDE_DISPLAY=0
+   NARROW_DISPLAY=0
+else
+   ############ NARROW ############
+   WIDE_DISPLAY=0
+   NARROW_DISPLAY=1
+fi
+
+
 ##############################################
 # Run Time Inserts ONLY Below
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.41.233
+MASTER=192.168.43.27
