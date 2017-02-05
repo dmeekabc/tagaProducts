@@ -37,7 +37,6 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=jtmnm  # token to use as clone source
 TEMPLATE_TOKEN=taga   # token to use as clone source
 TEMPLATE_TOKEN=tlm   # token to use as clone source
 MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
@@ -63,7 +62,7 @@ if [ -f $MODULE_DIR/$1.yang ] ; then
 fi
 
 # provide the info to print into the confirmation request
-InfoToPrint="$MODULE_DIR/$1.yang will be created, source files generated, and objects built."
+InfoToPrint="$MODULE_DIR/$1.yang will be created from $TEMPLATE_TOKEN, source files generated, and objects built."
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
