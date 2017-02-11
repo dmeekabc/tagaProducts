@@ -37,20 +37,18 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=tlm   # token to use as clone source
-MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
-TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
-SOURCE_DIR=~/yangModules
-SOURCE_DIR=~/
+TEMPLATE_TOKEN=taga        # token to use as clone source    (input)
+MODULE_DIR=$HOME/modules   # modules directory               (input)
+SOURCE_DIR=~/yangSource    # yang source directory           (output)
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang  #            (output)
 
 
 ########################
 # Sensitive Info Section (Sanitize before distributing)
 ########################
-SERVER=yangapi-dev 
-USER=pi 
-PASSWORD=raspberry
+SERVER=xxxxxx-xxx
+USER=xx
+PASSWORD=xxxxxxxx
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
