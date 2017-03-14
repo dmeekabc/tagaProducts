@@ -50,6 +50,10 @@ if [ $TESTTYPE == "UCAST_TCP" ]; then myproto=tcp; else myproto=udp; fi
 # add special handling for localhost
 if [ $MYIP == "localhost" ] ; then
   MYINTERFACE="lo"
+# add special handling for 192.168.1.2 node
+elif [ $MYIP == "192.168.1.2" ] ; then
+  MYINTERFACE="wlan0"
+  MYINTERFACE="any"
 else
   MYINTERFACE=`/sbin/ifconfig | grep $MY_PARAM_IP -B1 | head -n 1 | cut -d" " -f1`
 fi
