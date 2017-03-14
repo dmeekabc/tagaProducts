@@ -52,13 +52,20 @@ do
       if [ $target == $MYIP ]; then
         # collect
         cp /tmp/$TEST_DESCRIPTION* $outputDir
-        cp /tmp/tagaRun* $outputDir
+
+        if [ $EXTRA_LOGS ] ; then
+           #cp /tmp/tagaRun* $outputDir
+           cp $EXTRA_LOGS $outputDir
+        fi
         # clean
         rm /tmp/$TEST_DESCRIPTION* 2>/dev/null 
       else
         # collect
         scp $MYLOGIN_ID@$target:/tmp/$TEST_DESCRIPTION* $outputDir
-        scp $MYLOGIN_ID@$target:/tmp/tagaRun* $outputDir
+        if [ $EXTRA_LOGS ] ; then
+           #scp $MYLOGIN_ID@$target:/tmp/tagaRun* $outputDir
+           scp $MYLOGIN_ID@$target:$EXTRA_LOGS $outputDir
+        fi
         # clean
         ssh -l $MYLOGIN_ID $target rm /tmp/$TEST_DESCRIPTION* 2>/dev/null 
       fi
@@ -67,7 +74,11 @@ do
    else
       # collect
       scp $MYLOGIN_ID@$target:/tmp/$TEST_DESCRIPTION* $outputDir
-      scp $MYLOGIN_ID@$target:/tmp/tagaRun* $outputDir
+      if [ $EXTRA_LOGS ] ; then
+         #scp $MYLOGIN_ID@$target:/tmp/tagaRun* $outputDir
+         #scp $MYLOGIN_ID@$target:/tmp/tagaRun* $outputDir
+         scp $MYLOGIN_ID@$target:$EXTRA_LOGS $outputDir
+      fi
       # clean
       ssh -l $MYLOGIN_ID $target rm /tmp/$TEST_DESCRIPTION* 2>/dev/null 
    fi
