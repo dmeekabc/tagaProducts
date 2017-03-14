@@ -164,6 +164,8 @@ let WAITTIME=$WAITTIME+$ROUND_TIME
 
 # if wait time exceeds, max allowed, set it to the max wait time allowed
 MAX_WAIT_TIME=40
+MAX_WAIT_TIME=80
+MAX_WAIT_TIME=120
 if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
   let WAITTIME=MAX_WAIT_TIME
 fi
@@ -230,6 +232,13 @@ let activated=0
 ###############################
 
 if [ $TESTTYPE == "MCAST" ]; then
+
+  if echo $MCAST_SENDER_FILTER_LIST | grep $MYIP >/dev/null; then
+    echo $MYIP is in the MCAST SENDER LIST, starting mcast sender
+  else
+    echo $MYIP is not in the MCAST SENDER LIST, _not_ starting mcast sender!
+    exit
+  fi
   
   let i=$i+1
 
