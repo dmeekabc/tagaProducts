@@ -41,14 +41,8 @@ echo; echo $0 : Initializing...; echo
 #clear the reboot in progress flag
 #rm /tmp/rebootInProgress.dat
 
-
-echo 0
-
 rm $NET_RESET_IN_PROG_FLAG_FILE 2> /dev/null
-echo 0a
 rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
-echo 0b
-
 
 # dlm temp, changed 16 sept 2016
 # dlm temp, changed 16 sept 2016
@@ -58,19 +52,14 @@ echo 0b
 #rm /tmp/*.dat 2>/dev/null
 sudo chmod 777 /tmp/*taga*.dat 2>/dev/null
 rm /tmp/*taga*.dat 2>/dev/null
-echo 0c
 
 rm /tmp/mark* 2>/dev/null
-
-echo 0d
 
 # clean old /tmp/tagaRun* files from all targets
 # TODO!!
 
 # remove old in progress flag if it exists
 rm /tmp/startOfCycleTests.sh.InProgress.dat 2>/dev/null
-
-echo 1
 
 # basic sanity check, to ensure password updated etc
 $tagaScriptsUtilsDir/basicSanityCheck.sh
@@ -80,7 +69,24 @@ if [ $? -eq 255 ]; then
   exit 255
 fi
 
-#echo 1a
+
+# Any param is a flag indicating to perform complete processing
+# Absence of param indicates to start sending traffic immediately
+if [ $# -eq 0 ] ; then
+   echo
+   echo TAGA: Immediate Traffic Generation is Underway
+   echo
+   echo TAGA: NOTICE: Please ensure hostsToIps.txt and other config files are current or 
+   echo               run TAGA with single param option to force automatic config updates
+   echo
+   echo TAGA: Immediate Traffic Generation is Underway
+   echo
+   let IMMEDIATE_TRAFFIC=1
+else
+   echo TAGA: Complete TAGA Processing, Configuration and Prep Underway prior to Traffic Generation
+   let IMMEDIATE_TRAFFIC=0
+fi
+
 
 # dlm temp
 # Force checks to get the password entry out of the way...
@@ -157,31 +163,35 @@ fi
 
 #echo 1d
 
-# probe if enabled
-if [ $PROBE_ENABLED -eq 1 ]; then
-  $tagaScriptsUtilsDir/probe.sh
-fi
+if [ $IMMEDIATE_TRAFFIC -ne 1 ] ; then
 
-# get ping times if enabled
-#if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
-#  $tagaScriptsUtilsDir/pingTimes.sh
-#fi
+   # probe if enabled
+   if [ $PROBE_ENABLED -eq 1 ]; then
+     $tagaScriptsUtilsDir/probe.sh
+   fi
 
-# get resource usage if enabled
-if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
-  $tagaScriptsUtilsDir/wrapResourceUsage.sh
-fi
-sleep 1
+   # get ping times if enabled
+   #if [ $PING_TIME_CHECK_ENABLED -eq 1 ]; then
+   #  $tagaScriptsUtilsDir/pingTimes.sh
+   #fi
+
+   # get resource usage if enabled
+   if [ $RESOURCE_MON_ENABLED -eq 1 ]; then
+     $tagaScriptsUtilsDir/wrapResourceUsage.sh
+   fi
+   sleep 1
 
 
-# stop the Simulation Always 
-if [ true ] ; then
-  $tagaScriptsStopDir/stopXXX.sh
-fi
+   # stop the Simulation Always 
+   if [ true ] ; then
+     $tagaScriptsStopDir/stopXXX.sh
+   fi
 
-# stop the Simulation and Data Generation in case it is still running somewhere
-# use alt list which is used at run begin only and includes interfaceMonitor and keepAlive process
-$tagaScriptsStopDir/runStop.sh "useAltList"
+   # stop the Simulation and Data Generation in case it is still running somewhere
+   # use alt list which is used at run begin only and includes interfaceMonitor and keepAlive process
+   $tagaScriptsStopDir/runStop.sh "useAltList"
+
+fi  # End if IMMEDIATE TRAFFIC IS FAlSE
 
 let iter=0
 let k=0
@@ -290,6 +300,8 @@ do
    echo
    echo TAGA:PreTrafficPhase: `date` Main Test Loop Enabled ............
 
+if [ $IMMEDIATE_TRAFFIC -ne 1 ] ; then
+
    # check time synch if enabled
    if [ $TIME_SYNCH_CHECK_ENABLED -eq 1 ]; then
      $tagaScriptsTimerDir/timeSynchCheck.sh
@@ -314,6 +326,7 @@ do
       fi
    fi
 
+fi  # End if IMMEDIATE TRAFFIC IS FAlSE
 
 
    # exit now if simulation only
@@ -323,11 +336,14 @@ do
    fi
 
 
+if [ $IMMEDIATE_TRAFFIC -ne 1 ] ; then
+
    echo
    echo TAGA:PreTrafficPhase: `date` Regenerating HostToIpMap File ............
 
    # build the map each iteration
    $tagaScriptsUtilsDir/createHostToIpMap.sh
+
 
    #echo `date` Regenerating HostToIpMap File ............ DONE
    echo
@@ -335,7 +351,6 @@ do
 
    # resource the config in case it has changed
    source $TAGA_CONFIG_DIR/config 
-
 
    if [ $CONTINUOUS_SYNCH -eq 1 ]; then
      # synch everything 
@@ -372,6 +387,9 @@ do
         echo TAGA:PreTrafficPhase: Notice: Please, ensure no config changes require distribution.
      fi
    fi
+
+fi  # End if IMMEDIATE TRAFFIC IS FAlSE
+
 
    # baseline the aggregate log file
    cp /tmp/runLoop.sh.out /tmp/runLoop.sh.out.before
@@ -628,7 +646,15 @@ do
       chmod 755 /tmp/managedRunLoopCollect.sh
       # double the managedExecute timeout since this can take awhile...
       let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
-      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      #let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      #let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*3
+      #let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*5
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*10
+
+      echo MANAGED_WAIT_TIME=:MANAGED_WAIT_TIME
+      echo MANAGED_WAIT_TIME=:MANAGED_WAIT_TIME
+      echo MANAGED_WAIT_TIME=:MANAGED_WAIT_TIME
+       
       #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
       $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
 
@@ -639,15 +665,18 @@ do
 
       echo Early Collection is Disabled, collecting data after stopping processes...
 
-      if [ $TAGA_TURBO_MODE -eq 1 ] ; then
-         # stop processes in uncontrolled manner ( in the background)
-         # stop the Remaining Simulation and Data Generation
-         $tagaScriptsStopDir/runStop.sh &
-      else
-         # stop processes in controlled manner ( in the foreground)
-         # stop the Remaining Simulation and Data Generation
-         $tagaScriptsStopDir/runStop.sh
-      fi
+ #     if [ $TAGA_TURBO_MODE -eq 1 ] ; then
+ #        # stop processes in uncontrolled manner ( in the background)
+ #        # stop the Remaining Simulation and Data Generation
+ #        $tagaScriptsStopDir/runStop.sh &
+ #     else
+ #        # stop processes in controlled manner ( in the foreground)
+ #        # stop the Remaining Simulation and Data Generation
+ #        $tagaScriptsStopDir/runStop.sh
+ #     fi
+
+       $tagaScriptsStopDir/runStop.sh
+
 
       # collect and clean
       # dlm temp , new 6 sept 2016, make directory in case it does not yet exist
@@ -656,7 +685,8 @@ do
       chmod 755 /tmp/managedRunLoopCollect.sh
       # double the managedExecute timeout since this can take awhile...
       let MANAGED_WAIT_TIME=$MANAGED_WAIT_FACTOR*$TARGET_COUNT
-      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      #let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*2
+      let MANAGED_WAIT_TIME=$MANAGED_WAIT_TIME*5
       #$tagaScriptsUtilsDir/managedExecute.sh -t 20 /tmp/managedRunLoopCollect.sh
       $tagaScriptsUtilsDir/managedExecute.sh -t $MANAGED_WAIT_TIME /tmp/managedRunLoopCollect.sh
    fi
@@ -809,6 +839,18 @@ do
       echo TAGA: Configuration Change Window: Change Configuration Now... $ticker
       sleep 2
    done
+
+
+
+   # New mid March 2017
+   # New mid March 2017
+
+   # Okay, do the interfaceMonitor.sh stuff!!
+   $tagaUtilsDir/interfaceMonitor.sh oneIterationOnlyFlag
+
+   # dlm temp, phase this stuff below out in preference to interfaceMonitor.sh call above!
+   # dlm temp, phase this stuff below out in preference to interfaceMonitor.sh call above!
+   # dlm temp, phase this stuff below out in preference to interfaceMonitor.sh call above!
 
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
 
