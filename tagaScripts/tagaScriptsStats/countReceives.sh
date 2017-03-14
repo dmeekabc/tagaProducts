@@ -425,6 +425,7 @@ else
    let ROW_SIZE=118
    let ROW_SIZE=138
    let ROW_SIZE=142
+   let ROW_SIZE=140
 fi
 
 

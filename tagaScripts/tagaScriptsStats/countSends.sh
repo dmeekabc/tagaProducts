@@ -176,8 +176,11 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
-let ROW_SIZE=62
-let ROW_SIZE=82
+
+let ROW_SIZE=82  # Note, this is in two spots
+let ROW_SIZE=72  # Note, this is in two spots
+let ROW_SIZE=68  # Note, this is in two spots
+
 let padlen=$ROW_SIZE-$buflen
 # add the padding
 let i=$padlen
@@ -270,12 +273,11 @@ fi
 
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
-let ROW_SIZE=66
-let ROW_SIZE=60
-let ROW_SIZE=68
-let ROW_SIZE=64
-let ROW_SIZE=62
-let ROW_SIZE=82
+
+let ROW_SIZE=82  # Note, this is in two spots
+let ROW_SIZE=72  # Note, this is in two spots
+let ROW_SIZE=68  # Note, this is in two spots
+
 let padlen=$ROW_SIZE-$buflen
 # add the padding
 let i=$padlen
