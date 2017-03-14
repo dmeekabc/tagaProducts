@@ -37,6 +37,11 @@ TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+# Get target list and process it
+targetList=`$TAGA_CONFIG_DIR/targetList.sh`
+TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
+let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
+
 let TAGA_TURBO_MODE=0
 let TAGA_TURBO_MODE=1
 
@@ -46,7 +51,7 @@ let EARLY_COLLECT=0 # normal
 #######################
 # AUTO CONFIRM (updated automatically, do not edit!)
 #######################
-let AUTO_CONFIRM=0
+let AUTO_CONFIRM=1
 
 let USE_ALT_MONITOR_LIST=1 # testing
 let USE_ALT_MONITOR_LIST=0 # normal
@@ -68,6 +73,15 @@ let PARALLEL_CLEAN=1 # testing
 
 TAGA_ADMIN_STATS_REMOTE=0
 TAGA_ADMIN_STATS_REMOTE=1
+
+
+################################
+# LOG MGT
+################################
+#EXTRA_LOGS=$TAGA_EXTRA_LOGS
+#EXTRA_LOGS=/tmp/tagaRun*
+EXTRA_LOGS=""
+
 
 ################################
 # MANAGER AUDIT INTERVAL
@@ -116,9 +130,10 @@ let MANAGED_WAIT_FACTOR=5
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
-TESTTYPE="UCAST_TCP" # TCP UCAST
-TESTTYPE="UCAST_UDP" # UDP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
+TESTTYPE_DUMMY="MCAST"     # UDP MCAST
+TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
+TESTTYPE="UCAST_UDP" 
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -271,61 +286,38 @@ MSGCOUNT=100
 MSGCOUNT=50
 MSGCOUNT=10
 MSGCOUNT=2
+MSGCOUNT=1000
+MSGCOUNT=20
+MSGCOUNT=8
+MSGCOUNT=6
+MSGCOUNT=6
+MSGCOUNT=1
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
 # Note that while fractional rates are supported by MGEN, those 
-# fractional rates are not supported by the TAGA utility
-#MSGRATE=0.2 # 5 for five per second, 0.2 for each 5 seconds
-#MSGRATE=0.1 # 5 for five per second, 0.1 for each 10 seconds
-
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=200 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2000 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=50 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=1   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=3 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=10 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=4   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=5   # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=2 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=20 # 5 for five per second, 0.2 for each 5 seconds
-MSGRATE=1 # 5 for five per second, 0.2 for each 5 seconds
-
+# note: fractional rates are not supported by the TAGA utility
+# note: fractional rates are not supported by the TAGA utility
 # try to disable traffic (MSGCOUNT == 0 does not work!)
-#MSGRATE=0.0 #MSGCOUNT=0
+# try to disable traffic (MSGCOUNT == 0 does not work!)
+MSGRATE_DUMMY=10 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE_DUMMY=20 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE_DUMMY=200 # 5 for five per second, 0.2 for each 5 seconds
+MSGRATE=1
 
 
 # NOTE: 
 # NOTE: 1024 is max for TCP for TAGA counting
 # NOTE: 
 # Message Length
-MSGLEN=1200
-MSGLEN=120
-MSGLEN=94
-MSGLEN=940
-MSGLEN=1040
-MSGLEN=1024 # note, 1024 is max for TCP for TAGA counting
-MSGLEN=120
+MSGLEN_DUMMY=1200
+MSGLEN_DUMMY=120
+MSGLEN_DUMMY=94
+MSGLEN_DUMMY=940
+MSGLEN_DUMMY=1040
+MSGLEN_DUMMY=1024 # note, 1024 is max for TCP for TAGA counting
+MSGLEN_DUMMY=120
+MSGLEN_DUMMY=40
 MSGLEN=40
 
 ####################################################
@@ -512,28 +504,40 @@ source $TAGA_CONFIG_DIR/targetList.sh   > /dev/null # for NETADDRPART
 # manually generated configs
 ##############################################
 
-SERVER_INIT_DELAY=2 # Local RunLoop.sh Delay
-SERVER_INIT_DELAY=4
-SERVER_INIT_DELAY=10
-SERVER_INIT_DELAY=15
-SERVER_INIT_DELAY=20
-SERVER_INIT_DELAY=10
-SERVER_INIT_DELAY=5
-SERVER_INIT_DELAY=10
-SERVER_INIT_DELAY=20
-SERVER_INIT_DELAY=30
-SERVER_INIT_DELAY=60
-SERVER_INIT_DELAY=30
-SERVER_INIT_DELAY=40
+#SERVER_INIT_DELAY=2 # Local RunLoop.sh Delay
+#SERVER_INIT_DELAY=10
+#SERVER_INIT_DELAY=20
+#SERVER_INIT_DELAY=30
+
+let SERVER_INIT_DELAY_BASE=20
+let SERVER_INIT_DELAY_BASE=15
+let SERVER_INIT_DELAY_BASE=10
+let SERVER_INIT_DELAY_BASE=5
+let SERVER_INIT_DELAY_BASE=10
+let SERVER_INIT_DELAY_BASE=5
+let SERVER_INIT_DELAY=$TARGET_COUNT_FACTOR*2
+let SERVER_INIT_DELAY=$SERVER_INIT_DELAY_BASE+$SERVER_INIT_DELAY
+
+#echo SERVER_INIT_DELAY:$SERVER_INIT_DELAY
+
+# dlm temp, this should be node count computed
+# dlm temp, this should be node count computed
+# dlm temp, this should be node count computed
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5   # Remote Node Delay
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+2
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
-let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+20
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+20
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+30
 let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+45
+# dlm temp, this should be node count computed
+# dlm temp, this should be node count computed
+# dlm temp, this should be node count computed
+# dlm temp, this should be node count computed
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+55
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+5
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+10
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+20
+let MGEN_SERVER_INIT_DELAY=$SERVER_INIT_DELAY+15
 
 
 # end of iteration delay 
@@ -553,19 +557,11 @@ TESTONLY=0 # archiving enabled
 TESTONLY=1 # archiving disabled
 
 # MCAST config
-MYMCAST_ADDR="225.0.0.25" # does not work
-MYMCAST_ADDR="224.1.2.4"  # does not work
-MYMCAST_ADDR="225.1.2.4"  # does not work
-MYMCAST_ADDR="226.1.2.3"  # does not work
-MYMCAST_ADDR="227.1.2.3"  # does not work
-MYMCAST_ADDR="225.1.2.3" # works
-MYMCAST_ADDR="224.1.2.3" # works
-MYMCAST_ADDR="225.1.2.3" # works
-MYMCAST_ADDR="224.1.2.3" # works
-MYMCAST_ADDR="239.0.11.0" # works
-MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="224.1.2.3" 
+MYMCAST_ADDR="239.0.11.0" 
+MYMCAST_ADDR="239.0.12.48" 
+MYMCAST_PORT=1581
 MYMCAST_PORT=8888
-
 
 ########################################################
 ## MCAST Traffic and Group Join CONFIG
@@ -580,6 +576,40 @@ MCAST_NON_RECEIVER_FILTER_LIST=$MCAST_SENDER_FILTER_LIST
 # Set2: Max MCAST Traffic
 MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
 MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+# Set3: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=""       # nobody in sender list
+MCAST_NON_RECEIVER_FILTER_LIST="" # nobody in non-recive list
+
+# Set2: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
+MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+# Set3: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=""       # nobody in sender list
+MCAST_NON_RECEIVER_FILTER_LIST="" # nobody in non-recive list
+
+# Set2: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
+MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+# Set3: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=""       # nobody in sender list
+MCAST_NON_RECEIVER_FILTER_LIST="" # nobody in non-recive list
+
+# Set2: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
+MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+# Set3: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=""       # nobody in sender list
+MCAST_NON_RECEIVER_FILTER_LIST="" # nobody in non-recive list
+
+# Set2: Max MCAST Traffic
+MCAST_SENDER_FILTER_LIST=$targetList # everyone in sender list
+MCAST_NON_RECEIVER_FILTER_LIST=""    # nobody in non-recive list
+
+
 
 #echo MCAST_SENDER_FILTER_LIST: $MCAST_SENDER_FILTER_LIST
 #exit
@@ -676,8 +706,23 @@ MYIP=localhost
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
 if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-   echo okay >/dev/null
-   INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
+
+   # dlm temp DLM TEMP Mar 2017
+   # dlm temp DLM TEMP Mar 2017
+   # dlm temp DLM TEMP Mar 2017
+   # dlm temp DLM TEMP Mar 2017
+
+   let InterfaceTest=0
+   let InterfaceTest=1
+
+   if [ $InterfaceTest -eq 1 ] ; then
+     echo okay >/dev/null
+     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+   else
+     echo okay >/dev/null
+     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
+   fi
+
 else
    MYIPCANDIDATES=""
 fi
@@ -915,6 +960,10 @@ if [ ! "$MYIPCANDIDATES"  ]; then
 fi
 fi # End If not NOde 5
 
+#echo MYIP:$MYIP
+#echo INTERFACE:$INTERFACE
+#echo INTERFACECANDIDATE:$INTERFACECANDIDATE
+
 for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      grep $ip >/dev/null ; then MYIP=$ip; break;      \
      else MYIP=$ip; fi; done  # last one wins if no match
@@ -944,6 +993,10 @@ else
    fi
 fi
 
+#echo MYIP:$MYIP
+#echo INTERFACE:$INTERFACE
+#echo INTERFACECANDIDATE:$INTERFACECANDIDATE
+
 # get my target list index
 let MY_TGT_LIST_INDEX=99
 let INDEX_BASE=0
@@ -953,6 +1006,8 @@ do
    let p=$p+1
    if [ $MYIP == $thistarget ]; then
       let MY_TGT_LIST_INDEX=$p
+      #MY_TGT_LIST_INDEX_HEX=`/home/pi/scripts/taga/iboaUtils/hexMap.sh $p | grep OUTPUT | cut -d: -f 2`
+      #echo MY_TGT_LIST_INDEX_HEX=$MY_TGT_LIST_INDEX_HEX
    fi
 done
 
@@ -981,25 +1036,34 @@ fi
 ##############################################
 # DURATION 1 
 ##############################################
+
+let BASE_TRAFFIC_DELAY=5
+
 # DURATION 1 depends on msg rate and msg count and also node count if unicast
 let DURATION1=$MSGCOUNT/$MSGRATE
 
 if [ $TESTTYPE == "MCAST" ] ; then
-  let DURATION1=$DURATION1+10
+  let DURATION1=$DURATION1+$BASE_TRAFFIC_DELAY
 else
   let DURATION1=$DURATION1*$TARGET_COUNT
-  let DURATION1=$DURATION1+5
+  let DURATION1=$DURATION1+$BASE_TRAFFIC_DELAY
 fi
 
-if [ $DURATION1 -lt $MGEN_SERVER_INIT_DELAY ]; then
-   let DURATION1=$MGEN_SERVER_INIT_DELAY
+MIN_TRAFFIC_DELAY=10
+MIN_TRAFFIC_DELAY=20
+MIN_TRAFFIC_DELAY=10
+
+if [ $DURATION1 -lt $MIN_TRAFFIC_DELAY ]; then
+   let DURATION1=$MIN_TRAFFIC_DELAY
 fi  
 
 # round to nearest 5
-let DURATION1=$DURATION1/5
-let DURATION1=$DURATION1*5
-let DURATION1=$DURATION1+5
-
+if [ $DURATION1 -lt 5 ] ; then
+   let DURATION1=5
+else
+   let DURATION1=$DURATION1/5
+   let DURATION1=$DURATION1*5
+fi
 
 ##############################################
 # DURATION 2
@@ -1011,13 +1075,19 @@ if [ $TESTTYPE == "MCAST" ] ; then
    let DURATION2=$TARGET_COUNT_FACTOR*1
    let DURATION2=$TARGET_COUNT_FACTOR*2
    let DURATION2=$TARGET_COUNT_FACTOR*1
+   let DURATION2=5
+   let DURATION2=4 # rounds to 5
 else
    let DURATION2=$TARGET_COUNT_FACTOR*20
    let DURATION2=$TARGET_COUNT_FACTOR*8
    let DURATION2=$TARGET_COUNT_FACTOR*1
    let DURATION2=$TARGET_COUNT_FACTOR*10
    let DURATION2=$TARGET_COUNT_FACTOR*2
+   let DURATION2=$TARGET_COUNT_FACTOR*1
 fi
+
+
+#   echo DURATION2:$DURATION2
 
 # round to nearest 5
 let DURATION2=$DURATION2/5
@@ -1035,6 +1105,10 @@ let DURATION3=20
 let DURATION3=10
 let DURATION3=8
 let DURATION3=6
+let DURATION3=3
+let DURATION3=60
+let DURATION3=3
+let DURATION3=6000
 let DURATION3=3
 
 ##############################################
@@ -1140,4 +1214,4 @@ fi
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=192.168.43.27
+MASTER=10.0.0.10

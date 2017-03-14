@@ -208,6 +208,13 @@ do
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER
    fi
 
+   # Any flag parameter is indicator to exit after one iteration
+   if [ $# -gt 0 ] ; then
+      echo Single Iteration Only Requested - Exiting! >/dev/null
+      exit
+   fi
+
+   # otherwise, sleep for 5 and do it again!
    sleep 5
 
 done
