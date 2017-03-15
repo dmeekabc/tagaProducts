@@ -215,7 +215,8 @@ do
    fi
 
    # otherwise, sleep for 5 and do it again!
-   sleep 5
+   #sleep 5
+   $tagaTimerDir/fiveSecond.sh >/dev/null
 
 done
 
