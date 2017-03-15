@@ -38,6 +38,8 @@ source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 
+do
 while true
 do 
 
@@ -49,30 +51,26 @@ do
    done
 
    date +%N
-   break
+   date
+   digit=`date | cut -d: -f 3 | cut -c2`
+   if [ $digit -eq 0 ] || [ $digit -eq 5 ] ; then
+      date
+      exit
+      #break
+   fi
+
+   ## next, look for the beginning of the next second...
+   #if echo `date +%N` | grep ^0 ; then
+   #   date +%N
+   #   echo
+   #   break
+   #   #exit
+   #fi
 
    fi
 
 done
 
+done
+
 echo; echo $0 : $MYIP :  executing at `date`; echo
-
-
-#
-#while true
-#do 
-#
-#   # first, ensure we hit the end of a second 
-#   if echo `date +%N` | grep ^9 >/dev/null ; then
-#   # next, look for the beginning of the next second...
-#   if echo `date +%N` | grep ^0 ; then
-#      date +%N
-#      echo
-#      exit
-#   fi
-#   fi
-#
-#done
-#
-
-
