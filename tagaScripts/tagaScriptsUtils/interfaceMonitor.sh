@@ -34,10 +34,8 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-
 echo
 echo $0 Initializing...
-echo
 
 # Align to 5 second boundary before proceeding
 $tagaTimerDir/fiveSecond.sh >/dev/null
