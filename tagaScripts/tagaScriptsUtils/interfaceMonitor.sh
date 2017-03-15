@@ -34,6 +34,14 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+
+echo
+echo $0 Initializing...
+echo
+
+# Align to 5 second boundary before proceeding
+$tagaTimerDir/fiveSecond.sh >/dev/null
+
 let TX_STATS=`$tagaScriptsStatsDir/adminstats.sh TXonly`
 let RX_STATS=`$tagaScriptsStatsDir/adminstats.sh RXonly`
 let START_TX_STATS=$TX_STATS
@@ -215,7 +223,7 @@ do
    fi
 
    # otherwise, sleep for 5 and do it again!
-   #sleep 5
+   # Align to 5 second boundary before proceeding
    $tagaTimerDir/fiveSecond.sh >/dev/null
 
 done
