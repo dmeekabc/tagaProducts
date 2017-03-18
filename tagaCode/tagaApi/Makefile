@@ -32,9 +32,44 @@
 tagaUser: libtagaApi.so tagaUser.o
 	$(CXX) -o tagaUser tagaUser.o -L. -ltagaApi
 
+tagaUser2: libtagaApi2.so tagaUser2.o
+	$(CXX) -o tagaUser2 tagaUser2.o -L. -ltagaApi2
+
+tagaUser3: libtagaApi3.so tagaUser3.o
+	$(CXX) -o tagaUser3 tagaUser3.o -L. -ltagaApi3
+
+tagaUser4: libtagaApi4.so tagaUser4.o
+	$(CXX) -o tagaUser4 tagaUser4.o -L. -ltagaApi4
+
+tagaUser5: libtagaApi5.so tagaUser5.o
+	$(CXX) -o tagaUser5 tagaUser5.o -L. -ltagaApi5
+
+tagaClient: libtagaServiceBase.so tagaClient.o
+	$(CXX) -o tagaClient tagaClient.o -L. -ltagaServiceBase
+
 libtagaApi.so: tagaApi.cpp
 	$(CXX) -fPIC -c tagaApi.cpp -o tagaApi.o
 	$(CXX) -shared -Wl,-soname,libtagaApi.so -o libtagaApi.so tagaApi.o
+
+libtagaApi2.so: tagaApi2.cpp
+	$(CXX) -fPIC -c tagaApi2.cpp -o tagaApi2.o
+	$(CXX) -shared -Wl,-soname,libtagaApi2.so -o libtagaApi2.so tagaApi2.o
+
+libtagaApi3.so: tagaApi3.cpp
+	$(CXX) -fPIC -c tagaApi3.cpp -o tagaApi3.o
+	$(CXX) -shared -Wl,-soname,libtagaApi3.so -o libtagaApi3.so tagaApi3.o
+
+libtagaApi4.so: tagaApi4.cpp
+	$(CXX) -fPIC -c tagaApi4.cpp -o tagaApi4.o
+	$(CXX) -shared -Wl,-soname,libtagaApi4.so -o libtagaApi4.so tagaApi4.o
+
+libtagaApi5.so: tagaApi5.cpp
+	$(CXX) -fPIC -c tagaApi5.cpp -o tagaApi5.o
+	$(CXX) -shared -Wl,-soname,libtagaApi5.so -o libtagaApi5.so tagaApi5.o
+
+libtagaServiceBase.so: tagaServiceBase.cpp
+	$(CXX) -fPIC -c tagaServiceBase.cpp -o tagaServiceBase.o
+	$(CXX) -shared -Wl,-soname,libtagaServiceBase.so -o libtagaServiceBase.so tagaServiceBase.o
 
 clean:
 	rm *.o *.so
