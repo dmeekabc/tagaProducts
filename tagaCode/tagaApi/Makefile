@@ -47,6 +47,18 @@ tagaUser5: libtagaApi5.so tagaUser5.o
 tagaClient: libtagaServiceBase.so tagaClient.o
 	$(CXX) -o tagaClient tagaClient.o -L. -ltagaServiceBase
 
+tagaClient2: libtagaServiceBase.so tagaClient2.o
+	$(CXX) -o tagaClient2 tagaClient2.o -L. -ltagaServiceBase
+
+tagaClient3: libtagaServiceBase.so tagaClient3.o
+	$(CXX) -o tagaClient3 tagaClient3.o -L. -ltagaServiceBase
+
+tagaClient4: libtagaServiceBase.so tagaClient4.o
+	$(CXX) -o tagaClient4 tagaClient4.o -L. -ltagaServiceBase
+
+tagaClient5: libtagaServiceBase.so tagaClient5.o
+	$(CXX) -o tagaClient5 tagaClient5.o -L. -ltagaServiceBase
+
 libtagaApi.so: tagaApi.cpp
 	$(CXX) -fPIC -c tagaApi.cpp -o tagaApi.o
 	$(CXX) -shared -Wl,-soname,libtagaApi.so -o libtagaApi.so tagaApi.o
@@ -70,6 +82,8 @@ libtagaApi5.so: tagaApi5.cpp
 libtagaServiceBase.so: tagaServiceBase.cpp
 	$(CXX) -fPIC -c tagaServiceBase.cpp -o tagaServiceBase.o
 	$(CXX) -shared -Wl,-soname,libtagaServiceBase.so -o libtagaServiceBase.so tagaServiceBase.o
+
+all: tagaUser tagaUser2 tagaUser3 tagaUser4 tagaUser5 tagaClient tagaClient2 tagaClient3 tagaClient4 tagaClient5
 
 clean:
 	rm *.o *.so
