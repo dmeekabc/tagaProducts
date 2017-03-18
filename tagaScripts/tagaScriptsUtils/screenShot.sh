@@ -31,6 +31,7 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -45,13 +46,14 @@ do
    # Back up the old files
    # dlm tmp note, consider mv instead of cp to be resource friendly
    cp $SCREEN_SHOT_FILE $SCREEN_SHOT_FILE.1 >/dev/null
-   for in in 1 2 3 4 5 
-   do let j=$i+1; cp $SCREEN_SHOT_FILE.$i $SCREEN_SHOT_FILE.$j; done
+   for i in 9 8 7 6 5 4 3 2 1
+   do let j=$i+1; cp $SCREEN_SHOT_FILE.$i $SCREEN_SHOT_FILE.$j 2>/dev/null ; done
 
    # Get the new screenshot
    gnome-screenshot -f $SCREEN_SHOT_FILE > /dev/null
 
    #sleep 60
-   $tagaTimerDir/minute.sh
+   # dlm temp, this may be resource heavy!
+   $tagaTimerDir/minute.sh >/dev/null
 
 done
