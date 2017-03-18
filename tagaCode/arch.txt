@@ -1,5 +1,5 @@
 
-TAGA Architecture Notes:
+TAGA USER Architecture Notes:
 
 -------------------------------------------------
 Raspberry Pi Platform / ARM Architecture:
