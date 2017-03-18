@@ -1,0 +1,16 @@
+
+TAGA Architecture Notes:
+
+-------------------------------------------------
+Raspberry Pi Platform / ARM Architecture:
+-------------------------------------------------
+"file" output with tagauser input on raspberry pi:
+tagaUser: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-armhf.so.3, for GNU/Linux 2.6.32, BuildID[sha1]=9b19aba29b8372fae7edead3e00e007f95255481, not stripped
+
+-------------------------------------------------
+Ubuntu Linux Platform / X86 64 Bit Architecture:
+-------------------------------------------------
+"file" output with tagauser input on ubuntu:
+tagaUser: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=b1dbc6affc6894dd49bfcb0c7153acec974c69b7, not stripped
+
+
