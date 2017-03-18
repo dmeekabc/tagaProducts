@@ -31,7 +31,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
-#include "tagaApi.h"
+#include "tagaServiceBase.h"
 
 using namespace std;
 
@@ -67,6 +67,10 @@ int main(int argc, char *argv[])
   cout << commsService.getx() << endl;
   commsService.setx(10);
   cout << commsService.getx() << endl;
+
+  cout << commsService.gety() << endl;
+  commsService.sety(10);
+  cout << commsService.gety() << endl;
 
   cout << commsService.sendFile() << endl;
   cout << commsService.sendFile() << endl;

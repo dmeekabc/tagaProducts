@@ -45,8 +45,12 @@ int  tagaServiceBase::gety() { return myy; }
 
 // dlm temp, I shouldn't need to define these, should get these from base but not working so define again here
 // dlm temp, I shouldn't need to define these, should get these from base but not working so define again here
-void tagaCommsService::setx(int newx) { tagaServiceBase::setx(newx); }
-int  tagaCommsService::getx() { return tagaServiceBase::getx(); }
+// dlm temp, error found in client file not including correct header, so this workaround is removed
+// dlm temp, error found in client file not including correct header, so this workaround is removed
+//void tagaCommsService::setx(int newx) { tagaServiceBase::setx(newx); }
+//int  tagaCommsService::getx() { return tagaServiceBase::getx(); }
+//void tagaCommsService::sety(int newy) { tagaServiceBase::sety(newy); }
+//int  tagaCommsService::gety() { return tagaServiceBase::gety(); }
 
 int  tagaCommsService::sendFile() { myRetCode = 99; return myRetCode; }
 int  tagaCommsService::sendFile(int p1, int p2, int p3) { myRetCode = p1+p2+p3; return myRetCode; }

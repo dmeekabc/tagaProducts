@@ -73,18 +73,15 @@ class myclass2 {
 
 
 class tagaCommsService : public tagaServiceBase {
-   //int myx;
-   //int myRetCode;
 
   public:
 
     tagaCommsService() { }
-    //tagaCommsService() { myx=0; }
 
-// dlm temp, I shouldn't need to define these, should get these from base but not working so define again here
-// dlm temp, I shouldn't need to define these, should get these from base but not working so define again here
-    void setx(int newx);
-    int  getx();
+//    void setx(int newx);
+//    void sety(int newy);
+//    int  getx();
+//    int  gety();
 
     int  sendFile();
     int  sendFile(int, int, int);
@@ -92,13 +89,11 @@ class tagaCommsService : public tagaServiceBase {
 };
 
 
-class tagaLogService {
-   int myx;
-   int myRetCode;
+class tagaLogService : public tagaServiceBase {
 
   public:
 
-    tagaLogService() { myx=0; }
+    tagaLogService() { }
     void setx(int newx);
     int  getx();
     int  logEvent();
@@ -107,13 +102,11 @@ class tagaLogService {
 };
 
 
-class tagaMonitoringService {
-   int myx;
-   int myRetCode;
+class tagaMonitoringService : public tagaServiceBase {
 
   public:
 
-    tagaMonitoringService() { myx=0; }
+    tagaMonitoringService() { }
     void setx(int newx);
     int  getx();
     int  monitor();
@@ -122,13 +115,11 @@ class tagaMonitoringService {
 };
 
 
-class tagaMessagingService {
-   int myx;
-   int myRetCode;
+class tagaMessagingService : public tagaServiceBase {
 
   public:
 
-    tagaMessagingService() { myx=0; }
+    tagaMessagingService() { }
     void setx(int newx);
     int  getx();
     int  sendFile();
@@ -138,13 +129,11 @@ class tagaMessagingService {
 };
 
 
-class tagaConfigurationService {
-   int myx;
-   int myRetCode;
+class tagaConfigurationService : public tagaServiceBase {
 
   public:
 
-    tagaConfigurationService() { myx=0; }
+    tagaConfigurationService() { }
     void setx(int newx);
     int  getx();
     int  configure();
@@ -153,13 +142,11 @@ class tagaConfigurationService {
 };
 
 
-class tagaTranslationService {
-   int myx;
-   int myRetCode;
+class tagaTranslationService : public tagaServiceBase {
 
   public:
 
-    tagaTranslationService() { myx=0; }
+    tagaTranslationService() { }
     void setx(int newx);
     int  getx();
     int  translate();
@@ -168,13 +155,11 @@ class tagaTranslationService {
 };
 
 
-class tagaPolicyService {
-   int myx;
-   int myRetCode;
+class tagaPolicyService : public tagaServiceBase {
 
   public:
 
-    tagaPolicyService() { myx=0; }
+    tagaPolicyService() { }
     void setx(int newx);
     int  getx();
     int  policy();
