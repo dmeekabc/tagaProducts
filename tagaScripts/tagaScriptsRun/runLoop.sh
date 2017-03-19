@@ -97,11 +97,15 @@ fi
 
 #exit
 
+let START_SECS=`date +%s`
+
 START_STATS=`$tagaScriptsStatsDir/adminstats.sh` 
 let TX_STATS=`$tagaScriptsStatsDir/adminstats.sh TXonly`
 let RX_STATS=`$tagaScriptsStatsDir/adminstats.sh RXonly`
 let START_TX_STATS=$TX_STATS
 let START_RX_STATS=$RX_STATS
+
+
 #echo TX_STATS:$TX_STATS
 #echo RX_STATS:$RX_STATS
 
@@ -853,8 +857,13 @@ fi  # End if IMMEDIATE TRAFFIC IS FAlSE
    # dlm temp, phase this stuff below out in preference to interfaceMonitor.sh call above!
 
    CURRENT_STATS=`$tagaScriptsStatsDir/adminstats.sh`
+   let CURRENT_SECS=`date +%s`
+
+   let DELTA_SECS=$CURRENT_SECS-$START_SECS
+   let SECS_PER_ITER=$DELTA_SECS/$iter
 
    echo
+   echo "TAGA:Iter:$iter DURATION:$DELTA_SECS SECS_PER_ITER:$SECS_PER_ITER"
    echo "TAGA:Iter:$iter ITFC START: $START_STATS"
    echo "TAGA:Iter:$iter ITFC CURRENT: $CURRENT_STATS"
 
@@ -938,27 +947,36 @@ fi  # End if IMMEDIATE TRAFFIC IS FAlSE
       let MBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per Iter)"
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per $SECS_PER_ITER secs Iter)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1`.`echo $MBytes | cut -c2`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per Iter)"
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($megabytePrint MB RX per $SECS_PER_ITER secs Iter)"
    elif [ $wordlen -eq 6 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-3`.`echo $KBytes | cut -c4`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
+      let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps RX)"
    elif [ $wordlen -eq 5 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-2`.`echo $KBytes | cut -c3-4`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
+      let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps RX)"
    elif [ $wordlen -eq 4 ]; then
       let KBytes=$DELTA_RX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
-      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per Iter)"
+      let kilobitPrint=$DELTA_RX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER ($kilobytePrint KB RX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps RX)"
    else
       echo TAGA:Iter:$iter DELTA_RX_STATS_ITER: $DELTA_RX_STATS_ITER
    fi
@@ -970,27 +988,36 @@ fi  # End if IMMEDIATE TRAFFIC IS FAlSE
       let MBytes=$DELTA_TX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($megabytePrint MB TX per Iter)"
+      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($megabytePrint MB TX per $SECS_PER_ITER secs Iter)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$DELTA_TX_STATS_ITER*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabytePrint=`echo $MBytes | cut -c1`.`echo $MBytes | cut -c2`
-      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($megabytePrint MB TX per Iter)"
+      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($megabytePrint MB TX per $SECS_PER_ITER secs Iter)"
    elif [ $wordlen -eq 6 ]; then
       let KBytes=$DELTA_TX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-3`.`echo $KBytes | cut -c4`
-      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
+      let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps TX)"
    elif [ $wordlen -eq 5 ]; then
       let KBytes=$DELTA_TX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1-2`.`echo $KBytes | cut -c3-4`
-      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
+      let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps TX)"
    elif [ $wordlen -eq 4 ]; then
       let KBytes=$DELTA_TX_STATS_ITER*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobytePrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
-      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per Iter)"
+      let kilobitPrint=$DELTA_TX_STATS_ITER*8 # convert to bits
+      let kilobitPrint=$kilobitPrint/$SECS_PER_ITER # convert based on iteration duration
+      let kilobitPrint=$kilobitPrint/1000 # 1000 ms per second
+      echo "TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER ($kilobytePrint KB TX per $SECS_PER_ITER secs Iter) ($kilobitPrint kbps TX)"
    else
       echo TAGA:Iter:$iter DELTA_TX_STATS_ITER: $DELTA_TX_STATS_ITER
    fi
