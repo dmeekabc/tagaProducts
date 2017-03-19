@@ -31,6 +31,7 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -81,18 +82,19 @@ do
    if [ $# -gt 0 ] ; then
       # Special Header
       echo
+      echo ================================================================
       echo $MYIP
-      #echo "CURRENT (Single-iteration) DATA : $CURRENTDATE"
-      echo $CURRENTDATE
-      echo "CURRENT (Single-iteration) DATA"
+      echo "CURRENT (Single-iteration) DATA : $CURRENTDATE"
+      #echo $CURRENTDATE
+      #echo "CURRENT (Single-iteration) DATA"
       IterString="ONE"
    else
       # Normal Header
       echo
-      echo $MYIP
-      #echo "CUMULATIVE (and Average) DATA : $CURRENTDATE"
-      echo $CURRENTDATE
-      echo "CUMULATIVE (and Average) DATA"
+      #echo $MYIP
+      echo "CUMULATIVE (and Average) DATA : $CURRENTDATE"
+      #echo $CURRENTDATE
+      #echo "CUMULATIVE (and Average) DATA"
       IterString="AVG"
    fi
 
@@ -282,6 +284,8 @@ do
    #sleep 8
 
    # Print the Current Rate here (call this script with single iter parameter)
+
+   #echo ================================================================
 
    # Okay, do the interfaceMonitor.sh stuff!!
    $tagaUtilsDir/interfaceMonitor.sh oneIterationOnlyFlag
