@@ -34,9 +34,14 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+TAGA_INCLUDE_FILE_TEMPLATE=~/scripts/taga/include/taga.h.template
+TAGA_INCLUDE_FILE=~/scripts/taga/include/taga.h
+
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+echo $TAGA_INCLUDE_FILE_TEMPLATE | sed -e s/TAGA_IP/$MYIP/g > /tmp/taga.h.1
+echo /tmp/taga.h.1 | sed -e s/TAGA_ADDRESS/$MYIP/g > /tmp/taga.h.2
 
-echo 123 > ~/scripts/taga/include/taga.h
+cp /tmp/taga.h.2 $TAGA_INCLUDE_FILE
 
 
