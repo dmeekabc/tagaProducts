@@ -39,8 +39,8 @@ TAGA_INCLUDE_FILE=~/scripts/taga/include/taga.h
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-echo $TAGA_INCLUDE_FILE_TEMPLATE | sed -e s/TAGA_IP/$MYIP/g > /tmp/taga.h.1
-echo /tmp/taga.h.1 | sed -e s/TAGA_ADDRESS/$MYIP/g > /tmp/taga.h.2
+cat $TAGA_INCLUDE_FILE_TEMPLATE | sed -e s/TAGA_IP/$MYIP/g > /tmp/taga.h.1
+cat /tmp/taga.h.1 | sed -e s/TAGA_ADDRESS/$MYIP/g > /tmp/taga.h.2
 
 cp /tmp/taga.h.2 $TAGA_INCLUDE_FILE
 
