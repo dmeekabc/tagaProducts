@@ -43,7 +43,7 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # PREP
 #########
 FILE_TO_SPLIT=/home/pi/snmp_install/walkit4b.out
-#SPLIT_FILE=/tmp/tagaSplitFile.out
+FILE_TO_SPLIT=/home/pi/snmp_install/walkit4.out
 rm $SPLIT_FILE* 2>/dev/null
 
 ###### 
@@ -54,15 +54,16 @@ rm $SPLIT_FILE* 2>/dev/null
 echo Splitting $FILE_TO_SPLIT...; sleep 2
 
 # Get target count
-let count=0
-for target in $targetList; do let count=$count+1; done 
+let targetCount=0
+for target in $targetList; do let targetCount=$targetCount+1; done 
 
 if  [ $DEBUG -eq 1 ] ; then
-   echo count:$count
+   echo targetCount:$targetCount
 fi
 
 let lineCount=`cat $FILE_TO_SPLIT | wc -l`
-let lineCountPerTarget=$lineCount/count
+let lineCountPerTarget=$lineCount/$targetCount
+let lineCountRemaining=$lineCount%$targetCount
 
 
 if  [ $DEBUG -eq 1 ] ; then
@@ -100,9 +101,23 @@ do
 
    cat $FILE_TO_SPLIT | head -n $tempLines | tail -n $lineCountPerTarget > $SPLIT_FILE.$target
 
+   # Are we the Last Target?
+   if [ $count -eq $targetCount ] ; then 
+      # We are the last target... add the Remaining Lines to the Last File Processed
+      cat $FILE_TO_SPLIT | tail -n $lineCountRemaining >> $SPLIT_FILE.$target
+      if  [ $DEBUG -eq 1 ] ; then
+         let tempLines=$tempLines+$lineCountRemaining
+         echo tempLines:$tempLines
+         sleep 2
+      fi
+   fi
+
    cat $SPLIT_FILE.$target >> $SPLIT_FILE
 
 done
+
+
+
 
 #################################################
 # DO IT
@@ -222,6 +237,8 @@ rm $RESULTS_FILE 2>/dev/null
 for target in $targetList; do cat $SPLIT_FILE.$target.out >> $RESULTS_FILE; done
 
 echo; echo Results File follows: ; echo; echo
+echo
+echo $RESULTS_FILE:
 sleep 5
 cat $RESULTS_FILE
 
