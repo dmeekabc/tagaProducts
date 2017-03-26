@@ -29,5 +29,9 @@
  *
 **********************************************************************/
 
-#define ADDRESS TAGA_ADDRESS
-#define IP TAGA_IP
+char * tagaIp="TAGA_IP";
+char * tagaPort="TAGA_PORT";
+char * tagaProto="TAGA_PROTO";
+char * tagaSocketAddress="TAGA_PROTO://TAGA_IP:TAGA_PORT";
+
+
