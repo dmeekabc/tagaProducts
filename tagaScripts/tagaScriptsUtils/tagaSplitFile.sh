@@ -41,7 +41,7 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 #########
 
 FILE_TO_SPLIT=/home/pi/snmp_install/walkit4.out
-SPLIT_FILE=/tmp/tagaSplitFile.out
+#SPLIT_FILE=/tmp/tagaSplitFile.out
 rm $SPLIT_FILE* 2>/dev/null
 
 # Get target count

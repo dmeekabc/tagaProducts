@@ -43,7 +43,7 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # PREP
 #########
 FILE_TO_SPLIT=/home/pi/snmp_install/walkit4b.out
-SPLIT_FILE=/tmp/tagaSplitFile.out
+#SPLIT_FILE=/tmp/tagaSplitFile.out
 rm $SPLIT_FILE* 2>/dev/null
 
 ###### 
@@ -164,9 +164,59 @@ done
 
 
 #################################################
-# DONE
+# Remote Jobs Initiated 
 #################################################
 echo; echo Remote processes initiated!
 
+
+#################################################
+# Wait for Remote Jobs to Finish
+#################################################
+
+while true
+do
+
+  echo
+  date
+  echo
+  echo Please confirm when all processing has stopped and files are ready to be collected
+  $tagaUtilsDir/confirm.sh
+
+  if [ $? -eq 1 ] ; then
+    echo 1
+    echo 
+    echo Confirmed - Files are now being collected....
+    echo
+    break
+  else
+    echo
+    echo Not Confirmed - Continuing to Wait...
+    echo
+  fi
+
+  sleep 5
+
+
+done
+
+
+
+#################################################
+# DO IT
+# Okay Remote Processing is Complete, Collect the files...
+#################################################
+# DO IT
+echo Collecting Files...; sleep 2
+for target in $targetList; do scp pi@$target:$SPLIT_FILE.$target.out /tmp ; done
+
+
+#################################################
+# DO IT
+# Okay File Collection is Complete, Concatenate the collected files...
+#################################################
+
+RESULTS_FILE=/tmp/tagaSplitProcessResults.out
+rm $RESULTS_FILE 2>/dev/null
+for target in $targetList; do cat $SPLIT_FILE.$target.out >> $RESULTS_FILE; done
 
 
