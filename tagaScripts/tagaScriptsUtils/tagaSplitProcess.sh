@@ -219,4 +219,13 @@ RESULTS_FILE=/tmp/tagaSplitProcessResults.out
 rm $RESULTS_FILE 2>/dev/null
 for target in $targetList; do cat $SPLIT_FILE.$target.out >> $RESULTS_FILE; done
 
+echo; echo Results File follows: ; echo; echo
+sleep 5
+cat $RESULTS_FILE
+
+
+#################################################
+# Done
+#################################################
+echo; echo Done!
 
