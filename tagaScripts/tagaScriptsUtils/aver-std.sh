@@ -47,7 +47,7 @@ let DEBUG=1
 if [ $# -eq 2 ] ; then
    echo Two params
    INPUT_FILE=$1
-   OUTUT_FILE=$2
+   OUTPUT_FILE=$2
    # dlm temp DEBUG
    #OUTPUT_FILE=/tmp/aver-std.dat`date +%s`
    #OUTPUT_FILE=/tmp/aver-std.dat
