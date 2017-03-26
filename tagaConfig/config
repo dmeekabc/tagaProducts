@@ -53,6 +53,11 @@ let EARLY_COLLECT=0 # normal
 #######################
 let AUTO_CONFIRM=1
 
+#######################
+# AUTO PRINT (updated automatically, do not edit!)
+#######################
+let AUTO_PRINT=0
+
 let USE_ALT_MONITOR_LIST=1 # testing
 let USE_ALT_MONITOR_LIST=0 # normal
 
@@ -74,11 +79,19 @@ let PARALLEL_CLEAN=1 # testing
 TAGA_ADMIN_STATS_REMOTE=0
 TAGA_ADMIN_STATS_REMOTE=1
 
+#######################################
+# TAGA View - bottom one wins out
+#######################################
+VIEW="EXPERT"
+VIEW="STANDARD"
+VIEW="EXPERT"
+
 
 ################################
 # LOG MGT
 ################################
 #EXTRA_LOGS=$TAGA_EXTRA_LOGS
+#EXTRA_LOGS=/var/opt/jtmnm/run/*
 #EXTRA_LOGS=/tmp/tagaRun*
 EXTRA_LOGS=""
 
@@ -241,57 +254,33 @@ MAX_ITER_DUR_BEFORE_REBOOT=10000000 # disable
 # set this very large to eliminate (perceivably) spurious reboots
 MAX_TIME_DELTA_BEFORE_REBOOT=20
 
+####################################
+# RATE and COUNT FACTOR
+# Use these factors to adjust from current
+####################################
+TAGA_TRAFFIC_DIV_FACTOR=1
+TAGA_TRAFFIC_MULT_FACTOR=1
+
 ####################################################
 # TRAFFIC CONFIG
 ####################################################
 # MGEN Traffic Configs
 # Message Count
 MSGCOUNT=10
-MSGCOUNT=22
-MSGCOUNT=200
-MSGCOUNT=1000
-MSGCOUNT=10
-MSGCOUNT=100
-MSGCOUNT=10000
-MSGCOUNT=500
-MSGCOUNT=1000
+MSGCOUNT=2000
+MSGCOUNT=2000
+MSGCOUNT=4000
+MSGCOUNT=8000
+MSGCOUNT=480
+MSGCOUNT=960
+let MSGCOUNT=1920*2
+let MSGCOUNT=1920*10
 MSGCOUNT=20
-MSGCOUNT=100
-MSGCOUNT=1000
-MSGCOUNT=5000
-MSGCOUNT=100
-MSGCOUNT=150
-MSGCOUNT=4
-MSGCOUNT=500
 MSGCOUNT=20
-MSGCOUNT=100
-MSGCOUNT=20
-MSGCOUNT=100
 MSGCOUNT=5
-MSGCOUNT=5000
-MSGCOUNT=100
-MSGCOUNT=1000
-MSGCOUNT=200
-MSGCOUNT=100
-MSGCOUNT=5000
-MSGCOUNT=100
-MSGCOUNT=200
-MSGCOUNT=50
-MSGCOUNT=20
-MSGCOUNT=200
-MSGCOUNT=100
-MSGCOUNT=10
-MSGCOUNT=20
-MSGCOUNT=100
-MSGCOUNT=50
-MSGCOUNT=10
-MSGCOUNT=2
-MSGCOUNT=1000
-MSGCOUNT=20
-MSGCOUNT=8
-MSGCOUNT=6
-MSGCOUNT=6
 MSGCOUNT=1
+let MSGCOUNT=$MSGCOUNT*$TAGA_TRAFFIC_MULT_FACTOR
+let MSGCOUNT=$MSGCOUNT/$TAGA_TRAFFIC_DIV_FACTOR
 
 # Message Rate
 # Note that fractional rates are not supported by the TAGA utility
@@ -304,6 +293,21 @@ MSGRATE_DUMMY=10 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE_DUMMY=20 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE_DUMMY=200 # 5 for five per second, 0.2 for each 5 seconds
 MSGRATE=1
+MSGRATE=10
+MSGRATE=20
+MSGRATE=40
+MSGRATE=1
+MSGRATE=20
+MSGRATE=40
+MSGRATE=80
+MSGRATE=160
+let MSGRATE=960*2
+MSGRATE=240
+MSGRATE=480
+MSGRATE=1
+MSGRATE=1
+let MSGRATE=$MSGRATE*$TAGA_TRAFFIC_MULT_FACTOR
+let MSGRATE=$MSGRATE/$TAGA_TRAFFIC_DIV_FACTOR
 
 
 # NOTE: 
@@ -318,6 +322,8 @@ MSGLEN_DUMMY=1040
 MSGLEN_DUMMY=1024 # note, 1024 is max for TCP for TAGA counting
 MSGLEN_DUMMY=120
 MSGLEN_DUMMY=40
+MSGLEN=40
+MSGLEN=1000
 MSGLEN=40
 
 ####################################################
@@ -557,11 +563,25 @@ TESTONLY=0 # archiving enabled
 TESTONLY=1 # archiving disabled
 
 # MCAST config
-MYMCAST_ADDR="224.1.2.3" 
-MYMCAST_ADDR="239.0.11.0" 
-MYMCAST_ADDR="239.0.12.48" 
+MYMCAST_ADDR="225.0.0.25" # does not work
+MYMCAST_ADDR="224.1.2.4"  # does not work
+MYMCAST_ADDR="225.1.2.4"  # does not work
+MYMCAST_ADDR="226.1.2.3"  # does not work
+MYMCAST_ADDR="227.1.2.3"  # does not work
+MYMCAST_ADDR="225.1.2.3" # works
+MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="225.1.2.3" # works
+MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="239.0.11.0" # works
+MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="239.0.11.0" # works
+MYMCAST_ADDR="224.1.2.3" # works
+MYMCAST_ADDR="239.0.12.48" # PLI NETTWarrior to S6 Associate
+MYMCAST_ADDR="239.0.11.0" # works
+MYMCAST_PORT=1581
 MYMCAST_PORT=1581
 MYMCAST_PORT=8888
+
 
 ########################################################
 ## MCAST Traffic and Group Join CONFIG
@@ -969,9 +989,10 @@ for ip in $MYIPCANDIDATES; do if echo $targetList  |  \
      else MYIP=$ip; fi; done  # last one wins if no match
 #     else MYIP=localhost; fi; done
 
-sudo touch /tmp/taga_config.out
-sudo chmod 777 /tmp/taga_config.out
-
+if hostname | grep pi >/dev/null; then
+   sudo touch /tmp/taga_config.out
+   sudo chmod 777 /tmp/taga_config.out
+fi
 
 if [ $MYIP == "localhost" ] ; then
    INTERFACE=lo
@@ -1038,6 +1059,7 @@ fi
 ##############################################
 
 let BASE_TRAFFIC_DELAY=5
+let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 
 # DURATION 1 depends on msg rate and msg count and also node count if unicast
 let DURATION1=$MSGCOUNT/$MSGRATE
@@ -1045,7 +1067,7 @@ let DURATION1=$MSGCOUNT/$MSGRATE
 if [ $TESTTYPE == "MCAST" ] ; then
   let DURATION1=$DURATION1+$BASE_TRAFFIC_DELAY
 else
-  let DURATION1=$DURATION1*$TARGET_COUNT
+  let DURATION1=$DURATION1*$TARGET_COUNT_FACTOR
   let DURATION1=$DURATION1+$BASE_TRAFFIC_DELAY
 fi
 
@@ -1069,7 +1091,6 @@ fi
 # DURATION 2
 ##############################################
 # DURATION 2 depends on target count
-let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 
 if [ $TESTTYPE == "MCAST" ] ; then
    let DURATION2=$TARGET_COUNT_FACTOR*1
@@ -1208,10 +1229,23 @@ else
    NARROW_DISPLAY=1
 fi
 
+# used by taga Include create and audit
+TAGA_INCLUDE_FILE_TEMPLATE=/home/pi/scripts/taga/include/taga.h.template
+TAGA_INCLUDE_FILE=/home/pi/scripts/taga/include/taga.h
+
+# used by taga Include audit
+TAGA_INCLUDE_FILE_LIST="taga.h"
+TAGA_INCLUDE_FILE_DEPENDS_MAP="taga.h /home/pi/nanomsg/tests/pipeline.c"
+
+TAGA_IP=$MYIP
+TAGA_PROTO=tcp
+TAGA_PORT=9988
+TAGA_PORT=9998
+
 
 ##############################################
 # Run Time Inserts ONLY Below
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=10.0.0.10
+MASTER=10.0.0.13
