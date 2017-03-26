@@ -46,6 +46,7 @@ source $TAGA_CONFIG_DIR/config
 ##################################
 LOG_FILE=/tmp/`basename $0`.log
 DAT_FILE=/tmp/`basename $0`.dat
+DAT_FILE_FROM_BEGIN=/tmp/`basename $0`.fromBegin.dat
 
 AVER_STD_INPUT_FILE=/tmp/`basename $0`.aver-std-values-input.dat
 AVER_STD_OUTPUT_FILE=/tmp/`basename $0`.aver-std.dat 
@@ -80,6 +81,54 @@ function printLogStandard
    /usr/bin/sudo /bin/echo >> $LOG_FILE
    /usr/bin/sudo /bin/echo $0:`date`:Iter:$iteration >> $LOG_FILE
    /usr/bin/sudo /bin/echo >> $LOG_FILE
+}
+
+#########################################################
+# Function -  IBOA TAGA Average and StdDev Stats Handling
+#########################################################
+function generateTrendFromStartFile
+{
+   # Generate the Aggregate Trend From Beginning File
+   # 10 data items as spread out over entire time 
+   # (actually spread out by iteration over number of iterations)
+
+   echo Generating TrendFromStart File...
+
+   ############################
+   # Set the Number of Data Points
+   ############################
+   let numberOfDataPoints=10
+  
+   ############################
+   # Do the work
+   ############################
+   let lineCount=`cat $AVER_STD_INPUT_FILE | wc -l`
+   let lineCountPerDataPoint=$lineCount/$numberOfDataPoints
+
+   echo Hello > $DAT_FILE_FROM_BEGIN
+
+   # i is 10 9 8 7 6 5 4 3 2 1
+   let i=$numberOfDataPoints
+   while [ $i -gt 0 ] 
+   do
+      # j is 1 2 3 4 5 6 7 8 9 10
+      let j=$numberOfDataPoints-$i; let j=$j+1
+
+      echo i:$i
+      echo j:$j
+
+      # Get the pertinent part of the top of the file
+      let tempLine=$lineCountPerDataPoint*$j
+
+      # Get the actual value
+      tempValue=`cat $AVER_STD_INPUT_FILE | head -n $tempLine | tail -n 1`
+      
+      echo $tempValue >> $DAT_FILE_FROM_BEGIN
+
+      let i=$i-1
+
+   done
+
 }
 
 #########################################################
@@ -239,7 +288,20 @@ fi
 ##############################
 printAvgStdDevStats
 
+##############################
+# Do the Trend from Start Work
+##############################
+generateTrendFromStartFile
+
+
+##############################
+# dlm temp, this sudo chmod may be able to go away
+##############################
 sudo chmod 777 /tmp/deltaS*
+
+##############################
+# Prepare the Trend files
+##############################
 
 mv $DELTA_SECS_FILE_BASE.9 $DELTA_SECS_FILE_BASE.10 2>/dev/null
 mv $DELTA_SECS_FILE_BASE.8 $DELTA_SECS_FILE_BASE.9 2>/dev/null
@@ -252,7 +314,13 @@ mv $DELTA_SECS_FILE_BASE.2 $DELTA_SECS_FILE_BASE.3 2>/dev/null
 mv $DELTA_SECS_FILE_BASE.1 $DELTA_SECS_FILE_BASE.2 2>/dev/null
 echo $deltaSecs > $DELTA_SECS_FILE_BASE.1
 
+##############################
+# Prepare the Trend Output
+##############################
 deltaSecsTrendNvp="  Trend: `cat $DELTA_SECS_FILE_BASE.1` `cat $DELTA_SECS_FILE_BASE.2` `cat $DELTA_SECS_FILE_BASE.3` `cat $DELTA_SECS_FILE_BASE.4` `cat $DELTA_SECS_FILE_BASE.5` `cat $DELTA_SECS_FILE_BASE.6` `cat $DELTA_SECS_FILE_BASE.7` `cat $DELTA_SECS_FILE_BASE.8` `cat $DELTA_SECS_FILE_BASE.9` `cat $DELTA_SECS_FILE_BASE.10`;"
 
+##############################
+# Print the Trend Output
+##############################
 #echo $deltaSecsTrendNvp
 echo $deltaSecsTrendNvp | tee $DAT_FILE
