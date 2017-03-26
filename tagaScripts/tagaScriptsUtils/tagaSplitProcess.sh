@@ -34,15 +34,15 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let DEBUG=1
 let DEBUG=0
+let DEBUG=1
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
 #########
 # PREP
 #########
-FILE_TO_SPLIT=/home/pi/snmp_install/walkit4.out
+FILE_TO_SPLIT=/home/pi/snmp_install/walkit4b.out
 SPLIT_FILE=/tmp/tagaSplitFile.out; rm $SPLIT_FILE* 2>/dev/null
 
 ###### 
@@ -119,11 +119,53 @@ for target in $targetList; do scp $SPLIT_FILE.$target pi@$target:/tmp; done
 echo Processing Files Remotely...; sleep 2
 for target in $targetList; do ssh -l pi $target 'ls /tmp/*Split*'; done
 
-echo Done!
+
+#################################################
+# REMOTE FUNCTION
+#################################################
+
+function remoteFunction 
+{
+   target=$1
+   for oid in `cat $SPLIT_FILE.$target`
+   do
+      SEARCH_OID=$oid
+      oidDescription=`snmptranslate -mall -Tl $SEARCH_OID 2>/dev/null` 
+      value=`snmpget -v 3 -t 60 -u demo -l authPriv -a MD5 -A raspsnmp -x DES -X raspsnmp $MYIP $oidDescription | cut -d= -f 2 | cut -d: -f 2`
+      echo "`$tagaUtilsDir/iboaPaddedEcho.sh $oidDescription 40` : `$tagaUtilsDir/iboaPaddedEcho.sh $oid 26` : $value"
+   done
+}
 
 
+#################################################
+# DO IT
+# Okay file is distributed, now process it
+#################################################
+# DO IT
+echo Processing Files Remotely...; sleep 2
+
+for target in $targetList
+do 
+
+   # start the job in the background
+   remoteFunction $target &
+
+##   for oid in `cat $SPLIT_FILE.$target`
+##   do
+##      SEARCH_OID=$oid
+##      oidDescription=`snmptranslate -mall -Tl $SEARCH_OID 2>/dev/null` 
+##      value=`snmpget -v 3 -t 60 -u demo -l authPriv -a MD5 -A raspsnmp -x DES -X raspsnmp $MYIP $oidDescription | cut -d= -f 2 | cut -d: -f 2`
+##      echo "`$tagaUtilsDir/iboaPaddedEcho.sh $oidDescription 40` : `$tagaUtilsDir/iboaPaddedEcho.sh $oid 26` : $value"
+##   done
 
 
+done
+
+
+#################################################
+# DONE
+#################################################
+echo; echo Remote processes initiated!
 
 
 
