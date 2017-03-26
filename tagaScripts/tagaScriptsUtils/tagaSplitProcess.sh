@@ -149,7 +149,7 @@ for target in $targetList
 do 
 
    # start the job in the background
-   ssh -l pi target "$tagaUtilsDir/tagaRemoteFunction.sh $target" &
+   ssh -l pi $target $tagaUtilsDir/tagaRemoteFunction.sh &
 
 ##   for oid in `cat $SPLIT_FILE.$target`
 ##   do
