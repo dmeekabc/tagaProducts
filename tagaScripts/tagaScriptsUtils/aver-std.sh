@@ -37,12 +37,25 @@ source $TAGA_CONFIG_DIR/config
 
 INPUT_FILE=/tmp/aver-std-values-input.dat
 
+let DEBUG=0
+let DEBUG=1
+
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
+###########
+# DO It
+###########
 awk '{for(i=1;i<=NF;i++) {sum[i] += $i; sumsq[i] += ($i)^2}} 
    END {for (i=1;i<=NF;i++) {
    printf "%f %f \n", sum[i]/NR, sqrt((sumsq[i]-sum[i]^2/NR)/NR)}
 }' $INPUT_FILE >> /tmp/aver-std.dat
 
 
-
+###########
+# PRINT It
+###########
+if [ $DEBUG -eq 1 ] ; then
+   echo /tmp/aver-std.dat contents start-------------:
+   cat  /tmp/aver-std.dat 
+   echo /tmp/aver-std.dat contents end---------------
+fi 
