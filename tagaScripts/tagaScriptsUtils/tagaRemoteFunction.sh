@@ -37,7 +37,7 @@ source $TAGA_CONFIG_DIR/config
 let DEBUG=0
 let DEBUG=1
 
-SPLIT_FILE=/tmp/tagaSplitFile.out
+#SPLIT_FILE=/tmp/tagaSplitFile.out
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -61,5 +61,6 @@ function remoteFunction
 ##################################################################
 # DO IT - do the remote function (passing MYIP as input param)
 ##################################################################
-remoteFunction $MYIP
+#remoteFunction $MYIP > $SPLIT_FILE.$MYIP.out
+remoteFunction $MYIP | tee $SPLIT_FILE.$MYIP.out
 
