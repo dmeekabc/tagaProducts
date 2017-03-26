@@ -35,7 +35,33 @@ TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+# These "date" files should not actually be created.
+# If you see "date" files, there is a problem in the caller
+# The caller should call with two params avoiding usage of these "date" files
 INPUT_FILE=/tmp/aver-std-values-input.dat
+OUTPUT_FILE=/tmp/aver-std.dat`date +%s`
+
+let DEBUG=0
+let DEBUG=1
+
+if [ $# -eq 2 ] ; then
+   echo Two params
+   INPUT_FILE=$1
+   OUTUT_FILE=$2
+   # dlm temp DEBUG
+   #OUTPUT_FILE=/tmp/aver-std.dat`date +%s`
+   #OUTPUT_FILE=/tmp/aver-std.dat
+
+   if [ $DEBUG -eq 1 ]; then
+      echo outputfile param is: $OUTUT_FILE > /tmp/`basename $0`.debug.out
+      #OUTPUT_FILE=/tmp/tagaTrend.sh.aver-std.dat
+   fi
+
+else
+   echo NOT Two params
+   INPUT_FILE=/tmp/aver-std-values-input.dat
+   OUTPUT_FILE=/tmp/aver-std.dat
+fi
 
 let DEBUG=0
 let DEBUG=1
@@ -48,14 +74,14 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 awk '{for(i=1;i<=NF;i++) {sum[i] += $i; sumsq[i] += ($i)^2}} 
    END {for (i=1;i<=NF;i++) {
    printf "%f %f \n", sum[i]/NR, sqrt((sumsq[i]-sum[i]^2/NR)/NR)}
-}' $INPUT_FILE >> /tmp/aver-std.dat
+}' $INPUT_FILE >> $OUTPUT_FILE
 
 
 ###########
 # PRINT It
 ###########
 if [ $DEBUG -eq 1 ] ; then
-   echo /tmp/aver-std.dat contents start-------------:
-   cat  /tmp/aver-std.dat 
-   echo /tmp/aver-std.dat contents end---------------
+   echo $OUTPUT_FILE contents start-------------:
+   cat  $OUTPUT_FILE 
+   echo $OUTPUT_FILE contents end---------------
 fi 
