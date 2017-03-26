@@ -42,6 +42,7 @@ source $TAGA_CONFIG_DIR/config
 # IBOA TAGA Standard Defines
 ##################################
 LOG_FILE=/tmp/`basename $0`.log
+DAT_FILE=/tmp/`basename $0`.dat
 
 let DEBUG=1
 let DEBUG=0
@@ -165,5 +166,5 @@ echo $deltaSecs > $DELTA_SECS_FILE_BASE.1
 
 deltaSecsTrendNvp="  Trend: `cat $DELTA_SECS_FILE_BASE.1` `cat $DELTA_SECS_FILE_BASE.2` `cat $DELTA_SECS_FILE_BASE.3` `cat $DELTA_SECS_FILE_BASE.4` `cat $DELTA_SECS_FILE_BASE.5` `cat $DELTA_SECS_FILE_BASE.6` `cat $DELTA_SECS_FILE_BASE.7` `cat $DELTA_SECS_FILE_BASE.8` `cat $DELTA_SECS_FILE_BASE.9` `cat $DELTA_SECS_FILE_BASE.10`;"
 
-echo $deltaSecsTrendNvp
-
+#echo $deltaSecsTrendNvp
+echo $deltaSecsTrendNvp | tee $DAT_FILE
