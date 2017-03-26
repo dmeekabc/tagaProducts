@@ -44,6 +44,9 @@ source $TAGA_CONFIG_DIR/config
 LOG_FILE=/tmp/`basename $0`.log
 DAT_FILE=/tmp/`basename $0`.dat
 
+AVER_STD_INPUT_FILE=/tmp/`basename $0`.aver-std-values-input.dat
+AVER_STD_OUTPUT_FILE=/tmp/`basename $0`.aver-std.dat 
+
 let DEBUG=1
 let DEBUG=0
 
@@ -76,6 +79,85 @@ function printLogStandard
    /usr/bin/sudo /bin/echo >> $LOG_FILE
 }
 
+#########################################################
+# Function -  IBOA TAGA Average and StdDev Stats Handling
+#########################################################
+function printAvgStdDevStats
+{
+   # Generate the $AVER_STD_OUTPUT_FILE file
+   $tagaUtilsDir/aver-std.sh $AVER_STD_INPUT_FILE $AVER_STD_OUTPUT_FILE
+
+   # Get the content from the $AVER_STD_OUTPUT_FILE file
+   #avgStdDevSecsNvp="Avg/Stdev/Min/Max : `tail -n 1 $AVER_STD_OUTPUT_FILE` / $Min / $Max ;"
+
+   let AVG=`tail -n 1 $AVER_STD_OUTPUT_FILE | cut -d\. -f 1`
+   let AVERAGE=`tail -n 1 $AVER_STD_OUTPUT_FILE | cut -d\. -f 1`
+   let STDEV=`tail -n 1 $AVER_STD_OUTPUT_FILE | cut -d" " -f 2 | cut -d\. -f 1`
+
+   AVERAGE_PRINT_STR=`tail -n 1 $AVER_STD_OUTPUT_FILE | cut -c1-5`
+   STDEV_PRINT_STR=`tail -n 1 $AVER_STD_OUTPUT_FILE | cut -c11-14`
+
+   #echo -----------------
+   #echo AVERAGE:$AVERAGE
+   #echo STDEV:$STDEV
+   #echo AVERAGE:$AVERAGE_PRINT_STR
+   #echo STDEV:$STDEV_PRINT_STR
+   #echo -----------------
+
+   if echo $SRW_LIST_ACTIVE | grep $MYIP > /dev/null ; then
+   avgStdDevSecsNvp="  Avg/Stdev/Min/Max : $AVERAGE_PRINT_STR/$STDEV_PRINT_STR/$Min/$Max;"
+   echo average:$AVERAGE
+   echo stdev:$STDEV
+   echo AVERAGE:$AVERAGE
+   let tmp=$AVERAGE
+   # dlm temp: For some reason, these tmp vars are necessary, cannot read/write same var for some reason
+   let tmp2=$tmp-$STDEV
+   let tmp3=$tmp+$STDEV
+   let tmp4=$tmp2-$STDEV
+   let tmp5=$tmp3+$STDEV
+   let LOWER_LIMIT=$tmp4 # -$STDEV
+   let UPPER_LIMIT=$tmp5 # +$STDEV
+   echo lower:$LOWER_LIMIT
+   echo upper:$UPPER_LIMIT
+   fi
+
+   # Compute Two Standard Deviations Above and Below the Average
+   # let LOWER_LIMT=$AVERAGE-$STDEV
+   # let UPPER_LIMT=$AVERAGE+$STDEV
+
+   # let LOWER_LIMT=$LOWER_LIMIT-$STDEV
+   # let UPPER_LIMT=$UPPER_LIMIT+$STDEV
+
+   # echo lower:$LOWER_LIMIT
+   # echo upper:$UPPER_LIMIT
+
+   outOfBoundsNvp=""
+
+   #echo -222--------------
+   #   echo $deltaSecs
+   #   echo $UPPER_LIMT 
+   #   echo $tmp5
+   #echo ---222------------
+
+   if echo $SRW_LIST_ACTIVE | grep $MYIP > /dev/null ; then
+   #if [ $deltaSecs -gt $UPPER_LIMT ] ; then
+   if [ $deltaSecs -gt $tmp5 ] ; then
+      echo "WARNING: Delta Seconds Iteration Duration Delta Seconds outside of (larger than) expected bounds"
+      echo deltaSecs:$deltaSecs UPPER_LIMIT:$UPPER_LIMIT
+      outOfBoundsNvp="WARNING! : deltaSecs:$deltaSecs UPPER_LIMIT:$UPPER_LIMIT ;"
+   #elif [ $deltaSecs -lt $LOWER_LIMT ] ; then
+   elif [ $deltaSecs -lt $tmp4 ] ; then
+      echo "WARNING: Delta Seconds Iteration Duration Delta Seconds outside of (smaller than) expected bounds"
+      echo deltaSecs:$deltaSecs LOWER_LIMIT:$LOWER_LIMIT
+      outOfBoundsNvp="WARNING! : deltaSecs:$deltaSecs LOWER_LIMIT:$LOWER_LIMIT ;"
+   fi
+   fi
+
+   #echo AVG:$AVG STDEV:$STDEV
+
+}
+
+
 ######################################################
 # MAIN for TREND
 ######################################################
@@ -85,7 +167,6 @@ DATE_FILE_BASE="/tmp/date.dat"
 DELTA_SECS_FILE_BASE="/tmp/deltaSecs"
 DELTA_SECS_FILE_BASE="/tmp/deltaSeconds"
 
-AVER_STD_INPUT_FILE=/tmp/aver-std-values-input.dat
 
 CRITERIA_FILE=/tmp/trendCriteriaFile.dat.1 
 touch $CRITERIA_FILE
@@ -150,6 +231,10 @@ if [ -f $CRITERIA_FILE ] ; then
 
 fi
 
+##############################
+# Do the Stats Work
+##############################
+printAvgStdDevStats
 
 sudo chmod 777 /tmp/deltaS*
 
