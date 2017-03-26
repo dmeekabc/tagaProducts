@@ -173,32 +173,34 @@ echo; echo Remote processes initiated!
 # Wait for Remote Jobs to Finish
 #################################################
 
-while true
-do
+$tagaUtilsDir/proceedManaged2.sh
 
-  echo
-  date
-  echo
-  echo Please confirm when all processing has stopped and files are ready to be collected
-  $tagaUtilsDir/confirm.sh
-
-  if [ $? -eq 1 ] ; then
-    echo 1
-    echo 
-    echo Confirmed - Files are now being collected....
-    echo
-    break
-  else
-    echo
-    echo Not Confirmed - Continuing to Wait...
-    echo
-  fi
-
-  sleep 5
-
-
-done
-
+#while true
+#do
+#
+#  echo
+#  date
+#  echo
+#  echo Please confirm when all processing has stopped and files are ready to be collected
+#  $tagaUtilsDir/confirm.sh
+#
+#  if [ $? -eq 1 ] ; then
+#    echo 1
+#    echo 
+#    echo Confirmed - Files are now being collected....
+#    echo
+#    break
+#  else
+#    echo
+#    echo Not Confirmed - Continuing to Wait...
+#    echo
+#  fi
+#
+#  sleep 5
+#
+#
+#done
+#
 
 
 #################################################
