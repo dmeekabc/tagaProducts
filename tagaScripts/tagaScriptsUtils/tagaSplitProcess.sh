@@ -173,7 +173,7 @@ echo; echo Remote processes initiated!
 # Wait for Remote Jobs to Finish
 #################################################
 
-$tagaUtilsDir/proceedManaged2.sh
+$tagaUtilsDir/proceedManaged2.sh 2>/dev/null
 
 #while true
 #do
