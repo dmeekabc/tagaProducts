@@ -34,14 +34,13 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-TAGA_INCLUDE_FILE_TEMPLATE=~/scripts/taga/include/taga.h.template
-TAGA_INCLUDE_FILE=~/scripts/taga/include/taga.h
-
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-cat $TAGA_INCLUDE_FILE_TEMPLATE | sed -e s/TAGA_IP/$MYIP/g > /tmp/taga.h.1
-cat /tmp/taga.h.1 | sed -e s/TAGA_ADDRESS/$MYIP/g > /tmp/taga.h.2
+#TAGA_INCLUDE_FILE_TEMPLATE=/home/pi/scripts/taga/include/taga.h.template
+#TAGA_INCLUDE_FILE=/home/pi/scripts/taga/include/taga.h
 
-cp /tmp/taga.h.2 $TAGA_INCLUDE_FILE
-
+sudo cat $TAGA_INCLUDE_FILE_TEMPLATE | sed -e s/TAGA_PORT/$TAGA_PORT/g > /tmp/taga.h.1
+sudo cat /tmp/taga.h.1 | sed -e s/TAGA_PROTO/$TAGA_PROTO/g > /tmp/taga.h.2
+sudo cat /tmp/taga.h.2 | sed -e s/TAGA_IP/$TAGA_IP/g > /tmp/taga.h.3
+sudo cp /tmp/taga.h.3 $TAGA_INCLUDE_FILE
 
