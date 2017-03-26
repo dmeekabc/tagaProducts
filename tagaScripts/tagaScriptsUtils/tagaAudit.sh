@@ -31,10 +31,17 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
+
+if [ $# -ne 1 ] ; then
+   echo "Warning: $0 expects one parameter (parameter missing)"
+   echo continuing without iteration identifier...
+   sleep 1
+fi
 
 # Get the iteration 
 iteration=$1; echo iteration:$iteration
@@ -47,6 +54,7 @@ LOG_FILE=/tmp/`basename $0`.log
 /usr/bin/sudo /bin/echo >> $LOG_FILE
 
 AUDIT_MODVAL=10
+AUDIT_MODVAL=2
 let CHECKVAL=$iteration%$AUDIT_MODVAL
 if [ $CHECKVAL -eq 0 ] ; then
   echo >> $LOG_FILE
