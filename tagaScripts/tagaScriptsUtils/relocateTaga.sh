@@ -67,7 +67,7 @@ fi
 
 # Ensure we start fresh
 sudo rm -rf     $NEW_LOCATION
-sudo mkdir      $NEW_LOCATION
+sudo mkdir -p   $NEW_LOCATION
 sudo chmod 777  $NEW_LOCATION
 
 # Get the whole ball of wax
