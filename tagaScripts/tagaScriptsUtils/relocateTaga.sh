@@ -34,13 +34,22 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-NEW_LOCATION=/tmp/iboa
-NEW_LOCATION_REPLACE_STRING="\\/tmp\\/iboa"
-NEW_LOCATION=/opt/iboa
-NEW_LOCATION_REPLACE_STRING="\\/opt\\/iboa"
+# List of possible current TAGA dirs, these may be the same but do not need to be the same
+CURRENT_TAGA_DIR1=~/scripts/taga
+CURRENT_TAGA_DIR2=/home/pi/scripts/taga
 
+#echo CURRENT_TAGA_DIR1:$CURRENT_TAGA_DIR1
+#echo CURRENT_TAGA_DIR2:$CURRENT_TAGA_DIR2
+
+NEW_LOCATION=/var/home/tagaxxx
+NEW_LOCATION_REPLACE_STRING="\\/var\\/home\\/tagaxxx"
+
+############################################
+# Issue Confirm Prompt
+############################################
 echo
 echo Notice: If confirmed, the TAGA dir will be relocated to: $NEW_LOCATION
+echo Notice: The $NEW_LOCATION will be overwritten if it previously exists.
 
 # issue confirmation prompt
 $iboaUtilsDir/confirm.sh
@@ -52,32 +61,50 @@ else
   echo; echo Not Confirmed, $0 exiting with no action...; echo
   exit
 fi
+############################################
+# Issue Confirm Prompt
+############################################
 
-sudo mkdir -p $NEW_LOCATION
-sudo chmod 777 $NEW_LOCATION
+# Ensure we start fresh
+sudo rm -rf     $NEW_LOCATION
+sudo mkdir      $NEW_LOCATION
+sudo chmod 777  $NEW_LOCATION
 
-for file in config
+# Get the whole ball of wax
+cd $CURRENT_TAGA_DIR1
+sudo cp -r . $NEW_LOCATION
+
+cd $CURRENT_TAGA_DIR2
+sudo cp -r . $NEW_LOCATION
+
+#cd $CURRENT_TAGA_DIR1
+
+cd $NEW_LOCATION
+for file in `find .`
 do
-  echo $file
-  sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $NEW_LOCATION/$file
+   if [ -d $file ] ; then
+      sudo chmod 777 $file
+   fi
 done
 
-for file in *.sh #config
+for file in `find . | grep \.sh`
 do
-  echo $file
-  sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $NEW_LOCATION/$file
-done
+   ls $file
+   pwd
+   #echo $file
 
-for file in $NEW_LOCATION/*.sh
-do
-   echo $file
-   sudo chmod 755 $file
-   diff $file `basename $file`
-done
+   # Replace String 1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
+#   mv $file.tagaRelocate.tmp $file
 
-# copy the additional files
-others="*.template passwd.txt code"
-sudo cp -r $others $NEW_LOCATION
+   # Replace String 2
+   echo "sudo cat $file | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+#   mv $file.tagaRelocate.tmp $file
+
+
+done
 
 echo; echo New TAGA Location: $NEW_LOCATION; echo
 
