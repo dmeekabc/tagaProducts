@@ -111,5 +111,14 @@ do
 
 done
 
+cd $NEW_LOCATION
+for file in `find .`
+do
+   if [ -d $file ] ; then
+      sudo chmod 755 $file
+   fi
+done
+
+
 echo; echo New TAGA Location: $NEW_LOCATION; echo
 
