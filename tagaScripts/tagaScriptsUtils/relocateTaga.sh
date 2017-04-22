@@ -102,6 +102,10 @@ do
    #echo "sudo cat $file | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp"
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+   sudo chmod 777 $file
+   cp $file.tagaRelocate.tmp.2 $file
+   sudo chmod 755 $file
+   
 #   mv $file.tagaRelocate.tmp $file
 
 
