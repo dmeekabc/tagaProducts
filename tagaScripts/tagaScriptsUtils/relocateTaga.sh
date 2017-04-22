@@ -106,8 +106,8 @@ do
    cp $file.tagaRelocate.tmp.2 $file
    sudo chmod 755 $file
    
-   let CLEANUP=1
    let CLEANUP=0
+   let CLEANUP=1
    if [ $CLEANUP -eq 1 ] ; then
       rm $file.tagaRelocate.tmp.1 
       rm $file.tagaRelocate.tmp.2 
