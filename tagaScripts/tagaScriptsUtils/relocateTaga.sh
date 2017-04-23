@@ -231,7 +231,7 @@ cd $NEW_LOCATION
 for file in `find .`
 do
    if [ -d $file ] ; then
-      sudo chmod 755 $file
+      sudo chmod 775 $file
    fi
 done
 
