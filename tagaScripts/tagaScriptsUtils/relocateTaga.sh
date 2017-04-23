@@ -44,6 +44,9 @@ CURRENT_TAGA_DIR2=/home/pi/scripts/taga
 NEW_LOCATION=/var/home/tagaxxx
 NEW_LOCATION_REPLACE_STRING="\\/var\\/home\\/tagaxxx"
 
+NEW_OWNER=pi
+NEW_GROUP=pi
+
 ############################################
 # Issue Confirm Prompt
 ############################################
@@ -231,7 +234,9 @@ cd $NEW_LOCATION
 for file in `find .`
 do
    if [ -d $file ] ; then
-      sudo chmod 775 $file
+      sudo chown $NEW_OWNER  $file
+      sudo chgrp $NEW_GROUP  $file
+      sudo chmod 755 $file
    fi
 done
 
