@@ -72,10 +72,10 @@ sudo chmod 777  $NEW_LOCATION
 
 # Get the whole ball of wax
 cd $CURRENT_TAGA_DIR1
-sudo cp -r . $NEW_LOCATION
+sudo cp -r -f . $NEW_LOCATION
 
 cd $CURRENT_TAGA_DIR2
-sudo cp -r . $NEW_LOCATION
+sudo cp -r -f . $NEW_LOCATION
 
 #cd $CURRENT_TAGA_DIR1
 
@@ -87,33 +87,145 @@ do
    fi
 done
 
+###########################################
+# *.sh
+###########################################
 for file in `find . | grep \.sh`
 do
-   ls $file
-   pwd
-   #echo $file
-
+   #ls $file
+   sudo chmod 777 $file 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.1 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.2 2>/dev/null
+   #pwd
    # Replace String 1
-   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp".1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1"
    sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
-#   mv $file.tagaRelocate.tmp $file
-
    # Replace String 2
-   #echo "sudo cat $file | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp"
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
    sudo chmod 777 $file
    cp $file.tagaRelocate.tmp.2 $file
-   sudo chmod 755 $file
-   
+#   sudo chmod 755 $file
    let CLEANUP=0
    let CLEANUP=1
    if [ $CLEANUP -eq 1 ] ; then
       rm $file.tagaRelocate.tmp.1 
       rm $file.tagaRelocate.tmp.2 
    fi
-
 done
+
+###########################################
+# *.py
+###########################################
+for file in `find . | grep \.py`
+do
+   #ls $file
+   sudo chmod 777 $file
+   sudo chmod 777 $file.tagaRelocate.tmp.1
+   sudo chmod 777 $file.tagaRelocate.tmp.2
+   #pwd
+   # Replace String 1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
+   # Replace String 2
+   echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
+   sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+   sudo chmod 777 $file
+   cp $file.tagaRelocate.tmp.2 $file
+#   sudo chmod 755 $file
+   let CLEANUP=0
+   let CLEANUP=1
+   if [ $CLEANUP -eq 1 ] ; then
+      rm $file.tagaRelocate.tmp.1 
+      rm $file.tagaRelocate.tmp.2 
+   fi
+done
+
+###########################################
+# *.txt
+###########################################
+for file in `find . | grep \.txt`
+do
+   #ls $file
+   sudo chmod 777 $file 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.1 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.2 2>/dev/null
+   #pwd
+   # Replace String 1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
+   # Replace String 2
+   echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
+   sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+   sudo chmod 777 $file
+   cp $file.tagaRelocate.tmp.2 $file
+#   sudo chmod 755 $file
+   let CLEANUP=0
+   let CLEANUP=1
+   if [ $CLEANUP -eq 1 ] ; then
+      rm $file.tagaRelocate.tmp.1 
+      rm $file.tagaRelocate.tmp.2 
+   fi
+done
+
+###########################################
+# *.cpp
+###########################################
+for file in `find . | grep \.cpp`
+do
+   #ls $file
+   sudo chmod 777 $file 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.1 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.2 2>/dev/null
+   #pwd
+   # Replace String 1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
+   # Replace String 2
+   echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
+   sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+   sudo chmod 777 $file
+   cp $file.tagaRelocate.tmp.2 $file
+#   sudo chmod 755 $file
+   let CLEANUP=0
+   let CLEANUP=1
+   if [ $CLEANUP -eq 1 ] ; then
+      rm $file.tagaRelocate.tmp.1 
+      rm $file.tagaRelocate.tmp.2 
+   fi
+done
+
+###########################################
+# *config*
+###########################################
+for file in `find . | grep tagaConfig/config`
+do
+   #ls $file
+   sudo chmod 777 $file 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.1 2>/dev/null
+   sudo chmod 777 $file.tagaRelocate.tmp.2 2>/dev/null
+   #pwd
+   # Replace String 1
+   echo "sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1"
+   sudo cat $file | sed s/~\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.1
+   # Replace String 2
+   echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
+   sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
+   sudo chmod 777 $file
+   cp $file.tagaRelocate.tmp.2 $file
+#   sudo chmod 755 $file
+   let CLEANUP=0
+   let CLEANUP=1
+   if [ $CLEANUP -eq 1 ] ; then
+      rm $file.tagaRelocate.tmp.1 
+      rm $file.tagaRelocate.tmp.2 
+   fi
+done
+
+
+###########################################
+# Wrapup
+###########################################
 
 cd $NEW_LOCATION
 for file in `find .`
@@ -122,7 +234,6 @@ do
       sudo chmod 755 $file
    fi
 done
-
 
 echo; echo New TAGA Location: $NEW_LOCATION; echo
 
