@@ -106,7 +106,10 @@ do
    # Replace String 2
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
-   sudo chmod 777 $file
+   sudo chown $NEW_OWNER  $file
+   sudo chgrp $NEW_GROUP  $file
+   sudo chmod 755 $file
+
    cp $file.tagaRelocate.tmp.2 $file
 #   sudo chmod 755 $file
    let CLEANUP=0
@@ -133,7 +136,9 @@ do
    # Replace String 2
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
-   sudo chmod 777 $file
+   sudo chown $NEW_OWNER  $file
+   sudo chgrp $NEW_GROUP  $file
+   sudo chmod 755 $file
    cp $file.tagaRelocate.tmp.2 $file
 #   sudo chmod 755 $file
    let CLEANUP=0
@@ -160,7 +165,9 @@ do
    # Replace String 2
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
-   sudo chmod 777 $file
+   sudo chown $NEW_OWNER  $file
+   sudo chgrp $NEW_GROUP  $file
+   sudo chmod 755 $file
    cp $file.tagaRelocate.tmp.2 $file
 #   sudo chmod 755 $file
    let CLEANUP=0
@@ -187,7 +194,9 @@ do
    # Replace String 2
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
-   sudo chmod 777 $file
+   sudo chown $NEW_OWNER  $file
+   sudo chgrp $NEW_GROUP  $file
+   sudo chmod 755 $file
    cp $file.tagaRelocate.tmp.2 $file
 #   sudo chmod 755 $file
    let CLEANUP=0
@@ -214,7 +223,9 @@ do
    # Replace String 2
    echo "sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2"
    sudo cat $file.tagaRelocate.tmp.1 | sed s/\\/home\\/pi\\/scripts\\/taga/$NEW_LOCATION_REPLACE_STRING/g > $file.tagaRelocate.tmp.2
-   sudo chmod 777 $file
+   sudo chown $NEW_OWNER  $file
+   sudo chgrp $NEW_GROUP  $file
+   sudo chmod 755 $file
    cp $file.tagaRelocate.tmp.2 $file
 #   sudo chmod 755 $file
    let CLEANUP=0
