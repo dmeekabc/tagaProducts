@@ -135,10 +135,10 @@ for target in $targetList
 do
    # count the nodes we send our message to
    # check the test type
-   # if UCAST, we send a message to each node, except ourself
+   # if UCAST, each nodes sends a message to each node, except itself
    for target2 in $targetList
    do
-     if [ $target2 != $MYIP ]; then
+     if [ $target2 != $target ]; then
        let expectedCount2=$expectedCount2+1
      fi
    done
