@@ -209,12 +209,13 @@ do
    # count the nodes we send our message to
    # check the test type
 
-   # if UCAST, we send a message to each node, except ourself
+   # if UCAST, each nodes sends a message to each node, except itself
    # but this expected message count is even valid for the MCAST 
    # since we count on the receive side
    for target2 in $targetList
    do
-      if [ $target2 != $MYIP ]; then
+      #if [ $target2 != $MYIP ]; then
+      if [ $target2 != $target ]; then
          let expectedCount2=$expectedCount2+1
       fi
    done
@@ -264,6 +265,11 @@ buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCo
 
 if [ $printCount == $expectedCount ]; then
   mynewpercent="100.00"
+elif [ $printCount > $expectedCount ]; then
+  let mynewpercent=$printCount*100
+  let mynewpercent=$mynewpercent/$expectedCount
+  #mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
+  mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
 else
   let mynewpercent=$printCount*100
   let mynewpercent=$mynewpercent/$expectedCount
