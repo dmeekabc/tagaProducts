@@ -36,7 +36,6 @@
 
 TAGA_CONTEXT=2
 
-
 #######################################################################
 # Automatic Network Identification and TAGA related configuration:
 #######################################################################
@@ -49,24 +48,29 @@ TAGA_CONTEXT=2
 # second alternate ........ 192.168.43
 # third alternate ......... 172.16.41
 
+DEFAULT_NETADDR="10\\.0\\.0"
 NETADDR_STRING_TO_MATCH="192\\.168\\.41"
 NETADDR_STRING_TO_MATCH2="192\\.168\\.43"
 NETADDR_STRING_TO_MATCH3="172\\.16\\.41"
 
-
 # auto config (note, this may be overriden on some systems)
-if /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
+if /sbin/ifconfig | grep $DEFAULT_NETADDR >/dev/null; then
+  # use default
+  let TAGA_TL_CONTEXT=0 # default
+elif /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH >/dev/null; then
   # use first alternate
   let TAGA_TL_CONTEXT=1 # alternate
 elif /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH2 >/dev/null; then
   # use second alternate
   let TAGA_TL_CONTEXT=2 # alternate
+elif /sbin/ifconfig | grep $NETADDR_STRING_TO_MATCH3 >/dev/null; then
+  # use second alternate
+  let TAGA_TL_CONTEXT=3 # alternate
 else
   # use default
   let TAGA_TL_CONTEXT=0 # default
 fi
 
-# jtmnm temp
 # On this system, set Context Explicitly (override auto config above)
 #let TAGA_TL_CONTEXT=1 # alternate
 
@@ -77,12 +81,18 @@ fi
 
 # set the NETWORK ADDRESS PART 
 # Note: First 3 Nibbles,this assumes 24-bit or higher netmask
-if [ $TAGA_TL_CONTEXT -eq 1 ]; then
+if [ $TAGA_TL_CONTEXT -eq 0 ]; then
+   # default
+   NETADDRPART=10.0.0
+elif [ $TAGA_TL_CONTEXT -eq 1 ]; then
    # first alternate
    NETADDRPART=192.168.41
 elif [ $TAGA_TL_CONTEXT -eq 2 ]; then
    # second alternate
    NETADDRPART=192.168.43
+elif [ $TAGA_TL_CONTEXT -eq 3 ]; then
+   # second alternate
+   NETADDRPART=172.16.41
 else
    # default
    NETADDRPART=10.0.0
@@ -216,6 +226,7 @@ elif [ $TAGA_TL_CONTEXT -eq 2 ]; then
    TARGET_LIST_BOTTOM_UP=$TARGET_LIST
 else
    TARGET_LIST="10.0.0.8 10.0.0.9 10.0.0.10 10.0.0.11 10.0.0.22 10.0.0.27"
+   TARGET_LIST="10.0.0.12 10.0.0.17 10.0.0.20 10.0.0.27"
 fi
 
 ####################################
