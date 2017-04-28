@@ -464,6 +464,7 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+    let ROW_SIZE=70
   elif [ $WIDE_DISPLAY -eq 1 ]; then
     let ROW_SIZE=166
   else
