@@ -309,6 +309,17 @@ let m=0 # index
 for target in $targetList
 do
 
+  # increment the index
+  let m=$m+1
+  if [ $m -lt 10 ]; then
+    #mprint=0$m
+    mprint=" $m"
+  else
+    mprint="$m."
+  fi 
+
+#  row="$mprint. $row"
+
   # build Row output
 
   # init the row cumulative
@@ -318,26 +329,27 @@ do
   tgtlen=`echo $target | awk '{print length($0)}'`
 
   if [ $tgtlen -eq 17 ] ; then
-    row=$target\ 
+    row="$target $mprint" 
   elif [ $tgtlen -eq 16 ] ; then
-    row=$target\. 
+    row="$target...$mprint"
   elif [ $tgtlen -eq 15 ] ; then
-    row=$target\.. 
+    row="$target....$mprint"
   elif [ $tgtlen -eq 14 ] ; then
-    row=$target\... 
+    row="$target.....$mprint"
   elif [ $tgtlen -eq 13 ] ; then
-    row=$target\.... 
+    row="$target......$mprint"
   elif [ $tgtlen -eq 12 ] ; then
-    row=$target\..... 
+    row="$target.......$mprint"
   elif [ $tgtlen -eq 11 ] ; then
-    row=$target\...... 
+    row="$target........$mprint"
   elif [ $tgtlen -eq 10 ] ; then
-    row=$target\....... 
+    row="$target.........$mprint"
   elif [ $tgtlen -eq 9 ] ; then
-    row=$target\........ 
+    row="$target..........$mprint"
   else
-    row=$target\......... 
+    row="$target...........$mprint"
   fi
+
 
   # get the sent count for (to) this target
   let rownodeCount=0
@@ -488,16 +500,16 @@ do
   # append the cumulative row total to the row output
   row="$row $row_cumulative"
 
-  # increment the index
-  let m=$m+1
-  if [ $m -lt 10 ]; then
-    #mprint=0$m
-    mprint=" $m"
-  else
-    mprint=$m
-  fi 
+#  # increment the index
+#  let m=$m+1
+#  if [ $m -lt 10 ]; then
+#    #mprint=0$m
+#    mprint=" $m"
+#  else
+#    mprint=$m
+#  fi 
 
-  row="$mprint. $row"
+#  row="$mprint. $row"
 
   echo "$row"
   echo "$row" >> $TAGA_RUN_DIR/counts.txt
