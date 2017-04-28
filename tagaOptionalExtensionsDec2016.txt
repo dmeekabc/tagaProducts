@@ -1,0 +1,145 @@
+#######################################################################
+#
+# Copyright (c) IBOA Corp 2016
+#
+# All Rights Reserved
+#                                                                     
+# Redistribution and use in source and binary forms, with or without  
+# modification, are permitted provided that the following conditions 
+# are met:                                                             
+# 1. Redistributions of source code must retain the above copyright    
+#    notice, this list of conditions and the following disclaimer.     
+# 2. Redistributions in binary form must reproduce the above           
+#    copyright notice, this list of conditions and the following       
+#    disclaimer in the documentation and/or other materials provided   
+#    with the distribution.                                            
+#                                                                      
+# THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS   
+# OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED    
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   
+# ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE     
+# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT    
+# OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR   
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF           
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT            
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE    
+# USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH     
+# DAMAGE.                                                              
+#
+#######################################################################
+
+NOTE: Plese contact info@iboa.us for information regarding these optional extensions.
+
+	modified:   iboaUtils/iboaDelay.sh
+	modified:   iboaUtils/iboaInstall.sh
+	modified:   iboaUtils/iboa_install.sh
+	modified:   synchme.sh
+	modified:   tagaConfig/config
+	modified:   tagaConfig/config_admin
+	modified:   tagaConfig/hostList.txt
+	modified:   tagaConfig/hostsToIps.txt
+	modified:   tagaConfig/hostsToSharedIps.txt
+	modified:   tagaConfig/loginmap.txt
+	modified:   tagaConfig/targetList.sh
+	modified:   tagaScripts/tagaScriptsLogMgt/tlm_daemon.sh
+	modified:   tagaScripts/tagaScriptsLogMgt/tlm_daemon_agent.sh
+	modified:   tagaScripts/tagaScriptsMgen/script.mcastSend.mgn
+	modified:   tagaScripts/tagaScriptsTimer/halfhour.sh
+	modified:   tagaScripts/tagaScriptsTimer/hour.sh
+	modified:   tagaScripts/tagaScriptsTimer/minute.sh
+	modified:   tagaScripts/tagaScriptsTimer/tenminute.sh
+	modified:   tagaScripts/tagaScriptsTimer/test.sh
+	modified:   tagaScripts/tagaScriptsTimer/twentyminute.sh
+	modified:   tagaScripts/tagaScriptsUtils/buildYangModule.sh
+	modified:   tagaScripts/tagaScriptsUtils/checkLinkQuality.sh
+	modified:   tagaScripts/tagaScriptsUtils/checkMemory.sh
+	modified:   tagaScripts/tagaScriptsUtils/collect.sh
+	modified:   tagaScripts/tagaScriptsUtils/confirm.sh
+	modified:   tagaScripts/tagaScriptsUtils/convertYangModule.sh
+	modified:   tagaScripts/tagaScriptsUtils/createYangModule.sh
+	modified:   tagaScripts/tagaScriptsUtils/installYangModule.sh
+	modified:   tagaScripts/tagaScriptsUtils/managedExecute.sh
+	modified:   tagaScripts/tagaScriptsUtils/pingAll.sh
+	modified:   tagaScripts/tagaScriptsUtils/pingNet.sh
+	modified:   tagaScripts/tagaScriptsUtils/probe.sh
+	modified:   tagaScripts/tagaScriptsUtils/probeWireless.sh
+	modified:   tagaScripts/tagaScriptsUtils/probew.sh
+	modified:   tagaScripts/tagaScriptsUtils/proceedManaged.sh
+	modified:   tagaScripts/tagaScriptsUtils/remoteLoginAll.sh
+	modified:   tagaScripts/tagaScriptsUtils/remoteLoginSelect.sh
+	modified:   tagaScripts/tagaScriptsUtils/tagaLogManagement.sh
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	tagaScripts/tagaScriptsLogMgt/changeTlmServiceEnabled.sh
+	tagaScripts/tagaScriptsLogMgt/getTlmServiceEnabled.sh
+	tagaScripts/tagaScriptsLogMgt/yangcli-pro.script.changeTlmServiceEnabled.n
+	tagaScripts/tagaScriptsLogMgt/yangcli-pro.script.getTlmServiceEnabled.n
+	tagaScripts/tagaScriptsMgen/mgenReceiverLoop.sh
+	tagaScripts/tagaScriptsMgen/mgenSenderLoop.sh
+	tagaScripts/tagaScriptsMgen/script.mcastSend.mgn.fast
+	tagaScripts/tagaScriptsMgen/script.mcastSend.mgn.slow
+	tagaScripts/tagaScriptsMgen/script.wlan0.mgn
+	tagaScripts/tagaScriptsTimer/120
+	tagaScripts/tagaScriptsTimer/dateTimeOffset.sh
+	tagaScripts/tagaScriptsTimer/fiveminute.sh
+	tagaScripts/tagaScriptsTimer/halfhour.sh.8dec
+	tagaScripts/tagaScriptsTimer/hour.sh.8dec
+	tagaScripts/tagaScriptsTimer/minute.sh.8dec
+	tagaScripts/tagaScriptsTimer/tagaTimerControl.sh
+	tagaScripts/tagaScriptsTimer/tenminute.sh.8dec
+	tagaScripts/tagaScriptsTimer/twentyminute.sh.8dec
+	tagaScripts/tagaScriptsTimer/twominute.sh
+	tagaScripts/tagaScriptsUtils/cancelTimeBasedOperation.sh
+	tagaScripts/tagaScriptsUtils/cancelTimeBasedTrigger.sh
+	tagaScripts/tagaScriptsUtils/changeModelContext.sh
+	tagaScripts/tagaScriptsUtils/confirmYes.txt
+	tagaScripts/tagaScriptsUtils/context.txt
+	tagaScripts/tagaScriptsUtils/contextChange.sh
+	tagaScripts/tagaScriptsUtils/control.sh.orig
+	tagaScripts/tagaScriptsUtils/deleteYangModule.sh
+	tagaScripts/tagaScriptsUtils/demo.txt
+	tagaScripts/tagaScriptsUtils/demo2.txt
+	tagaScripts/tagaScriptsUtils/demo3.txt
+	tagaScripts/tagaScriptsUtils/demobde.txt
+	tagaScripts/tagaScriptsUtils/demobn1.txt
+	tagaScripts/tagaScriptsUtils/dynamicVarExample.sh
+	tagaScripts/tagaScriptsUtils/getAutoConfirm.sh
+	tagaScripts/tagaScriptsUtils/iboaDelay.sh
+	tagaScripts/tagaScriptsUtils/ipmrw.sh
+	tagaScripts/tagaScriptsUtils/nano.sh
+	tagaScripts/tagaScriptsUtils/networkElect.sh
+	tagaScripts/tagaScriptsUtils/prepRoot.sh
+	tagaScripts/tagaScriptsUtils/prepRootAll.sh
+	tagaScripts/tagaScriptsUtils/probeCheckFile.sh
+	tagaScripts/tagaScriptsUtils/probeCheckManagers.sh
+	tagaScripts/tagaScriptsUtils/probeCheckProcess.sh
+	tagaScripts/tagaScriptsUtils/probeCheckTMPDirFile.sh
+	tagaScripts/tagaScriptsUtils/probeClearLinkDrops.sh
+	tagaScripts/tagaScriptsUtils/probeCopyFile.sh
+	tagaScripts/tagaScriptsUtils/probeCreateDir.sh
+	tagaScripts/tagaScriptsUtils/probeCreateFile.sh
+	tagaScripts/tagaScriptsUtils/probeGateways.sh
+	tagaScripts/tagaScriptsUtils/probeHosts.sh
+	tagaScripts/tagaScriptsUtils/probeKillProcess.sh
+	tagaScripts/tagaScriptsUtils/probeMoveFile.sh
+	tagaScripts/tagaScriptsUtils/probeNetconf.sh
+	tagaScripts/tagaScriptsUtils/probeNtp.sh
+	tagaScripts/tagaScriptsUtils/probeRunProcess.sh
+	tagaScripts/tagaScriptsUtils/probeSetDate.sh
+	tagaScripts/tagaScriptsUtils/probeSetDateW.sh
+	tagaScripts/tagaScriptsUtils/probeSetLinkDrops.sh
+	tagaScripts/tagaScriptsUtils/probeUntarFile.sh
+	tagaScripts/tagaScriptsUtils/probew.sh.save
+	tagaScripts/tagaScriptsUtils/proceed.sh
+	tagaScripts/tagaScriptsUtils/putAutoConfirm.sh
+	tagaScripts/tagaScriptsUtils/readInput.sh
+	tagaScripts/tagaScriptsUtils/receiverLoop.sh
+	tagaScripts/tagaScriptsUtils/senderLoop.sh
+	tagaScripts/tagaScriptsUtils/synchTargetList.sh
+	tagaScripts/tagaScriptsUtils/taga.yang
+	tagaScripts/tagaScriptsUtils/verifyNet.sh
+	tagaScripts/tagaScriptsUtils/yangUtils/
+

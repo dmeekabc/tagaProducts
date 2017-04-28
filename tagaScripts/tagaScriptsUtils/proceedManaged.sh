@@ -34,8 +34,17 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-MAX_WAIT_LOOPS=1000000
-MAX_WAIT_LOOPS=10
+
+# use the input parameter (if provided) as the max loop count
+# otherwise, use the default below
+if [ $# -ge 1 ] ; then
+   MAX_WAIT_LOOPS=$1
+else
+   MAX_WAIT_LOOPS=10
+   MAX_WAIT_LOOPS=1000000
+fi
+
+expectedColor=`cat /tmp/expectedColor.txt`
 
 #####################################################3
 # issuePrompt function
@@ -46,10 +55,11 @@ cd $HOME/scripts/taga/tagaScripts/tagaScriptsUtils
 
 let counter=0
 retCode=1
-
 while [ $retCode -ne 0 ] 
 do
-   echo `date` : Press \<Enter\> Key to Proceed...
+   #echo `date` : Expected Current Status: $1
+   #echo `date` : Press \<Enter\> Key to Proceed...
+   echo `date` : Expected Current Status: $expectedColor : Press \<Enter\> Key to Proceed ...
    ./managedExecute.sh -t 1 ./readInput.sh 2> /dev/null
    retCode=$?
 #   echo $retCode
@@ -64,6 +74,7 @@ do
          break
       fi
    fi
+   sleep 3
 done
 
 }
@@ -72,7 +83,12 @@ done
 # Main
 #####################################################3
 
+
 # issue the prompt
 issuePrompt
 
+# make sure the user really wants to proceed. 
+if [ -f /tmp/jtmnm_halt.txt ] ; then
+  $tagaUtilsDir/halt.sh
+fi
 

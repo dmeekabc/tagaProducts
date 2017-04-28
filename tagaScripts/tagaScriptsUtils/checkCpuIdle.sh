@@ -85,23 +85,20 @@ let cpuIdleTime=`top -n 1 | grep Cpu > /tmp/cpu.out;cat /tmp/cpu.out | cut -d[ -
 
 if [ $cpuIdleTime -lt $ALARM_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######"
+   echo "`date`: ###### ALARM!!: Cpu Idle Time ($cpuIdleTime%) is below ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $cpuIdleTime -lt $MAJOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######"
+   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $cpuIdleTime -lt $MINOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ###### ######" >> /tmp/tagaWarn.log
+   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######"
+   echo "`date`: ###### WARNING: Cpu Idle Time ($cpuIdleTime%) is below MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 else

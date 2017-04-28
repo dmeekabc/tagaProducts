@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 #
-# Copyright (c) IBOA Corp 2016
+# Copyright (c) IBOA Corp 2017
 #
 # All Rights Reserved
 #                                                                     
@@ -31,37 +31,29 @@
 #######################################################################
 
 TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-# tick
-$TAGA_UTILS_DIR/tick.sh &
-
-# 2
-# mlf alias
-cp /opt/jtmnm/largeFilesDir/largeFile2.txt /opt/jtmnm/largeFilesDir/largeFile9.txt
-
-# emr alias
-sudo ip route add 224.0.0.0/4 dev wlan0   2>/dev/null        
-
-cd /opt/jtmnm/scripts; cd yangScripts; ./stageJTX.sh `cat /opt/jtmnm/config/contentPath.txt`
+SCREEN_SHOT_FILE="/tmp/screen.png"
 
 
-# note, stageJTX.sh creates /tmp/tmp.txt conditionally based on inputs
+while true
+do
 
-# 2a
+   # Back up the old files
+   # dlm tmp note, consider mv instead of cp to be resource friendly
+   cp $SCREEN_SHOT_FILE $SCREEN_SHOT_FILE.1 >/dev/null
+   for i in 9 8 7 6 5 4 3 2 1
+   do let j=$i+1; cp $SCREEN_SHOT_FILE.$i $SCREEN_SHOT_FILE.$j 2>/dev/null ; done
 
-# normkill
-sudo kill `ps -ef | grep normFileRecv | grep -v grep | cut -c 10-15`
-mv /tmp/tmp.txt `cat /opt/jtmnm/config/contentPath.txt`
+   # Get the new screenshot
+   gnome-screenshot -f $SCREEN_SHOT_FILE > /dev/null
 
-# 3
-cd /opt/jtmnm/scripts; cd yangScripts; ./loadJTX.sh `cat /opt/jtmnm/config/contentPath.txt`
+   #sleep 60
+   # dlm temp, this may be resource heavy!
+   $tagaTimerDir/minute.sh >/dev/null
 
-
-# 4
-cd /opt/jtmnm/scripts; cd yangScripts; ./unstageJTX.sh `cat /opt/jtmnm/config/contentPath.txt`
-
-
+done

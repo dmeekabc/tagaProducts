@@ -176,7 +176,11 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
-let ROW_SIZE=62
+
+let ROW_SIZE=82  # Note, this is in two spots
+let ROW_SIZE=72  # Note, this is in two spots
+let ROW_SIZE=68  # Note, this is in two spots
+
 let padlen=$ROW_SIZE-$buflen
 # add the padding
 let i=$padlen
@@ -269,11 +273,11 @@ fi
 
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
-let ROW_SIZE=66
-let ROW_SIZE=60
-let ROW_SIZE=68
-let ROW_SIZE=64
-let ROW_SIZE=62
+
+let ROW_SIZE=82  # Note, this is in two spots
+let ROW_SIZE=72  # Note, this is in two spots
+let ROW_SIZE=68  # Note, this is in two spots
+
 let padlen=$ROW_SIZE-$buflen
 # add the padding
 let i=$padlen
@@ -431,7 +435,7 @@ do
     elif [ $WIDE_DISPLAY -eq 1 ]; then
       let modVal=$rownodeCount%50
     else
-      let modVal=$rownodeCount%20
+      let modVal=$rownodeCount%25
     fi
 
     if  [ $modVal -eq 0 ]; then
@@ -452,6 +456,8 @@ do
     let ROW_SIZE=166
   else
     let ROW_SIZE=118
+    let ROW_SIZE=138
+    let ROW_SIZE=142
   fi
 
   let rowlen=`echo $row | awk '{print length($0)}'`

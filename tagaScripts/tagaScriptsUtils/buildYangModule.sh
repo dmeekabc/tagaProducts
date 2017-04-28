@@ -42,12 +42,10 @@ COMMAND=xxxxxx
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=tlm   # token to use as clone source
-MODULE_DIR=/usr/share/yumapro/modules/$TEMPLATE_TOKEN
-TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
-SOURCE_DIR=~/yangModules
-SOURCE_DIR=~/
+TEMPLATE_TOKEN=taga        # token to use as clone source    (input)
+MODULE_DIR=$HOME/modules   # modules directory               (input)
+SOURCE_DIR=~/yangSource    # yang source directory           (output)
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang  #            (output)
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 

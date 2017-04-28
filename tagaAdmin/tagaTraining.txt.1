@@ -1,0 +1,86 @@
+
+From: https://www.juniper.net/techpubs/en_US/junos/topics/task/operational/junos-xml-protocol-rpcs-and-xml-mapping.html#jd0e61
+
+user@host> show chassis hardware | display xml
+
+<rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.2R1/junos">
+    <chassis-inventory \
+                xmlns="http://xml.juniper.net/junos/16.2R1/junos-chassis">
+        <chassis junos:style="inventory">
+            <name>Chassis</name>
+            <serial-number>00118</serial-number>
+            <description>M20</description>
+            <chassis-module>
+                <name>Backplane</name>
+                <version>REV 06</version>
+                <part-number>710-001517</part-number>
+                <serial-number>AB5911</serial-number>
+            </chassis-module>
+            <chassis-module>
+                <name>Power Supply A</name>
+                <!-- other child tags of <chassis-module> -->
+            </chassis-module>
+            <!-- other child tags of <chassis> -->
+        </chassis>
+    </chassis-inventory>
+</rpc-reply>
+
+Mapping Commands
+
+Information about the available command equivalents in the current release of the Junos OS can be found in the Junos XML API Operational Developer Reference. For the mapping between commands and Junos XML tag elements, see the Junos XML API Operational Developer Reference “Mapping Between Operational Tag Elements, Perl Methods, and CLI Commands” chapter. For detailed information about a specific operation, see the Junos XML API Operational Developer Reference “Summary of Operational Request Tags” chapter.
+
+On the Junos OS CLI, you can display the Junos XML request tag elements for any operational mode command that has a Junos XML counterpart. To display the Junos XML RPC request tags for an operational mode command, include the | display xml rpc option after the command.
+
+The following example displays the RPC tags for the show route command:
+user@host> show route | display xml rpc
+
+<rpc-reply xmlns:junos="http://xml.juniper.net/junos/10.1I0/junos">
+    <rpc>
+        <get-route-information>
+        </get-route-information>
+    </rpc>
+    <cli>
+        <banner></banner>
+    </cli>
+</rpc-reply>
+
+Mapping for Command Options with Variable Values
+
+Many CLI commands have options that identify the object that the command affects or reports about, distinguishing the object from other objects of the same type. In some cases, the CLI does not precede the identifier with a fixed-form keyword, but XML convention requires that the Junos XML API define a tag element for every option. To learn the names for each identifier (and any other child tag elements) for an operational request tag element, consult the tag element’s entry in the appropriate DTD or in the Junos XML API Operational Developer Reference, or issue the command and command option in the CLI and append the | display xml rpc option.
+
+The following example shows the Junos XML tag elements for two CLI operational commands that have variable-form options. In the show interfaces command, t3-5/1/0:0 is the name of the interface. In the show bgp neighbor command, 10.168.1.222 is the IP address for the BGP peer of interest.
+
+You can display the Junos XML RPC tags for a command and its options in the CLI by executing the command and command option and appending | display xml rpc.
+user@host> show interfaces t3-5/1/0:0 | display xml rpc
+
+<rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R1/junos">
+    <rpc>
+        <get-interface-information>
+            <interface-name>t3-5/1/0:0</interface-name>
+        </get-interface-information>
+    </rpc>
+    <cli>
+        <banner></banner>
+    </cli>
+</rpc-reply>
+
+Mapping for Fixed-Form Command Options
+
+Some CLI commands include options that have a fixed form, such as the brief and detail strings, which specify the amount of detail to include in the output. The Junos XML API usually maps such an option to an empty tag whose name matches the option name.
+
+The following example shows the Junos XML tag elements for the show isis adjacency command, which has a fixed-form option called detail:
+
+To view the tags in the CLI:
+user@host> show isis adjacency detail | display xml rpc
+
+<rpc-reply xmlns:junos="http://xml.juniper.net/junos/16.1R1/junos">
+    <rpc>
+        <get-isis-adjacency-information>
+            <detail/>
+        </get-isis-adjacency-information>
+    </rpc>
+    <cli>
+        <banner></banner>
+    </cli>
+</rpc-reply>
+

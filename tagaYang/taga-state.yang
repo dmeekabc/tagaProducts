@@ -1,0 +1,145 @@
+/********************************************************************
+ *
+ * Copyright (c) IBOA Corp 2016
+ *
+ * All Rights Reserved
+ *                                                                     
+ * Redistribution and use in source and binary forms, with or without  
+ * modification, are permitted provided that the following conditions 
+ * are met:                                                             
+ * 1. Redistributions of source code must retain the above copyright    
+ *    notice, this list of conditions and the following disclaimer.     
+ * 2. Redistributions in binary form must reproduce the above           
+ *    copyright notice, this list of conditions and the following       
+ *    disclaimer in the documentation and/or other materials provided   
+ *    with the distribution.                                            
+ *                                                                      
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ``AS IS'' AND ANY EXPRESS   
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED    
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE   
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE     
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR  
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT    
+ * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR   
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF           
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT            
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE    
+ * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH     
+ * DAMAGE.                                                              
+ *
+ ********************************************************************/
+module taga-state {
+
+    namespace "http://iboa.us/ns/taga-state";
+
+    prefix "taga-state";
+
+    organization "IBOA Corp";
+
+    contact "Darrin L. Meek <info@iboa.us>"; 
+
+    description
+        "YANG module for IBOA Test Auto Generation and Analysis (TAGA) State.";
+
+    revision 2017-01-22 {
+        description "Jan 2017 Initial Version of TAGA State Module.";
+    }
+
+    identity taga-state-blue {
+        description "Blue State.";
+    }
+
+    identity taga-state-green {
+        description "Green State.";
+    }
+
+    identity taga-state-red {
+        description "Red State.";
+    }
+
+    identity taga-state-orange {
+        description "Orange State.";
+    }
+
+    identity taga-state-yellow {
+        description "Yellow State.";
+    }
+
+    typedef DisplayString {
+        description
+          "YANG version of the SMIv2 DisplayString TEXTUAL-CONVENTION.";
+        reference "RFC 2579, section 2.";
+        type string {
+            length "0 .. 255";
+        }
+    }
+
+    typedef TagaState {
+        description "TAGA State.";
+        type enumeration {
+           enum blue   { description "The blue state.";   }
+           enum green  { description "The green state.";  }
+           enum red    { description "The red state.";    }
+           enum orange { description "The orange state."; }
+           enum yellow { description "The yellow state."; }
+        }
+     }
+
+    container taga-state {
+        presence
+          "Indicates the taga-state service is available";
+
+        description
+          "Top-level container for all taga-state database objects.";
+
+        leaf taga-PrimaryState {
+           description "Indicates the primary TAGA State.";
+           type TagaState;
+        }
+
+        leaf taga-SecondaryState {
+           description "Indicates the secondary TAGA State.";
+           type TagaState;
+        }
+
+        leaf taga-TertiaryState {
+           description "Indicates the tertiary TAGA State.";
+           type TagaState;
+        }
+
+        leaf stric-state-transitions {
+             type boolean;
+             default false;
+        }
+    }
+
+    rpc set-blue-state {
+        description "Set the Blue State.";
+    }
+
+    rpc set-green-state {
+        description "Set the Green State.";
+    }
+
+    rpc set-red-state {
+        description "Set the Red State.";
+    }
+
+    rpc set-orange-state {
+        description "Set the Orange State.";
+    }
+
+    rpc set-yellow-state {
+        description "Set the Yellow State.";
+    }
+
+    notification taga-state-change {
+        description
+          "Indicates that the taga state has changed.";
+        leaf taga-newState {
+           description "Indicates the new TAGA State.";
+           type TagaState;
+        }
+    }
+}
+

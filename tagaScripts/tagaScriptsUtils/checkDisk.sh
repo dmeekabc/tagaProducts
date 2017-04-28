@@ -72,31 +72,26 @@ done
 # oddly enough, here, a percentUsage == 0 actually indicates 100% usage
 if [ $percentUsage -eq 0 ]; then
    echo
-   echo "`date`: ###### ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######"
+   echo "`date`: ###### ALARM!!: Disk Usage (100%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $percentUsage -gt $ALARM_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ###### ######" >> /tmp/tagaAlarm.log
+   echo "`date`: ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######"
+   echo "`date`: ###### ALARM!!: Disk Usage ($percentUsage%) exceeds ALARM_THRESHOLD ($ALARM_THRESHOLD%) ######" >> /tmp/tagaAlarm.log
    echo
    exit 1
 elif [ $percentUsage -gt $MAJOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######"
-   echo "`date`: ###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ###### ######" >> /tmp/tagaWarn.log
+   echo "`date`: ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######"
+   echo "`date`: ###### WARNING: Disk Usage ($percentUsage%) exceeds MAJOR_THRESHOLD ($MAJOR_THRESHOLD%) ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 elif [ $percentUsage -gt $MINOR_THRESHOLD ]; then
    echo
-   echo "`date`: ###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD%) ###### ######" 
-   echo "`date`: ###### ###### WARNING: Disk Usage ($percentUsage%) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD%) ###### ######" >> /tmp/tagaWarn.log
+   echo "`date`: ###### WARNING: Disk Usage ($percentUsage%) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######" 
+   echo "`date`: ###### WARNING: Disk Usage ($percentUsage%) exceeds MINOR_THRESHOLD ($MINOR_THRESHOLD%) ######" >> /tmp/tagaWarn.log
    echo
    exit 1
 else

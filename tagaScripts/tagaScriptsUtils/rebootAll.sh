@@ -34,11 +34,19 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#dlmtemp changed 3 jan 2017 due to some strange error
+targetList=$targetListBottomUp
+targetList=$TARGET_LIST_BOTTOM_UP
+
+#SKIP_LIST="22.209.44.90 22.209.44.74"
+
 echo
-echo WARNING: This command will reboot all nodes in the network including the following: `echo $targetList`
+echo WARNING: This command will reboot all nodes in the network including the following: $targetList
 
 # issue confirmation prompt
-$iboaUtilsDir/confirm.sh
+#$iboaUtilsDir/confirm.sh
+$tagaUtilsDir/confirm.sh
+
 
 let response=$?
 if [ $response -eq 1 ]; then
@@ -51,6 +59,9 @@ fi
 #dlm temp
 #exit
 
+
+for iter in 1 # 2 3 4 5
+do
 for target in $targetList
 do
    echo
@@ -58,26 +69,31 @@ do
    if [ $target == $MYIP ]; then
       echo skipping self for now...
       continue
+   elif echo $SKIP_LIST | grep $target >/dev/null ; then
+      echo skipping other for now...
+      continue
    fi
    echo rebooting $target .....
    ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt #&
 done
 echo
-
 sleep 5
-
-for target in $targetList
-do
-   echo
-   echo processing $target
-   if [ $target == $MYIP ]; then
-      echo skipping self for now...
-      continue
-   fi
-   echo rebooting $target .....
-   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt #&
 done
-echo
+
+#for target in $targetList
+#do
+#   echo
+#   echo processing $target
+#   if [ $target == $MYIP ]; then
+#      echo skipping self for now...
+#      continue
+#   fi
+#   echo rebooting $target .....
+#   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt #&
+#done
+#echo
+
+
 
 echo rebooting self now...
 ssh -l $MYLOGIN_ID $MYIP sudo reboot <$TAGA_CONFIG_DIR/passwd.txt

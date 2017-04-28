@@ -41,19 +41,28 @@ printInfo=$2
 # issuePrompt function
 #####################################################3
 function issuePrompt {
-echo
-echo Please Confirm to Proceed.
-echo
-echo Confirm? \(y/n\) ?
-echo
+   echo
+   echo Please Confirm to Proceed.
+   echo
+   echo Confirm? \(y/n\) \?
+   echo
 
-read input
+   autoConfirm=`/opt/tagaxxx/scripts/utils/getAutoConfirm.sh | cut -d: -f 2`
 
-if [ $input == "y" ] 2>/dev/null; then
-  return 1 # confirmed
-else
-  return 2 # not confirmed
-fi
+   if [ $autoConfirm -eq 1 ] ; then 
+      echo Auto-confirmed
+      return 1 # confirmed
+   elif [ -f /tmp/tagaxxx_confirm.txt ] ; then 
+      echo Auto-confirmed
+      return 1 # confirmed
+   else
+      read input
+      if [ $input == "y" ]; then
+        return 1 # confirmed
+      else
+        return 2 # not confirmed
+      fi
+   fi
 }
 
 #####################################################3
@@ -61,6 +70,7 @@ fi
 #####################################################3
 
 # print the info
+echo
 echo $printInfo
 
 # issue the prompt

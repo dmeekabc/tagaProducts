@@ -46,12 +46,32 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 # continue to execute the command
 #echo $0 Proceeding.... at `date`; echo
 
+FILE1=/tmp/cancelTimeBasedTrigger.txt
+FILE2=/tmp/cancelTimeBasedOperation.txt
+rm $FILE1  2>/dev/null
+rm $FILE2  2>/dev/null
+
 while true
 do 
+
+  source $TAGA_CONFIG_DIR/config
+
+  #  backdoor mechanism to cancel the time-based trigger (proceed immediately) or time-based operation (cancel)
+  if [ -f $FILE1 ]; then
+     rm $FILE1 
+     exit 1
+  elif [ -f $FILE2 ]; then
+     rm $FILE2
+     exit 2
+  fi 
+
+  echo 1: `date`
+
    # first, ensure we hit the end of an appropriate time frame
    if date | cut -d: -f 2 | cut -c1-2 | grep -e ^19 -e ^39 -e ^59 ; then
    while true
    do
+  echo 2: `date`
    # next, ensure we hit the end of a minute 
    if date | cut -d: -f 3 | cut -c1-2 | grep ^59 ; then
    # next, ensure we hit the end of a second 
@@ -63,7 +83,7 @@ do
       #date +%N
       date -Ins
       echo
-      exit
+      exit 0
    fi
    fi
    done
@@ -72,3 +92,5 @@ do
    fi
 done
 
+# Note, we should never get here but just in case...
+exit 0

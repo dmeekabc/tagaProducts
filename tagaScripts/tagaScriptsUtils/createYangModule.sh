@@ -37,21 +37,18 @@ source $TAGA_CONFIG_DIR/config
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=jtmnm  # token to use as clone source
-TEMPLATE_TOKEN=taga   # token to use as clone source
-TEMPLATE_TOKEN=tlm   # token to use as clone source
-MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
-TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang
-SOURCE_DIR=~/yangModules
-SOURCE_DIR=~/
+TEMPLATE_TOKEN=taga        # token to use as clone source    (input)
+MODULE_DIR=$HOME/modules   # modules directory               (input)
+SOURCE_DIR=~/yangSource    # yang source directory           (output)
+TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang  #            (output)
 
 
 ########################
 # Sensitive Info Section (Sanitize before distributing)
 ########################
-SERVER=yangapi-dev 
-USER=pi 
-PASSWORD=raspberry
+SERVER=xxxxxx-xxx
+USER=xx
+PASSWORD=xxxxxxxx
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
@@ -63,7 +60,7 @@ if [ -f $MODULE_DIR/$1.yang ] ; then
 fi
 
 # provide the info to print into the confirmation request
-InfoToPrint="$MODULE_DIR/$1.yang will be created, source files generated, and objects built."
+InfoToPrint="$MODULE_DIR/$1.yang will be created from $TEMPLATE_TOKEN, source files generated, and objects built."
 
 # issue confirmation prompt and check reponse
 $tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
@@ -79,7 +76,7 @@ newyangmodule=$NEWYANGMODULETOKEN
 cd $MODULE_DIR
 sudo cp $TEMPLATE_FILE $newyangmodule.yang
 cat $newyangmodule.yang | sed -e s/$TEMPLATE_TOKEN/$newyangmodule/g > /tmp/$newyangmodule.yang
-cp /tmp/$newyangmodule.yang .
+sudo cp /tmp/$newyangmodule.yang .
 
 mkdir -p $SOURCE_DIR 2>/dev/null
 cd $SOURCE_DIR
