@@ -55,6 +55,9 @@ rm /tmp/*taga*.dat 2>/dev/null
 
 rm /tmp/mark* 2>/dev/null
 
+# clean old /tmp/tagaRun* files from myself (I may not be in target list) 
+$tagaUtilsDir/clean.sh
+
 # clean old /tmp/tagaRun* files from all targets
 # TODO!!
 
