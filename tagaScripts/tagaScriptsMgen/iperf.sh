@@ -61,11 +61,11 @@ function sendit {
    if [ $mgen_proto == "tcp" ] ; then
       # Sending TCP
       echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
-      iperf -c $target $MSGLEN $MSGCOUNT $DESTPORT 
+      iperf -c $target -n $MSGLEN -p $DESTPORT 
    else
       # Sending UDP
       echo TAGA: $MYIP Sending $MSGCOUNT UDP Messages of $MSGLEN bytes to $target 
-      iperf -u -c $target $MSGLEN $MSGCOUNT -p $DESTPORT 
+      iperf -u -c $target -n $MSGLEN -p $DESTPORT 
    fi
 }
 
