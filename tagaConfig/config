@@ -1073,7 +1073,7 @@ fi
 #################################################################
 # Save the configured value for informational purposes...
 MSGRATE_CONFIGURED=$MSGRATE
-if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
 if [ $MSGRATE -ne 1 ] ; then
    #echo
    #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
@@ -1279,7 +1279,7 @@ TAGA_PORT=9998
 #################################################################
 # Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
 #################################################################
-#if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+#if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
 #if [ $MSGRATE -ne 1 ] ; then
    #echo
    #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
