@@ -68,7 +68,7 @@ fi
 #####################################
 if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
    echo
-   echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
+   echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
    echo TAGA NOTICE: Forcing Message Rate to One \(1\)
    echo
    #MSGRATE=1 # this var not actually used in this file
