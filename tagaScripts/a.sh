@@ -29,12 +29,13 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
+LOG_FILE=/tmp/`basename $0`.log
+echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
 # provide the info to print into the confirmation request
 InfoToPrint="$0 Put Your Info To Print Here. $0 "
