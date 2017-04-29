@@ -34,8 +34,10 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+echo; echo $0 : $MYIP :  executing at `date`; echo
 
-
+echo $0 Not yet implemented!
+exit
 
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
@@ -69,14 +71,15 @@ fi
 #####################################
 # Validate the Configuration for this process
 #####################################
-if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
-   echo
-   echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
-   echo TAGA NOTICE: Forcing Message Rate to One \(1\)
-   echo
-   #MSGRATE=1 # this var not actually used in this file
-   sleep 2
-fi
+#if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
+#   echo
+#   echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
+#   echo TAGA NOTICE: Forcing Message Rate to One \(1\)
+#   echo
+#   #MSGRATE=1 # this var not actually used in this file
+#   sleep 2
+#fi
+#
 
 ##########################################################
 # Check if MCAST and start listener (join group) if MCAST
@@ -110,6 +113,12 @@ elif [ $TESTTYPE == "UCAST_TCP" ]; then
   echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
   exit
 fi
+
+#####################################
+# Start the Server/Receiver
+#####################################
+echo TAGA: Starting IPERF Receiver on $MYIP
+iperf -s &
 
 #####################################
 # Traffi Generation Delay
@@ -246,5 +255,3 @@ do
 done
 
 echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
-
-

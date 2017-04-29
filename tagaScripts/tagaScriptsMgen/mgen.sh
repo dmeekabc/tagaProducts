@@ -458,12 +458,8 @@ do
 
 done
 
-# IPERF examples
-#--------------------------------------------------
-#echo Running iperf on `hostname` | tee $STATUS_FILE
-#sudo iperf -s -u -B 225.0.0.57 -i 10
-#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
-#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
+echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
+
 
 # IPERF examples
 #--------------------------------------------------
@@ -472,4 +468,10 @@ done
 #echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
 #sudo iperf -s -u -B $MYMCAST_ADDR -i 10
 
+# IPERF examples
+#--------------------------------------------------
+#echo Running iperf on `hostname` | tee $STATUS_FILE
+#sudo iperf -s -u -B 225.0.0.57 -i 10
+#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
+#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
 
