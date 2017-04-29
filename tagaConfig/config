@@ -1071,6 +1071,8 @@ fi
 #################################################################
 # Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
 #################################################################
+# Save the configured value for informational purposes...
+MSGRATE_CONFIGURED=$MSGRATE
 if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
 if [ $MSGRATE -ne 1 ] ; then
    #echo
