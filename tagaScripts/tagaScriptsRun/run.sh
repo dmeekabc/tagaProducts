@@ -42,7 +42,7 @@ if [ $TAGA_TRAFFIC_GENERATOR == "MGEN" ] ; then
   TRAFFIC_CMD=$tagaScriptsMgenDir/mgen.sh
 elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
   TRAFFIC_CMD=$tagaScriptsMgenDir/iperf.sh
-elif [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
   TRAFFIC_CMD=$tagaScriptsMgenDir/bashTraffic.sh
 else
   # default

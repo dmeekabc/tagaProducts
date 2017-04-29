@@ -40,7 +40,7 @@ if [ $TAGA_TRAFFIC_GENERATOR == "MGEN" ] ; then
 elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
   PORT_STR='port $SOURCEPORT'
   GREP_STR=''
-elif [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
   PORT_STR=''
   GREP_STR='| grep $MSGLEN'
   GREP_STR=''
@@ -82,7 +82,7 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
 
   # dlm temp this is temporary plan is to use the PORT_STR var
   # dlm temp this is temporary plan is to use the PORT_STR var
-if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
 
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
     /usr/bin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto $PORT_STR -l $GREP_STR \

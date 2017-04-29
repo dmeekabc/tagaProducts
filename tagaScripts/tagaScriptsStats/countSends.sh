@@ -16,7 +16,7 @@ fi
 #################################################################
 # Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
 #################################################################
-if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
    GENERATOR_STR=BASH
    if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
       echo
@@ -407,7 +407,7 @@ do
         # dlm temp, changed 29 apr 2017 to support BASH Traffic (no specific source port)
         # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
         # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
-        if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+        if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
            #cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
            cat /tmp/curcount.txt  | grep $target2\. | grep $target. > /tmp/curcount2.txt # filter
         else
