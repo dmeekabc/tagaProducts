@@ -1046,7 +1046,7 @@ done
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
-SRW_TARGET_COUNT=`echo $SRW_LIST_ACTIVE | wc -w`  # same as targetCount below
+TAGAXXX_TARGET_COUNT=`echo $TAGAXXX_LIST_ACTIVE | wc -w`  # same as targetCount below
 #targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
 
 # Other (One) Target Config
