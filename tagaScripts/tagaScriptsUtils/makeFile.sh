@@ -34,7 +34,8 @@ TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
+LOG_FILE=/tmp/`basename $0`.log
+echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
 # Get the Input Parameter (File Size to Create)
 SIZE=$1
@@ -45,9 +46,8 @@ if [ $SIZE -gt $MAX_FILE_SIZE ] ; then
 fi
 
 IN_FILE=$tagaUtilsDir/tagaZero.dat
-
 OUT_FILE=/tmp/tagaSize.dat
-sudo rm -rf $OUT_FILE
+rm -rf $OUT_FILE
 
 # Do it create the file!
 dd if=$tagaUtilsDir/tagaZero.dat of=$OUT_FILE bs=$SIZE count=1 >/dev/null 2>/dev/null
