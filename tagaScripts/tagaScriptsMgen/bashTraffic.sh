@@ -66,7 +66,7 @@ fi
 #####################################
 # Validate the Configuration for this process
 #####################################
-if [ $MSGRATE -ne 1 ] ; then
+if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
    echo
    echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
    echo TAGA NOTICE: Forcing Message Rate to One \(1\)
