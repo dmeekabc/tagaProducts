@@ -92,7 +92,7 @@ VIEW="EXPERT"
 # TAGA Traffic Generation 
 #######################################
 # Bottom One Wins
-TAGA_TRAFFIC_GENERATOR=IPERF
+TAGA_TRAFFIC_GENERATOR=IPERF # Not yet Supported
 TAGA_TRAFFIC_GENERATOR=MGEN
 TAGA_TRAFFIC_GENERATOR=BASH
 
@@ -153,9 +153,9 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
-TESTTYPE_DUMMY="MCAST"     # UDP MCAST
 TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
-TESTTYPE="UCAST_UDP" 
+TESTTYPE_DUMMY="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -317,6 +317,7 @@ MSGRATE=240
 MSGRATE=480
 MSGRATE=1
 MSGRATE=1
+MSGRATE=2
 let MSGRATE=$MSGRATE*$TAGA_TRAFFIC_MULT_FACTOR
 let MSGRATE=$MSGRATE/$TAGA_TRAFFIC_DIV_FACTOR
 
@@ -1051,7 +1052,7 @@ done
 
 # auto configure the target count
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
-SRW_TARGET_COUNT=`echo $SRW_LIST_ACTIVE | wc -w`  # same as targetCount below
+TAGAXXX_TARGET_COUNT=`echo $TAGAXXX_LIST_ACTIVE | wc -w`  # same as targetCount below
 #targetCount=`$TAGA_CONFIG_DIR/targetList.sh | wc -w` # same as TARGET_COUNT above
 
 # Other (One) Target Config
@@ -1065,6 +1066,19 @@ if [ $OTHERS == "single" ] ; then
 else
    # multiple (all) other targets in other list
    OTHER_LIST=`echo $targetList | sed s/$MYIP//g` 
+fi
+
+#################################################################
+# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
+#################################################################
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+if [ $MSGRATE -ne 1 ] ; then
+   #echo
+   #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
+   #echo TAGA NOTICE: Forcing Message Rate to One \(1\)
+   #echo
+   MSGRATE=1
+fi
 fi
 
 
@@ -1147,8 +1161,8 @@ let DURATION3=3
 let DURATION3=60
 let DURATION3=3
 let DURATION3=6000
-let DURATION3=3
 let DURATION3=10
+let DURATION3=3
 
 ##############################################
 # others / static constants
@@ -1260,6 +1274,18 @@ TAGA_PROTO=tcp
 TAGA_PORT=9988
 TAGA_PORT=9998
 
+#################################################################
+# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
+#################################################################
+#if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+#if [ $MSGRATE -ne 1 ] ; then
+   #echo
+   #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
+   #echo TAGA NOTICE: Forcing Message Rate to One \(1\)
+   #echo
+   #MSGRATE=1
+#fi
+#fi
 
 ##############################################
 # Run Time Inserts ONLY Below
