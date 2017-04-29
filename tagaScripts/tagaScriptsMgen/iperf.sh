@@ -36,8 +36,17 @@ source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 
-echo $0 Not yet implemented!
-exit
+
+if [ $TESTTYPE == "MCAST" ]; then
+   echo $0 $TESTTYPE Not yet implemented!
+   exit
+elif [ $TESTTYPE == "UCAST_TCP" ]; then
+   echo $0 $TESTTYPE Not yet implemented!
+   exit
+else
+   echo UDP, we are Good to Go > /dev/null
+fi
+
 
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
@@ -49,7 +58,15 @@ mgen_proto=udp
 # Function sendit
 #####################################
 function sendit {
-   dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
+   if [ $mgen_proto == "tcp" ] ; then
+      # Sending TCP
+      echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
+      iperf -c $target $MSGLEN $MSGCOUNT $DESTPORT 
+   else
+      # Sending UDP
+      echo TAGA: $MYIP Sending $MSGCOUNT UDP Messages of $MSGLEN bytes to $target 
+      iperf -u -c $target $MSGLEN $MSGCOUNT -p $DESTPORT 
+   fi
 }
 
 #####################################
@@ -117,8 +134,21 @@ fi
 #####################################
 # Start the Server/Receiver
 #####################################
+# Set MYPORT
+let i=0; let MYPORT=$PORTBASE
+
+for target in $targetList
+do let i=$i+1; if [ $target == $MYIP ]; then let MYPORT=$MYPORT+$i; fi ; done
+
 echo TAGA: Starting IPERF Receiver on $MYIP
-iperf -s &
+
+if [ $mgen_proto == "tcp" ] ; then
+   # tcp
+   iperf -s -p $MYPORT &
+else
+   # udp
+   iperf -u -s -p $MYPORT &
+fi
 
 #####################################
 # Traffi Generation Delay
