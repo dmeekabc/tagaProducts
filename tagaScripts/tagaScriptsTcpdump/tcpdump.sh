@@ -39,6 +39,7 @@ if [ $TAGA_TRAFFIC_GENERATOR == "MGEN" ] ; then
   GREP_STR=''
 elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
   PORT_STR='port $SOURCEPORT'
+  PORT_STR=''
   GREP_STR=''
 elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
   PORT_STR=''
