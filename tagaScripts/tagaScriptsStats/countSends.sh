@@ -21,6 +21,7 @@ fi
 if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
    GENERATOR_STR=BASH_SOCKET
    GENERATOR_STR="BASE TRAFFIC"
+   GENERATOR_STR="BashSocket"
    if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
       echo
       echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
