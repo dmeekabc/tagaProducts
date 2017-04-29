@@ -35,24 +35,24 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
-
-
-if [ $TESTTYPE == "MCAST" ]; then
-   echo $0 $TESTTYPE Not yet implemented!
-   exit
-elif [ $TESTTYPE == "UCAST_TCP" ]; then
-   echo $0 $TESTTYPE Not yet implemented!
-   exit
-else
-   echo UDP, we are Good to Go > /dev/null
-fi
-
-
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
 # dlm temp, udp only for now
 mgen_proto=udp
+
+if [ $TESTTYPE == "MCAST" ]; then
+   mgen_proto=udp
+   echo $0 $TESTTYPE Not yet implemented!
+   exit
+elif [ $TESTTYPE == "UCAST_TCP" ]; then
+   mgen_proto=tcp
+   echo $0 $TESTTYPE Not yet implemented!
+   exit
+else
+   mgen_proto=udp
+   echo UDP, we are Good to Go > /dev/null
+fi
 
 #####################################
 # Function sendit
