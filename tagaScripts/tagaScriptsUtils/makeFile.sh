@@ -37,6 +37,9 @@ source $TAGA_CONFIG_DIR/config
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
+let VERBOSE=1
+let VERBOSE=0
+
 # Get the Input Parameter (File Size to Create)
 SIZE=$1
 
@@ -52,5 +55,7 @@ rm -rf $OUT_FILE
 # Do it create the file!
 dd if=$tagaUtilsDir/tagaZero.dat of=$OUT_FILE bs=$SIZE count=1 >/dev/null 2>/dev/null
 
-# List it
-ls -lrt $OUT_FILE
+# List it if verbose is enabled
+if [ $VERBOSE -eq 1 ] ; then
+  ls -lrt $OUT_FILE
+fi

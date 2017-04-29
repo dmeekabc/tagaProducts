@@ -64,6 +64,12 @@ for iter in 1 # 2 3 4 5
 do
 for target in $targetList
 do
+
+   # determine LOGIN ID for each target
+   MYLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $target | tail -n 1`
+   # strip trailing blanks
+   MYLOGIN_ID=`echo $MYLOGIN_ID` 
+
    echo
    echo processing $target
    if [ $target == $MYIP ]; then
@@ -80,21 +86,9 @@ echo
 sleep 5
 done
 
-#for target in $targetList
-#do
-#   echo
-#   echo processing $target
-#   if [ $target == $MYIP ]; then
-#      echo skipping self for now...
-#      continue
-#   fi
-#   echo rebooting $target .....
-#   ssh -l $MYLOGIN_ID $target sudo reboot <$TAGA_CONFIG_DIR/passwd.txt #&
-#done
-#echo
-
-
-
+################################
+# Reboot Self!
+################################
 echo rebooting self now...
 ssh -l $MYLOGIN_ID $MYIP sudo reboot <$TAGA_CONFIG_DIR/passwd.txt
 

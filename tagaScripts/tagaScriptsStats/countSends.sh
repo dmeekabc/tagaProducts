@@ -13,6 +13,25 @@ if [ $COUNTS_DISABLED -eq 1 ]; then
    exit
 fi
 
+#################################################################
+# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
+#################################################################
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+   GENERATOR_STR=BASH
+   if [ $MSGRATE -ne 1 ] ; then
+      echo
+      echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
+      echo TAGA NOTICE: Assuming Message Rate of One \(1\)
+      echo
+      MSGRATE=1
+   fi
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+   GENERATOR_STR=IPERF
+else
+   GENERATOR_STR=MGEN
+fi
+
+
 # get the inputs
 outputDir=$1
 iter=$2
@@ -48,11 +67,11 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 date; date >> $TAGA_RUN_DIR/counts.txt
 
 # add the header
-echo ============================ TAGA Iteration:$iter ===========================
-echo ============================ TAGA Iteration:$iter =========================== >>  $TAGA_RUN_DIR/counts.txt
+echo ============================= TAGA Iteration:$iter ============================
+echo ============================= TAGA Iteration:$iter ============================ >>  $TAGA_RUN_DIR/counts.txt
 
-echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE
-echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_RUN_DIR/counts.txt
+echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR
+echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR >> $TAGA_RUN_DIR/counts.txt
 
 # calculate the aggregate commanded throughput rate
 let targetCount=0
@@ -384,7 +403,17 @@ do
       if [ $TESTTYPE == "MCAST" ]; then
         # MCAST
         target2=$MYMCAST_ADDR
-        cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+        # dlm temp, changed 29 apr 2017 to support BASH Traffic (no specific source port)
+        # dlm temp, changed 29 apr 2017 to support BASH Traffic (no specific source port)
+        # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
+        # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
+        if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
+           #cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+           cat /tmp/curcount.txt  | grep $target2\. | grep $target. > /tmp/curcount2.txt # filter
+        else
+           cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+           #cat /tmp/curcount.txt  | grep $target2\. | grep $target. > /tmp/curcount2.txt # filter
+        fi
         cat /tmp/curcount2.txt  | grep "length $MSGLEN" > /tmp/curcount.txt  # verify length
         cat /tmp/curcount.txt  > /tmp/curcount2.txt   # copy the output to temp file curcount2.txt
         cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt   # get the count

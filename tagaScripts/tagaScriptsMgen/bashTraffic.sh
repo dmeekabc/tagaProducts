@@ -41,13 +41,8 @@ echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 mgen_proto=udp
 
 #####################################
-# Delay
+# Function sendit
 #####################################
-$tagaMgenDir/trafficDelay.sh $1 $2
-
-# dlm temp , this above is no working, hard code it for now
-sleep 10 
-
 function sendit {
    dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
 }
@@ -58,21 +53,111 @@ function sendit {
 #####################################
 #####################################
 
+#####################################
+# Check Hostname 
+#####################################
+if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
+  echo "My hostname: `hostname` is in the list of hosts - proceeding!" >/dev/null
+else
+  echo "My hostname: `hostname` is not in the list of hosts - exiting!"
+  exit
+fi
+
+#####################################
+# Validate the Configuration for this process
+#####################################
+if [ $MSGRATE -ne 1 ] ; then
+   echo
+   echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
+   echo TAGA NOTICE: Forcing Message Rate to One \(1\)
+   echo
+   #MSGRATE=1 # this var not actually used in this file
+   sleep 2
+fi
+
+##########################################################
+# Check if MCAST and start listener (join group) if MCAST
+##########################################################
+if [ $TESTTYPE == "MCAST" ]; then
+   ####################################3
+   # MCAST Receiver/Listener
+   ####################################3
+    # MCAST UDP
+    # If MCAST, start the listener
+    # prep the mgen config 
+    # create the script from the template
+    sed -e s/mcastgroup/$MYMCAST_ADDR/g $TAGA_MGEN_DIR/script_mcast_rcvr.mgn.template \
+            > $TAGA_MGEN_DIR/script_mcast_rcvr.mgn 
+    # run it, join the group
+    if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn &
+    elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn  >/dev/null 2> /dev/null &
+    else
+      mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null 2> /dev/null &
+    fi
+elif [ $TESTTYPE == "UCAST_TCP" ]; then
+  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+  echo NOTICE: Such Support May be added in the future
+  echo NOTICE: Such Support May be added in the future
+  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
+  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
+  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+  exit
+fi
+
+#####################################
+# Traffi Generation Delay
+#####################################
+$tagaMgenDir/trafficDelay.sh $1 $2
+
+# dlm temp , this above is no working, hard code it for now
+sleep 10 
+
 ####################################
 # Make Dummy File as Source
 ####################################
 $tagaUtilsDir/makeFile.sh $MSGLEN
 
 ####################################
-# Do the Traffic
+# Generate the Traffic!
 ####################################
+
+####################################3
+# MCAST Traffic
+####################################3
+if [ $TESTTYPE == "MCAST" ]; then
+   let DESTPORT=$MYMCAST_PORT
+   target=$MYMCAST_ADDR
+   echo TAGA: $MYIP : Sending $MSGCOUNT packets of $MSGLEN bytes to $target port $DESTPORT
+   let j=$MSGCOUNT
+   while [ $j -gt 0 ] 
+   do
+      if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
+      elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      else
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      fi
+      sendit >/dev/null 2>/dev/null
+      sleep 1
+      let j=$j-1
+   done
+   # MCAST - We are Done!
+   exit
+fi
+
+####################################3
+# UCAST Traffic
+####################################3
 
 # use the activated flag to stagger starts and ensure only one effective loop out of the two below
 let activated=0
-
 # init port-related vars
 let i=0
-
 
 ###############################
 # First Half of UCAST Loop
@@ -100,9 +185,6 @@ do
    let j=$MSGCOUNT
    while [ $j -gt 0 ] 
    do
-
-      #dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
-
       if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
       elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
@@ -110,13 +192,10 @@ do
       else
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
       fi
-
       sendit >/dev/null 2>/dev/null
-
       sleep 1
       let j=$j-1
    done
-
 done
 
 ###############################
@@ -149,9 +228,6 @@ do
    let j=$MSGCOUNT
    while [ $j -gt 0 ] 
    do
-
-      #dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
-
       if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
       elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
@@ -159,9 +235,7 @@ do
       else
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
       fi
-
       sendit >/dev/null 2>/dev/null
-
       sleep 1
       let j=$j-1
    done

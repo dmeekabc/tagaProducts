@@ -35,7 +35,7 @@ TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-if /sbin/hostname | grep X200 >/dev/null ; then
+if /bin/hostname | grep X200 >/dev/null ; then
    echo $0 not supported on `hostname`, exiting...
    exit
 fi
