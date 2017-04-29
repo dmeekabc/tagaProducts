@@ -73,6 +73,7 @@ let activated=0
 # init port-related vars
 let i=0
 
+
 ###############################
 # First Half of UCAST Loop
 ###############################
@@ -101,7 +102,15 @@ do
    do
 
       #dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
-      echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
+
+      if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
+      elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      else
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      fi
+
       sendit >/dev/null 2>/dev/null
 
       sleep 1
@@ -140,9 +149,17 @@ do
    let j=$MSGCOUNT
    while [ $j -gt 0 ] 
    do
+
       #dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
-      #dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
-      echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
+
+      if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT
+      elif [ $TAGA_DISPLAY_SETTING -le $TAGA_DISPLAY_ENUM_VAL_1_SILENT ]; then
+         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      else
+        echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
+      fi
+
       sendit >/dev/null 2>/dev/null
 
       sleep 1
