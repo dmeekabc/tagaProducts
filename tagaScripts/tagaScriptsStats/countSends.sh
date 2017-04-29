@@ -18,7 +18,7 @@ fi
 #################################################################
 if [ $TAGA_TRAFFIC_GENERATOR == "BASH" ] ; then
    GENERATOR_STR=BASH
-   if [ $MSGRATE -ne 1 ] ; then
+   if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
       echo
       echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
       echo TAGA NOTICE: Assuming Message Rate of One \(1\)
