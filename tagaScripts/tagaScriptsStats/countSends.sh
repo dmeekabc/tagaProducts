@@ -16,8 +16,9 @@ fi
 #################################################################
 # Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
 #################################################################
+# dlm temp, currently GENERATOR_STR is redundant but adds flexibility for future customization
 if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
-   GENERATOR_STR=BASH
+   GENERATOR_STR=BASH_SOCKET
    if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
       echo
       echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
