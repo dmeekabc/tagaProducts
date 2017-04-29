@@ -37,6 +37,8 @@ TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+#LOG_FILE=`basename $0`
+
 # Get target list and process it
 targetList=`$TAGA_CONFIG_DIR/targetList.sh`
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -86,6 +88,13 @@ VIEW="EXPERT"
 VIEW="STANDARD"
 VIEW="EXPERT"
 
+#######################################
+# TAGA Traffic Generation 
+#######################################
+# Bottom One Wins
+TAGA_TRAFFIC_GENERATOR=IPERF
+TAGA_TRAFFIC_GENERATOR=MGEN
+TAGA_TRAFFIC_GENERATOR=BASH
 
 ################################
 # LOG MGT
@@ -279,6 +288,8 @@ MSGCOUNT=20
 MSGCOUNT=20
 MSGCOUNT=5
 MSGCOUNT=1
+MSGCOUNT=2
+MSGCOUNT=20
 let MSGCOUNT=$MSGCOUNT*$TAGA_TRAFFIC_MULT_FACTOR
 let MSGCOUNT=$MSGCOUNT/$TAGA_TRAFFIC_DIV_FACTOR
 
@@ -725,6 +736,12 @@ MYIP=localhost
 # determine MYIP from candidates list
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
      cut -d: -f 2 | cut -d" " -f 1`
+
+if /bin/hostname | grep X200 >/dev/null ; then
+  MYIP=10.0.0.20
+  MYIPCANDIDATES=10.0.0.20
+fi
+
 if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
 
    # dlm temp DLM TEMP Mar 2017
@@ -1131,6 +1148,7 @@ let DURATION3=60
 let DURATION3=3
 let DURATION3=6000
 let DURATION3=3
+let DURATION3=10
 
 ##############################################
 # others / static constants
@@ -1248,4 +1266,4 @@ TAGA_PORT=9998
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=10.0.0.13
+MASTER=10.0.0.27
