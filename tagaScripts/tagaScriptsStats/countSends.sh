@@ -208,9 +208,15 @@ else
   do
     HOST=`cat $TAGA_CONFIG_DIR/hostsToIps.txt | grep $target\\\. | cut -d"." -f 5`
     SOURCE_FILE_TAG=$TEST_DESCRIPTION\_$HOST\_*$target\_
+
+    # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+    # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+
     # get receivers only and only our target
-    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
+    #let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
+    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | grep $MSGLEN | wc -l`
     let grossReceivedCount=$grossReceivedCount+$targetReceivedCount
+
   done
 fi
 
@@ -406,7 +412,12 @@ else
 fi
 
 # build up the buffer
-printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+
+# dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+# dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+#printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | grep $MSGLEN | wc -l`
+
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
 
 if [ $EXPERT_DISPLAY -eq 1 ] ;then
