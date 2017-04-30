@@ -96,7 +96,6 @@ VIEW="EXPERT"
 # LOG MGT
 ################################
 #EXTRA_LOGS=$TAGA_EXTRA_LOGS
-#EXTRA_LOGS=/var/opt/jtmnm/run/*
 #EXTRA_LOGS=/tmp/tagaRun*
 EXTRA_LOGS=""
 
@@ -720,13 +719,7 @@ OUTPUT_DIR=$TAGA_RUN_DIR/output # new mar 2016
 LOG_DIR=/tmp/taga/log # new mar 2016
 DATA_DIR=/tmp/taga/data # new mar 2016
 
-
 # NETADDRPART Override in local config
-# dlm temp new 1 nov 2016
-if [ -f /opt/jtmnm/local/config/config ] ; then
-   source /opt/jtmnm/local/config/config
-fi
-
 
 MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
 
@@ -783,8 +776,8 @@ fi
 #fi
 
 ## dlm temp,new 15 dec 2016
-if [ -f /opt/jtmnm/local/config/NODE5.txt ] ; then
-   echo I am node 5 >/dev/null
+if [ -f /opt/tagaxxx/local/config/TAGANODEX.txt ] ; then
+   echo I am TAGA NODE X  >/dev/null
 else
 
 if [ ! "$MYIPCANDIDATES"  ]; then
