@@ -22,7 +22,8 @@ else
    elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
       if [ $1 == "Commanded" ] ; then
          # Commanded Throughput is valid for BASH SOCKET unless TCP
-         elif [ $TESTTYPE == "UCAST_TCP" ]; then
+         if [ $TESTTYPE == "UCAST_TCP" ]; then
+            echo
             echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator 
             buffer1="" # filter it
          fi
