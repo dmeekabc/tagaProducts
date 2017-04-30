@@ -11,9 +11,9 @@ iboaUtilsDir=$tagaDir/iboaUtils
 
 # dlm temp, added oct 2016
 if /bin/hostname | grep raspberrypi >/dev/null; then
-sudo chmod 777 $tagaConfigDir/hostList.txt
+sudo chmod 777 $tagaConfigDir/hostList.txt 2>/dev/null
 else
-chmod 777 $tagaConfigDir/hostList.txt
+chmod 777 $tagaConfigDir/hostList.txt 2>/dev/null
 fi
 touch $tagaConfigDir/hostList.txt
 touch $tagaConfigDir/hostList.sh
