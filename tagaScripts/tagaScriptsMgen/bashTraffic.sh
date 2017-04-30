@@ -47,7 +47,7 @@ elif [ $TESTTYPE == "UCAST_TCP" ]; then
    mgen_proto=tcp
    #echo TCP, we are Good to Go > /dev/null
    echo NOTICE: `basename $0`: $TESTTYPE Not yet implemented in this command file.
-   echo NOTICE: `basename $0`: Consider MGEN or IPERF Traffic Generation Types.
+   echo NOTICE: `basename $0`: Consider MGEN/IPERF Traffic Generators and/or UDP/MCAST Traffic Types.
    exit
 else
    mgen_proto=udp
