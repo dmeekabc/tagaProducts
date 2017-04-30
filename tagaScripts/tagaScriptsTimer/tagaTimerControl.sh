@@ -30,13 +30,9 @@
 #
 #######################################################################
 
-# Get the $PRESET_CHANGE_TRIGGER from the JTMNM config
 #TAGA_DIR=~/scripts/taga
 #TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 #source $TAGA_CONFIG_DIR/config
-JTMNM_DIR=/opt/jtmnm
-JTMNM_CONFIG_DIR=$JTMNM_DIR/config
-source $JTMNM_CONFIG_DIR/config
 
 LOG_FILE=/tmp/`basename $0`.log
 
