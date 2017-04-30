@@ -43,8 +43,7 @@ mgen_proto=udp
 
 if [ $TESTTYPE == "MCAST" ]; then
    mgen_proto=udp
-   echo $0 $TESTTYPE Not yet implemented!
-   exit
+   echo MCAST, we are Good to Go > /dev/null
 elif [ $TESTTYPE == "UCAST_TCP" ]; then
    mgen_proto=tcp
    echo $0 $TESTTYPE Not yet implemented!
@@ -144,13 +143,17 @@ do let i=$i+1; if [ $target == $MYIP ]; then let MYPORT=$MYPORT+$i; fi ; done
 
 echo TAGA: Starting IPERF Receiver on $MYIP
 
-if [ $mgen_proto == "tcp" ] ; then
+if [ $TESTTYPE == "MCAST" ]; then
+   echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
+   iperf -s -u -B $MYMCAST_ADDR -i 10 &
+elif [ $mgen_proto == "tcp" ] ; then
    # tcp
    iperf -s -p $MYPORT &
 else
    # udp
-   iperf -u -s -p $MYPORT &
+   iperf -s -u -p $MYPORT &
 fi
+
 
 #####################################
 # Traffi Generation Delay
@@ -287,3 +290,19 @@ do
 done
 
 echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
+
+
+# IPERF examples
+#--------------------------------------------------
+#echo Running iperf on `hostname` | tee $STATUS_FILE
+#sudo iperf -s -u -B 225.0.0.57 -i 10
+#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
+#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
+
+# IPERF examples
+#--------------------------------------------------
+#echo Running iperf on `hostname` | tee $STATUS_FILE
+#sudo iperf -s -u -B 225.0.0.57 -i 10
+#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
+#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
+
