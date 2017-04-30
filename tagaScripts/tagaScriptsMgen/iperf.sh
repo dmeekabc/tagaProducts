@@ -57,7 +57,11 @@ fi
 # Function sendit
 #####################################
 function sendit {
-   if [ $mgen_proto == "tcp" ] ; then
+   if [ $TESTTYPE == "MCAST" ]; then
+      echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
+      #iperf -c $target -n $MSGLEN -p $DESTPORT -t 1 -b $MSGLEN
+      iperf -c $MCAST_ADDR -n $MSGLEN -p $MCAST_PORT -b $MSGLEN
+   elif [ $mgen_proto == "tcp" ] ; then
       # Sending TCP
       echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
       #iperf -c $target -n $MSGLEN -p $DESTPORT -t 1 -b $MSGLEN
