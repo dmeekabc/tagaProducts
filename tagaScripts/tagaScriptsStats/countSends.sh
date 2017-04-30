@@ -243,19 +243,23 @@ let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
 
-let padlen=$ROW_SIZE-$buflen
-# add the padding
-let i=$padlen
-while [ $i -gt 0 ];
-do
-  buffer1="$buffer1."
-  let i=$i-1
-done
-# add the percent at the end of the buffer
-buffer2="$buffer1 ($percent%)"
-
-# write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+# If we have something of interest, display it, otherwise print blank line!
+if [ $buflen -gt 0 ] ; then
+   let padlen=$ROW_SIZE-$buflen
+   # add the padding
+   let i=$padlen
+   while [ $i -gt 0 ];
+   do
+     buffer1="$buffer1."
+     let i=$i-1
+   done
+   # add the percent at the end of the buffer
+   buffer2="$buffer1 ($percent%)"
+   # write buffer line to output; write buffer line to counts.txt file
+   echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+else
+   echo
+fi
 
 
 #####################################################
@@ -396,24 +400,33 @@ fi
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 
+#echo buflen$buflen
+
 let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
 
-let padlen=$ROW_SIZE-$buflen
-# add the padding
-let i=$padlen
-while [ $i -gt 0 ];
-do
-  buffer1="$buffer1."
-  let i=$i-1
-done
-# add the percent at the end of the buffer
-#buffer2="$buffer1 ($percent%)"
-buffer2="$buffer1 ($mynewpercent%)"
+# If we have something of interest, display it, otherwise print blank line!
+if [ $buflen -gt 0 ] ; then
+   let padlen=$ROW_SIZE-$buflen
+   # add the padding
+   let i=$padlen
+   while [ $i -gt 0 ];
+   do
+     buffer1="$buffer1."
+     let i=$i-1
+   done
+   # add the percent at the end of the buffer
+   #buffer2="$buffer1 ($percent%)"
+   buffer2="$buffer1 ($mynewpercent%)"
 
-# write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+   # write buffer line to output; write buffer line to counts.txt file
+   echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+else
+  # we do this once already, so no line needed here
+  echo >/dev/null
+fi
+
 
 ##################################################################
 # PRINT HEADER ROWS
