@@ -23,8 +23,10 @@ else
       if [ $1 == "Commanded" ] ; then
          # Commanded Throughput is valid for BASH SOCKET unless TCP
          if [ $TESTTYPE == "UCAST_TCP" ]; then
-            echo
-            echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator 
+            echo 
+i           echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator 
+            echo >> $TAGA_RUN_DIR/counts.txt
+            echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator >> $TAGA_RUN_DIR/counts.txt
             buffer1="" # filter it
          fi
          echo Commanded Throughput is always valid for BASH_SOCKET>/dev/null
