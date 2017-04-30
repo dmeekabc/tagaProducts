@@ -38,8 +38,8 @@ TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
 # Toggle on or off based on user's perspective and need
-let EXPERT_DISPLAY=1 # applies to countSends stats display only at this time
 let EXPERT_DISPLAY=0 # applies to countSends stats display only at this time
+let EXPERT_DISPLAY=1 # applies to countSends stats display only at this time
 
 #LOG_FILE=`basename $0`
 
@@ -150,10 +150,9 @@ let MANAGED_WAIT_FACTOR=5
 # TAGA Traffic Generation 
 #######################################
 # Bottom One Wins
-TAGA_TRAFFIC_GENERATOR=IPERF 
-TAGA_TRAFFIC_GENERATOR=MGEN
-TAGA_TRAFFIC_GENERATOR=BASH_SOCKET
-
+TAGA_TRAFFIC_GENERATOR=IPERF       # performance
+TAGA_TRAFFIC_GENERATOR=BASH_SOCKET # firewall
+TAGA_TRAFFIC_GENERATOR=MGEN        # normal
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -161,7 +160,7 @@ TAGA_TRAFFIC_GENERATOR=BASH_SOCKET
 TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
 TESTTYPE_DUMMY="MCAST"     # UDP MCAST
 TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
-TESTTYPE="UCAST_TCP" # TCP UCAST
+TESTTYPE="MCAST"     # UDP MCAST
 
 
 ####################################################
