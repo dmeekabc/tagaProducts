@@ -46,8 +46,9 @@ if [ $TESTTYPE == "MCAST" ]; then
    echo MCAST, we are Good to Go > /dev/null
 elif [ $TESTTYPE == "UCAST_TCP" ]; then
    mgen_proto=tcp
-   echo $0 $TESTTYPE Not yet implemented!
-   exit
+   echo TCP, we are Good to Go > /dev/null
+   #echo $0 $TESTTYPE Not yet implemented!
+   #exit
 else
    mgen_proto=udp
    echo UDP, we are Good to Go > /dev/null
@@ -74,7 +75,7 @@ function sendit {
       # Sending UDP
       echo TAGA: $MYIP Sending $MSGCOUNT UDP Messages of $MSGLEN bytes to $target 
       echo "iperf -u -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN"
-      iperf -u -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN
+      iperf -u -c $target -n $MSGLEN -L $SOURCEPORT -p $DESTPORT -b $MSGLEN
    fi
 }
 
