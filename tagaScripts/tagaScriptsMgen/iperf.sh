@@ -249,7 +249,8 @@ do
       else
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
       fi
-      sendit >/dev/null 2>/dev/null
+      #sendit >/dev/null 2>/dev/null
+      sendit 
       sleep 1
       let j=$j-1
    done
@@ -292,7 +293,8 @@ do
       else
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
       fi
-      sendit >/dev/null 2>/dev/null
+      #sendit >/dev/null 2>/dev/null
+      sendit 
       sleep 1
       let j=$j-1
    done
