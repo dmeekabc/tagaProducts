@@ -33,7 +33,11 @@
 
 # please place the most general configurations on top with the specializiations below
 
+10.0.0:pi
+10.0.0.20:darrin
+10.0.0.27:darrin
 192.168.43:pi
+192.168.43.16:darrin
 192.168.43.124:darrin
 192.168.43.157:darrin
 192.168.43.208:darrin

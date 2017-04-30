@@ -30,7 +30,7 @@
 #
 #######################################################################
 
-TAGA_DIR=/cf/var/home/jtm
+TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 

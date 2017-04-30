@@ -88,7 +88,7 @@ done
 issuePrompt
 
 # make sure the user really wants to proceed. 
-if [ -f /tmp/jtmnm_halt.txt ] ; then
+if [ -f /tmp/tagaxxx_halt.txt ] ; then
   $tagaUtilsDir/halt.sh
 fi
 
