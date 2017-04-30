@@ -76,7 +76,7 @@ fi
 if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
    GENERATOR_STR=BASH_SOCKET
    GENERATOR_STR="BASE TRAFFIC"
-   GENERATOR_STR="BashSocket"
+   GENERATOR_STR="BashSock"
    if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
       echo
       echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
@@ -126,8 +126,8 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 date; date >> $TAGA_RUN_DIR/counts.txt
 
 # add the header
-echo ============================== TAGA Iteration:$iter ==============================
-echo ============================== TAGA Iteration:$iter ============================== >>  $TAGA_RUN_DIR/counts.txt
+echo ============================= TAGA Iteration:$iter =============================
+echo ============================= TAGA Iteration:$iter ============================= >>  $TAGA_RUN_DIR/counts.txt
 
 #echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR
 #echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR >> $TAGA_RUN_DIR/counts.txt
