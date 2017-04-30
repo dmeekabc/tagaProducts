@@ -208,18 +208,32 @@ else
    # Check Filters for reduced display
    if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
       echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
-   elif [ $TESTTYPE == "MCAST" ]; then
-      echo MAX DISPLAY is ON but MCAST>/dev/null
-      buffer1=""
-   elif [ $TESTTYPE == "UCAST_TCP" ]; then
-      echo MAX DISPLAY is ON but UCAST_TCP>/dev/null
-      #buffer1=""
    elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
       echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
-      buffer1=""
+      buffer1="" # filter it
+      if [ $TESTTYPE == "MCAST" ]; then
+         echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+         buffer1="" # filter it
+      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+         echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+         buffer1="" # filter it
+      fi
    elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
       echo MAX DISPLAY is ON but IPERF>/dev/null
-      buffer1=""
+      buffer1="" # filter it
+      if [ $TESTTYPE == "MCAST" ]; then
+         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+         buffer1="" # filter it
+      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+         #buffer1=""
+      fi
+   elif [ $TESTTYPE == "MCAST" ]; then
+      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+      #buffer1=""
+   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+      #buffer1=""
    fi
 fi
 
