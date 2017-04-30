@@ -54,7 +54,13 @@ do
    for target in $targetList
    do
       echo
-      sudo ping -c $PING_COUNT $target
+
+      if /bin/hostname | grep raspberrypi >/dev/null ; then
+         sudo ping -c $PING_COUNT $target
+      else
+         ping -c $PING_COUNT $target
+      fi
+
       if [ $? -eq 0 ]; then
          let successCount=$successCount+1
       else
