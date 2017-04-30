@@ -45,7 +45,8 @@ if [ $TESTTYPE == "MCAST" ]; then
    echo MCAST, we are Good to Go > /dev/null
 elif [ $TESTTYPE == "UCAST_TCP" ]; then
    mgen_proto=tcp
-   echo $0 $TESTTYPE Not yet implemented!
+   #echo TCP, we are Good to Go > /dev/null
+   echo $0 $TESTTYPE Not yet implemented in this command file, consider MGEN GENERATION Type.
    exit
 else
    mgen_proto=udp
@@ -57,6 +58,13 @@ fi
 #####################################
 function sendit {
    dd if=/tmp/tagaSize.dat bs=$MSGLEN count=1 > /dev/$mgen_proto/$target/$DESTPORT
+}
+
+#####################################
+# Function server
+#####################################
+function server {
+   # < /dev/$mgen_proto/$target/$DESTPORT
 }
 
 #####################################
