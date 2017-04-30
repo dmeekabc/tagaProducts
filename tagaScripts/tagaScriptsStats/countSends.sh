@@ -126,8 +126,8 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 date; date >> $TAGA_RUN_DIR/counts.txt
 
 # add the header
-echo ============================= TAGA Iteration:$iter ============================
-echo ============================= TAGA Iteration:$iter ============================ >>  $TAGA_RUN_DIR/counts.txt
+echo =============================== TAGA Iteration:$iter ==============================
+echo =============================== TAGA Iteration:$iter ============================== >>  $TAGA_RUN_DIR/counts.txt
 
 #echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR
 #echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR >> $TAGA_RUN_DIR/counts.txt
