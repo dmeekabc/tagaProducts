@@ -129,16 +129,16 @@ if [ $TESTTYPE == "MCAST" ]; then
     else
       mgen input $TAGA_MGEN_DIR/script_mcast_rcvr.mgn >/dev/null 2> /dev/null &
     fi
-elif [ $TESTTYPE == "UCAST_TCP" ]; then
-  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
-  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
-  echo NOTICE: Such Support May be added in the future
-  echo NOTICE: Such Support May be added in the future
-  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
-  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
-  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
-  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
-  exit
+#elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+#  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+#  echo NOTICE: Such Support May be added in the future
+#  echo NOTICE: Such Support May be added in the future
+#  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
+#  echo NOTICE: Consider changing to MGEN TESTTYPE for TCP Tests
+#  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+#  echo NOTICE: TESTTYPE of UCAST_TCP is not supported by $0 - exiting!
+#  exit
 fi
 
 #####################################
