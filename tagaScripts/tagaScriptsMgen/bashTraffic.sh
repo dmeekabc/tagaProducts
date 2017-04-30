@@ -64,9 +64,9 @@ function sendit {
 #####################################
 # Function server
 #####################################
-function server {
-   # < /dev/$mgen_proto/$target/$DESTPORT
-}
+#function server {
+   # Do TCP Server Stuff here (Future)
+#}
 
 #####################################
 #####################################
