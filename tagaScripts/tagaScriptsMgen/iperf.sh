@@ -204,6 +204,7 @@ if [ $TESTTYPE == "MCAST" ]; then
       let j=$j-1
    done
    # MCAST - We are Done!
+   echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
    exit
 fi
 

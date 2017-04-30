@@ -285,7 +285,8 @@ if [ $TESTTYPE == "MCAST" ]; then
     mgen input $SCRIPTFILE  #>/dev/null
   fi
   
-  # we are done, exit the script
+  # MCAST - we are done, exit the script
+  echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
   exit
 
 fi # if multicast flag is true
