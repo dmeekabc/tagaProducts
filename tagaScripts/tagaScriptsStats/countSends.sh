@@ -335,6 +335,7 @@ buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
+let ROW_SIZE=66  # Note, this is in two spots
 
 # If we have something of interest, display it, otherwise print blank line!
 if [ $buflen -gt 0 ] ; then
@@ -503,6 +504,7 @@ buflen=`echo $buffer1 | awk '{print length($0)}'`
 let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
+let ROW_SIZE=66  # Note, this is in two spots
 
 # If we have something of interest, display it, otherwise print blank line!
 if [ $buflen -gt 0 ] ; then
