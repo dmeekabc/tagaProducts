@@ -58,18 +58,22 @@ fi
 #####################################
 function sendit {
    if [ $TESTTYPE == "MCAST" ]; then
+      echo hi1
       echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
       #iperf -c $target -n $MSGLEN -p $DESTPORT -t 1 -b $MSGLEN
-      iperf -c $MCAST_ADDR -n $MSGLEN -p $MCAST_PORT -b $MSGLEN
+      echo "iperf -c $MCAST_ADDR -n $MSGLEN -p $MCAST_PORT -b $MSGLEN"
+      iperf -c $MYMCAST_ADDR -n $MSGLEN -p $MYMCAST_PORT -b $MSGLEN
    elif [ $mgen_proto == "tcp" ] ; then
+      echo hi2
       # Sending TCP
       echo TAGA: $MYIP Sending $MSGCOUNT TCP Messages of $MSGLEN bytes to $target 
-      #iperf -c $target -n $MSGLEN -p $DESTPORT -t 1 -b $MSGLEN
+      echo "iperf -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN"
       iperf -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN
    else
+      echo hi3
       # Sending UDP
       echo TAGA: $MYIP Sending $MSGCOUNT UDP Messages of $MSGLEN bytes to $target 
-      #iperf -u -c $target -n $MSGLEN -p $DESTPORT -t 1 -b $MSGLEN
+      echo "iperf -u -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN"
       iperf -u -c $target -n $MSGLEN -p $DESTPORT -b $MSGLEN
    fi
 }
@@ -193,7 +197,8 @@ if [ $TESTTYPE == "MCAST" ]; then
       else
         echo TAGA: $MYIP : Sending $MSGLEN bytes to $target port $DESTPORT >/dev/null
       fi
-      sendit >/dev/null 2>/dev/null
+      #sendit >/dev/null 2>/dev/null
+      sendit 
       sleep 1
       let j=$j-1
    done
