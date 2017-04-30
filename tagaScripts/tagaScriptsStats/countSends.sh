@@ -214,7 +214,7 @@ else
 
     # get receivers only and only our target
     #let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
-    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | grep $MSGLEN | wc -l`
+    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | grep "length $MSGLEN" | wc -l`
     let grossReceivedCount=$grossReceivedCount+$targetReceivedCount
 
   done
@@ -416,7 +416,7 @@ fi
 # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
 # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
 #printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
-printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | grep $MSGLEN | wc -l`
+printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | grep "length $MSGLEN" | wc -l`
 
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
 
