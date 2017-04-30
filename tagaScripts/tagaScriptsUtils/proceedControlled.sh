@@ -29,22 +29,64 @@
 # DAMAGE.                                                              
 #
 #######################################################################
+
 TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
-LOG_FILE=/tmp/`basename $0`.log
-echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
-# provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
+# use the input parameter (if provided) as the max loop count
+# otherwise, use the default below
+if [ $# -ge 1 ] ; then
+   MAX_WAIT_LOOPS=$1
+else
+   MAX_WAIT_LOOPS=10
+   MAX_WAIT_LOOPS=1000000
+fi
 
-# issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
+expectedColor=`cat /tmp/expectedColor.txt`
 
-# continue to execute the command
-echo $0 Proceeding.... at `date`; echo
+#####################################################3
+# issuePrompt function
+#####################################################3
+function issuePrompt {
 
+cd $HOME/scripts/taga/tagaScripts/tagaScriptsUtils
+
+let counter=0
+retCode=1
+while [ $retCode -ne 0 ] 
+do
+   echo `date` : Ensure System is Ready : Press \<Enter\> Key to Proceed ...
+   ./managedExecute.sh -t 5 ./readInput.sh 2> /dev/null
+   retCode=$?
+#   echo $retCode
+   if [ $retCode -eq 0 ] ; then
+      echo done waiting > /dev/null
+      break
+   else
+      echo still waiting >/dev/null
+      let counter=$counter+1
+      if [ $counter -ge $MAX_WAIT_LOOPS ] ; then
+         echo; echo Max Wait Time Exceeded, Proceeding ...; echo
+         break
+      fi
+   fi
+   #sleep 3
+done
+
+}
+
+#####################################################3
+# Main
+#####################################################3
+
+
+# issue the prompt
+issuePrompt
+
+# make sure the user really wants to proceed. 
+if [ -f /tmp/jtmnm_halt.txt ] ; then
+  $tagaUtilsDir/halt.sh
+fi
 

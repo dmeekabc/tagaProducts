@@ -59,6 +59,16 @@ let m=0 # index
 for target in $targetList
 do
 
+  # increment the index
+  let m=$m+1
+  if [ $m -lt 10 ]; then
+    mprint=" $m"
+  else
+    mprint=$m
+  fi 
+
+  #row="$mprint. $row"
+
   # build Row output
 
   # reset ALT COUNT FLAG each row
@@ -74,26 +84,48 @@ do
   tgtlen=`echo $target | awk '{print length($0)}'`
 
   if [ $tgtlen -eq 17 ] ; then
-    row=$target\ 
+    row="$target $mprint" 
   elif [ $tgtlen -eq 16 ] ; then
-    row=$target\. 
+    row="$target...$mprint"
   elif [ $tgtlen -eq 15 ] ; then
-    row=$target\.. 
+    row="$target....$mprint"
   elif [ $tgtlen -eq 14 ] ; then
-    row=$target\... 
+    row="$target.....$mprint"
   elif [ $tgtlen -eq 13 ] ; then
-    row=$target\.... 
+    row="$target......$mprint"
   elif [ $tgtlen -eq 12 ] ; then
-    row=$target\..... 
+    row="$target.......$mprint"
   elif [ $tgtlen -eq 11 ] ; then
-    row=$target\...... 
+    row="$target........$mprint"
   elif [ $tgtlen -eq 10 ] ; then
-    row=$target\....... 
+    row="$target.........$mprint"
   elif [ $tgtlen -eq 9 ] ; then
-    row=$target\........ 
+    row="$target..........$mprint"
   else
-    row=$target\......... 
+    row="$target...........$mprint"
   fi
+
+#  if [ $tgtlen -eq 17 ] ; then
+#    row=$target\ 
+#  elif [ $tgtlen -eq 16 ] ; then
+#    row=$target\. 
+#  elif [ $tgtlen -eq 15 ] ; then
+#    row=$target\.. 
+#  elif [ $tgtlen -eq 14 ] ; then
+#    row=$target\... 
+#  elif [ $tgtlen -eq 13 ] ; then
+#    row=$target\.... 
+#  elif [ $tgtlen -eq 12 ] ; then
+#    row=$target\..... 
+#  elif [ $tgtlen -eq 11 ] ; then
+#    row=$target\...... 
+#  elif [ $tgtlen -eq 10 ] ; then
+#    row=$target\....... 
+#  elif [ $tgtlen -eq 9 ] ; then
+#    row=$target\........ 
+#  else
+#    row=$target\......... 
+#  fi
 
   let j=0
 
@@ -308,6 +340,7 @@ do
     let ROW_SIZE=66
     let ROW_SIZE=64
     let ROW_SIZE=66
+    let ROW_SIZE=70
   elif [ $WIDE_DISPLAY -eq 1 ]; then
     let ROW_SIZE=166
   else
@@ -348,16 +381,6 @@ do
   if [ $ALT_COUNT_FLAG -eq 1 ]; then
      row="$row*"
   fi
-
-  # increment the index
-  let m=$m+1
-  if [ $m -lt 10 ]; then
-    mprint=" $m"
-  else
-    mprint=$m
-  fi 
-
-  row="$mprint. $row"
 
 
   echo "$row"
@@ -434,8 +457,8 @@ let rowlen=`echo $column_cumulative | awk '{print length($0)}'`
 let rowlen=$rowlen+15
 let padlen=$ROW_SIZE-$rowlen
 
-echo rowlen:$rowlen
-echo padlen:$padlen
+#echo rowlen:$rowlen
+#echo padlen:$padlen
 
 # add the padding
 let i=$padlen

@@ -50,10 +50,16 @@ rm $TAGA_LOCAL_MODE_FLAG_FILE 2> /dev/null
 # remove old *.dat and mark* files
 #sudo chmod 777 /tmp/*.dat
 #rm /tmp/*.dat 2>/dev/null
+
+#chmod 777 /tmp/*taga*.dat 2>/dev/null
 sudo chmod 777 /tmp/*taga*.dat 2>/dev/null
 rm /tmp/*taga*.dat 2>/dev/null
 
+
 rm /tmp/mark* 2>/dev/null
+
+# clean old /tmp/tagaRun* files from myself (I may not be in target list) 
+$tagaUtilsDir/clean.sh
 
 # clean old /tmp/tagaRun* files from all targets
 # TODO!!

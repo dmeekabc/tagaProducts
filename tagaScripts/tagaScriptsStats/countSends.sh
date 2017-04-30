@@ -7,11 +7,95 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#######################################################
+# function displayFilter
+#######################################################
+
+function displayFilter {
+if [ $EXPERT_DISPLAY -eq 1 ] ;then
+   # Expert display is on
+   echo Nothing to Filter since Expert Display has no filters >/dev/null
+else
+   # Expert display is off # Check Filters for reduced display
+   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+      echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
+   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+      if [ $1 == "Commanded" ] ; then
+         # Commanded Throughput is valid for BASH SOCKET unless TCP
+         if [ $TESTTYPE == "UCAST_TCP" ]; then
+            echo 
+i           echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator 
+            echo >> $TAGA_RUN_DIR/counts.txt
+            echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator >> $TAGA_RUN_DIR/counts.txt
+            buffer1="" # filter it
+         fi
+         echo Commanded Throughput is always valid for BASH_SOCKET>/dev/null
+         #buffer1=""
+      else
+         # Percentage Lines Displays... check further...
+         if [ $TESTTYPE == "MCAST" ]; then
+            echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+            buffer1="" # filter it
+         elif [ $TESTTYPE == "UCAST_TCP" ]; then
+            echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+            buffer1="" # filter it
+         elif [ $TESTTYPE == "UCAST_UDP" ]; then
+            echo MAX DISPLAY is ON and BASH_SKT UCAST_UDP>/dev/null
+            #buffer1="" # good to go
+         fi
+      fi
+   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+      if [ $TESTTYPE == "MCAST" ]; then
+         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+         buffer1="" # filter it
+      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+         #buffer1=""
+      fi
+   elif [ $TESTTYPE == "MCAST" ]; then
+      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+      #buffer1=""
+   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+      #buffer1=""
+   fi
+fi
+}
+
+
+#######################################################
+# MAIN
+#######################################################
+
+
 # If counts are disabled, exit now
 if [ $COUNTS_DISABLED -eq 1 ]; then
    echo NOTICE: Counts are DISABLED, $0 exiting with no action!
    exit
 fi
+
+#################################################################
+# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
+#################################################################
+# The GENERATOR_STR may be redudant (to $TAGA_TRAFFIC_GENERATOR) 
+# ... or may be used to customize output
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+   GENERATOR_STR=BASH_SOCKET
+   GENERATOR_STR="BASE TRAFFIC"
+   GENERATOR_STR="BashSock"
+   if [ $MSGRATE_CONFIGURED -ne 1 ] ; then
+      echo
+      echo TAGA NOTICE: Configured Message Rate \($MSGRATE_CONFIGURED\) is not supported.
+      echo TAGA NOTICE: Assuming Message Rate of One \(1\)
+      echo
+      MSGRATE=1
+   fi
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+   GENERATOR_STR=IPERF
+else
+   GENERATOR_STR=MGEN
+fi
+
 
 # get the inputs
 outputDir=$1
@@ -48,11 +132,13 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 date; date >> $TAGA_RUN_DIR/counts.txt
 
 # add the header
-echo ============================ TAGA Iteration:$iter ===========================
-echo ============================ TAGA Iteration:$iter =========================== >>  $TAGA_RUN_DIR/counts.txt
+echo ============================= TAGA Iteration:$iter =============================
+echo ============================= TAGA Iteration:$iter ============================= >>  $TAGA_RUN_DIR/counts.txt
 
-echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE
-echo TAGA:Iter:$iter StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE >> $TAGA_RUN_DIR/counts.txt
+#echo TAGA:Iter:$iter: StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR
+#echo TAGA:Iter:$iter: StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$TESTTYPE $GENERATOR_STR >> $TAGA_RUN_DIR/counts.txt
+echo TAGA:Iter:$iter: StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$GENERATOR_STR $TESTTYPE 
+echo TAGA:Iter:$iter: StartDTG:$startTime Dur:$currentDelta\s AvgDur:$averageDuration\s TestType:$GENERATOR_STR $TESTTYPE >> $TAGA_RUN_DIR/counts.txt
 
 # calculate the aggregate commanded throughput rate
 let targetCount=0
@@ -93,9 +179,21 @@ else
   megabitPrint=0.000
 fi
 
-echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) 
-echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) >> $TAGA_RUN_DIR/counts.txt
+############################################
+# Commaned Throughput Display
+############################################
+# build the buffer1
+buffer1="TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps ($kilobitPrint kbps)  ($megabitPrint mbps)" 
 
+# filter it
+displayFilter "Commanded"
+
+# display it 
+# (if we have a valid "Commanded" buffer)
+if echo $buffer1 | grep Commanded >/dev/null; then 
+   echo $buffer1 
+   echo $buffer1 >> $TAGA_RUN_DIR/counts.txt
+fi
 
 # get Gross Received Count
 let grossReceivedCount=0
@@ -116,9 +214,15 @@ else
   do
     HOST=`cat $TAGA_CONFIG_DIR/hostsToIps.txt | grep $target\\\. | cut -d"." -f 5`
     SOURCE_FILE_TAG=$TEST_DESCRIPTION\_$HOST\_*$target\_
+
+    # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+    # dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+
     # get receivers only and only our target
-    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
+    #let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | wc -l`
+    let targetReceivedCount=`cat $SOURCE_FILE_TAG* 2>/dev/null | cut -d">" -f 2- | grep $target | grep "length $MSGLEN" | wc -l`
     let grossReceivedCount=$grossReceivedCount+$targetReceivedCount
+
   done
 fi
 
@@ -135,10 +239,10 @@ for target in $targetList
 do
    # count the nodes we send our message to
    # check the test type
-   # if UCAST, we send a message to each node, except ourself
+   # if UCAST, each nodes sends a message to each node, except itself
    for target2 in $targetList
    do
-     if [ $target2 != $MYIP ]; then
+     if [ $target2 != $target ]; then
        let expectedCount2=$expectedCount2+1
      fi
    done
@@ -172,28 +276,83 @@ fi
 # write blank line to output; write blank line to counts.txt file
 echo; echo >> $TAGA_RUN_DIR/counts.txt
 
+#################
+# Build it
+#################
 # build up the buffer
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
+
+#################
+# Filter it
+#################
+# filter it
+displayFilter "ReceivedCounts"
+
+#if [ $EXPERT_DISPLAY -eq 1 ] ;then
+#   # Expert display is on
+#   echo Nothing to Filter since Expert Display has no filters >/dev/null
+#else
+#   # Expert display is off # Check Filters for reduced display
+#   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+#      echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+#      echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+#         buffer1="" # filter it
+#      fi
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+#      echo MAX DISPLAY is ON but IPERF>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+#         #buffer1=""
+#      fi
+#   elif [ $TESTTYPE == "MCAST" ]; then
+#      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+#      #buffer1=""
+#   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+#      #buffer1=""
+#   fi
+#fi
+
+#################
+# Display it
+#################
+
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 
 let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
+let ROW_SIZE=66  # Note, this is in two spots
 
-let padlen=$ROW_SIZE-$buflen
-# add the padding
-let i=$padlen
-while [ $i -gt 0 ];
-do
-  buffer1="$buffer1."
-  let i=$i-1
-done
-# add the percent at the end of the buffer
-buffer2="$buffer1 ($percent%)"
-
-# write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+# If we have something of interest, display it, otherwise print blank line!
+if [ $buflen -gt 0 ] ; then
+   let padlen=$ROW_SIZE-$buflen
+   # add the padding
+   let i=$padlen
+   while [ $i -gt 0 ];
+   do
+     buffer1="$buffer1."
+     let i=$i-1
+   done
+   # add the percent at the end of the buffer
+   buffer2="$buffer1 ($percent%)"
+   # write buffer line to output; write buffer line to counts.txt file
+   echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+else
+   echo >/dev/null
+fi
 
 
 #####################################################
@@ -209,12 +368,13 @@ do
    # count the nodes we send our message to
    # check the test type
 
-   # if UCAST, we send a message to each node, except ourself
+   # if UCAST, each nodes sends a message to each node, except itself
    # but this expected message count is even valid for the MCAST 
    # since we count on the receive side
    for target2 in $targetList
    do
-      if [ $target2 != $MYIP ]; then
+      #if [ $target2 != $MYIP ]; then
+      if [ $target2 != $target ]; then
          let expectedCount2=$expectedCount2+1
       fi
    done
@@ -259,11 +419,78 @@ else
 fi
 
 # build up the buffer
-printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+
+# dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+# dlm temp, 30 apr 2017, this is giving false positives, need to tighten our filter...
+#printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
+printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | grep "length $MSGLEN" | wc -l`
+
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
+
+
+displayFilter "TotalCounts"
+
+#if [ $EXPERT_DISPLAY -eq 1 ] ;then
+#   # Expert display is on
+#   echo Nothing to Filter since Expert Display has no filters >/dev/null
+#else
+#   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+#      echo MAX DISPLAY is OFF >/dev/null
+#      buffer1=""
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+#      echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+#         buffer1="" # filter it
+#      fi
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+#      echo MAX DISPLAY is ON but IPERF>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+#         #buffer1=""
+#      fi
+#   elif [ $TESTTYPE == "MCAST" ]; then
+#      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+#      #buffer1=""
+#   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+#      #buffer1=""
+#   fi
+#fi
+
+#if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+#   echo MAX DISPLAY is OFF >/dev/null
+#   buffer1=""
+#elif [ $TESTTYPE == "MCAST" ]; then
+#   echo MAX DISPLAY is ON but MCAST>/dev/null
+#   buffer1=""
+#elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#   echo MAX DISPLAY is ON but UCAST_TCP>/dev/null
+#   #buffer1=""
+#elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+#   echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+#   buffer1=""
+#elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+#   echo MAX DISPLAY is ON but IPERF>/dev/null
+#   buffer1=""
+#fi
+
 
 if [ $printCount == $expectedCount ]; then
   mynewpercent="100.00"
+elif [ $printCount > $expectedCount ]; then
+  let mynewpercent=$printCount*100
+  let mynewpercent=$mynewpercent/$expectedCount
+  #mynewpercent=`echo $mynewpercent | cut -c1-2`.`echo $mynewpercent | cut -c3-4`
+  mynewpercent=`echo $mynewpercent | cut -c1-3`.`echo $mynewpercent | cut -c4-5`
 else
   let mynewpercent=$printCount*100
   let mynewpercent=$mynewpercent/$expectedCount
@@ -274,24 +501,34 @@ fi
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 
+#echo buflen$buflen
+
 let ROW_SIZE=82  # Note, this is in two spots
 let ROW_SIZE=72  # Note, this is in two spots
 let ROW_SIZE=68  # Note, this is in two spots
+let ROW_SIZE=66  # Note, this is in two spots
 
-let padlen=$ROW_SIZE-$buflen
-# add the padding
-let i=$padlen
-while [ $i -gt 0 ];
-do
-  buffer1="$buffer1."
-  let i=$i-1
-done
-# add the percent at the end of the buffer
-#buffer2="$buffer1 ($percent%)"
-buffer2="$buffer1 ($mynewpercent%)"
+# If we have something of interest, display it, otherwise print blank line!
+if [ $buflen -gt 0 ] ; then
+   let padlen=$ROW_SIZE-$buflen
+   # add the padding
+   let i=$padlen
+   while [ $i -gt 0 ];
+   do
+     buffer1="$buffer1."
+     let i=$i-1
+   done
+   # add the percent at the end of the buffer
+   #buffer2="$buffer1 ($percent%)"
+   buffer2="$buffer1 ($mynewpercent%)"
 
-# write buffer line to output; write buffer line to counts.txt file
-echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+   # write buffer line to output; write buffer line to counts.txt file
+   echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
+else
+  # we do this once already, so no line needed here
+  echo >/dev/null
+fi
+
 
 ##################################################################
 # PRINT HEADER ROWS
@@ -309,6 +546,17 @@ let m=0 # index
 for target in $targetList
 do
 
+  # increment the index
+  let m=$m+1
+  if [ $m -lt 10 ]; then
+    #mprint=0$m
+    mprint=" $m"
+  else
+    mprint="$m."
+  fi 
+
+#  row="$mprint. $row"
+
   # build Row output
 
   # init the row cumulative
@@ -318,26 +566,27 @@ do
   tgtlen=`echo $target | awk '{print length($0)}'`
 
   if [ $tgtlen -eq 17 ] ; then
-    row=$target\ 
+    row="$target $mprint" 
   elif [ $tgtlen -eq 16 ] ; then
-    row=$target\. 
+    row="$target...$mprint"
   elif [ $tgtlen -eq 15 ] ; then
-    row=$target\.. 
+    row="$target....$mprint"
   elif [ $tgtlen -eq 14 ] ; then
-    row=$target\... 
+    row="$target.....$mprint"
   elif [ $tgtlen -eq 13 ] ; then
-    row=$target\.... 
+    row="$target......$mprint"
   elif [ $tgtlen -eq 12 ] ; then
-    row=$target\..... 
+    row="$target.......$mprint"
   elif [ $tgtlen -eq 11 ] ; then
-    row=$target\...... 
+    row="$target........$mprint"
   elif [ $tgtlen -eq 10 ] ; then
-    row=$target\....... 
+    row="$target.........$mprint"
   elif [ $tgtlen -eq 9 ] ; then
-    row=$target\........ 
+    row="$target..........$mprint"
   else
-    row=$target\......... 
+    row="$target...........$mprint"
   fi
+
 
   # get the sent count for (to) this target
   let rownodeCount=0
@@ -366,7 +615,17 @@ do
       if [ $TESTTYPE == "MCAST" ]; then
         # MCAST
         target2=$MYMCAST_ADDR
-        cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+        # dlm temp, changed 29 apr 2017 to support BASH Traffic (no specific source port)
+        # dlm temp, changed 29 apr 2017 to support BASH Traffic (no specific source port)
+        # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
+        # dlm temp, consider if we need a GENERATOR_TYPE switch here instead of reducing the filter for all
+        if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+           #cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+           cat /tmp/curcount.txt  | grep $target2\. | grep $target. > /tmp/curcount2.txt # filter
+        else
+           cat /tmp/curcount.txt  | grep $target2\. | grep $target.$SOURCEPORT > /tmp/curcount2.txt # filter
+           #cat /tmp/curcount.txt  | grep $target2\. | grep $target. > /tmp/curcount2.txt # filter
+        fi
         cat /tmp/curcount2.txt  | grep "length $MSGLEN" > /tmp/curcount.txt  # verify length
         cat /tmp/curcount.txt  > /tmp/curcount2.txt   # copy the output to temp file curcount2.txt
         cat /tmp/curcount2.txt | wc -l                > /tmp/curcount.txt   # get the count
@@ -452,6 +711,7 @@ do
 
   if [ $NARROW_DISPLAY -eq 1 ]; then
     let ROW_SIZE=66
+    let ROW_SIZE=70
   elif [ $WIDE_DISPLAY -eq 1 ]; then
     let ROW_SIZE=166
   else
@@ -488,16 +748,16 @@ do
   # append the cumulative row total to the row output
   row="$row $row_cumulative"
 
-  # increment the index
-  let m=$m+1
-  if [ $m -lt 10 ]; then
-    #mprint=0$m
-    mprint=" $m"
-  else
-    mprint=$m
-  fi 
+#  # increment the index
+#  let m=$m+1
+#  if [ $m -lt 10 ]; then
+#    #mprint=0$m
+#    mprint=" $m"
+#  else
+#    mprint=$m
+#  fi 
 
-  row="$mprint. $row"
+#  row="$mprint. $row"
 
   echo "$row"
   echo "$row" >> $TAGA_RUN_DIR/counts.txt

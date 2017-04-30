@@ -34,7 +34,24 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-#echo INTERFACE:$INTERFACE
+if [ $TAGA_TRAFFIC_GENERATOR == "MGEN" ] ; then
+  PORT_STR='port $SOURCEPORT'
+  GREP_STR=''
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+  PORT_STR='port $SOURCEPORT'
+  PORT_STR=''
+  GREP_STR=''
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+  PORT_STR=''
+  GREP_STR='| grep $MSGLEN'
+  GREP_STR=''
+else
+  # default
+  PORT_STR='port $SOURCEPORT'
+  GREP_STR=''
+fi
+
+#echo PORT_STR:$PORT_STR
 
 NAME=`basename $0`
 IPPART=`$iboaUtilsDir/iboa_padded_echo.sh $MYIP $IP_PAD_LEN`
@@ -63,17 +80,37 @@ fi
 # if we are in the listener list, then listen for traffic
 if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
   echo Running /usr/sbin/tcpdump on `hostname` > $STATUS_FILE 
+
+  # dlm temp this is temporary plan is to use the PORT_STR var
+  # dlm temp this is temporary plan is to use the PORT_STR var
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ]  || [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+
   if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
-    /usr/sbin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
-     <$TAGA_CONFIG_DIR/passwd.txt | tee                                                  \
+    /usr/bin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto $PORT_STR -l $GREP_STR \
+     <$TAGA_CONFIG_DIR/passwd.txt | tee                                                       \
      /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
   else
-    #echo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l       
-    /usr/sbin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l                       \
-     <$TAGA_CONFIG_DIR/passwd.txt >                                                      \
-         /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` \
+    /usr/bin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto $PORT_STR -l $GREP_STR \
+     <$TAGA_CONFIG_DIR/passwd.txt >                                                           \
+         /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S`      \
               2>/dev/null
   fi
+else
+  # dlm temp this is temporary plan is to use the PORT_STR var
+  # dlm temp this is temporary plan is to use the PORT_STR var
+  if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_4_VERBOSE ]; then
+    /usr/bin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l $GREP_STR \
+     <$TAGA_CONFIG_DIR/passwd.txt | tee                                                       \
+     /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S` 
+  else
+    /usr/bin/sudo /usr/sbin/tcpdump -n -s 200 -i $MYINTERFACE $myproto port $SOURCEPORT -l $GREP_STR \
+     <$TAGA_CONFIG_DIR/passwd.txt >                                                           \
+         /tmp/$TEST_DESCRIPTION\_`hostname`_$MYINTERFACE\_$MY_PARAM_IP\_`date +%j%H%M%S`      \
+              2>/dev/null
+  fi
+fi
+
+
 else
   echo `hostname` is not in the list of Traffic/PLI Receivers | tee $STATUS_FILE 
   echo $0 Exiting with no action | tee $STATUS_FILE 

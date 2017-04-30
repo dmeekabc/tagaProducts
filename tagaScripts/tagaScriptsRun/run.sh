@@ -37,6 +37,18 @@ source $TAGA_CONFIG_DIR/config
 MYLOCALLOGIN_ID=`$TAGA_UTILS_DIR/loginIdLookup.sh $MYIP | tail -n 1`
 MYLOCALLOGIN_ID=`echo $MYLOCALLOGIN_ID`
 
+
+if [ $TAGA_TRAFFIC_GENERATOR == "MGEN" ] ; then
+  TRAFFIC_CMD=$tagaScriptsMgenDir/mgen.sh
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+  TRAFFIC_CMD=$tagaScriptsMgenDir/iperf.sh
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+  TRAFFIC_CMD=$tagaScriptsMgenDir/bashTraffic.sh
+else
+  # default
+  TRAFFIC_CMD=$tagaScriptsMgenDir/mgen.sh
+fi
+
 # determine the time for traffic to begin flowing
 let trafficStartEpoch=`date +%s`
 let trafficStartEpoch=$trafficStartEpoch+$MGEN_SERVER_INIT_DELAY
@@ -104,11 +116,11 @@ do
    if [ $SIMULATION_ONLY -eq 0 ]; then
       if [ $TAGA_DISPLAY_SETTING -ge $TAGA_DISPLAY_ENUM_VAL_2_BRIEF ]; then
          ssh -l $MYLOGIN_ID $target $tagaScriptsTcpdumpDir/tcpdump.sh $target & 
-         ssh -l $MYLOGIN_ID $target $tagaScriptsMgenDir/mgen.sh $target $trafficStartEpoch&
+         ssh -l $MYLOGIN_ID $target $TRAFFIC_CMD $target $trafficStartEpoch&
       else
          # suppress output to stdout
          ssh -l $MYLOGIN_ID $target $tagaScriptsTcpdumpDir/tcpdump.sh $target >/dev/null & 
-         ssh -l $MYLOGIN_ID $target $tagaScriptsMgenDir/mgen.sh $target $trafficStartEpoch >/dev/null &
+         ssh -l $MYLOGIN_ID $target $TRAFFIC_CMD $target $trafficStartEpoch >/dev/null &
       fi
    fi
 

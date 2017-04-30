@@ -166,6 +166,7 @@ let WAITTIME=$WAITTIME+$ROUND_TIME
 MAX_WAIT_TIME=40
 MAX_WAIT_TIME=80
 MAX_WAIT_TIME=120
+MAX_WAIT_TIME=10
 if [ $WAITTIME -gt $MAX_WAIT_TIME ]; then
   let WAITTIME=MAX_WAIT_TIME
 fi
@@ -284,7 +285,8 @@ if [ $TESTTYPE == "MCAST" ]; then
     mgen input $SCRIPTFILE  #>/dev/null
   fi
   
-  # we are done, exit the script
+  # MCAST - we are done, exit the script
+  echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
   exit
 
 fi # if multicast flag is true
@@ -457,12 +459,8 @@ do
 
 done
 
-# IPERF examples
-#--------------------------------------------------
-#echo Running iperf on `hostname` | tee $STATUS_FILE
-#sudo iperf -s -u -B 225.0.0.57 -i 10
-#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
-#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
+echo TAGA: TRAFFIC GENERATION COMPLETE on $MYIP
+
 
 # IPERF examples
 #--------------------------------------------------
@@ -471,4 +469,10 @@ done
 #echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
 #sudo iperf -s -u -B $MYMCAST_ADDR -i 10
 
+# IPERF examples
+#--------------------------------------------------
+#echo Running iperf on `hostname` | tee $STATUS_FILE
+#sudo iperf -s -u -B 225.0.0.57 -i 10
+#echo "sudo iperf -s -u -B $MYMCAST_ADDR -i 10"
+#sudo iperf -s -u -B $MYMCAST_ADDR -i 10
 

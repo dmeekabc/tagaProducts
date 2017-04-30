@@ -37,12 +37,6 @@ TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
-# Toggle on or off based on user's perspective and need
-let EXPERT_DISPLAY=0 # applies to countSends stats display only at this time
-let EXPERT_DISPLAY=1 # applies to countSends stats display only at this time
-
-#LOG_FILE=`basename $0`
-
 # Get target list and process it
 targetList=`$TAGA_CONFIG_DIR/targetList.sh`
 TARGET_COUNT=`echo $targetList | wc -w`  # same as targetCount below
@@ -91,6 +85,13 @@ TAGA_ADMIN_STATS_REMOTE=1
 VIEW="EXPERT"
 VIEW="STANDARD"
 VIEW="EXPERT"
+
+#######################################
+# TAGA Traffic Generation 
+#######################################
+TAGA_TRAFFIC_GENERATOR=MGEN
+TAGA_TRAFFIC_GENERATOR=IPERF
+TAGA_TRAFFIC_GENERATOR=BASH
 
 ################################
 # LOG MGT
@@ -141,18 +142,9 @@ let IP_PAD_LEN=16
 let NAME_PAD_LEN=24
 let CMD_PAD_LEN=16
 
-
 # num of secs per target for each managed command
 let MANAGED_WAIT_FACTOR=5
 
-
-#######################################
-# TAGA Traffic Generation 
-#######################################
-# Bottom One Wins
-TAGA_TRAFFIC_GENERATOR=IPERF       # performance
-TAGA_TRAFFIC_GENERATOR=BASH_SOCKET # firewall
-TAGA_TRAFFIC_GENERATOR=MGEN        # normal
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -160,8 +152,7 @@ TAGA_TRAFFIC_GENERATOR=MGEN        # normal
 TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
 TESTTYPE_DUMMY="MCAST"     # UDP MCAST
 TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
-
+TESTTYPE="UCAST_UDP" 
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -209,8 +200,6 @@ let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 
-let MAX_STAT_DISPLAY=0
-let MAX_STAT_DISPLAY=1
 
 ####################################################
 # TAGA DISPLAY Booleans
@@ -296,9 +285,6 @@ MSGCOUNT=20
 MSGCOUNT=20
 MSGCOUNT=5
 MSGCOUNT=1
-MSGCOUNT=2
-MSGCOUNT=20
-MSGCOUNT=2
 let MSGCOUNT=$MSGCOUNT*$TAGA_TRAFFIC_MULT_FACTOR
 let MSGCOUNT=$MSGCOUNT/$TAGA_TRAFFIC_DIV_FACTOR
 
@@ -326,7 +312,6 @@ MSGRATE=240
 MSGRATE=480
 MSGRATE=1
 MSGRATE=1
-MSGRATE=2
 let MSGRATE=$MSGRATE*$TAGA_TRAFFIC_MULT_FACTOR
 let MSGRATE=$MSGRATE/$TAGA_TRAFFIC_DIV_FACTOR
 
@@ -346,7 +331,6 @@ MSGLEN_DUMMY=40
 MSGLEN=40
 MSGLEN=1000
 MSGLEN=40
-MSGLEN=1470
 
 ####################################################
 # The Keep Alive Function
@@ -1078,21 +1062,6 @@ else
    OTHER_LIST=`echo $targetList | sed s/$MYIP//g` 
 fi
 
-#################################################################
-# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
-#################################################################
-# Save the configured value for informational purposes...
-MSGRATE_CONFIGURED=$MSGRATE
-if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
-if [ $MSGRATE -ne 1 ] ; then
-   #echo
-   #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
-   #echo TAGA NOTICE: Forcing Message Rate to One \(1\)
-   #echo
-   MSGRATE=1
-fi
-fi
-
 
 ##############################################
 # DURATION 1 and 2 and 3
@@ -1173,14 +1142,7 @@ let DURATION3=3
 let DURATION3=60
 let DURATION3=3
 let DURATION3=6000
-let DURATION3=10
-let DURATION3=60
 let DURATION3=3
-
-# Increase DURATION3 for BASH SOCKET
-if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
-   let DURATION3=20
-fi
 
 ##############################################
 # others / static constants
@@ -1219,12 +1181,11 @@ PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST="mgen iperf survey sim1 xxx tcpdump" 
 
 # alternate kill list used once at run begin only ??
 # alternate kill list used once at run begin only ??
 TAGA_KILL_LIST_ALT="interfaceMon keepAlive mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="interfaceMon mgen iperf survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="interfaceMon mgen survey sim1 xxx tcpdump" 
 
 ####################################################
 VARIABLE_TEST="var_test.sh"
@@ -1293,18 +1254,6 @@ TAGA_PROTO=tcp
 TAGA_PORT=9988
 TAGA_PORT=9998
 
-#################################################################
-# Validate the Configuration based on TAGA_TRAFFIC_GENERATOR TYPE
-#################################################################
-#if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
-#if [ $MSGRATE -ne 1 ] ; then
-   #echo
-   #echo TAGA NOTICE: Configured Message Rate \($MSGRATE\) is not supported.
-   #echo TAGA NOTICE: Forcing Message Rate to One \(1\)
-   #echo
-   #MSGRATE=1
-#fi
-#fi
 
 ##############################################
 # Run Time Inserts ONLY Below

@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 #
-# Copyright (c) IBOA Corp 2016
+# Copyright (c) IBOA Corp 2017
 #
 # All Rights Reserved
 #                                                                     
@@ -29,22 +29,33 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
+
+TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
-# provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
+let VERBOSE=1
+let VERBOSE=0
 
-# issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
+# Get the Input Parameter (File Size to Create)
+SIZE=$1
 
-# continue to execute the command
-echo $0 Proceeding.... at `date`; echo
+MAX_FILE_SIZE=1600
+if [ $SIZE -gt $MAX_FILE_SIZE ] ; then
+   SIZE=$MAX_FILE_SIZE
+fi
 
+IN_FILE=$tagaUtilsDir/tagaZero.dat
+OUT_FILE=/tmp/tagaSize.dat
+rm -rf $OUT_FILE
 
+# Do it create the file!
+dd if=$tagaUtilsDir/tagaZero.dat of=$OUT_FILE bs=$SIZE count=1 >/dev/null 2>/dev/null
+
+# List it if verbose is enabled
+if [ $VERBOSE -eq 1 ] ; then
+  ls -lrt $OUT_FILE
+fi
