@@ -7,6 +7,61 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+#######################################################
+# function displayFilter
+#######################################################
+
+function displayFilter {
+if [ $EXPERT_DISPLAY -eq 1 ] ;then
+   # Expert display is on
+   echo Nothing to Filter since Expert Display has no filters >/dev/null
+else
+   # Expert display is off # Check Filters for reduced display
+   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+      echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
+   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+      if [ $1 == "Commanded" ] ; then
+         # Commanded Throughput is always valid for BASH SOCKET
+         echo Commanded Throughput is always valid for BASH_SOCKET>/dev/null
+         #buffer1=""
+      else
+         # Percentage Lines Displays... check further...
+         echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+         buffer1="" # filter it
+         if [ $TESTTYPE == "MCAST" ]; then
+            echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+            buffer1="" # filter it
+         elif [ $TESTTYPE == "UCAST_TCP" ]; then
+            echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+            buffer1="" # filter it
+         fi
+      fi
+   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+      echo MAX DISPLAY is ON but IPERF>/dev/null
+      buffer1="" # filter it
+      if [ $TESTTYPE == "MCAST" ]; then
+         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+         buffer1="" # filter it
+      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+         #buffer1=""
+      fi
+   elif [ $TESTTYPE == "MCAST" ]; then
+      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+      #buffer1=""
+   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+      #buffer1=""
+   fi
+fi
+}
+
+
+#######################################################
+# MAIN
+#######################################################
+
+
 # If counts are disabled, exit now
 if [ $COUNTS_DISABLED -eq 1 ]; then
    echo NOTICE: Counts are DISABLED, $0 exiting with no action!
@@ -118,9 +173,21 @@ else
   megabitPrint=0.000
 fi
 
-echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) 
-echo TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps \($kilobitPrint kbps\)  \($megabitPrint mbps\) >> $TAGA_RUN_DIR/counts.txt
+############################################
+# Commaned Throughput Display
+############################################
+# build the buffer1
+buffer1="TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps ($kilobitPrint kbps)  ($megabitPrint mbps)" 
 
+# filter it
+displayFilter "Commanded"
+
+# display it 
+# (if we have a valid "Commanded" buffer)
+if echo $buffer1 | grep Commanded >/dev/null; then 
+   echo $buffer1 
+   echo $buffer1 >> $TAGA_RUN_DIR/counts.txt
+fi
 
 # get Gross Received Count
 let grossReceivedCount=0
@@ -197,44 +264,57 @@ fi
 # write blank line to output; write blank line to counts.txt file
 echo; echo >> $TAGA_RUN_DIR/counts.txt
 
+#################
+# Build it
+#################
 # build up the buffer
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
 
-if [ $EXPERT_DISPLAY -eq 1 ] ;then
-   # Expert display is on
-   echo Nothing to Filter since Expert Display has no filters >/dev/null
-else
-   # Expert display is off # Check Filters for reduced display
-   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
-      echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
-   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
-      echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
-      buffer1="" # filter it
-      if [ $TESTTYPE == "MCAST" ]; then
-         echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
-         buffer1="" # filter it
-      elif [ $TESTTYPE == "UCAST_TCP" ]; then
-         echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
-         buffer1="" # filter it
-      fi
-   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
-      echo MAX DISPLAY is ON but IPERF>/dev/null
-      buffer1="" # filter it
-      if [ $TESTTYPE == "MCAST" ]; then
-         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
-         buffer1="" # filter it
-      elif [ $TESTTYPE == "UCAST_TCP" ]; then
-         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
-         #buffer1=""
-      fi
-   elif [ $TESTTYPE == "MCAST" ]; then
-      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
-      #buffer1=""
-   elif [ $TESTTYPE == "UCAST_TCP" ]; then
-      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
-      #buffer1=""
-   fi
-fi
+#################
+# Filter it
+#################
+# filter it
+displayFilter "ReceivedCounts"
+
+#if [ $EXPERT_DISPLAY -eq 1 ] ;then
+#   # Expert display is on
+#   echo Nothing to Filter since Expert Display has no filters >/dev/null
+#else
+#   # Expert display is off # Check Filters for reduced display
+#   if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+#      echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+#      echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but BASH_SKT UCAST_TCP>/dev/null
+#         buffer1="" # filter it
+#      fi
+#   elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+#      echo MAX DISPLAY is ON but IPERF>/dev/null
+#      buffer1="" # filter it
+#      if [ $TESTTYPE == "MCAST" ]; then
+#         echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
+#         buffer1="" # filter it
+#      elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#         echo MAX DISPLAY is ON but IPERF UCAST_TCP>/dev/null
+#         #buffer1=""
+#      fi
+#   elif [ $TESTTYPE == "MCAST" ]; then
+#      echo MAX DISPLAY is ON but MGEN MCAST>/dev/null
+#      #buffer1=""
+#   elif [ $TESTTYPE == "UCAST_TCP" ]; then
+#      echo MAX DISPLAY is ON but MGEN UCAST_TCP>/dev/null
+#      #buffer1=""
+#   fi
+#fi
+
+#################
+# Display it
+#################
 
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
