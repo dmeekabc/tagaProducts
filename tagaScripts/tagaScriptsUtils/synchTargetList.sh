@@ -108,7 +108,7 @@ let printCount=$successCount-1
 if [ $successCount -lt $TARGET_COUNT ] ; then
    echo "$printCount targets received the update, do you want to try again (y/n)?"
 
-   autoConfirm=`/opt/jtmnm/scripts/utils/getAutoConfirm.sh | cut -d: -f 2`
+   autoConfirm=`$tagaUtilsDir/getAutoConfirm.sh | cut -d: -f 2`
 
    if [ $autoConfirm -eq 1 ] ; then 
       echo Auto-confirmed, proceeding...
