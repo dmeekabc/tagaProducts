@@ -156,7 +156,7 @@ function printAvgStdDevStats
    #echo STDEV:$STDEV_PRINT_STR
    #echo -----------------
 
-   if echo $SRW_LIST_ACTIVE | grep $MYIP > /dev/null ; then
+   if echo $TAGAXXX_LIST_ACTIVE | grep $MYIP > /dev/null ; then
    avgStdDevSecsNvp="  Avg/Stdev/Min/Max : $AVERAGE_PRINT_STR/$STDEV_PRINT_STR/$Min/$Max;"
    echo average:$AVERAGE
    echo stdev:$STDEV
@@ -191,7 +191,7 @@ function printAvgStdDevStats
    #   echo $tmp5
    #echo ---222------------
 
-   if echo $SRW_LIST_ACTIVE | grep $MYIP > /dev/null ; then
+   if echo $TAGAXXX_LIST_ACTIVE | grep $MYIP > /dev/null ; then
    #if [ $deltaSecs -gt $UPPER_LIMT ] ; then
    if [ $deltaSecs -gt $tmp5 ] ; then
       echo "WARNING: Delta Seconds Iteration Duration Delta Seconds outside of (larger than) expected bounds"
