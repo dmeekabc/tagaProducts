@@ -37,6 +37,10 @@ TAGA_DIR=/home/pi/scripts/taga # new mar 2016, relocateable
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig # new mar 2016, relocateable
 TAGA_RUN_DIR=$TAGA_DIR/tagaRUN
 
+# Toggle on or off based on user's perspective and need
+let EXPERT_DISPLAY=1 # applies to countSends stats display only at this time
+let EXPERT_DISPLAY=0 # applies to countSends stats display only at this time
+
 #LOG_FILE=`basename $0`
 
 # Get target list and process it
@@ -88,14 +92,6 @@ VIEW="EXPERT"
 VIEW="STANDARD"
 VIEW="EXPERT"
 
-#######################################
-# TAGA Traffic Generation 
-#######################################
-# Bottom One Wins
-TAGA_TRAFFIC_GENERATOR=MGEN
-TAGA_TRAFFIC_GENERATOR=BASH_SOCKET
-TAGA_TRAFFIC_GENERATOR=IPERF # Not yet Supported
-
 ################################
 # LOG MGT
 ################################
@@ -145,8 +141,18 @@ let IP_PAD_LEN=16
 let NAME_PAD_LEN=24
 let CMD_PAD_LEN=16
 
+
 # num of secs per target for each managed command
 let MANAGED_WAIT_FACTOR=5
+
+
+#######################################
+# TAGA Traffic Generation 
+#######################################
+# Bottom One Wins
+TAGA_TRAFFIC_GENERATOR=IPERF 
+TAGA_TRAFFIC_GENERATOR=MGEN
+TAGA_TRAFFIC_GENERATOR=BASH_SOCKET
 
 
 ####################################################
@@ -156,6 +162,7 @@ TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
 TESTTYPE_DUMMY="MCAST"     # UDP MCAST
 TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
 TESTTYPE="UCAST_TCP" # TCP UCAST
+
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -205,8 +212,6 @@ let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 
 let MAX_STAT_DISPLAY=0
 let MAX_STAT_DISPLAY=1
-let EXPERT_DISPLAY=0
-let EXPERT_DISPLAY=1
 
 ####################################################
 # TAGA DISPLAY Booleans
@@ -1170,8 +1175,13 @@ let DURATION3=60
 let DURATION3=3
 let DURATION3=6000
 let DURATION3=10
-let DURATION3=3
 let DURATION3=60
+let DURATION3=3
+
+# Increase DURATION3 for BASH SOCKET
+if [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+   let DURATION3=20
+fi
 
 ##############################################
 # others / static constants
