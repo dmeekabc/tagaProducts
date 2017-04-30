@@ -33,8 +33,6 @@ i           echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic
          #buffer1=""
       else
          # Percentage Lines Displays... check further...
-         echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
-         buffer1="" # filter it
          if [ $TESTTYPE == "MCAST" ]; then
             echo MAX DISPLAY is ON but BASH_SKT MCAST>/dev/null
             buffer1="" # filter it
@@ -47,8 +45,6 @@ i           echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic
          fi
       fi
    elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
-      echo MAX DISPLAY is ON but IPERF>/dev/null
-      buffer1="" # filter it
       if [ $TESTTYPE == "MCAST" ]; then
          echo MAX DISPLAY is ON but IPERF MCAST>/dev/null
          buffer1="" # filter it
