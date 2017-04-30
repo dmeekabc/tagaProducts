@@ -344,7 +344,7 @@ if [ $buflen -gt 0 ] ; then
    # write buffer line to output; write buffer line to counts.txt file
    echo $buffer2 ; echo $buffer2 >> $TAGA_RUN_DIR/counts.txt
 else
-   echo
+   echo >/dev/null
 fi
 
 
