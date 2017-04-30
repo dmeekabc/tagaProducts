@@ -21,7 +21,11 @@ else
       echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
    elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
       if [ $1 == "Commanded" ] ; then
-         # Commanded Throughput is always valid for BASH SOCKET
+         # Commanded Throughput is valid for BASH SOCKET unless TCP
+         elif [ $TESTTYPE == "UCAST_TCP" ]; then
+            echo NOTICE: Test Type: $TESTTYPE not supported for BashSock Traffic Generator 
+            buffer1="" # filter it
+         fi
          echo Commanded Throughput is always valid for BASH_SOCKET>/dev/null
          #buffer1=""
       else
