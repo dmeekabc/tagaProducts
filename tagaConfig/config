@@ -92,9 +92,9 @@ VIEW="EXPERT"
 # TAGA Traffic Generation 
 #######################################
 # Bottom One Wins
-TAGA_TRAFFIC_GENERATOR=IPERF # Not yet Supported
 TAGA_TRAFFIC_GENERATOR=MGEN
 TAGA_TRAFFIC_GENERATOR=BASH_SOCKET
+TAGA_TRAFFIC_GENERATOR=IPERF # Not yet Supported
 
 ################################
 # LOG MGT
@@ -153,9 +153,9 @@ let MANAGED_WAIT_FACTOR=5
 # Test type - Multicast or Unicast, UDP or TCP
 ####################################################
 TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
-TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
 TESTTYPE_DUMMY="MCAST"     # UDP MCAST
-TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
+TESTTYPE="UCAST_TCP" # TCP UCAST
 
 ####################################################
 # Begin of TAGA DISPLAY Config
@@ -203,6 +203,8 @@ let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_1_SILENT
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_4_VERBOSE
 let TAGA_DISPLAY_SETTING=$TAGA_DISPLAY_ENUM_VAL_2_BRIEF
 
+let MAX_STAT_DISPLAY=0
+let MAX_STAT_DISPLAY=1
 
 ####################################################
 # TAGA DISPLAY Booleans
@@ -290,6 +292,7 @@ MSGCOUNT=5
 MSGCOUNT=1
 MSGCOUNT=2
 MSGCOUNT=20
+MSGCOUNT=2
 let MSGCOUNT=$MSGCOUNT*$TAGA_TRAFFIC_MULT_FACTOR
 let MSGCOUNT=$MSGCOUNT/$TAGA_TRAFFIC_DIV_FACTOR
 
@@ -337,6 +340,7 @@ MSGLEN_DUMMY=40
 MSGLEN=40
 MSGLEN=1000
 MSGLEN=40
+MSGLEN=1470
 
 ####################################################
 # The Keep Alive Function
@@ -1165,6 +1169,7 @@ let DURATION3=3
 let DURATION3=6000
 let DURATION3=10
 let DURATION3=3
+let DURATION3=60
 
 ##############################################
 # others / static constants
@@ -1203,11 +1208,12 @@ PROTO_UNDER_TEST=YourProtocolUnderTestGoesHere
 # order matters! stop generators (mgen) before monitors (tcpdump)
 TAGA_KILL_LIST="keepAlive mgen survey xxx tcpdump" 
 TAGA_KILL_LIST="mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST="mgen iperf survey sim1 xxx tcpdump" 
 
 # alternate kill list used once at run begin only ??
 # alternate kill list used once at run begin only ??
 TAGA_KILL_LIST_ALT="interfaceMon keepAlive mgen survey sim1 xxx tcpdump" 
-TAGA_KILL_LIST_ALT="interfaceMon mgen survey sim1 xxx tcpdump" 
+TAGA_KILL_LIST_ALT="interfaceMon mgen iperf survey sim1 xxx tcpdump" 
 
 ####################################################
 VARIABLE_TEST="var_test.sh"
