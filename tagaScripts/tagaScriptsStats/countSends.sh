@@ -199,6 +199,23 @@ echo; echo >> $TAGA_RUN_DIR/counts.txt
 
 # build up the buffer
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Rec'd Count:$printCount / $expectedCount exp msgs "
+
+if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+   echo MAX DISLAY is OFF but the Recd count is always displayed for UCAST_UDP!! >/dev/null
+elif [ $TESTTYPE == "MCAST" ]; then
+   echo MAX DISPLAY is ON but MCAST>/dev/null
+   buffer1=""
+elif [ $TESTTYPE == "UCAST_TCP" ]; then
+   echo MAX DISPLAY is ON but UCAST_TCP>/dev/null
+   #buffer1=""
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+   echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+   buffer1=""
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+   echo MAX DISPLAY is ON but IPERF>/dev/null
+   buffer1=""
+fi
+
 # pad the buffer
 buflen=`echo $buffer1 | awk '{print length($0)}'`
 
@@ -287,6 +304,23 @@ fi
 # build up the buffer
 printCount=`cat $outputDir/*$TEST_DESCRIPTION* 2>/dev/null | wc -l`
 buffer1="TAGA:Iter:$iter: Tot Files:`ls $outputDir | wc -l` Total Count:$printCount / $expectedCount exp msgs "
+
+if [ $MAX_STAT_DISPLAY -eq 0 ] ;then
+   echo MAX DISPLAY is OFF >/dev/null
+   buffer1=""
+elif [ $TESTTYPE == "MCAST" ]; then
+   echo MAX DISPLAY is ON but MCAST>/dev/null
+   buffer1=""
+elif [ $TESTTYPE == "UCAST_TCP" ]; then
+   echo MAX DISPLAY is ON but UCAST_TCP>/dev/null
+   #buffer1=""
+elif [ $TAGA_TRAFFIC_GENERATOR == "BASH_SOCKET" ] ; then
+   echo MAX DISPLAY is ON but BASH_SOCKET>/dev/null
+   buffer1=""
+elif [ $TAGA_TRAFFIC_GENERATOR == "IPERF" ] ; then
+   echo MAX DISPLAY is ON but IPERF>/dev/null
+   buffer1=""
+fi
 
 if [ $printCount == $expectedCount ]; then
   mynewpercent="100.00"
