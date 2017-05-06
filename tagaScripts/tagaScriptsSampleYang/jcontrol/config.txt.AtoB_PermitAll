@@ -1,0 +1,16 @@
+security {
+    policies {
+      from-zone NETA to-zone NETB {
+        policy deny-or-permit-All_NETA_to_NETB {
+          match {
+            source-address any;
+            destination-address any;
+            application any;
+          } # match
+          then {
+              permit;
+          } # then
+        } # policy
+      } # from-zone
+    }  # policies
+} # security

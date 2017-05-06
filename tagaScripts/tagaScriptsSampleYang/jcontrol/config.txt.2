@@ -1,0 +1,16 @@
+security {
+    policies {
+      from-zone NETA to-zone NETB {
+        policy deny-PC1-to-PC4 {
+          match {
+            source-address PC1;
+            destination-address PC4;
+            application any;
+          } # match
+          then {
+              deny;
+          } # then
+        } # policy
+      } # from-zone
+    }  # policies
+} # security
