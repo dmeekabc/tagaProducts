@@ -701,6 +701,7 @@ do
       echo Commmand Choice $input proceeding...
 
       if [ $CONFIRM_COMMIT_ENABLED -eq 1 ] ; then
+         echo Do Business logic here >/dev/null
          # Do business logic here
          # Do business logic here
          # Do business logic here
@@ -731,6 +732,7 @@ do
 
       # If confirm commit is enabled, we use the 'controlled' version of the changePresetTAGAX command.
       if [ $CONFIRM_COMMIT_ENABLED -eq 1 ] ; then
+         echo Do Business logic here >/dev/null
          # Do business logic here
          # Do business logic here
          # Do business logic here
@@ -762,6 +764,7 @@ do
       echo Commmand Choice $input proceeding...
 
       if [ $CONFIRM_COMMIT_ENABLED -eq 1 ] ; then
+         echo Do Business logic here >/dev/null
          # Do business logic here
          # Do business logic here
          # Do business logic here
@@ -793,6 +796,7 @@ do
       echo Commmand Choice $input proceeding...
 
       if [ $CONFIRM_COMMIT_ENABLED -eq 1 ] ; then
+         echo Do Business logic here >/dev/null
          # Do business logic here
          # Do business logic here
          # Do business logic here
