@@ -37,14 +37,8 @@ echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
-# provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
+cd /tmp
+cat *.iter | grep RECV | cut -c1-114 | sed -e s/RECV.*dst.*sent\>//g | sed -e s/size.*//g |  grep ..:..:..\..........:..:..\.[0-9][0-9][0-9][0-9][0-9][0-9] | cut -c1-31 | tee /tmp/parse.out
 
-# issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
-
-# continue to execute the command
-echo $0 Proceeding.... at `date`; echo
-
+echo ; echo Line Count:; cat /tmp/parse.out | wc -l; echo
 
