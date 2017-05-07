@@ -40,5 +40,5 @@ echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 cd /tmp
 cat *.iter | grep RECV | cut -c1-114 | sed -e s/RECV.*dst.*sent\>//g | sed -e s/size.*//g |  grep ..:..:..\..........:..:..\.[0-9][0-9][0-9][0-9][0-9][0-9] | cut -c1-31 | tee /tmp/parse.out
 
-echo ; echo Line Count:; cat /tmp/parse.out | wc -l; echo
+echo ; echo Output:; ls -ltr /tmp/parse.out; echo; echo Line Count:; cat /tmp/parse.out | wc -l; echo
 
