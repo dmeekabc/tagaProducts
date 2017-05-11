@@ -48,13 +48,51 @@ echo $0 Proceeding.... at `date`; echo
 
 for target in $targetList
 do
+   echo;echo
+   echo ---------------------------------------------------------------------------
    echo `date` : TAGA: traceroute $target
-   hopCount=`traceroute $target | tail -n 1 | cut -c2-3`
-   echo Target:$target HopCount:$hopCount
-   echo Target:$target HopCount:$hopCount
-   traceroute $target
+   echo ---------------------------------------------------------------------------
+   ping -c 1 -W 5 $target
    retCode=$?
-   echo retCode: $retCode
-   echo
+   if [ $retCode -ne 0 ] ; then
+      echo $target is not reachable, traceroute not performed
+   else
+      #traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      retCode=$?
+#      echo retCode: $retCode
+#      #echo
+#      echo
+
+      let hopCount=`traceroute $target | tail -n 1 | cut -c2-3`
+
+#      let hopCount1=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount2=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount3=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount4=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount5=`traceroute $target | tail -n 1 | cut -c2-3`
+
+#      let hopCountTotal=$hopCount1+$hopCount2+$hopCount3+$hopCount4+$hopCount5
+
+      #let hopCountAverage=$hopCountTotal
+#      let hopCountAverage=$hopCountTotal/5
+#      echo hopCountTotal:$hopCountTotal
+#      echo hopCountAverage:$hopCountAverage
+
+#      echo Target:$target HopCount:$hopCount
+
+      echo Target:$target HopCount:$hopCount
+
+#      echo
+
+   fi
 done
 
