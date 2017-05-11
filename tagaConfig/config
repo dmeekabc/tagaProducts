@@ -51,6 +51,9 @@ let TARGET_COUNT_FACTOR=$TARGET_COUNT-1
 let TAGA_TURBO_MODE=0
 let TAGA_TURBO_MODE=1
 
+let TAGA_ALWAYS_ON=0 # Startp during init process?
+let TAGA_ALWAYS_ON=1 # Startp during init process?
+
 let EARLY_COLLECT=1 # testing
 let EARLY_COLLECT=0 # normal
 
