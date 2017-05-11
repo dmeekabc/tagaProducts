@@ -34,14 +34,8 @@ TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
-
-# provide the info to print into the confirmation request
-InfoToPrint="$0 Put Your Info To Print Here. $0 "
-
-# issue confirmation prompt and check reponse
-$tagaUtilsDir/confirm.sh $0 "$InfoToPrint"
-response=$?; if [ $response -ne 1 ]; then exit; fi
+let VERBOSE=1
+let VERBOSE=0
 
 # continue to execute the command
 echo $0 Proceeding.... at `date`; echo
@@ -52,10 +46,17 @@ do
    echo ---------------------------------------------------------------------------
    echo `date` : TAGA: traceroute $target
    echo ---------------------------------------------------------------------------
-   ping -c 1 -W 5 $target
+
+   if [  $VERBOSE -eq 1 ] ; then
+      ping -c 1 -W 5 $target
+   else
+      ping -c 1 -W 5 $target >/dev/null
+   fi
+
    retCode=$?
    if [ $retCode -ne 0 ] ; then
       echo $target is not reachable, traceroute not performed
+      echo Target:$target HopCount:Unavailable
    else
       #traceroute $target
 #      traceroute $target
@@ -96,3 +97,4 @@ do
    fi
 done
 
+echo
