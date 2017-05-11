@@ -780,6 +780,15 @@ if [ -f /opt/tagaxxx/local/config/TAGANODEX.txt ] ; then
    echo I am TAGA NODE X  >/dev/null
 else
 
+
+for netAddrPart in $NETADDRPART_ALT1  $NETADDRPART_ALT2  $NETADDRPART_ALT3  $NETADDRPART_ALT4  \
+                   $NETADDRPART_ALT5  $NETADDRPART_ALT6  $NETADDRPART_ALT7  $NETADDRPART_ALT8  \
+                   $NETADDRPART_ALT9  $NETADDRPART_ALT10 $NETADDRPART_ALT11 $NETADDRPART_ALT12 \
+                   $NETADDRPART_ALT13 $NETADDRPART_ALT14 $NETADDRPART_ALT15 $NETADDRPART_ALT16 \
+                   $NETADDRPART_ALT17 $NETADDRPART_ALT18 $NETADDRPART_ALT19 $NETADDRPART_ALT20 \
+                   $NETADDRPART_ALT21 $NETADDRPART_ALT22 $NETADDRPART_ALT23 $NETADDRPART_ALT24 \
+                   $NETADDRPART_ALT25 
+do
 if [ ! "$MYIPCANDIDATES"  ]; then
   MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
      cut -d: -f 2 | cut -d" " -f 1`
@@ -790,216 +799,8 @@ if [ ! "$MYIPCANDIDATES"  ]; then
       MYIPCANDIDATES=""
    fi
 fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT2 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT2 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT2 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT3 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT3 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT3 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT4 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT4 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT4 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT5 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT5 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT5 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT6 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT6 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT7 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT7 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT7 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT8 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT8 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT8 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT9 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT9 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT9 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT10 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT10 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT10 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT11 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT11 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT11 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT12 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT12 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT12 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT13 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT13 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT13 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT14 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT14 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT14 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT15 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT15 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT15 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT16 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT16 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT16 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT17 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT17 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT17 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT18 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT18 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT18 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT19 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT19 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT19 -B1 | head -n 1 | cut -d" " -f1`
-fi
-if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT20 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
-   if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
-      echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT20 -B1 | head -n 1 | cut -d" " -f1`
-   else
-      MYIPCANDIDATES=""
-   fi
-#  INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT20 -B1 | head -n 1 | cut -d" " -f1`
-fi
-fi # End If not NOde 5
+done
+fi # end if not node X
 
 #echo MYIP:$MYIP
 #echo INTERFACE:$INTERFACE
