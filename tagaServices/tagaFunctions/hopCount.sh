@@ -40,6 +40,13 @@ let VERBOSE=0
 # continue to execute the command
 echo $0 Proceeding.... at `date`; echo
 
+
+# Use input parameter as targetlist if provided
+if [ $# -gt 0 ] ; then
+   targetList=$1
+fi
+
+
 for target in $targetList
 do
    echo;echo
