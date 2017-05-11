@@ -68,13 +68,18 @@ fi
 # Issue Confirm Prompt
 ############################################
 
+# Ensure we don't blow ourselves away (if destination is same as source)
+cd $CURRENT_TAGA_DIR1
+sudo cp -r -f . /tmp/`basename $0`.tmp
+
 # Ensure we start fresh
 sudo rm -rf     $NEW_LOCATION
 sudo mkdir -p   $NEW_LOCATION
 sudo chmod 777  $NEW_LOCATION
 
 # Get the whole ball of wax
-cd $CURRENT_TAGA_DIR1
+#cd $CURRENT_TAGA_DIR1
+cd /tmp/`basename $0`.tmp
 sudo cp -r -f . $NEW_LOCATION
 
 cd $CURRENT_TAGA_DIR2
