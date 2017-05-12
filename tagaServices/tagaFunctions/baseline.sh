@@ -36,6 +36,14 @@ source $TAGA_CONFIG_DIR/config
 VERBOSE=1
 VERBOSE=0
 
+PRINT_MODVAL=1
+PRINT_MODVAL=2
+PRINT_MODVAL=3
+PRINT_MODVAL=4
+PRINT_MODVAL=10
+PRINT_MODVAL=100
+PRINT_MODVAL=5
+
 let DURATION=12   # 12 Second Baseline
 let DURATION=3600 # 60 Minute Baseline
 let DURATION=120  # Two Minute Baseline
@@ -76,7 +84,7 @@ echo Start RxBytes:$rxBytes
 echo Start TxBytes:$txBytes
 fi
 
-$iboaUtilsDir/iboaDelay.sh $DURATION
+$iboaUtilsDir/iboaDelay.sh $DURATION $PRINT_MODVAL
 
 let rxBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d" " -f 1`
 let txBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 3 | cut -d" " -f 1`
