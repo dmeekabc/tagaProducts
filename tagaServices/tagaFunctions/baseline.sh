@@ -36,8 +36,8 @@ source $TAGA_CONFIG_DIR/config
 VERBOSE=1
 VERBOSE=0
 
-let DURATION=120
 let DURATION=12
+let DURATION=120
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
