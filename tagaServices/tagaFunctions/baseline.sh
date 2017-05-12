@@ -71,8 +71,9 @@ $iboaUtilsDir/iboaDelay.sh $DURATION
 
 let rxBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d" " -f 1`
 let txBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 3 | cut -d" " -f 1`
-echo
-echo
+
+#echo
+#echo
 
 if [ $VERBOSE -eq 1 ] ; then
 echo End RxBytes:$rxBytes
@@ -82,7 +83,7 @@ fi
 let endRxBytes=$rxBytes
 let endTxBytes=$txBytes
 
-echo
+#echo
 echo
 
 let deltaRxBytes=$endRxBytes-$startRxBytes
