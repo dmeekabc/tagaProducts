@@ -740,36 +740,61 @@ MY_NODE=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d. -f 3`
 
 # default to localhost
 MYIP=localhost
+
+# dlm temp major change here may 2017
+# dlm temp major change here may 2017
+
+# dlm temp find me
+# dlm temp find me
+
 # determine MYIP from candidates list
-MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART |  \
-     cut -d: -f 2 | cut -d" " -f 1`
+# Assume valid NETADDRPART, if not valid, the ALT handling below will catch it
+
+# dlm temp, note this 'head' handling change is a workaround which resolves a mismatch if interface vice IP when we have
+# two IPs in the same NETADDRPART (two interfaces joining same net)
+# dlm temp, this workaround means we are not currently supporting two IPs in same net on same machine
+# dlm temp, this may need to change but I think we can live with it for now...
+#MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART | cut -d: -f 2 | cut -d" " -f 1`
+MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART | head -n 1 | cut -d: -f 2 | cut -d" " -f 1`
+INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+
+echo MYIPCANDIDATES:$MYIPCANDIDATES
+echo INTERFACECANDIDATE:$INTERFACECANDIDATE
+
+# Initialize to Empty Set
+#MYIPCANDIDATES=""
 
 if /bin/hostname | grep X200 >/dev/null ; then
   MYIP=10.0.0.20
   MYIPCANDIDATES=10.0.0.20
 fi
 
-if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
+# dlm temp major change here may 2017
+# dlm temp major change here may 2017
 
-   # dlm temp DLM TEMP Mar 2017
-   # dlm temp DLM TEMP Mar 2017
-   # dlm temp DLM TEMP Mar 2017
-   # dlm temp DLM TEMP Mar 2017
+#if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
+#
+#   # dlm temp DLM TEMP Mar 2017
+#   # dlm temp DLM TEMP Mar 2017
+#   # dlm temp DLM TEMP Mar 2017
+#   # dlm temp DLM TEMP Mar 2017
+#
+#   let InterfaceTest=0
+#   let InterfaceTest=1
+#
+#   if [ $InterfaceTest -eq 1 ] ; then
+#     echo okay >/dev/null
+#     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
+#   else
+#     echo okay >/dev/null
+#     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
+#   fi
+#
+#else
+#   MYIPCANDIDATES=""
+#fi
 
-   let InterfaceTest=0
-   let InterfaceTest=1
 
-   if [ $InterfaceTest -eq 1 ] ; then
-     echo okay >/dev/null
-     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
-   else
-     echo okay >/dev/null
-     INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
-   fi
-
-else
-   MYIPCANDIDATES=""
-fi
 #INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
 
 #if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
@@ -779,12 +804,13 @@ fi
 #fi
 
 ## dlm temp,new 15 dec 2016
+
 if [ -f /opt/tagaxxx/local/config/TAGANODEX.txt ] ; then
    echo I am TAGA NODE X  >/dev/null
 else
 
 
-for netAddrPart in $NETADDRPART_ALT1  $NETADDRPART_ALT2  $NETADDRPART_ALT3  $NETADDRPART_ALT4  \
+for netAddrPart in $NETADDRPART $NETADDRPART_ALT1  $NETADDRPART_ALT2  $NETADDRPART_ALT3  $NETADDRPART_ALT4  \
                    $NETADDRPART_ALT5  $NETADDRPART_ALT6  $NETADDRPART_ALT7  $NETADDRPART_ALT8  \
                    $NETADDRPART_ALT9  $NETADDRPART_ALT10 $NETADDRPART_ALT11 $NETADDRPART_ALT12 \
                    $NETADDRPART_ALT13 $NETADDRPART_ALT14 $NETADDRPART_ALT15 $NETADDRPART_ALT16 \
@@ -1108,4 +1134,4 @@ TAGA_PORT=9998
 # Master Machine, run time insert from runLoop.sh
 # Black List, run time insert from timeSynchCheck.sh
 ##############################################
-MASTER=10.0.0.27
+MASTER=192.168.43.16
