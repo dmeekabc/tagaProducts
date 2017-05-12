@@ -56,10 +56,10 @@ echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
 if [ $VERBOSE -eq 1 ] ; then
 myuptime=`uptime | cut -d" " -f 3-5`
-echo INTERFACE: $INTERFACE $myuptime; echo
+echo $MYIP : INTERFACE: $INTERFACE $myuptime; echo
 else
 myuptime=`uptime | cut -d" " -f 3-5`
-echo INTERFACE: $INTERFACE $myuptime; echo
+echo $MYIP : INTERFACE: $INTERFACE $myuptime; echo
 fi
 
 if [ $VERBOSE -eq 1 ] ; then
