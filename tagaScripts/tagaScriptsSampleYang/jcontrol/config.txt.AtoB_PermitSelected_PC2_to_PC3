@@ -1,0 +1,16 @@
+security {
+    policies {
+      from-zone NETA to-zone NETB {
+        policy deny-or-permit-Selected_NETA_PC2_to_NETB_PC3 {
+          match {
+            source-address PC2;
+            destination-address PC3;
+            application any;
+          } # match
+          then {
+              permit;
+          } # then
+        } # policy
+      } # from-zone
+    }  # policies
+} # security

@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 #
-# Copyright (c) IBOA Corp 2016
+# Copyright (c) IBOA Corp 2017
 #
 # All Rights Reserved
 #                                                                     
@@ -30,43 +30,78 @@
 #
 #######################################################################
 
-TAGA_DIR=~/scripts/taga
+TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let DELAY=$1
+let VERBOSE=1
+let VERBOSE=0
 
-echo
-date
+# continue to execute the command
+echo $0 Proceeding.... at `date`; echo
 
-while [ $DELAY -ge 0 ]; 
+
+# Use input parameter as targetlist if provided
+if [ $# -gt 0 ] ; then
+   targetList=$1
+fi
+
+
+for target in $targetList
 do
+   echo;echo
+   echo ---------------------------------------------------------------------------
+   echo `date` : TAGA: traceroute $target
+   echo ---------------------------------------------------------------------------
 
-   # if we have a modulus param, only print on the modulus
-   if [ $# -eq 2 ]; then 
-      let MODULUS=$2
-      let MODULUS_VAL=$DELAY%$MODULUS
-      if [ $MODULUS_VAL -eq 0 ]; then
-         printf "%d" $DELAY 
-         printf "%c" " " 
-      elif [ $DELAY -lt $MODULUS ]; then
-         printf "%d" $DELAY 
-         printf "%c" " " 
-      fi
+   if [  $VERBOSE -eq 1 ] ; then
+      ping -c 1 -W 5 $target
    else
-     printf "%d" $DELAY 
-     printf "%c" " " 
+      ping -c 1 -W 5 $target >/dev/null
    fi
 
-   let DELAY=$DELAY-1
+   retCode=$?
+   if [ $retCode -ne 0 ] ; then
+      echo $target is not reachable, traceroute not performed
+      echo Target:$target HopCount:Unavailable
+   else
+      #traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      traceroute $target
+#      retCode=$?
+#      echo retCode: $retCode
+#      #echo
+#      echo
 
-   # don't sleep if we have hit 0
-   if [ $DELAY -ge 0 ]; then
-     sleep 1
+      let hopCount=`traceroute $target | tail -n 1 | cut -c2-3`
+
+#      let hopCount1=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount2=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount3=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount4=`traceroute $target | tail -n 1 | cut -c2-3`
+#      sleep 10
+#      let hopCount5=`traceroute $target | tail -n 1 | cut -c2-3`
+
+#      let hopCountTotal=$hopCount1+$hopCount2+$hopCount3+$hopCount4+$hopCount5
+
+      #let hopCountAverage=$hopCountTotal
+#      let hopCountAverage=$hopCountTotal/5
+#      echo hopCountTotal:$hopCountTotal
+#      echo hopCountAverage:$hopCountAverage
+
+#      echo Target:$target HopCount:$hopCount
+
+      echo Target:$target HopCount:$hopCount
+
+#      echo
+
    fi
-
 done
 
 echo
-date
-

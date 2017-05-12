@@ -1,7 +1,7 @@
 #!/bin/bash
 #######################################################################
 #
-# Copyright (c) IBOA Corp 2016
+# Copyright (c) IBOA Corp 2017
 #
 # All Rights Reserved
 #                                                                     
@@ -30,43 +30,9 @@
 #
 #######################################################################
 
-TAGA_DIR=~/scripts/taga
+TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-let DELAY=$1
-
-echo
-date
-
-while [ $DELAY -ge 0 ]; 
-do
-
-   # if we have a modulus param, only print on the modulus
-   if [ $# -eq 2 ]; then 
-      let MODULUS=$2
-      let MODULUS_VAL=$DELAY%$MODULUS
-      if [ $MODULUS_VAL -eq 0 ]; then
-         printf "%d" $DELAY 
-         printf "%c" " " 
-      elif [ $DELAY -lt $MODULUS ]; then
-         printf "%d" $DELAY 
-         printf "%c" " " 
-      fi
-   else
-     printf "%d" $DELAY 
-     printf "%c" " " 
-   fi
-
-   let DELAY=$DELAY-1
-
-   # don't sleep if we have hit 0
-   if [ $DELAY -ge 0 ]; then
-     sleep 1
-   fi
-
-done
-
-echo
-date
-
+# Support up to five pass thru params
+./hopCount.sh $1 $2 $3 $4 $5 | tail -n 2 | head -n 1

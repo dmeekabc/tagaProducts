@@ -183,7 +183,7 @@ fi
 # Commaned Throughput Display
 ############################################
 # build the buffer1
-buffer1="TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps ($kilobitPrint kbps)  ($megabitPrint mbps)" 
+buffer1="TAGA:Iter:$iter: Commanded Throughput: $commandedRate bps ($kilobitPrint Kbps)  ($megabitPrint Mbps)" 
 
 # filter it
 displayFilter "Commanded"
