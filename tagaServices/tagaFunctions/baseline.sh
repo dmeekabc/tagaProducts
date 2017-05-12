@@ -36,8 +36,11 @@ source $TAGA_CONFIG_DIR/config
 VERBOSE=1
 VERBOSE=0
 
-let DURATION=12
-let DURATION=120
+let DURATION=12   # 12 Second Baseline
+let DURATION=3600 # 60 Minute Baseline
+let DURATION=120  # Two Minute Baseline
+let DURATION=600  # Ten Minute Baseline
+let DURATION=60   # One Minute Baseline
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
