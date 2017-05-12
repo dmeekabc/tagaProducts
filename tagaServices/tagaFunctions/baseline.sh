@@ -33,18 +33,23 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+VERBOSE=1
+VERBOSE=0
+
 let DURATION=120
+let DURATION=12
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
 echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
-echo INTERFACE:$INTERFACE
+echo INTERFACE: $INTERFACE; echo
 
-/sbin/ifconfig | grep -A 10 $INTERFACE
-
-echo
-echo
+if [ $VERBOSE -eq 1 ] ; then
+   /sbin/ifconfig | grep -A 10 $INTERFACE
+   echo
+   echo
+fi
 
 /sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes"
 
@@ -54,11 +59,13 @@ let txBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: 
 let startRxBytes=$rxBytes
 let startTxBytes=$txBytes
 
+if [ $VERBOSE -eq 1 ] ; then
 echo
 echo
 
 echo Start RxBytes:$rxBytes
 echo Start TxBytes:$txBytes
+fi
 
 $iboaUtilsDir/iboaDelay.sh $DURATION
 
@@ -67,8 +74,10 @@ let txBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: 
 echo
 echo
 
+if [ $VERBOSE -eq 1 ] ; then
 echo End RxBytes:$rxBytes
 echo End TxBytes:$txBytes
+fi
 
 let endRxBytes=$rxBytes
 let endTxBytes=$txBytes
@@ -79,27 +88,33 @@ echo
 let deltaRxBytes=$endRxBytes-$startRxBytes
 let deltaTxBytes=$endTxBytes-$startTxBytes
 
+if [ $VERBOSE -eq 1 ] ; then
 echo Delta RxBytes:$deltaRxBytes
 echo Delta TxBytes:$deltaTxBytes
+fi
 
 
 let deltaRxBytesPerSec=$deltaRxBytes/$DURATION
 let deltaTxBytesPerSec=$deltaTxBytes/$DURATION
+
+if [ $VERBOSE -eq 1 ] ; then
 echo
 echo
 echo Delta RxBytes Per Sec: $deltaRxBytesPerSec
 echo Delta TxBytes Per Sec: $deltaTxBytesPerSec
 echo
 echo
+fi
 
 let deltaRxBitsPerSec=$deltaRxBytesPerSec*8
 let deltaTxBitsPerSec=$deltaTxBytesPerSec*8
-echo
+
+#if [ $VERBOSE -eq 1 ] ; then
 echo
 echo Delta Rx Bits Per Sec: $deltaRxBitsPerSec
 echo Delta Tx Bits Per Sec: $deltaTxBitsPerSec
 echo
-echo
+#fi
 
 
 if [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
