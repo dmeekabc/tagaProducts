@@ -34,8 +34,8 @@ TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-VERBOSE=0
 VERBOSE=1
+VERBOSE=0
 
 if [ $VERBOSE -eq 1 ] ; then
    echo; echo $0 : $MYIP :  executing at `date`; echo
