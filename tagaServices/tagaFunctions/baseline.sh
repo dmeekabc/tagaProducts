@@ -40,15 +40,15 @@ PRINT_MODVAL=1
 PRINT_MODVAL=2
 PRINT_MODVAL=3
 PRINT_MODVAL=4
-PRINT_MODVAL=10
 PRINT_MODVAL=100
+PRINT_MODVAL=10
 PRINT_MODVAL=5
 
-let DURATION=12   # 12 Second Baseline
 let DURATION=3600 # 60 Minute Baseline
 let DURATION=120  # Two Minute Baseline
 let DURATION=600  # Ten Minute Baseline
 let DURATION=60   # One Minute Baseline
+let DURATION=12   # 12 Second Baseline
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
@@ -134,36 +134,36 @@ echo Delta Tx Bits Per Sec: $deltaTxBitsPerSec
 echo
 #fi
 
+let rxKbps=$deltaRxBitsPerSec/1000
+let txKbps=$deltaTxBitsPerSec/1000
 
 if [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
    echo
    echo -----------------------------------------------------
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
-   echo Rx: $rxKbps kbps
-   echo Tx: $txKbps kbps
+#   echo Rx: $rxKbps `./convert.sh $deltaRxBytesPerSec` kbps
+#   echo Tx: $txKbps `./convert.sh $deltaTxBytesPerSec` kbps
+   echo Rx: `./convert.sh $deltaRxBytesPerSec` kbps
+   echo Tx: `./convert.sh $deltaTxBytesPerSec` kbps
    echo
 elif [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -lt 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
    echo
    echo -----------------------------------------------------
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
-   echo Rx: $rxKbps kbps
+#   echo Rx: $rxKbps `./convert.sh $deltaRxBytesPerSec` kbps
+   echo Rx: `./convert.sh $deltaRxBytesPerSec` kbps
    echo "Tx: < 1 kbps"
    echo
 elif [ $deltaRxBitsPerSec -lt 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
    echo
    echo -----------------------------------------------------
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
    echo "Rx: < 1 kbps"
-   echo Tx: $txKbps kbps
+#   echo Tx: $txKbps `./convert.sh $deltaTxBytesPerSec` kbps
+   echo Tx: `./convert.sh $deltaTxBytesPerSec` kbps
    echo
 else
    echo
