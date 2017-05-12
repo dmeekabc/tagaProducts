@@ -165,4 +165,12 @@ elif [ $deltaRxBitsPerSec -le 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
    echo "Rx: < 1 kbps"
    echo Tx: $txKbps kbps
    echo
+else
+   echo
+   echo -----------------------------------------------------
+   echo "Traffic Rate (Average for last $DURATION seconds)"
+   echo -----------------------------------------------------
+   echo "Rx: < 1 kbps"
+   echo "Tx: < 1 kbps"
+   echo
 fi
