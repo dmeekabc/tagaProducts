@@ -140,9 +140,12 @@ if [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
    let rxKbps=$deltaRxBitsPerSec/1000
    let txKbps=$deltaTxBitsPerSec/1000
    echo
-   echo -----------
-   echo Baseline:
-   echo -----------
+   #echo -----------
+   #echo Baseline:
+   #echo -----------
+   echo -----------------------------------------------------
+   echo "Traffic Rate (Average for last $DURATION seconds)"
+   echo -----------------------------------------------------
    echo Rx: $rxKbps kbps
    echo Tx: $txKbps kbps
    echo
