@@ -34,17 +34,27 @@ TAGA_DIR=/cf/var/home/jtm
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
+VERBOSE=0
+VERBOSE=1
 
-echo Converting $1 bytes per second to Kbps
+if [ $VERBOSE -eq 1 ] ; then
+   echo; echo $0 : $MYIP :  executing at `date`; echo
+   echo Converting $1 bytes per second to Kbps
+fi
 
 let bitsPerSec=$1*8
+
+if [ $VERBOSE -eq 1 ] ; then
 echo $bitsPerSec bps
+fi
 
 # dlm temp , this is initial implementation, for now just round off to Kbps integer 
 # without decimal points, plan is to add decimal point support in near future
 let kiloBitsPerSec=$bitsPerSec/1000
+
+if [ $VERBOSE -eq 1 ] ; then
 echo $kiloBitsPerSec Kbps
+fi
 
    # dlm temp test only, remove me
    # dlm temp test only, remove me
@@ -63,30 +73,32 @@ echo $kiloBitsPerSec Kbps
       let MBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabitPrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)"
+      #echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)" > /dev/null
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabitPrint=`echo $MBytes | cut -c1`.`echo $MBytes | cut -c2`
-      echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)"
+      #echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)" > /dev/null
    elif [ $wordlen -eq 6 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1-3`.`echo $KBytes | cut -c4`
-      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
+      #echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)" > /dev/null
    elif [ $wordlen -eq 5 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1-2`.`echo $KBytes | cut -c3-4`
-      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
+      #echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)" > /dev/null
    elif [ $wordlen -eq 4 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
-      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
+      #echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)" > /dev/null
    else
-      echo "kiloBitsPerSec: $kiloBitsPerSec" 
+      echo "kiloBitsPerSec: $kiloBitsPerSec" > /dev/null
    fi
+
+echo $kilobitPrint
 
 
 
