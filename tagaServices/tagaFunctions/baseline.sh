@@ -135,7 +135,7 @@ echo
 #fi
 
 
-if [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
+if [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
    let rxKbps=$deltaRxBitsPerSec/1000
    let txKbps=$deltaTxBitsPerSec/1000
    echo
@@ -145,7 +145,7 @@ if [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
    echo Rx: $rxKbps kbps
    echo Tx: $txKbps kbps
    echo
-elif [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -le 1000 ] ; then
+elif [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -lt 1000 ] ; then
    let rxKbps=$deltaRxBitsPerSec/1000
    let txKbps=$deltaTxBitsPerSec/1000
    echo
@@ -155,7 +155,7 @@ elif [ $deltaRxBitsPerSec -gt 1000 ] && [ $deltaTxBitsPerSec -le 1000 ] ; then
    echo Rx: $rxKbps kbps
    echo "Tx: < 1 kbps"
    echo
-elif [ $deltaRxBitsPerSec -le 1000 ] && [ $deltaTxBitsPerSec -gt 1000 ] ; then
+elif [ $deltaRxBitsPerSec -lt 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
    let rxKbps=$deltaRxBitsPerSec/1000
    let txKbps=$deltaTxBitsPerSec/1000
    echo
