@@ -63,29 +63,29 @@ echo $kiloBitsPerSec Kbps
       let MBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabitPrint=`echo $MBytes | cut -c1-2`.`echo $MBytes | cut -c3`
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec ($megabitPrint Mbps RX)"
+      echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)"
    elif [ $wordlen -eq 7 ]; then
       let MBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let MBytes=$MBytes/1000000
       megabitPrint=`echo $MBytes | cut -c1`.`echo $MBytes | cut -c2`
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec ($megabitPrint Mbps RX)"
+      echo "kiloBitsPerSec: $kiloBitsPerSec ($megabitPrint Mbps)"
    elif [ $wordlen -eq 6 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1-3`.`echo $KBytes | cut -c4`
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec ($kilobitPrint Kbps RX)"
+      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
    elif [ $wordlen -eq 5 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1-2`.`echo $KBytes | cut -c3-4`
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec ($kilobitPrint Kbps RX)"
+      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
    elif [ $wordlen -eq 4 ]; then
       let KBytes=$kiloBitsPerSec*10 # multiply by 10 to get fraction
       let KBytes=$KBytes/1000
       kilobitPrint=`echo $KBytes | cut -c1`.`echo $KBytes | cut -c2-4`
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec ($kilobitPrint Kbps RX)"
+      echo "kiloBitsPerSec: $kiloBitsPerSec ($kilobitPrint Kbps)"
    else
-      echo "TAGA:Iter:$iter kiloBitsPerSec:          $kiloBitsPerSec" 
+      echo "kiloBitsPerSec: $kiloBitsPerSec" 
    fi
 
 
