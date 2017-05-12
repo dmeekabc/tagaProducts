@@ -758,8 +758,8 @@ MYIP=localhost
 MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART | head -n 1 | cut -d: -f 2 | cut -d" " -f 1`
 INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART -B1 | head -n 1 | cut -d" " -f1`
 
-echo MYIPCANDIDATES:$MYIPCANDIDATES
-echo INTERFACECANDIDATE:$INTERFACECANDIDATE
+#echo MYIPCANDIDATES:$MYIPCANDIDATES
+#echo INTERFACECANDIDATE:$INTERFACECANDIDATE
 
 # Initialize to Empty Set
 #MYIPCANDIDATES=""
