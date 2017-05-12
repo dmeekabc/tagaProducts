@@ -49,6 +49,9 @@ do
       if [ $MODULUS_VAL -eq 0 ]; then
          printf "%d" $DELAY 
          printf "%c" " " 
+      elif [ $DELAY -lt $MODULUS ]; then
+         printf "%d" $DELAY 
+         printf "%c" " " 
       fi
    else
      printf "%d" $DELAY 
