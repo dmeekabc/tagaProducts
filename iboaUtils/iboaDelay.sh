@@ -42,8 +42,11 @@ date
 while [ $DELAY -ge 0 ]; 
 do
 
-   # if we have a modulus param, only print on the modulus
-   if [ $# -eq 2 ]; then 
+   # if we have a Minimum Delay Print Time, don't print if we are below that time
+   if [ $# -ge 3 ] && [ $DELAY -lt $3 ] ; then 
+      echo Do Not Print below the $3 threshod >/dev/null
+   # else if we have a modulus param, only print on the modulus
+   elif [ $# -ge 2 ]; then 
       let MODULUS=$2
       let MODULUS_VAL=$DELAY%$MODULUS
       if [ $MODULUS_VAL -eq 0 ]; then
