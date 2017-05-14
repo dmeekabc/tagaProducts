@@ -591,17 +591,6 @@ TESTONLY=1 # archiving disabled
 
 # MCAST config
 MYMCAST_ADDR="225.0.0.25" # does not work
-MYMCAST_ADDR="224.1.2.4"  # does not work
-MYMCAST_ADDR="225.1.2.4"  # does not work
-MYMCAST_ADDR="226.1.2.3"  # does not work
-MYMCAST_ADDR="227.1.2.3"  # does not work
-MYMCAST_ADDR="225.1.2.3" # works
-MYMCAST_ADDR="224.1.2.3" # works
-MYMCAST_ADDR="225.1.2.3" # works
-MYMCAST_ADDR="224.1.2.3" # works
-MYMCAST_ADDR="239.0.11.0" # works
-MYMCAST_ADDR="224.1.2.3" # works
-MYMCAST_ADDR="239.0.11.0" # works
 MYMCAST_ADDR="224.1.2.3" # works
 MYMCAST_PORT=8888
 
