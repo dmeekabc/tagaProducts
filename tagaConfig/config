@@ -406,6 +406,9 @@ OTHERS="multiple"
 TIME_SYNCH_CHECK_ENABLED=1 # (Normal)
 TIME_SYNCH_CHECK_ENABLED=0 # (Testing)
 
+let TAGA_LOG_MGT_ENABLED=1
+let TAGA_LOG_MGT_ENABLED=0
+
 # strict time synch?
 STRICT_TIME_SYNCH=1 # (Normal)
 STRICT_TIME_SYNCH=0 # (Testing)
