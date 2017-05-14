@@ -142,18 +142,18 @@ if [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
    echo -----------------------------------------------------
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
-#   echo Rx: $rxKbps `./convert.sh $deltaRxBytesPerSec` kbps
-#   echo Tx: $txKbps `./convert.sh $deltaTxBytesPerSec` kbps
-   echo Rx: `./convert.sh $deltaRxBytesPerSec` kbps
-   echo Tx: `./convert.sh $deltaTxBytesPerSec` kbps
+#   echo Rx: $rxKbps `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaRxBytesPerSec` kbps
+#   echo Tx: $txKbps `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaTxBytesPerSec` kbps
+   echo Rx: `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaRxBytesPerSec` kbps
+   echo Tx: `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaTxBytesPerSec` kbps
    echo
 elif [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -lt 1000 ] ; then
    echo
    echo -----------------------------------------------------
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
-#   echo Rx: $rxKbps `./convert.sh $deltaRxBytesPerSec` kbps
-   echo Rx: `./convert.sh $deltaRxBytesPerSec` kbps
+#   echo Rx: $rxKbps `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaRxBytesPerSec` kbps
+   echo Rx: `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaRxBytesPerSec` kbps
    echo "Tx: < 1 kbps"
    echo
 elif [ $deltaRxBitsPerSec -lt 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
@@ -162,8 +162,8 @@ elif [ $deltaRxBitsPerSec -lt 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
    echo "Traffic Rate (Average for last $DURATION seconds)"
    echo -----------------------------------------------------
    echo "Rx: < 1 kbps"
-#   echo Tx: $txKbps `./convert.sh $deltaTxBytesPerSec` kbps
-   echo Tx: `./convert.sh $deltaTxBytesPerSec` kbps
+#   echo Tx: $txKbps `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaTxBytesPerSec` kbps
+   echo Tx: `/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh $deltaTxBytesPerSec` kbps
    echo
 else
    echo
