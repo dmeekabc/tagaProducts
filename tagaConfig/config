@@ -110,8 +110,8 @@ let MANAGER_AUDIT_INTERVAL=30
 let MANAGER_AUDIT_INTERVAL=40
 
 # dlm temp new jul 2016
-INTERFACE_SPECIFIED_SOURCE=1
 INTERFACE_SPECIFIED_SOURCE=0
+INTERFACE_SPECIFIED_SOURCE=1
 
 FILTER_OUT_GATEWAY_DUP_COUNTS=1
 FILTER_OUT_GATEWAY_DUP_COUNTS=0
@@ -153,8 +153,8 @@ let MANAGED_WAIT_FACTOR=5
 #######################################
 # Bottom One Wins
 TAGA_TRAFFIC_GENERATOR=IPERF       # performance
-TAGA_TRAFFIC_GENERATOR=BASH_SOCKET # firewall
 TAGA_TRAFFIC_GENERATOR=MGEN        # normal
+TAGA_TRAFFIC_GENERATOR=BASH_SOCKET # firewall
 
 ####################################################
 # Test type - Multicast or Unicast, UDP or TCP
@@ -162,7 +162,7 @@ TAGA_TRAFFIC_GENERATOR=MGEN        # normal
 TESTTYPE_DUMMY="UCAST_TCP" # TCP UCAST
 TESTTYPE_DUMMY="MCAST"     # UDP MCAST
 TESTTYPE_DUMMY="UCAST_UDP" # UDP UCAST
-TESTTYPE="MCAST"     # UDP MCAST
+TESTTYPE="UCAST_UDP" # UDP UCAST
 
 
 ####################################################
@@ -819,11 +819,10 @@ for netAddrPart in $NETADDRPART $NETADDRPART_ALT1  $NETADDRPART_ALT2  $NETADDRPA
                    $NETADDRPART_ALT25 
 do
 if [ ! "$MYIPCANDIDATES"  ]; then
-  MYIPCANDIDATES=`/sbin/ifconfig | grep $NETADDRPART_ALT1 |  \
-     cut -d: -f 2 | cut -d" " -f 1`
+  MYIPCANDIDATES=`/sbin/ifconfig | grep $netAddrPart | cut -d: -f 2 | cut -d" " -f 1`
    if echo $MYIPCANDIDATES | grep  ^[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]* >/dev/null; then
       echo okay >/dev/null
-      INTERFACECANDIDATE=`/sbin/ifconfig | grep $NETADDRPART_ALT1 -B1 | head -n 1 | cut -d" " -f1`
+      INTERFACECANDIDATE=`/sbin/ifconfig | grep $netAddrPart -B1 | head -n 1 | cut -d" " -f1`
    else
       MYIPCANDIDATES=""
    fi
