@@ -85,7 +85,9 @@ done
 
 echo TAGA: $MYIP : Starting MGEN Server / Receiver
 
-if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
+myhostname=`hostname`
+
+if $TAGA_CONFIG_DIR/hostList.sh | grep $myhostname >/dev/null ; then
   if [ $TESTTYPE == "MCAST" ]; then
     # MCAST UDP
     # prep the mgen config 
@@ -133,7 +135,7 @@ if $TAGA_CONFIG_DIR/hostList.sh | grep `hostname` >/dev/null ; then
     fi
   fi
 else
-  echo `hostname` is not in the list of Traffic/PLI Receivers | tee $STATUS_FILE
+  echo $myhostname is not in the list of Traffic/PLI Receivers | tee $STATUS_FILE
   echo $0 Exiting with no action | tee $STATUS_FILE
   exit
 fi

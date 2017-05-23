@@ -29,7 +29,7 @@
 # DAMAGE.                                                              
 #
 #######################################################################
-TAGA_DIR=~/scripts/taga
+TAGA_DIR=/home/pi/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
@@ -37,21 +37,32 @@ source $TAGA_CONFIG_DIR/config
 # Sensitive Info Section (Sanitize before distributing)
 ########################
 COMMAND=xxxxxx
+COMMAND=make_sil_dir_pro
 
 ############################################################
 # Primary Module Directory and Template File Configuration
 # Note: Ensure these are properly set for your system
 ############################################################
-TEMPLATE_TOKEN=taga        # token to use as clone source    (input)
-MODULE_DIR=$HOME/modules   # modules directory               (input)
-SOURCE_DIR=~/yangSource    # yang source directory           (output)
-TEMPLATE_FILE=$MODULE_DIR/$TEMPLATE_TOKEN.yang  #            (output)
+TEMPLATE_TOKEN=jtmnm  # token to use as clone source
+TEMPLATE_TOKEN=taga   # token to use as clone source
+TEMPLATE_TOKEN=tlm   # token to use as clone source
+MODULE_DIR=/usr/share/yumapro/modules/netconfcentral
+SOURCE_DIR=~/yangModules
+SOURCE_DIR=~/
 
-echo; echo $0 : $MYIP :  executing at `date`; echo
+echo; echo $0 : $MYIP :  executing at `date` ; echo
 
 # get the parameter input if provided
 if [ $# -ge 1 ]; then
+
    TEMPLATE_TOKEN=$1
+
+   # Strip off .yang extension if it was included in the input parameter
+   if echo $TEMPLATE_TOKEN | grep "\.yang" >/dev/null; then
+      TEMPLATE_TOKEN_TMP=`echo $TEMPLATE_TOKEN | sed -e s/\.yang//g`
+      TEMPLATE_TOKEN=$TEMPLATE_TOKEN_TMP
+      echo Input: $1 : Assuming TEMPLATE_TOKEN:$TEMPLATE_TOKEN; echo
+   fi
 fi
 
 # provide the info to print into the confirmation request
@@ -86,4 +97,8 @@ sudo make clean
 sudo make
 sudo make install
 
+
+echo
+pwd
+echo
 

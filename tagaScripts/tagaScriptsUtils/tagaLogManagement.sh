@@ -51,14 +51,20 @@ echo
 for file in $ARCHIVE/output*
 do
    if [ $file ] ; then
-      #echo $file
+      if echo $file | cut -d_ -f 3 >/dev/null ; then
       let secondsString=`echo $file | cut -d_ -f 3`
-      #echo secondsString:$secondsString
+      if [ $secondsString ]; then
       if [ $secondsString -le $cutoff ]; then
          echo $file exceeds max log duration, moving to /tmp to be deleted on reboot
          mv $file /tmp
       else
          echo $file within max log duration, no action 
+      fi
+      else
+         echo no secondString, no action 
+      fi
+      else
+         echo cannot parse file name, no action
       fi
    fi
 done

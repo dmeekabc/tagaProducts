@@ -33,22 +33,35 @@ TAGA_DIR=~/scripts/taga
 TAGA_CONFIG_DIR=$TAGA_DIR/tagaConfig
 source $TAGA_CONFIG_DIR/config
 
+CONVERT_FUNCTION=/home/pi/scripts/taga/tagaServices/tagaFunctions/convert.sh
+
 VERBOSE=1
 VERBOSE=0
+
+MIN_PRINT_TIME=5
+MIN_PRINT_TIME=10
+MIN_PRINT_TIME=30
 
 PRINT_MODVAL=1
 PRINT_MODVAL=2
 PRINT_MODVAL=3
 PRINT_MODVAL=4
-PRINT_MODVAL=10
 PRINT_MODVAL=100
 PRINT_MODVAL=5
+PRINT_MODVAL=10
 
-let DURATION=12   # 12 Second Baseline
 let DURATION=3600 # 60 Minute Baseline
-let DURATION=120  # Two Minute Baseline
-let DURATION=600  # Ten Minute Baseline
-let DURATION=60   # One Minute Baseline
+let DURATION=120  #  2 Minute Baseline
+let DURATION=600  # 10 Minute Baseline
+let DURATION=60   #  1 Minute Baseline
+let DURATION=3600 # 60 Minute Baseline
+let DURATION=3600 # 60 Minute Baseline
+let DURATION=3600 # 60 Minute Baseline
+let DURATION=1800 # 30 Minute Baseline
+let DURATION=900  # 15 Minute Baseline
+let DURATION=12   # 12 Second Baseline
+let DURATION=12   # 12 Second Baseline
+let DURATION=300  #  5 Minute Baseline
 
 echo; echo $0 : $MYIP :  executing at `date`; echo
 LOG_FILE=/tmp/`basename $0`.log
@@ -56,10 +69,10 @@ echo $0 : $MYIP :  executing at `date` > $LOG_FILE
 
 if [ $VERBOSE -eq 1 ] ; then
 myuptime=`uptime | cut -d" " -f 3-5`
-echo INTERFACE: $INTERFACE $myuptime; echo
+echo $MYIP : INTERFACE: $INTERFACE $myuptime; echo
 else
 myuptime=`uptime | cut -d" " -f 3-5`
-echo INTERFACE: $INTERFACE $myuptime; echo
+echo $MYIP : INTERFACE: $INTERFACE $myuptime; echo
 fi
 
 if [ $VERBOSE -eq 1 ] ; then
@@ -84,7 +97,10 @@ echo Start RxBytes:$rxBytes
 echo Start TxBytes:$txBytes
 fi
 
-$iboaUtilsDir/iboaDelay.sh $DURATION $PRINT_MODVAL
+$iboaUtilsDir/iboaDelay.sh $DURATION $PRINT_MODVAL $MIN_PRINT_TIME
+
+echo
+/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes"
 
 let rxBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 2 | cut -d" " -f 1`
 let txBytes=`/sbin/ifconfig | grep -A 10 $INTERFACE | grep "RX bytes" | cut -d: -f 3 | cut -d" " -f 1`
@@ -101,7 +117,7 @@ let endRxBytes=$rxBytes
 let endTxBytes=$txBytes
 
 #echo
-echo
+#echo
 
 let deltaRxBytes=$endRxBytes-$startRxBytes
 let deltaTxBytes=$endTxBytes-$startTxBytes
@@ -134,43 +150,40 @@ echo Delta Tx Bits Per Sec: $deltaTxBitsPerSec
 echo
 #fi
 
+let rxKbps=$deltaRxBitsPerSec/1000
+let txKbps=$deltaTxBitsPerSec/1000
 
 if [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
-   echo
-   echo -----------------------------------------------------
-   echo "Traffic Rate (Average for last $DURATION seconds)"
-   echo -----------------------------------------------------
-   echo Rx: $rxKbps kbps
-   echo Tx: $txKbps kbps
+   echo ------------------------------------------------------------------------
+   echo "$MYIP : $INTERFACE : Traffic Rate (Average for last $DURATION seconds)"
+   echo ------------------------------------------------------------------------
+#   echo Rx: $rxKbps `$CONVERT_FUNCTION $deltaRxBytesPerSec` kbps
+#   echo Tx: $txKbps `$CONVERT_FUNCTION $deltaTxBytesPerSec` kbps
+#   echo Rx: `$CONVERT_FUNCTION $deltaRxBytesPerSec` kbps Tx: `$CONVERT_FUNCTION $deltaTxBytesPerSec` kbps
+   echo Rx: `$CONVERT_FUNCTION $deltaRxBytesPerSec` kbps $MYIP
+   echo Tx: `$CONVERT_FUNCTION $deltaTxBytesPerSec` kbps $MYIP
    echo
 elif [ $deltaRxBitsPerSec -ge 1000 ] && [ $deltaTxBitsPerSec -lt 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
-   echo
-   echo -----------------------------------------------------
-   echo "Traffic Rate (Average for last $DURATION seconds)"
-   echo -----------------------------------------------------
-   echo Rx: $rxKbps kbps
-   echo "Tx: < 1 kbps"
+   echo ------------------------------------------------------------------------
+   echo "$MYIP : $INTERFACE : Traffic Rate (Average for last $DURATION seconds)"
+   echo ------------------------------------------------------------------------
+#   echo Rx: $rxKbps `$CONVERT_FUNCTION $deltaRxBytesPerSec` kbps
+   echo Rx: `$CONVERT_FUNCTION $deltaRxBytesPerSec` kbps $MYIP
+   echo "Tx: < 1 kbps" $MYIP
    echo
 elif [ $deltaRxBitsPerSec -lt 1000 ] && [ $deltaTxBitsPerSec -ge 1000 ] ; then
-   let rxKbps=$deltaRxBitsPerSec/1000
-   let txKbps=$deltaTxBitsPerSec/1000
-   echo
-   echo -----------------------------------------------------
-   echo "Traffic Rate (Average for last $DURATION seconds)"
-   echo -----------------------------------------------------
-   echo "Rx: < 1 kbps"
-   echo Tx: $txKbps kbps
+   echo ------------------------------------------------------------------------
+   echo "$MYIP : $INTERFACE : Traffic Rate (Average for last $DURATION seconds)"
+   echo ------------------------------------------------------------------------
+   echo "Rx: < 1 kbps" $MYIP
+#   echo Tx: $txKbps `$CONVERT_FUNCTION $deltaTxBytesPerSec` kbps
+   echo Tx: `$CONVERT_FUNCTION $deltaTxBytesPerSec` kbps $MYIP
    echo
 else
-   echo
-   echo -----------------------------------------------------
-   echo "Traffic Rate (Average for last $DURATION seconds)"
-   echo -----------------------------------------------------
-   echo "Rx: < 1 kbps"
-   echo "Tx: < 1 kbps"
+   echo ------------------------------------------------------------------------
+   echo "$MYIP : $INTERFACE : Traffic Rate (Average for last $DURATION seconds)"
+   echo ------------------------------------------------------------------------
+   echo "Rx: < 1 kbps" $MYIP
+   echo "Tx: < 1 kbps" $MYIP
    echo
 fi
