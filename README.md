@@ -1,4 +1,10 @@
 
+This remains the active public repository as of 29 Apr 2019.  
+
+Also, if you have docker installed, run the following to get the TAGA Docker Image:
+
+$ sudo docker run -it dmeekabc/taga
+
 GIT Version V28 - the MGEN SOURCE has been removed from the main branch.
 
 # tagaProductized
