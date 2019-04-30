@@ -8,6 +8,8 @@ Also, if you have docker installed, run the following to get the TAGA Docker Ima
 
 $ sudo docker run -it dmeekabc/taga
 
+# iboa taga
+
 # tagaProducts
 # previously tagaProductized
 Letter to Potential Partners April 2016
