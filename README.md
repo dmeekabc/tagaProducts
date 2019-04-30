@@ -8,7 +8,7 @@ $ sudo docker run -it dmeekabc/taga
 GIT Version V28 - the MGEN SOURCE has been removed from the main branch.
 
 # tagaProducts
-# tagaProductized
+# previously tagaProductized
 Letter to Potential Partners April 2016
 Beneficial LLC and IBOA Corp are seeking partners in pursuit of DOD and other Government agency contracts.  We are specifically targeting the U.S. Army CERDEC Industry Day as an enabling event to further our goals.  Our core strengths include systems and software engineering, network management, database management, and Test and Evaluation.  We are a small organization which provides fluidity and flexibility in our endeavors.  We have developed two key products which we are introducing in this letter and in our effort to gain partnerships and win DoD business.  These two products are independent of one another, however when deployed in an integrated manner, significant synergistic gains are realized.   When deployed smartly and proactively, these two products become “extreme force multipliers.”  Benefits include efficient integration, reduced cycle times, less time preparing, more time analyzing, reduced staff, and reduced costs.  Our business model assumes large-scale deployment of these two products into a large number of DoD network laboratories.  Our in-depth knowledge and experience with these two products positions us to win or help win large DOD contracts when test automation is a goal and priority. These two key products are the following:
          IBOA Auto-Alias / Auto-Alias Creation Utility
