@@ -2,7 +2,7 @@
 
 # tagaPaige
 
-This remains the active public repository as of 29 Apr 2019.  
+This remains the active public repository as of January 2020. 
 
 Also, if you have docker installed, run the following to get the TAGA Docker Image:
 
